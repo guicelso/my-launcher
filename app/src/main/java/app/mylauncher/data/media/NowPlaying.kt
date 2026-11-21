@@ -58,7 +58,13 @@ fun formatTime(ms: Long): String {
 object SessionPicker {
     data class Candidate(val key: String, val playing: Boolean, val lastPlayingAt: Long)
 
-    fun pick(candidates: List<Candidate>): String? =
-        candidates.filter { it.playing }.maxByOrNull { it.lastPlayingAt }?.key
-            ?: candidates.maxByOrNull { it.lastPlayingAt }?.key
+    fun pick(candidates: List<Candidate>, preferred: String? = null, preferredAt: Long = 0L): String? {
+        val byPlaying = candidates.filter { it.playing }.maxByOrNull { it.lastPlayingAt }
+            ?: candidates.maxByOrNull { it.lastPlayingAt }
+        val pref = candidates.firstOrNull { it.key == preferred } ?: return byPlaying?.key
+        // A escolha do usuário vale até outra sessão começar a tocar depois dela.
+        val overridden = byPlaying != null && byPlaying.key != pref.key && byPlaying.playing &&
+            byPlaying.lastPlayingAt > preferredAt && !pref.playing
+        return if (overridden) byPlaying?.key else pref.key
+    }
 }

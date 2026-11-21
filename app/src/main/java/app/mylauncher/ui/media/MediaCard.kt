@@ -1,7 +1,6 @@
 package app.mylauncher.ui.media
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -28,6 +26,7 @@ import app.mylauncher.data.media.MediaUiState
 import app.mylauncher.ui.components.AppIcon
 import app.mylauncher.ui.components.LauncherCard
 import app.mylauncher.ui.components.PillShape
+import app.mylauncher.ui.components.pressable
 import app.mylauncher.ui.components.TouchIconButton
 import app.mylauncher.ui.icons.LauncherIcons
 import app.mylauncher.ui.theme.LocalLauncherColors
@@ -40,6 +39,7 @@ fun MediaCard(
     musicApp: String,
     onOpenMedia: () -> Unit,
     onOpenApp: (String) -> Unit,
+    onLaunchApp: (String) -> Unit,
     onGrantAccess: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -74,16 +74,23 @@ fun MediaCard(
             Modifier.fillMaxSize().padding(horizontal = 22.dp, vertical = 18.dp),
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
-            Row(
-                Modifier.clip(PillShape).clickable(role = Role.Button, onClick = onOpenMedia).padding(end = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                AppIcon(apps, np.sourcePackage, 28.dp)
-                Text(np.sourceLabel, style = MaterialTheme.typography.labelMedium, color = c.onSurfaceVariant)
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    Modifier.weight(1f).clip(PillShape).pressable(onClick = onOpenMedia).padding(end = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                    AppIcon(apps, np.sourcePackage, 28.dp)
+                    Text(np.sourceLabel, style = MaterialTheme.typography.labelMedium, color = c.onSurfaceVariant, maxLines = 1)
+                }
+                // Atalho direto para o app que está tocando.
+                TouchIconButton(
+                    LauncherIcons.External, "Abrir ${np.sourceLabel}", { onLaunchApp(np.sourcePackage) },
+                    size = 64.dp, iconSize = 26.dp, tint = c.onSurfaceVariant,
+                )
             }
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Box(Modifier.clickable(onClick = onOpenMedia)) { AlbumArt(np, 112.dp, 16.dp, 44.dp) }
+                Box(Modifier.clip(RoundedCornerShape(16.dp)).pressable(onClickLabel = "Abrir player", onClick = onOpenMedia)) { AlbumArt(np, 112.dp, 16.dp, 44.dp) }
                 Column(Modifier.weight(1f)) {
                     Text(
                         np.title.ifBlank { "Sem título" }, style = MaterialTheme.typography.headlineSmall,
@@ -98,15 +105,7 @@ fun MediaCard(
             ProgressBar(np.fraction(position))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 TouchIconButton(LauncherIcons.Previous, "Faixa anterior", { controls?.previous() }, enabled = np.canSkip)
-                TouchIconButton(
-                    if (np.playing) LauncherIcons.Pause else LauncherIcons.Play,
-                    if (np.playing) "Pausar" else "Tocar",
-                    { if (np.playing) controls?.pause() else controls?.play() },
-                    modifier = Modifier.width(96.dp),
-                    shape = PillShape,
-                    background = c.primary,
-                    tint = c.onPrimary,
-                )
+                PlayPauseButton(np.playing, size = 80.dp) { if (np.playing) controls?.pause() else controls?.play() }
                 TouchIconButton(LauncherIcons.Next, "Próxima faixa", { controls?.next() }, enabled = np.canSkip)
             }
         }
@@ -121,7 +120,7 @@ fun PillButton(label: String, primary: Boolean = true, onClick: () -> Unit) {
             .height(64.dp)
             .clip(PillShape)
             .background(if (primary) c.primary else c.surface2)
-            .clickable(role = Role.Button, onClick = onClick)
+            .pressable(onClick = onClick)
             .padding(horizontal = 26.dp),
         contentAlignment = Alignment.Center,
     ) {

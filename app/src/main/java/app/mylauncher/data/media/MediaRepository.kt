@@ -50,6 +50,13 @@ class MediaRepository(
     private val controllers = mutableMapOf<String, MediaController>()
     private val callbacks = mutableMapOf<String, MediaController.Callback>()
     private val lastPlayingAt = mutableMapOf<String, Long>()
+    private val playingKeys = mutableSetOf<String>()
+    private var preferred: String? = null
+    private var preferredAt = 0L
+
+    private val _activePackages = MutableStateFlow<Set<String>>(emptySet())
+    /** Pacotes com MediaSession ativa agora. */
+    val activePackages: StateFlow<Set<String>> = _activePackages.asStateFlow()
 
     private val sessionState = MutableStateFlow<Pair<NowPlaying, MediaControls>?>(null)
     private val externalState = MutableStateFlow<Pair<NowPlaying, MediaControls>?>(null)
@@ -76,6 +83,16 @@ class MediaRepository(
                 }
         }
         attach()
+    }
+
+    /**
+     * O usuário escolheu este app (toque na barra, spec 010 R10.7): ele passa a ser exibido,
+     * a menos que outra sessão comece a tocar depois.
+     */
+    fun prefer(pkg: String) {
+        preferred = pkg
+        preferredAt = SystemClock.elapsedRealtime()
+        recompute()
     }
 
     /** Liga a fonte TopWay (spec 006). */
@@ -114,19 +131,23 @@ class MediaRepository(
             controllers[key] = controller
             callbacks[key] = cb
         }
+        _activePackages.value = controllers.keys.toSet()
         recompute()
     }
 
     private fun recompute() {
         val now = SystemClock.elapsedRealtime()
+        // Registra quando cada sessão COMEÇOU a tocar (não a cada recálculo).
         controllers.forEach { (key, c) ->
-            if (c.playbackState?.state == PlaybackState.STATE_PLAYING) lastPlayingAt[key] = now
+            val playing = c.playbackState?.state == PlaybackState.STATE_PLAYING
+            if (playing && playingKeys.add(key)) lastPlayingAt[key] = now
+            if (!playing) playingKeys.remove(key)
         }
-        val chosenKey = SessionPicker.pick(
-            controllers.map { (key, c) ->
-                SessionPicker.Candidate(key, c.playbackState?.state == PlaybackState.STATE_PLAYING, lastPlayingAt[key] ?: 0L)
-            },
-        )
+        playingKeys.retainAll(controllers.keys)
+        val candidates = controllers.map { (key, c) ->
+            SessionPicker.Candidate(key, c.playbackState?.state == PlaybackState.STATE_PLAYING, lastPlayingAt[key] ?: 0L)
+        }
+        val chosenKey = SessionPicker.pick(candidates, preferred, preferredAt)
         val controller = chosenKey?.let { controllers[it] }
         sessionState.value = controller?.let { it.toNowPlaying() to SessionControls(context, it) }
     }

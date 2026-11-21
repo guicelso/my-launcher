@@ -10,6 +10,7 @@ coroutines = "1.9.0"
 maplibre = "11.13.5"
 junit = "4.13.2"
 media = "1.7.0"
+palette = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -29,6 +30,7 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 maplibre-android = { module = "org.maplibre.gl:android-sdk", version.ref = "maplibre" }
 junit = { module = "junit:junit", version.ref = "junit" }
 androidx-media = { module = "androidx.media:media", version.ref = "media" }
+androidx-palette = { module = "androidx.palette:palette-ktx", version.ref = "palette" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

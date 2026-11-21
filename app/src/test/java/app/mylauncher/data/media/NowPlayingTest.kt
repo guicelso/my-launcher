@@ -41,4 +41,13 @@ class NowPlayingTest {
             ),
         )
     }
+
+    @Test fun `preferencia do usuario vale ate outra sessao tocar depois`() {
+        val c = listOf(
+            SessionPicker.Candidate("spotify", playing = false, lastPlayingAt = 10),
+            SessionPicker.Candidate("ytmusic", playing = true, lastPlayingAt = 50),
+        )
+        assertEquals("spotify", SessionPicker.pick(c, preferred = "spotify", preferredAt = 100))
+        assertEquals("ytmusic", SessionPicker.pick(c, preferred = "spotify", preferredAt = 20))
+    }
 }
