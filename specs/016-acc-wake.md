@@ -37,4 +37,7 @@ O Lumia não está em nenhuma das duas listas. Por isso ele era fechado; ao reli
   - [x] **A1**: voltou direto ao painel. O log da TopWay mostra `mDiskillPackageList.contains(...)` poupando o YouTube Music, e o Lumia não aparece mais entre os apps fechados.
   - [x] **A2**: "ACC desligado; música tocando: true" → "ACC ligado; voltando ao painel e retomando a música" → "Retomando com.google.android.apps.youtube.music pela sessão ativa". A música voltou sozinha.
   - Pendência resolvida na fonte: a tela do YouTube Music vinha da "Inicialização da aplicação" da TopWay (ver acima), não do launcher. Opção esvaziada; revalidar no próximo ciclo.
+- **2026-11-21, multimídia (2º ciclo, com a "Inicialização da aplicação" vazia):**
+  - [x] **A1/A2** de novo: painel direto e música retomada pela sessão ativa 3 s depois do ACC_ON.
+  - [x] A TopWay leu o arquivo vazio (`packageName = null`) e não abriu a tela do app: a música continuou em segundo plano.
   - [ ] **A3** e **A4**: a validar.
