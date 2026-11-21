@@ -47,7 +47,10 @@ import app.mylauncher.ui.widgets.ClockWeatherWidget
 import app.mylauncher.ui.widgets.ClockWidget
 import app.mylauncher.ui.widgets.NotificationsWidget
 import app.mylauncher.ui.widgets.VehicleWidget
-import app.mylauncher.ui.widgets.WeatherWidget
+import app.mylauncher.ui.widgets.WeatherDailyWidget
+import app.mylauncher.ui.widgets.WeatherDetailedWidget
+import app.mylauncher.ui.widgets.WeatherHourlyWidget
+import app.mylauncher.ui.widgets.WeatherNowWidget
 import app.mylauncher.ui.dashboard.Suggestion
 import app.mylauncher.ui.debug.DebugDialog
 import app.mylauncher.ui.destinations.SaveDestinationSheet
@@ -162,7 +165,10 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                                         suggestions(container, settings, notifs, learned, location.takeIf { parked }) { navigator.go(Screen.SETTINGS) },
                                         apps, wm,
                                     )
-                                    WidgetType.WEATHER -> WeatherWidget(weather, wm)
+                                    WidgetType.WEATHER -> WeatherNowWidget(weather, wm)
+                                    WidgetType.WEATHER_DETAILED -> WeatherDetailedWidget(weather, wm)
+                                    WidgetType.WEATHER_HOURLY -> WeatherHourlyWidget(weather, wm)
+                                    WidgetType.WEATHER_DAILY -> WeatherDailyWidget(weather, wm)
                                     WidgetType.VEHICLE -> VehicleWidget(vehicle, wm)
                                     WidgetType.CLOCK -> ClockWidget(status.now, wm)
                                     WidgetType.CLOCK_WEATHER -> ClockWeatherWidget(status.now, weather, wm)
@@ -304,6 +310,7 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                 vehicle = vehicle,
                 fake = container.fakeVehicle,
                 player = container.debugPlayer,
+                weather = container.weather,
                 onSimulate = container.settings::setSimulateVehicle,
                 onDismiss = { debugOpen = false },
             )

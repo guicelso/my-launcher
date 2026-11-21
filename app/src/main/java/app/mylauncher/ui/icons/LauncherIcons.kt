@@ -106,6 +106,12 @@ object LauncherIcons {
     val Storm = icon("storm", s("M7 15h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.1 8 3.5 3.5 0 0 0 7 15z"), s("M12 15l-2 4h3l-2 4"))
     val Fog = icon("fog", s("M4 10h16M3 14h18M5 18h14"), s("M7 6h10"))
     val Snow = icon("snow", s("M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"))
+    val Wind = icon("wind", s("M3 8h11a3 3 0 1 0-3-3"), s("M3 12h15a3 3 0 1 1-3 3"), s("M3 16h7"))
+    val Droplet = icon("droplet", s("M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"))
+    val Umbrella = icon("umbrella", s("M3 12a9 9 0 0 1 18 0z"), s("M12 12v7a2 2 0 0 1-4 0"))
+    val Thermometer = icon("thermometer", s("M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0z"))
+    val Sunrise = icon("sunrise", s("M4 18h16M7 14a5 5 0 0 1 10 0"), s("M12 4v5M9 7l3-3 3 3"))
+    val Sunset = icon("sunset", s("M4 18h16M7 14a5 5 0 0 1 10 0"), s("M12 4v5M9 6l3 3 3-3"))
     val Speed = icon("speed", s("M4 16a8 8 0 1 1 16 0"), s("M12 16l4-5"))
     val Reverse = icon("reverse", s("M9 14 4 9l5-5"), s("M4 9h10a6 6 0 0 1 0 12h-3"))
 }

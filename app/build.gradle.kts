@@ -71,5 +71,7 @@ dependencies {
     implementation(libs.androidx.profileinstaller)
 
     testImplementation(libs.junit)
+    // org.json do Android é só stub nos testes de unidade.
+    testImplementation(libs.org.json)
     testImplementation(libs.kotlinx.coroutines.test)
 }

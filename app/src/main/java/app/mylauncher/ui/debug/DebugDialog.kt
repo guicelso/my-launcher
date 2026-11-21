@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import app.mylauncher.core.debug.DebugMediaPlayer
 import app.mylauncher.data.vehicle.FakeVehicleSource
+import app.mylauncher.data.weather.WeatherKind
+import app.mylauncher.data.weather.WeatherRepository
 import app.mylauncher.data.vehicle.VehicleState
 import app.mylauncher.ui.components.PillShape
 import app.mylauncher.ui.theme.LocalLauncherColors
@@ -41,6 +43,7 @@ fun DebugDialog(
     vehicle: VehicleState,
     fake: FakeVehicleSource,
     player: DebugMediaPlayer,
+    weather: WeatherRepository,
     onSimulate: (Boolean) -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -74,6 +77,28 @@ fun DebugDialog(
             Row(Modifier.fillMaxWidth().height(76.dp), verticalAlignment = Alignment.CenterVertically) {
                 Text("Simular player de música", style = MaterialTheme.typography.titleMedium, color = c.onSurface, modifier = Modifier.weight(1f))
                 Switch(playerOn, { on -> if (on) player.start() else player.stop(); playerOn = on })
+            }
+            var weatherKind by remember { mutableStateOf(weather.simulatedKind) }
+            var weatherDay by remember { mutableStateOf(weather.simulatedDay) }
+            Row(Modifier.fillMaxWidth().height(76.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text("Simular clima", style = MaterialTheme.typography.titleMedium, color = c.onSurface, modifier = Modifier.weight(1f))
+                Switch(weatherKind != null, { on ->
+                    weatherKind = if (on) WeatherKind.CLEAR else null
+                    weather.simulate(weatherKind, weatherDay)
+                })
+            }
+            if (weatherKind != null) {
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    DebugButton("Próxima condição (${weatherKind!!.name.lowercase()})") {
+                        val all = WeatherKind.entries
+                        weatherKind = all[(all.indexOf(weatherKind!!) + 1) % all.size]
+                        weather.simulate(weatherKind, weatherDay)
+                    }
+                    DebugButton(if (weatherDay) "Noite" else "Dia") {
+                        weatherDay = !weatherDay
+                        weather.simulate(weatherKind, weatherDay)
+                    }
+                }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 DebugButton("Forçar crash") { throw IllegalStateException("Crash forçado pelo painel de depuração") }

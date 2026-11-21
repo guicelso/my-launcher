@@ -38,11 +38,14 @@ enum class DashboardLayout(val slots: Int, val label: String) { ONE(1, "1 card")
 enum class WidgetType(val label: String) {
     MEDIA("Mídia"),
     SUGGESTIONS("Destinos e sugestões"),
-    WEATHER("Clima"),
+    WEATHER("Clima agora"),
     VEHICLE("Veículo"),
     CLOCK("Relógio e data"),
     NOTIFICATIONS("Notificações"),
     CLOCK_WEATHER("Data, hora e clima"),
+    WEATHER_DETAILED("Clima detalhado"),
+    WEATHER_HOURLY("Clima por hora"),
+    WEATHER_DAILY("Previsão da semana"),
 }
 
 /** Posição da barra (spec 014). */
