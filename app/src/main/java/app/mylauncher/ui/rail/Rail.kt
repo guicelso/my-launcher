@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -244,3 +245,78 @@ private fun Clock(status: StatusState, batteryV: Float?, onLongPress: () -> Unit
         }
     }
 }
+
+/**
+ * Barra horizontal embaixo (spec 014), no estilo da taskbar do Android Auto: gaveta e voz à
+ * esquerda, painel e apps no centro, notificações, sinal e relógio à direita. 96 dp de altura.
+ */
+@Composable
+fun BottomBar(
+    screen: Screen,
+    status: StatusState,
+    batteryV: Float?,
+    railApps: List<String>,
+    activePackage: String?,
+    apps: AppsRepository,
+    hasNotifications: Boolean,
+    voiceAvailable: Boolean,
+    showBell: Boolean,
+    showVoice: Boolean,
+    menu: AppMenuActions,
+    onDashboard: () -> Unit,
+    onApps: () -> Unit,
+    onLaunchApp: (String) -> Unit,
+    onNotifications: () -> Unit,
+    onVoice: () -> Unit,
+    onClockLongPress: () -> Unit,
+    appsAnchor: DrawerAnchor? = null,
+    modifier: Modifier = Modifier,
+) {
+    val c = LocalLauncherColors.current
+    Row(
+        modifier
+            .fillMaxWidth()
+            .height(BOTTOM_BAR_HEIGHT)
+            .background(c.rail)
+            .padding(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        RailButton(
+            LauncherIcons.Apps, "Todos os apps", screen == Screen.APPS, onApps,
+            Modifier.onGloballyPositioned { appsAnchor?.bounds = it.boundsInRoot() },
+        )
+        if (showVoice) {
+            TouchIconButton(
+                LauncherIcons.Mic, if (voiceAvailable) "Comando de voz" else "Comando de voz indisponível",
+                onVoice, shape = ItemShape, iconSize = 34.dp, enabled = voiceAvailable,
+            )
+        }
+        Spacer(Modifier.weight(1f))
+        RailButton(LauncherIcons.Dashboard, "Painel", screen == Screen.DASHBOARD, onDashboard)
+        railApps.forEach { pkg -> RailApp(pkg, pkg == activePackage, apps, menu, onLaunchApp) }
+        Spacer(Modifier.weight(1f))
+        if (showBell) {
+            Box(contentAlignment = Alignment.Center) {
+                TouchIconButton(LauncherIcons.Bell, "Notificações", onNotifications, shape = ItemShape, iconSize = 32.dp, tint = c.onSurfaceVariant)
+                if (hasNotifications) {
+                    Box(Modifier.offset(x = 12.dp, y = (-14).dp).size(10.dp).clip(CircleShape).background(c.primary))
+                }
+            }
+        }
+        Column(
+            Modifier.pointerInput(Unit) { detectTapGestures(onLongPress = { onClockLongPress() }) }.padding(start = 8.dp),
+            horizontalAlignment = Alignment.End,
+        ) {
+            Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                if (status.hasSim || status.cellular) SignalIndicator(status.signalLevel, status.networkLabel)
+                if (status.wifi) Icon(LauncherIcons.Wifi, "Wi-Fi", Modifier.size(16.dp), tint = c.onSurfaceVariant)
+                if (status.bluetooth) Icon(LauncherIcons.Bluetooth, "Bluetooth", Modifier.size(16.dp), tint = c.onSurfaceVariant)
+                if (batteryV != null) Text(String.format(Locale("pt", "BR"), "%.1f V", batteryV), color = c.onSurfaceVariant, fontSize = 13.sp)
+            }
+            Text(SimpleDateFormat("HH:mm", Locale("pt", "BR")).format(Date(status.now)), color = c.onSurface, fontSize = 24.sp, fontWeight = FontWeight.Medium)
+        }
+    }
+}
+
+val BOTTOM_BAR_HEIGHT = 96.dp

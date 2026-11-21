@@ -9,7 +9,7 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +19,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.padding
+import app.mylauncher.ui.rail.BOTTOM_BAR_HEIGHT
+import app.mylauncher.ui.theme.Dimens
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mylauncher.AppContainer
 import app.mylauncher.core.CrashGuard
@@ -52,8 +57,11 @@ import app.mylauncher.ui.icons.LauncherIcons
 import app.mylauncher.ui.media.MediaCard
 import app.mylauncher.ui.media.MediaSources
 import app.mylauncher.ui.media.PlayerPanel
+import app.mylauncher.data.prefs.RailPosition
+import app.mylauncher.ui.rail.BottomBar
 import app.mylauncher.ui.rail.Rail
 import app.mylauncher.ui.settings.SettingsScreen
+import app.mylauncher.ui.settings.SettingsSection
 import app.mylauncher.ui.theme.LauncherTheme
 import app.mylauncher.ui.theme.LocalLauncherColors
 import app.mylauncher.ui.theme.ThemeResolver
@@ -116,30 +124,15 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
         val screen = navigator.screen
         val mediaVisible = screen == Screen.SPLIT_MEDIA || screen == Screen.MEDIA
 
-        Box(Modifier.fillMaxSize()) {
-        Row(Modifier.fillMaxSize().background(c.background)) {
-            Rail(
-                screen = screen,
-                status = status,
-                batteryV = vehicle.batteryV.takeIf { settings.showBattery },
-                railApps = railApps,
-                activePackage = media.nowPlaying?.sourcePackage?.takeIf { mediaVisible },
-                apps = apps,
-                hasNotifications = notifs.count > 0,
-                voiceAvailable = container.systemActions.voiceIntent != null,
-                showBell = settings.showBell,
-                showVoice = settings.showVoice,
-                menu = menu,
-                onDashboard = { navigator.go(Screen.DASHBOARD) },
-                // Segundo toque no botão da gaveta volta à área de trabalho.
-                onApps = { if (navigator.overlay == Screen.APPS) navigator.back() else navigator.go(Screen.APPS) },
-                onLaunchApp = openApp,
-                onNotifications = { container.systemActions.expandNotifications() },
-                onVoice = { container.systemActions.startVoice() },
-                onClockLongPress = { debugOpen = true },
-                appsAnchor = appsAnchor,
-            )
-            Box(Modifier.weight(1f).fillMaxHeight()) {
+        // A área de trabalho fica sempre na mesma posição da árvore (o mapa não é recriado);
+        // só a barra muda entre vertical e horizontal, com o recuo correspondente (R14.3).
+        val bottom = settings.railPosition == RailPosition.BOTTOM
+        Box(Modifier.fillMaxSize().background(c.background)) {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .padding(start = if (bottom) 0.dp else Dimens.railWidth, bottom = if (bottom) BOTTOM_BAR_HEIGHT else 0.dp),
+            ) {
                 // Área de trabalho: mapa sempre vivo + painel lateral animado (spec 010).
                 Workspace(
                     mode = navigator.workspace,
@@ -207,7 +200,7 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                         allApps = allApps,
                         settings = settings,
                         onLaunch = openApp,
-                        onOpenSettings = { navigator.go(Screen.SETTINGS) },
+                        onOpenSettings = { navigator.openSettings() },
                         onOpenStockLauncher = { CrashGuard.openFallback(container.context) },
                         onSetPinned = container.settings::setPinned,
                         menu = menu,
@@ -216,7 +209,7 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                             container.settings.setCustomOrder(order)
                             container.settings.setAppOrder(AppOrder.CUSTOM)
                         },
-                        onOpenHidden = { navigator.go(Screen.SETTINGS) },
+                        onOpenHidden = { navigator.openSettings(SettingsSection.APPS.name) },
                         modifier = Modifier.fillMaxSize().background(c.background),
                     )
                 }
@@ -236,23 +229,72 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                             onBack = { navigator.back() },
                             onOpenDrawer = { navigator.go(Screen.APPS) },
                             modifier = Modifier.fillMaxSize().background(c.background),
+                            initialSection = navigator.settingsSection
+                                ?.let { runCatching { SettingsSection.valueOf(it) }.getOrNull() } ?: SettingsSection.APPEARANCE,
                         )
                     } else {
                         Spacer(Modifier)
                     }
                 }
             }
-        }
-        // "Salvar como…" (spec 012): por cima de tudo, dentro da janela (sem barras do sistema).
-        pendingSave?.let { place ->
-            SaveDestinationSheet(
-                place = place,
-                onSaveHome = { container.settings.setHome(it); container.destinationRequests.dismiss() },
-                onSaveWork = { container.settings.setWork(it); container.destinationRequests.dismiss() },
-                onSaveFavorite = { container.settings.addFavorite(it); container.destinationRequests.dismiss() },
-                onDismiss = { container.destinationRequests.dismiss() },
-            )
-        }
+            if (bottom) {
+                BottomBar(
+                    screen = screen,
+                    status = status,
+                    batteryV = vehicle.batteryV.takeIf { settings.showBattery },
+                    railApps = railApps,
+                    activePackage = media.nowPlaying?.sourcePackage?.takeIf { mediaVisible },
+                    apps = apps,
+                    hasNotifications = notifs.count > 0,
+                    voiceAvailable = container.systemActions.voiceIntent != null,
+                    showBell = settings.showBell,
+                    showVoice = settings.showVoice,
+                    menu = menu,
+                    onDashboard = { navigator.go(Screen.DASHBOARD) },
+                    // Segundo toque no botão da gaveta volta à área de trabalho.
+                    onApps = { if (navigator.overlay == Screen.APPS) navigator.back() else navigator.go(Screen.APPS) },
+                    onLaunchApp = openApp,
+                    onNotifications = { container.systemActions.expandNotifications() },
+                    onVoice = { container.systemActions.startVoice() },
+                    onClockLongPress = { debugOpen = true },
+                    appsAnchor = appsAnchor,
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                )
+            } else {
+                Rail(
+                    screen = screen,
+                    status = status,
+                    batteryV = vehicle.batteryV.takeIf { settings.showBattery },
+                    railApps = railApps,
+                    activePackage = media.nowPlaying?.sourcePackage?.takeIf { mediaVisible },
+                    apps = apps,
+                    hasNotifications = notifs.count > 0,
+                    voiceAvailable = container.systemActions.voiceIntent != null,
+                    showBell = settings.showBell,
+                    showVoice = settings.showVoice,
+                    menu = menu,
+                    onDashboard = { navigator.go(Screen.DASHBOARD) },
+                    // Segundo toque no botão da gaveta volta à área de trabalho.
+                    onApps = { if (navigator.overlay == Screen.APPS) navigator.back() else navigator.go(Screen.APPS) },
+                    onLaunchApp = openApp,
+                    onNotifications = { container.systemActions.expandNotifications() },
+                    onVoice = { container.systemActions.startVoice() },
+                    onClockLongPress = { debugOpen = true },
+                    appsAnchor = appsAnchor,
+                    modifier = Modifier.align(Alignment.CenterStart),
+                )
+            }
+
+            // "Salvar como…" (spec 012): por cima de tudo, dentro da janela (sem barras do sistema).
+            pendingSave?.let { place ->
+                SaveDestinationSheet(
+                    place = place,
+                    onSaveHome = { container.settings.setHome(it); container.destinationRequests.dismiss() },
+                    onSaveWork = { container.settings.setWork(it); container.destinationRequests.dismiss() },
+                    onSaveFavorite = { container.settings.addFavorite(it); container.destinationRequests.dismiss() },
+                    onDismiss = { container.destinationRequests.dismiss() },
+                )
+            }
         }
         if (debugOpen) {
             DebugDialog(

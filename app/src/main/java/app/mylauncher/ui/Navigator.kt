@@ -26,6 +26,15 @@ class Navigator {
     var overlay by mutableStateOf<Screen?>(null)
         private set
 
+    /** Seção inicial ao abrir os Ajustes (ex.: "Apps" a partir do link de apps ocultos). */
+    var settingsSection by mutableStateOf<String?>(null)
+        private set
+
+    fun openSettings(section: String? = null) {
+        settingsSection = section
+        go(Screen.SETTINGS)
+    }
+
     /** Tela visível (para destacar a barra lateral). */
     val screen: Screen get() = overlay ?: workspace
 

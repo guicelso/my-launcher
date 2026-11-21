@@ -3,6 +3,17 @@ package app.mylauncher.ui.settings
 import android.content.Intent
 import android.provider.Settings
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.ui.window.PopupProperties
+import app.mylauncher.data.prefs.AppOrder
+import app.mylauncher.data.prefs.DashboardLayout
+import app.mylauncher.data.prefs.DrawerAnimation
+import app.mylauncher.data.prefs.IconShape
+import app.mylauncher.data.prefs.RailPosition
+import app.mylauncher.data.prefs.WidgetType
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -61,9 +72,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private enum class Section(val label: String) {
+enum class SettingsSection(val label: String) {
     APPEARANCE("Aparência"),
+    DASHBOARD("Painel"),
     RAIL("Barra lateral"),
+    APPS("Apps"),
     NAVIGATION("Navegação"),
     MEDIA("Mídia"),
     VEHICLE("Veículo"),
@@ -72,9 +85,15 @@ private enum class Section(val label: String) {
 
 /** Ajustes do launcher (spec 007). Artboard "Ajustes do launcher". */
 @Composable
-fun SettingsScreen(container: AppContainer, onBack: () -> Unit, onOpenDrawer: () -> Unit, modifier: Modifier = Modifier) {
+fun SettingsScreen(
+    container: AppContainer,
+    onBack: () -> Unit,
+    onOpenDrawer: () -> Unit,
+    modifier: Modifier = Modifier,
+    initialSection: SettingsSection = SettingsSection.APPEARANCE,
+) {
     val c = LocalLauncherColors.current
-    var section by rememberSaveable { mutableStateOf(Section.APPEARANCE) }
+    var section by rememberSaveable(initialSection) { mutableStateOf(initialSection) }
     val settings by container.settings.settings.collectAsStateWithLifecycle()
 
     ScreenPanel(modifier) {
@@ -87,7 +106,7 @@ fun SettingsScreen(container: AppContainer, onBack: () -> Unit, onOpenDrawer: ()
                     TouchIconButton(LauncherIcons.Back, "Voltar", onBack, iconSize = 32.dp)
                     Text("Ajustes", style = MaterialTheme.typography.headlineMedium, color = c.onSurface)
                 }
-                Section.entries.forEach { s ->
+                SettingsSection.entries.forEach { s ->
                     val on = s == section
                     Box(
                         Modifier
@@ -113,12 +132,14 @@ fun SettingsScreen(container: AppContainer, onBack: () -> Unit, onOpenDrawer: ()
                 verticalArrangement = Arrangement.spacedBy(32.dp),
             ) {
                 when (section) {
-                    Section.APPEARANCE -> Appearance(container, settings)
-                    Section.RAIL -> RailSection(container, settings, onOpenDrawer)
-                    Section.NAVIGATION -> Navigation(container, settings)
-                    Section.MEDIA -> Media(container, settings)
-                    Section.VEHICLE -> Vehicle(container, settings)
-                    Section.SYSTEM -> SystemSection(container)
+                    SettingsSection.APPEARANCE -> Appearance(container, settings)
+                    SettingsSection.DASHBOARD -> DashboardSection(container, settings)
+                    SettingsSection.RAIL -> RailSection(container, settings, onOpenDrawer)
+                    SettingsSection.APPS -> AppsSection(container, settings)
+                    SettingsSection.NAVIGATION -> Navigation(container, settings)
+                    SettingsSection.MEDIA -> Media(container, settings)
+                    SettingsSection.VEHICLE -> Vehicle(container, settings)
+                    SettingsSection.SYSTEM -> SystemSection(container)
                 }
             }
         }
@@ -135,6 +156,91 @@ private fun Appearance(container: AppContainer, s: LauncherSettings) {
     }
     SettingsGroup("Tamanho do texto") {
         ChoicePills(listOf(TextScale.NORMAL to "Normal", TextScale.LARGE to "Grande"), s.textScale, container.settings::setTextScale)
+    }
+    SettingsGroup("Formato dos ícones", "Redondo é o padrão do Android Auto.") {
+        ChoicePills(IconShape.entries.map { it to it.label }, s.iconShape, container.settings::setIconShape)
+    }
+    val packs = remember { container.apps.iconPacks.installed() }
+    SettingsGroup(
+        "Pacote de ícones",
+        "Instale um pacote de ícones (formato ADW/Nova) pela Play Store e escolha aqui. Apps sem ícone no pacote usam o próprio.",
+    ) {
+        RadioRow("Nenhum (ícones dos apps)", s.iconPack == null) { container.settings.setIconPack(null) }
+        packs.forEach { pack ->
+            RadioRow(pack.label, s.iconPack == pack.packageName, leading = { AppIcon(container.apps, pack.packageName, 44.dp) }) {
+                container.settings.setIconPack(pack.packageName)
+            }
+        }
+        if (packs.isEmpty()) SettingRow("Nenhum pacote instalado")
+    }
+    SettingsGroup("Animação da gaveta de apps") {
+        DrawerAnimation.entries.forEach { anim ->
+            RadioRow(anim.label, s.drawerAnimation == anim) { container.settings.setDrawerAnimation(anim) }
+        }
+    }
+    SettingsGroup("Barra", "Vertical à esquerda ou horizontal embaixo, como a taskbar do Android Auto.") {
+        ChoicePills(RailPosition.entries.map { it to it.label }, s.railPosition, container.settings::setRailPosition)
+    }
+}
+
+@Composable
+private fun DashboardSection(container: AppContainer, s: LauncherSettings) {
+    SettingsGroup("Grade", "Quantos cards ficam ao lado do mapa. Dica: toque e segure um card no painel (parado) para trocá-lo.") {
+        ChoicePills(DashboardLayout.entries.map { it to it.label }, s.dashboardLayout, container.settings::setDashboardLayout)
+    }
+    SettingsGroup("Widgets") {
+        (0 until s.dashboardLayout.slots).forEach { slot ->
+            WidgetPickerRow("Card ${slot + 1}", s.widgets[slot]) { container.settings.setWidget(slot, it) }
+        }
+    }
+}
+
+@Composable
+private fun WidgetPickerRow(title: String, current: WidgetType, onPick: (WidgetType) -> Unit) {
+    val c = LocalLauncherColors.current
+    var open by remember { mutableStateOf(false) }
+    Box {
+        SettingRow(title, current.label, onClick = { open = true }) {
+            Icon(LauncherIcons.Chevron, null, Modifier.size(28.dp), tint = c.onSurfaceVariant)
+        }
+        DropdownMenu(
+            expanded = open,
+            onDismissRequest = { open = false },
+            properties = PopupProperties(focusable = false),
+            containerColor = c.surface,
+        ) {
+            WidgetType.entries.forEach { type ->
+                DropdownMenuItem(
+                    text = { Text(type.label, style = MaterialTheme.typography.titleMedium, color = c.onSurface) },
+                    trailingIcon = { if (type == current) Icon(LauncherIcons.Check, null, Modifier.size(24.dp), tint = c.primary) },
+                    onClick = { onPick(type); open = false },
+                    modifier = Modifier.height(68.dp),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun AppsSection(container: AppContainer, s: LauncherSettings) {
+    val apps by container.apps.apps.collectAsStateWithLifecycle()
+    SettingsGroup("Ordem da gaveta", "Na personalizada, use Editar na gaveta e arraste os ícones (só com o carro parado).") {
+        ChoicePills(AppOrder.entries.map { it to it.label }, s.appOrder, container.settings::setAppOrder)
+        if (s.customOrder.isNotEmpty()) {
+            PillButton("Redefinir ordem personalizada", primary = false) {
+                container.settings.setCustomOrder(emptyList())
+                container.settings.setAppOrder(AppOrder.ALPHABETICAL)
+            }
+        }
+    }
+    val hidden = apps.filter { it.packageName in s.hidden }
+    SettingsGroup("Apps ocultos", "Ocultos não aparecem na gaveta. Para ocultar, toque e segure um app na gaveta.") {
+        if (hidden.isEmpty()) SettingRow("Nenhum app oculto")
+        hidden.forEach { app ->
+            SettingRow(app.label) {
+                PillButton("Mostrar", primary = false) { container.settings.unhide(app.packageName) }
+            }
+        }
     }
 }
 
@@ -169,8 +275,26 @@ private fun Navigation(container: AppContainer, s: LauncherSettings) {
             RadioRow(apps.label(pkg), pkg == s.navApp, leading = { AppIcon(apps, pkg, 44.dp) }) { container.settings.setNavApp(pkg) }
         }
     }
-    DestinationEditor("Casa", s.home) { container.settings.setHome(it) }
-    DestinationEditor("Trabalho", s.work) { container.settings.setWork(it) }
+    SettingsGroup(
+        "Destinos",
+        "Sem digitar: toque em \"Salvar local atual\" no painel, segure um ponto no mapa ou compartilhe um local do Maps/WhatsApp para o Lumia.",
+    ) {
+        if (s.destinations.isEmpty()) SettingRow("Nenhum destino salvo")
+        s.home?.let { d -> SettingRow("Casa", d.query) { PillButton("Remover", primary = false) { container.settings.setHome(null) } } }
+        s.work?.let { d -> SettingRow("Trabalho", d.query) { PillButton("Remover", primary = false) { container.settings.setWork(null) } } }
+        s.favorites.forEach { d ->
+            SettingRow(d.label, d.query) { PillButton("Remover", primary = false) { container.settings.removeFavorite(d.label) } }
+        }
+    }
+    SettingsGroup(
+        "Aprender locais frequentes",
+        "Ao desligar o carro, o Lumia guarda a posição e sugere Casa/Trabalho depois de 3 paradas no mesmo lugar. Tudo fica só nesta multimídia.",
+    ) {
+        ToggleRow("Aprender locais", s.learnPlaces, onChange = container.settings::setLearnPlaces)
+        PillButton("Apagar histórico de locais", primary = false) { container.placesLearner.clearHistory() }
+    }
+    DestinationEditor("Casa (digitar endereço)", s.home) { container.settings.setHome(it?.copy(label = "Casa")) }
+    DestinationEditor("Trabalho (digitar endereço)", s.work) { container.settings.setWork(it?.copy(label = "Trabalho")) }
 }
 
 @Composable
