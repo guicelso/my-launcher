@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Trocar widget</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="position: relative; width: 1280px; height: 720px; overflow: hidden; font-family: Roboto, system-ui, sans-serif; color: #E3E3E3">
+  <dc-import name="Main" theme="noite" painel="widgets" nav="livre" badge="" hint-size="1280px,720px"></dc-import>
+  <a href="HomeWidgets.dc.html" aria-label="Fechar" style="position: absolute; top: 0; right: 0; bottom: 0; left: 96px; background: rgba(0,0,0,0.6)"></a>
+
+  <section role="dialog" aria-label="Trocar widget" style="position: absolute; top: 12px; right: 12px; bottom: 12px; width: 780px; box-sizing: border-box; padding: 16px 20px 20px 28px; border-radius: 24px; background: #292A2A; box-shadow: 0 8px 24px rgba(0,0,0,0.6); display: flex; flex-direction: column; gap: 14px">
+    <header style="display: flex; align-items: center; gap: 12px">
+      <div style="flex: 1">
+        <div style="font-size: 28px; font-weight: 400">Trocar widget</div>
+        <div style="font-size: 19px; color: #A8ABAE; margin-top: 2px">Card 2 de 3 · disponível só com o carro parado</div>
+      </div>
+      <a href="HomeWidgets.dc.html" aria-label="Fechar" style="width: 76px; height: 76px; border-radius: 38px; color: #C4C7C5; display: flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+    </header>
+
+    <div role="radiogroup" aria-label="Widget" style="flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 168px; gap: 12px">
+      <sc-for list="{{widgets}}" as="w" hint-placeholder-count="9">
+        <button type="button" role="radio" aria-checked="{{w.checked}}" onClick="{{w.pick}}" style="border: 3px solid {{w.border}}; border-radius: 20px; background: #1F2020; color: #E3E3E3; font: inherit; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; text-align: left; cursor: pointer">
+          <span style="display: flex; align-items: center; gap: 12px; color: {{w.tint}}">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{w.icon}}"></path></svg>
+            <span style="font-size: 28px; font-weight: 400; color: #E3E3E3">{{w.sample}}</span>
+          </span>
+          <span><span style="display: block; font-size: 20px; font-weight: 500">{{w.name}}</span><span style="display: block; font-size: 16px; color: #A8ABAE; margin-top: 2px">{{w.desc}}</span></span>
+        </button>
+      </sc-for>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 16px">
+      <span style="font-size: 20px; color: #A8ABAE">Layout</span>
+      <div role="radiogroup" aria-label="Layout do painel" style="display: flex; gap: 8px">
+        <sc-for list="{{layouts}}" as="l" hint-placeholder-count="3">
+          <button type="button" role="radio" aria-checked="{{l.checked}}" onClick="{{l.pick}}" style="height: 64px; padding: 0 24px; border: 2px solid {{l.border}}; border-radius: 32px; background: {{l.bg}}; color: {{l.fg}}; font: inherit; font-size: 20px; font-weight: 500; cursor: pointer">{{l.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { picked: 'clima', layout: '3' };
+  }
+  renderVals() {
+    const I = {
+      media: 'M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM21 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z',
+      pin: 'M12 21.5s-7-6.2-7-11.5a7 7 0 0 1 14 0c0 5.3-7 11.5-7 11.5zM12 12.6a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2z',
+      cloud: 'M7 18h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.4 1.6A3.3 3.3 0 0 0 7 18z',
+      chart: 'M4 20V10M10 20V4M16 20v-7M22 20H2',
+      cal: 'M3.5 5h17v15.5h-17zM3.5 10h17M8 3v4M16 3v4',
+      car: 'M5 17h14v-5l-2-5H7l-2 5zM5 12h14M7.5 14.5h.01M16.5 14.5h.01',
+      clock: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2',
+      bell: 'M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0',
+      msg: 'M4 4h16v12H8l-4 4z'
+    };
+    const list = [
+      ['midia', 'Mídia', 'Capa, faixa e controles', I.media, '#1ED760', '♪'],
+      ['mensagens', 'Mensagens e sugestões', 'Mensagem nova ou destinos', I.msg, '#8AB4F8', '3'],
+      ['destinos', 'Destinos e sugestões', 'Casa, Trabalho, favoritos', I.pin, '#8AB4F8', '12 min'],
+      ['clima', 'Clima agora', 'Temperatura e condição', I.cloud, '#FDD663', '24°'],
+      ['clima_hora', 'Clima por hora', 'Próximas 6 horas', I.chart, '#FDD663', '24° → 19°'],
+      ['semana', 'Previsão da semana', 'Mín. e máx. por dia', I.cal, '#FDD663', 'Seg–Dom'],
+      ['veiculo', 'Veículo', 'Bateria, velocidade, faróis', I.car, '#81C995', '12,6 V'],
+      ['relogio', 'Relógio e data', 'Hora grande e data', I.clock, '#E3E3E3', '12:45'],
+      ['data_clima', 'Data, hora e clima', 'Tudo num card só', I.clock, '#E3E3E3', '12:45 · 24°'],
+      ['notificacoes', 'Notificações', 'As 2 mais recentes', I.bell, '#83EA8F', '4']
+    ];
+    const used = ['midia', 'veiculo'];
+    const widgets = list.map(([id, name, desc, icon, tint, sample]) => {
+      const on = id === this.state.picked;
+      const taken = used.includes(id);
+      return { name, desc: taken ? desc + ' · já no painel' : desc, icon, tint, sample, checked: on ? 'true' : 'false', border: on ? '#A8C7FA' : 'transparent', pick: () => this.setState({ picked: id }) };
+    });
+    const layouts = [['1', '1 card'], ['2', '2 cards'], ['3', '3 cards']].map(([id, label]) => {
+      const on = id === this.state.layout;
+      return { label, checked: on ? 'true' : 'false', bg: on ? '#004A77' : 'transparent', fg: on ? '#C2E7FF' : '#E3E3E3', border: on ? '#004A77' : '#5F6368', pick: () => this.setState({ layout: id }) };
+    });
+    return { widgets, layouts };
+  }
+}
+</script>
+</body>
+</html>

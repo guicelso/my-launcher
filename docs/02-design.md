@@ -23,41 +23,58 @@ Fonte: diretrizes públicas *Design for Driving* do Google. Na tela de 160 dpi, 
 
 ## Tokens
 
+Valores medidos nas imagens da documentação oficial do Android Auto (Coolwalk). O tema dia é nosso: o Android Auto só tem tema escuro.
+
 | Token | Noite | Dia |
 |---|---|---|
-| background | `#000000` | `#E8EAED` |
-| surface (cards) | `#1E1F22` | `#FFFFFF` |
-| surface2 | `#2B2C30` | `#F1F3F4` |
-| outline | `#3A3B40` | `#DADCE0` |
-| onSurface | `#E8EAED` | `#202124` |
-| onSurfaceVariant | `#A9ADB3` | `#5F6368` |
-| primary | `#8AB4F8` | `#1A73E8` |
-| onPrimary | `#0B1A33` | `#FFFFFF` |
+| background (barra e espaços) | `#151616` | `#E9EBEE` |
+| card | `#252626` | `#FFFFFF` |
+| card elevado (alertas, menus) | `#292A2A` | `#FFFFFF` |
+| pill (botão secundário) | `#3C3E3D` | `#E8EAED` |
+| onSurface | `#E3E3E3` | `#1F1F1F` |
+| onSurfaceVariant | `#A8ABAE` | `#5F6368` |
+| primary (botão principal) | `#C5D4FF` / texto `#0B2A66` | `#D3E3FD` / texto `#041E49` |
+| accent | `#8AB4F8` | `#0B57D0` |
+| selo de notificações | `#83EA8F` / texto `#0B3D17` | `#137333` / texto `#FFFFFF` |
+| manobra (navegação) | `#005B2A` | `#0D652D` |
+| painel do mapa (ETA, botões) | `#171E24` | `#FFFFFF` |
+| ETA | `#FDD663` (em rota), `#81C995` (compacto) | `#B06000`, `#137333` |
+| tocar (card de mídia) | `#AEEDFF` / ícone `#06343F` | igual |
+| tocar/pausar (player) | `#CFD6D3` / ícone `#151616` | igual |
+| alerta de navegação | `#243037` | — |
+| atender / recusar | `#5BBF6B` / `#FF897C` | igual |
 
-- **Forma:** cards com raio de 28 dp; botões em pílula; alvos circulares de 76 dp.
+- **Forma:** cards com raio de 24 dp; botões em pílula; alvos circulares de 76 dp; ícones de app de 56 dp na barra e 92 dp na grade.
 - **Fonte:** Roboto (400/500/700).
 - **Tema:** `AUTO` segue os faróis (spec 006). Se não houver sinal do veículo, segue `persist.tw.theme.mode` e, por último, o horário.
 
 ## Telas
 
-| Tela | Artboard | Spec |
+O canvas tem uma página por seção do doc oficial. A lista completa de artboards está em `design/wireframes/README.md`.
+
+| Seção | Artboards principais | Spec |
 |---|---|---|
-| Barra lateral: relógio + status, Painel, 3 recentes, Apps, Notificações, Voz | Barra lateral | 002 |
-| Painel: mapa + card de mídia + card de sugestões | Início · noite / dia | 002 |
-| Painel com navegação embutida | Início · navegação embutida | 008 |
-| Mapa em tela cheia | Mapa em tela cheia | 005 |
-| Mídia em tela cheia (fontes, capa, controles) | Mídia | 004 |
-| Gaveta de apps | Gaveta de apps | 003 |
-| Ajustes do launcher | Ajustes do launcher | 007 |
+| Visão geral | Painel (barra vertical, horizontal, dia) | 002, 013, 014 |
+| Barra de navegação | Barra vertical, barra horizontal, horizontal invertida, menu de toque longo | 002, 009, 014 |
+| Área de conteúdo | Minimizada (mensagem + mídia, só mídia), mapa expandido, tela dividida | 005, 008, 010 |
+| Acesso rápido aos apps | Grade com "Sair" primeiro, modo de edição | 003, 011 |
+| Notificações | Alertas de mensagem, chamada, navegação e lembrete; Central | 004 |
+| Barra de status | Elementos de status e fundos | 002 |
+| Métodos de entrada | Toque, foco e teclas do volante | 006 |
+| Apps de música | Navegação (lista e grade), reprodução, ações secundárias, fila | 004, 010 |
+| Apps de mensagens | Mensagem recebida, mensagens salvas, resposta por voz | 004 |
+| Personalizações | Ajustes, painel com 3 cards, trocar widget, salvar destino | 007, 012, 013 |
 
 ## Layout do painel (1280 × 720)
 
 ```
-┌──────┬──────────────────────────────┬───────────────┐
-│ 104  │  Mapa (card, raio 28)         │ Mídia  (344)  │
-│ barra│  busca "Para onde?" (topo)    ├───────────────┤
-│      │  velocidade ↙   recentrar ↘   │ Sugestões     │
-│      │                               │ (3 × 104)     │
-└──────┴──────────────────────────────┴───────────────┘
-padding 16 · gap 16 · coluna direita 408
+┌─────┬────────────────────────────────┬───────────────┐
+│ 96  │  Mapa (card, raio 24)           │ Mensagem      │
+│barra│  manobra ↖        recentrar ↘  ├───────────────┤
+│     │  ETA + ações ↙    zoom ↘       │ Mídia (capa   │
+│     │                                │ em tela cheia)│
+└─────┴────────────────────────────────┴───────────────┘
+margem 12 · espaço 12 · coluna direita 408
+Barra vertical: status no topo; dock (3 apps), voz e grade embaixo.
+Barra horizontal (88): grade e voz | dock | selo e status.
 ```

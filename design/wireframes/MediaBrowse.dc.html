@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Navegação de mídia</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1280px; height: 720px; display: flex; background: #151616; color: #E3E3E3; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
+  <dc-import name="Rail" theme="noite" aberto="apps" badge="" hint-size="96px,720px"></dc-import>
+  <main style="flex: 1; min-width: 0; box-sizing: border-box; padding: 12px 12px 12px 0; display: flex">
+    <section aria-label="{{title}}" style="flex: 1; min-width: 0; position: relative; box-sizing: border-box; padding: 16px 24px 0 16px; border-radius: 24px; background: #262625; display: flex; flex-direction: column; overflow: hidden">
+      <header style="display: flex; align-items: center; gap: 16px; flex: none">
+        <a href="{{backHref}}" aria-label="Voltar" style="width: 76px; height: 76px; border-radius: 38px; color: #E3E3E3; display: flex; align-items: center; justify-content: center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5M11 18l-6-6 6-6"></path></svg></a>
+        <span aria-hidden="true" style="width: 48px; height: 48px; border-radius: 24px; background: #1ED760; color: #04210F; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700">S</span>
+        <h1 style="flex: 1; margin: 0; font-size: 32px; font-weight: 400">{{title}}</h1>
+        <sc-if value="{{isBrowse}}" hint-placeholder-val="{{true}}">
+          <button type="button" style="height: 68px; padding: 0 30px 0 22px; border: 2px solid #747775; border-radius: 34px; background: transparent; color: #E3E3E3; font: inherit; font-size: 24px; display: flex; align-items: center; gap: 12px; cursor: pointer"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m20 20-4.8-4.8"></path></svg>Buscar</button>
+        </sc-if>
+      </header>
+
+      <div style="flex: 1; min-height: 0; display: flex; gap: 8px; margin-top: 8px">
+        <div style="width: 76px; flex: none; display: flex; flex-direction: column; align-items: center; padding: 8px 0 24px">
+          <button type="button" aria-label="Rolar para cima" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #747775; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"></path></svg></button>
+          <div style="flex: 1; width: 4px; border-radius: 2px; background: #3C3E3D; position: relative"><span style="position: absolute; top: 0; left: 0; width: 4px; height: 40%; border-radius: 2px; background: #C4C7C5"></span></div>
+          <button type="button" aria-label="Rolar para baixo" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #E3E3E3; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+        </div>
+
+        <sc-if value="{{isList}}" hint-placeholder-val="{{true}}">
+          <div style="flex: 1; min-width: 0; overflow-y: auto; padding-right: 136px">
+            <sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+              <sc-if value="{{r.isHeader}}" hint-placeholder-val="{{false}}">
+                <div style="height: 56px; display: flex; align-items: flex-end; padding: 0 0 10px 8px; box-sizing: border-box; font-size: 22px; font-weight: 500; color: #C4C7C5">{{r.title}}</div>
+              </sc-if>
+              <sc-if value="{{r.isItem}}" hint-placeholder-val="{{true}}">
+                <a href="{{r.href}}" style="height: 104px; display: flex; align-items: center; gap: 24px; padding: 0 8px; color: #E3E3E3; text-decoration: none; border-radius: 16px; background: {{r.rowBg}}">
+                  <span aria-hidden="true" style="width: 72px; height: 72px; flex: none; border-radius: 8px; overflow: hidden; background: {{r.a}}; position: relative"><span style="position: absolute; right: -14px; top: -10px; width: 56px; height: 56px; border-radius: 28px; background: {{r.b}}"></span></span>
+                  <span style="flex: 1; min-width: 0; height: 104px; box-sizing: border-box; border-bottom: 1px solid {{r.line}}; display: flex; flex-direction: column; justify-content: center">
+                    <span style="font-size: 26px; color: {{r.titleColor}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.title}}</span>
+                    <span style="display: flex; align-items: center; gap: 8px; font-size: 22px; color: #A8ABAE; margin-top: 4px">
+                      <sc-if value="{{r.explicit}}" hint-placeholder-val="{{false}}"><span aria-label="Explícito" style="width: 22px; height: 22px; border-radius: 4px; background: #A8ABAE; color: #262625; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center">E</span></sc-if>
+                      <sc-if value="{{r.saved}}" hint-placeholder-val="{{false}}"><svg aria-label="Salvo no aparelho" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg></sc-if>
+                      <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.sub}}</span>
+                    </span>
+                    <sc-if value="{{r.progress}}" hint-placeholder-val="{{false}}"><span aria-label="Em andamento" style="display: block; height: 4px; margin-top: 10px; margin-right: 24px; border-radius: 2px; background: #474747"><span style="display: block; width: 55%; height: 4px; border-radius: 2px; background: #8AB4F8"></span></span></sc-if>
+                  </span>
+                  <sc-if value="{{r.isNew}}" hint-placeholder-val="{{false}}"><span aria-label="Novo" style="width: 16px; height: 16px; flex: none; margin-right: 16px; border-radius: 8px; background: #8AB4F8"></span></sc-if>
+                  <sc-if value="{{r.nowPlaying}}" hint-placeholder-val="{{false}}"><svg aria-label="Tocando agora" width="32" height="32" viewBox="0 0 24 24" fill="#8AB4F8" style="flex: none; margin-right: 16px"><rect x="3" y="10" width="4" height="10" rx="1"></rect><rect x="10" y="4" width="4" height="16" rx="1"></rect><rect x="17" y="13" width="4" height="7" rx="1"></rect></svg></sc-if>
+                </a>
+              </sc-if>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isGrid}}" hint-placeholder-val="{{false}}">
+          <div style="flex: 1; min-width: 0; overflow-y: auto; padding-right: 136px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 300px; gap: 8px 24px">
+            <sc-for list="{{gridItems}}" as="g" hint-placeholder-count="8">
+              <a href="Media.dc.html" style="display: flex; flex-direction: column; gap: 10px; color: #E3E3E3; text-decoration: none; padding-top: 8px">
+                <span aria-hidden="true" style="width: 100%; aspect-ratio: 1; border-radius: 12px; overflow: hidden; background: {{g.a}}; position: relative"><span style="position: absolute; right: -20%; top: -15%; width: 75%; height: 75%; border-radius: 50%; background: {{g.b}}"></span></span>
+                <span style="font-size: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{g.title}}</span>
+                <span style="font-size: 20px; color: #A8ABAE; margin-top: -6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{g.sub}}</span>
+              </a>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{isBrowse}}" hint-placeholder-val="{{true}}">
+        <a href="Media.dc.html" aria-label="Tocando agora" style="position: absolute; right: 28px; bottom: 28px; width: 104px; height: 104px; border-radius: 52px; background: #1ED760; color: #04210F; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(0,0,0,0.45)"><svg width="44" height="44" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="10" width="4" height="10" rx="1"></rect><rect x="10" y="4" width="4" height="16" rx="1"></rect><rect x="17" y="13" width="4" height="7" rx="1"></rect></svg></a>
+      </sc-if>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"formato":{"editor":"enum","options":["lista","grade"],"default":"lista"},"tela":{"editor":"enum","options":["navegar","fila"],"default":"navegar"},"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const queue = (this.props.tela ?? 'navegar') === 'fila';
+    const grid = !queue && this.props.formato === 'grade';
+    const item = (title, sub, a, b, extra) => ({ isItem: true, isHeader: false, title, sub, a, b, href: 'Media.dc.html', explicit: false, saved: false, progress: false, isNew: false, nowPlaying: false, ...extra });
+    const header = (title) => ({ isHeader: true, isItem: false, title });
+    const browseRows = [
+      header('Playlists'),
+      item('Indie Brasil', 'Playlist', '#2FA3B6', '#F0A9C9'),
+      item('Nome da faixa', 'Artista', '#0E6E73', '#E53935', { explicit: true }),
+      item('Outra faixa', 'Artista', '#F4C2CF', '#B71C5A', { saved: true }),
+      header('Podcasts'),
+      item('Notícias do dia', '30 jul · 15 min', '#3949AB', '#FDD663'),
+      item('Notícias do dia', '29 jul · faltam 5 min', '#3949AB', '#FDD663', { isNew: true }),
+      item('Conversa de estrada', '28 jul · 42 min', '#6D4C41', '#FFAB91', { progress: true })
+    ];
+    const queueRows = [
+      item('Nome da faixa', 'Artista', '#0E6E73', '#E53935', { nowPlaying: true }),
+      item('Em movimento', 'Banda da estrada', '#F7B267', '#2FA3B6'),
+      item('Lugar nenhum', 'Alice Brito', '#2FA3B6', '#F0A9C9'),
+      item('Fim de tarde', 'Duo Litoral', '#8E6BBF', '#FDD663'),
+      item('Retorno', 'Artista', '#37474F', '#81C995')
+    ];
+    const rows = (queue ? queueRows : browseRows).map((r) => r.isItem ? {
+      ...r,
+      titleColor: r.nowPlaying ? '#8AB4F8' : '#E3E3E3',
+      rowBg: r.nowPlaying ? '#2F3130' : 'transparent',
+      line: r.nowPlaying ? 'transparent' : '#3C3E3D'
+    } : r);
+    const gridItems = [
+      ['Indie Brasil', 'Playlist', '#2FA3B6', '#F0A9C9'], ['Nome da faixa', 'Artista', '#0E6E73', '#E53935'],
+      ['Sonhos rosa', 'Alice Brito', '#F4C2CF', '#B71C5A'], ['Estrada', 'Mix diário', '#37474F', '#81C995'],
+      ['Notícias do dia', 'Podcast', '#3949AB', '#FDD663'], ['Fim de tarde', 'Duo Litoral', '#8E6BBF', '#FDD663'],
+      ['Em movimento', 'Banda da estrada', '#F7B267', '#2FA3B6'], ['Relax', 'Playlist', '#004B72', '#C2E7FF']
+    ].map(([title, sub, a, b]) => ({ title, sub, a, b }));
+    return {
+      title: queue ? 'Fila' : 'Tocados recentemente',
+      backHref: queue ? 'Media.dc.html' : 'Main.dc.html',
+      isBrowse: !queue,
+      isList: !grid,
+      isGrid: grid,
+      rows,
+      gridItems
+    };
+  }
+}
+</script>
+</body>
+</html>

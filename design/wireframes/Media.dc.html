@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<title>Mídia</title>
+<title>Reprodução</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -11,80 +11,75 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 <style>body{margin:0}</style>
 </helmet>
-<div style="width: 1280px; height: 720px; display: flex; background: #000000; color: #E8EAED; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
-  <dc-import name="Rail" theme="noite" active="media" hint-size="104px,720px"></dc-import>
-  <main style="flex: 1; min-width: 0; box-sizing: border-box; padding: 16px 32px 24px 24px; display: flex; flex-direction: column; gap: 20px; background: #121316; border-radius: 28px 0 0 28px">
-    <header style="display: flex; align-items: center; gap: 12px">
-      <div role="tablist" aria-label="Fonte de mídia" style="display: flex; gap: 8px; flex: 1">
-        <sc-for list="{{sources}}" as="s" hint-placeholder-count="4">
-          <button type="button" role="tab" aria-selected="{{s.selected}}" onClick="{{s.pick}}" style="height: 56px; border: 0; border-radius: 28px; padding: 0 22px; background: {{s.bg}}; color: {{s.fg}}; font: inherit; font-size: 18px; font-weight: 500; display: flex; align-items: center; gap: 10px; cursor: pointer">
-            <span style="width: 12px; height: 12px; border-radius: 6px; background: {{s.dot}}"></span>{{s.label}}
-          </button>
-        </sc-for>
-      </div>
-      <button type="button" aria-label="Navegar na biblioteca" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #E8EAED; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></button>
-      <button type="button" aria-label="Fila de reprodução" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #E8EAED; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h13M3 12h13M3 18h8"></path><path d="M17 15v6l4-3z" fill="currentColor"></path></svg></button>
-    </header>
+<div style="width: 1280px; height: 720px; display: flex; background: #151616; color: #E3E3E3; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
+  <dc-import name="Rail" theme="noite" aberto="apps" badge="" hint-size="96px,720px"></dc-import>
+  <main style="flex: 1; min-width: 0; box-sizing: border-box; padding: 12px 12px 12px 0; display: flex">
+    <section aria-label="Tocando agora" style="flex: 1; min-width: 0; position: relative; box-sizing: border-box; padding: 16px 32px 24px 16px; border-radius: 24px; background: {{cardBg}}; display: flex; flex-direction: column; overflow: hidden">
+      <header style="display: flex; align-items: center; gap: 16px">
+        <a href="MediaBrowse.dc.html" aria-label="Voltar" style="width: 76px; height: 76px; border-radius: 38px; color: #E3E3E3; display: flex; align-items: center; justify-content: center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5M11 18l-6-6 6-6"></path></svg></a>
+        <span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 28px; background: #1ED760; color: #04210F; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700">S</span>
+        <h1 style="flex: 1; margin: 0; font-size: 34px; font-weight: 400">Tocando agora</h1>
+        <a href="MediaBrowse.dc.html" style="height: 68px; padding: 0 30px 0 22px; border: 2px solid #747775; border-radius: 34px; color: #E3E3E3; display: flex; align-items: center; gap: 12px; font-size: 24px; text-decoration: none"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m20 20-4.8-4.8"></path></svg>Buscar</a>
+      </header>
 
-    <div style="flex: 1; min-height: 0; display: flex; gap: 40px; align-items: center">
-      <div style="width: 440px; height: 440px; flex: none; border-radius: 24px; background: #2B2C30; color: #A9ADB3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px">
-        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-        <span style="font-size: 16px">Capa do álbum</span>
-      </div>
-      <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 28px">
-        <div>
-          <div style="font-size: 40px; font-weight: 500; line-height: 1.15">Nome da faixa</div>
-          <div style="font-size: 26px; color: #A9ADB3; margin-top: 10px">Artista · Álbum</div>
-        </div>
-        <div>
-          <div style="height: 6px; border-radius: 3px; background: #3A3B40; position: relative"><div style="width: 38%; height: 6px; border-radius: 3px; background: #E8EAED"></div><div style="position: absolute; left: calc(38% - 9px); top: -6px; width: 18px; height: 18px; border-radius: 9px; background: #E8EAED"></div></div>
-          <div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 18px; color: #A9ADB3"><span>1:24</span><span>3:41</span></div>
-        </div>
-        <div style="display: flex; align-items: center; justify-content: space-between; max-width: 560px">
-          <button type="button" aria-label="Aleatório" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #A9ADB3; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"></path><path d="M4 20 21 3"></path><path d="M21 16v5h-5"></path><path d="M15 15l6 6"></path><path d="M4 4l5 5"></path></svg></button>
-          <button type="button" aria-label="Faixa anterior" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #E8EAED; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 20 9 12l10-8z" fill="currentColor"></path><path d="M5 19V5"></path></svg></button>
-          <button type="button" aria-label="{{playLabel}}" onClick="{{togglePlay}}" style="width: 112px; height: 96px; border: 0; border-radius: 48px; background: #8AB4F8; color: #0B1A33; display: flex; align-items: center; justify-content: center; cursor: pointer">
-            <sc-if value="{{playing}}" hint-placeholder-val="{{true}}"><svg width="44" height="44" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1" fill="currentColor"></rect><rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor"></rect></svg></sc-if>
-            <sc-if value="{{paused}}" hint-placeholder-val="{{false}}"><svg width="44" height="44" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z" fill="currentColor"></path></svg></sc-if>
-          </button>
-          <button type="button" aria-label="Próxima faixa" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #E8EAED; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4l10 8-10 8z" fill="currentColor"></path><path d="M19 5v14"></path></svg></button>
-          <button type="button" aria-label="Repetir" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #A9ADB3; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4"></path><path d="M3 11V9a3 3 0 0 1 3-3h15"></path><path d="M7 22l-4-4 4-4"></path><path d="M21 13v2a3 3 0 0 1-3 3H3"></path></svg></button>
+      <div style="flex: 1; min-height: 0; display: flex; align-items: center; gap: 40px; padding-left: 96px; opacity: {{metaOpacity}}">
+        <span aria-hidden="true" style="width: 280px; height: 280px; flex: none; border-radius: 24px; overflow: hidden">
+          <svg viewBox="0 0 400 400" width="280" height="280"><rect width="400" height="400" fill="#2FA3B6"></rect><circle cx="250" cy="120" r="110" fill="#F0A9C9"></circle><ellipse cx="270" cy="320" rx="90" ry="140" fill="#F6D3BC" opacity="0.7"></ellipse><rect x="190" y="60" width="44" height="70" rx="22" fill="#14505C"></rect><rect y="300" width="400" height="100" fill="#F8D7DA"></rect></svg>
+        </span>
+        <div style="flex: 1; min-width: 0">
+          <div style="font-size: 40px; font-weight: 400; line-height: 1.2">Nome da faixa</div>
+          <div style="display: flex; align-items: center; gap: 12px; margin-top: 8px"><span style="font-size: 30px; color: #C4C7C5">Artista</span><span aria-label="Explícito" style="width: 26px; height: 26px; border-radius: 4px; background: #C4C7C5; color: #151616; font-size: 17px; font-weight: 700; display: flex; align-items: center; justify-content: center">E</span></div>
+          <div style="font-size: 28px; color: #C4C7C5; margin-top: 10px">1:34 / 3:45</div>
+          <div role="slider" aria-label="Posição da faixa" aria-valuemin="0" aria-valuemax="225" aria-valuenow="94" tabindex="0" style="height: 48px; margin-top: 16px; display: flex; align-items: center; position: relative; max-width: 640px">
+            <div style="flex: 1; height: 4px; border-radius: 2px; background: #474747"><div style="width: 24%; height: 4px; border-radius: 2px; background: #FFFFFF"></div></div>
+            <span style="position: absolute; left: calc(24% - 12px); width: 24px; height: 24px; border-radius: 12px; background: #FFFFFF"></span>
+          </div>
         </div>
       </div>
-    </div>
+
+      <sc-if value="{{open}}" hint-placeholder-val="{{false}}">
+        <div style="display: flex; justify-content: space-around; padding: 0 120px 12px">
+          <button type="button" aria-label="Repetir" style="width: 88px; height: 88px; border: 0; border-radius: 44px; background: transparent; color: #E3E3E3; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4"></path><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"></path><path d="M21 13v2a3 3 0 0 1-3 3H3"></path></svg></button>
+          <button type="button" aria-label="Aleatório" style="width: 88px; height: 88px; border: 0; border-radius: 44px; background: transparent; color: #E3E3E3; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"></path></svg></button>
+          <button type="button" aria-label="Curtir" style="width: 88px; height: 88px; border: 0; border-radius: 44px; background: transparent; color: #E3E3E3; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11A4.8 4.8 0 0 1 12 6.6a4.8 4.8 0 0 1 8.5 2.9c0 5.8-8.5 11-8.5 11z"></path></svg></button>
+          <button type="button" aria-label="Adicionar à playlist" style="width: 88px; height: 88px; border: 0; border-radius: 44px; background: transparent; color: #E3E3E3; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 4v16M4 12h16"></path></svg></button>
+        </div>
+      </sc-if>
+
+      <div style="display: flex; align-items: center; justify-content: space-around; padding: 0 40px">
+        <a href="MediaQueue.dc.html" aria-label="Fila" style="width: 88px; height: 88px; border-radius: 44px; color: #E3E3E3; display: flex; align-items: center; justify-content: center"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h12M3 12h12M3 18h7"></path><path d="M19 7v9"></path><circle cx="17" cy="17" r="2.2"></circle></svg></a>
+        <button type="button" aria-label="Faixa anterior" style="width: 88px; height: 88px; border: 0; border-radius: 44px; background: transparent; color: #E3E3E3; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M6 5v14"></path><path d="M19 5.5v13L9.5 12z"></path></svg></button>
+        <button type="button" aria-label="{{playLabel}}" onClick="{{togglePlay}}" style="width: 128px; height: 112px; border: 0; border-radius: 28px; background: #CFD6D3; color: #151616; display: flex; align-items: center; justify-content: center; cursor: pointer">
+          <sc-if value="{{playing}}" hint-placeholder-val="{{true}}"><svg width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"></rect><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"></rect></svg></sc-if>
+          <sc-if value="{{paused}}" hint-placeholder-val="{{false}}"><svg width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"></path></svg></sc-if>
+        </button>
+        <button type="button" aria-label="Próxima faixa" style="width: 88px; height: 88px; border: 0; border-radius: 44px; background: transparent; color: #E3E3E3; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M18 5v14"></path><path d="M5 5.5v13l9.5-6.5z"></path></svg></button>
+        <button type="button" aria-label="Mais ações" aria-expanded="{{expanded}}" onClick="{{toggleMore}}" style="width: 88px; height: 88px; border: 0; border-radius: 44px; background: {{moreBg}}; color: #E3E3E3; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="38" height="38" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="19" r="2"></circle></svg></button>
+      </div>
+    </section>
   </main>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+<script type="text/x-dc" data-dc-script data-props='{"acoes":{"editor":"boolean","default":false,"tsType":"ações secundárias abertas"},"tingir":{"editor":"boolean","default":false,"tsType":"fundo tingido pela capa (spec 010)"},"$preview":{"width":1280,"height":720}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { playing: true, source: 'spotify' };
+    this.state = { playing: true, more: null };
   }
   renderVals() {
-    const list = [
-      { id: 'spotify', label: 'Spotify', dot: '#1DB954' },
-      { id: 'ytm', label: 'YouTube Music', dot: '#FF4E45' },
-      { id: 'radio', label: 'Rádio FM', dot: '#FBBC04' },
-      { id: 'bt', label: 'Bluetooth', dot: '#8AB4F8' }
-    ];
-    const sources = list.map((s) => {
-      const selected = s.id === this.state.source;
-      return {
-        ...s,
-        selected: selected ? 'true' : 'false',
-        bg: selected ? '#E8EAED' : '#2B2C30',
-        fg: selected ? '#202124' : '#E8EAED',
-        pick: () => this.setState({ source: s.id })
-      };
-    });
+    const open = this.state.more ?? !!this.props.acoes;
     const playing = this.state.playing;
     return {
-      sources,
+      cardBg: this.props.tingir ? '#15434B' : '#262625',
+      open,
+      expanded: open ? 'true' : 'false',
+      moreBg: open ? '#3C3E3D' : 'transparent',
+      metaOpacity: open ? 0.35 : 1,
       playing,
       paused: !playing,
       playLabel: playing ? 'Pausar' : 'Tocar',
-      togglePlay: () => this.setState({ playing: !this.state.playing })
+      togglePlay: () => this.setState({ playing: !this.state.playing }),
+      toggleMore: () => this.setState({ more: !open })
     };
   }
 }

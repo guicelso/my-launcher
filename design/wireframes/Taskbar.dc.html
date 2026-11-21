@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Barra horizontal</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<nav aria-label="Barra de navegação" style="width: 1280px; height: 88px; box-sizing: border-box; padding: 0 28px; display: flex; flex-direction: {{dir}}; align-items: center; background: {{c.bg}}; color: {{c.text}}; font-family: Roboto, system-ui, sans-serif">
+  <div style="width: 260px; display: flex; flex-direction: {{dir}}; align-items: center; gap: 8px">
+    <sc-if value="{{gridMode}}" hint-placeholder-val="{{true}}">
+      <a href="AppDrawer.dc.html" aria-label="Acesso rápido aos apps" style="width: 76px; height: 76px; border-radius: 38px; color: {{c.text}}; display: flex; align-items: center; justify-content: center">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="5" r="2.3"></circle><circle cx="12" cy="5" r="2.3"></circle><circle cx="19" cy="5" r="2.3"></circle><circle cx="5" cy="12" r="2.3"></circle><circle cx="12" cy="12" r="2.3"></circle><circle cx="19" cy="12" r="2.3"></circle><circle cx="5" cy="19" r="2.3"></circle><circle cx="12" cy="19" r="2.3"></circle><circle cx="19" cy="19" r="2.3"></circle></svg>
+      </a>
+    </sc-if>
+    <sc-if value="{{dashMode}}" hint-placeholder-val="{{false}}">
+      <a href="Main.dc.html" aria-label="Voltar ao painel" style="width: 76px; height: 76px; border-radius: 38px; color: {{c.text}}; display: flex; align-items: center; justify-content: center">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M10.5 3v18M10.5 12H21"></path></svg>
+      </a>
+    </sc-if>
+    <a href="VoiceReply.dc.html" aria-label="Comando de voz" style="width: 76px; height: 76px; border-radius: 38px; color: {{c.text}}; display: flex; align-items: center; justify-content: center">
+      <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="2.5" width="7" height="12" rx="3.5" fill="{{c.accent}}"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+    </a>
+  </div>
+
+  <div style="flex: 1; display: flex; justify-content: center; align-items: center; gap: 12px">
+    <a href="MapFull.dc.html" aria-label="Waze (fixado)" style="position: relative; width: 76px; height: 76px; border-radius: 38px; display: flex; align-items: center; justify-content: center; text-decoration: none">
+      <span style="width: 60px; height: 60px; border-radius: 30px; background: #33CCFF; color: #062330; box-shadow: 0 0 0 4px {{c.ring}}; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 700">W</span>
+      <span aria-hidden="true" style="position: absolute; bottom: 0; width: 6px; height: 6px; border-radius: 3px; background: {{c.text}}"></span>
+    </a>
+    <a href="MediaSplit.dc.html" aria-label="Spotify (fixado)" style="position: relative; width: 76px; height: 76px; border-radius: 38px; display: flex; align-items: center; justify-content: center; text-decoration: none">
+      <span style="width: 60px; height: 60px; border-radius: 30px; background: #1ED760; color: #04210F; box-shadow: 0 0 0 4px {{c.ring}}; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 700">S</span>
+      <span aria-hidden="true" style="position: absolute; bottom: 0; width: 6px; height: 6px; border-radius: 3px; background: {{c.text}}"></span>
+    </a>
+    <a href="HunCall.dc.html" aria-label="Telefone (recente)" style="width: 76px; height: 76px; border-radius: 38px; display: flex; align-items: center; justify-content: center; text-decoration: none">
+      <span style="width: 60px; height: 60px; border-radius: 30px; background: #FFFFFF; color: #1A73E8; box-shadow: 0 0 0 4px {{c.ring}}; display: flex; align-items: center; justify-content: center">
+        <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6a1 1 0 0 0-1 .25l-2.2 2.2a15 15 0 0 1-6.6-6.6l2.2-2.2a1 1 0 0 0 .25-1A11.4 11.4 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1z" fill="currentColor"></path></svg>
+      </span>
+    </a>
+    <a href="MediaBrowse.dc.html" aria-label="YouTube Music (recente)" style="width: 76px; height: 76px; border-radius: 38px; display: flex; align-items: center; justify-content: center; text-decoration: none">
+      <span style="width: 60px; height: 60px; border-radius: 30px; background: #FF3B30; color: #FFFFFF; box-shadow: 0 0 0 4px {{c.ring}}; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 700">Y</span>
+    </a>
+  </div>
+
+  <div style="width: 260px; display: flex; flex-direction: {{dir}}; justify-content: flex-end; align-items: center; gap: 18px">
+    <sc-if value="{{showBadge}}" hint-placeholder-val="{{true}}">
+      <a href="NotificationCenter.dc.html" aria-label="Central de notificações: {{badge}} novas" style="min-width: 60px; height: 40px; box-sizing: border-box; padding: 0 14px; border-radius: 20px; background: {{c.badge}}; color: {{c.onBadge}}; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 500; text-decoration: none">{{badge}}</a>
+    </sc-if>
+    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px">
+      <span style="display: flex; align-items: center; gap: 6px">
+        <sc-if value="{{showWeather}}" hint-placeholder-val="{{false}}"><span style="font-size: 16px; color: {{c.muted}}; margin-right: 4px">24°</span></sc-if>
+        <span style="font-size: 11px; font-weight: 700">4G</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 2v20H2z" fill="currentColor" opacity="0.35"></path><path d="M15 9v13H2z" fill="currentColor"></path></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21 1 8.6a16.5 16.5 0 0 1 22 0z" fill="currentColor"></path></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 7 10 10-5 5V2l5 5L7 17"></path></svg>
+      </span>
+      <span style="font-size: 30px; font-weight: 400; line-height: 1.1">12:45</span>
+    </div>
+  </div>
+</nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["noite","dia"],"default":"noite"},"lado":{"editor":"enum","options":["esquerda","direita"],"default":"esquerda","tsType":"lado do motorista; direita inverte a ordem"},"aberto":{"editor":"enum","options":["painel","apps"],"default":"painel"},"badge":{"editor":"text","default":"3"},"clima":{"editor":"boolean","default":false},"$preview":{"width":1280,"height":88}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const P = {
+      noite: { bg: '#151616', text: '#E3E3E3', muted: '#A8ABAE', ring: '#292B2A', badge: '#83EA8F', onBadge: '#0B3D17', accent: '#8AB4F8' },
+      dia: { bg: '#E9EBEE', text: '#1F1F1F', muted: '#5F6368', ring: '#D5D8DC', badge: '#137333', onBadge: '#FFFFFF', accent: '#0B57D0' }
+    };
+    const c = this.props.theme === 'dia' ? P.dia : P.noite;
+    const badge = this.props.badge ?? '3';
+    const apps = (this.props.aberto ?? 'painel') === 'apps';
+    return {
+      c,
+      badge,
+      dir: this.props.lado === 'direita' ? 'row-reverse' : 'row',
+      showBadge: badge !== '',
+      showWeather: !!this.props.clima,
+      gridMode: !apps,
+      dashMode: apps
+    };
+  }
+}
+</script>
+</body>
+</html>

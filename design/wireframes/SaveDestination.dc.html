@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Salvar destino</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="position: relative; width: 1280px; height: 720px; display: flex; background: #151616; color: #E3E3E3; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
+  <dc-import name="Rail" theme="noite" aberto="apps" badge="" hint-size="96px,720px"></dc-import>
+  <main style="flex: 1; min-width: 0; box-sizing: border-box; padding: 12px 12px 12px 0; display: flex">
+    <div style="flex: 1; position: relative">
+      <dc-import name="MapCard" theme="noite" modo="livre" hint-size="100%,100%"></dc-import>
+    </div>
+  </main>
+
+  <div aria-hidden="true" style="position: absolute; left: 700px; top: 150px; display: flex; flex-direction: column; align-items: center">
+    <span style="width: 120px; height: 120px; border-radius: 60px; background: rgba(138,180,248,0.18); position: absolute; top: -32px"></span>
+    <svg width="56" height="56" viewBox="0 0 24 24" style="position: relative"><path d="M12 22s-7.5-6.6-7.5-12.2a7.5 7.5 0 0 1 15 0C19.5 15.4 12 22 12 22z" fill="#F28B82" stroke="#151616" stroke-width="1"></path><circle cx="12" cy="9.8" r="2.8" fill="#151616"></circle></svg>
+  </div>
+
+  <section role="dialog" aria-label="Salvar este ponto" style="position: absolute; left: 108px; right: 24px; bottom: 24px; box-sizing: border-box; padding: 22px 24px 24px 28px; border-radius: 24px; background: #292A2A; box-shadow: 0 -4px 24px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 18px">
+    <div style="display: flex; align-items: center; gap: 16px">
+      <div style="flex: 1; min-width: 0">
+        <div style="font-size: 28px">Salvar este ponto como…</div>
+        <div style="font-size: 20px; color: #A8ABAE; margin-top: 4px">Av. Brasil, 1500 · Jardim América · −23,568, −46,668</div>
+      </div>
+      <a href="Main.dc.html" aria-label="Cancelar" style="width: 76px; height: 76px; border-radius: 38px; color: #C4C7C5; display: flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+    </div>
+    <div role="radiogroup" aria-label="Tipo de destino" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px">
+      <sc-for list="{{kinds}}" as="k" hint-placeholder-count="3">
+        <button type="button" role="radio" aria-checked="{{k.checked}}" onClick="{{k.pick}}" style="height: 88px; border: 0; border-radius: 44px; background: {{k.bg}}; color: {{k.fg}}; font: inherit; font-size: 24px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 14px; cursor: pointer">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{k.icon}}"></path></svg>{{k.label}}
+        </button>
+      </sc-for>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; font-size: 19px; color: #A8ABAE">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6M12 7.5h.01"></path></svg>
+      Também dá para usar "Salvar onde estou" no card de sugestões, ou compartilhar um local do Maps ou do WhatsApp para o launcher.
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { kind: 'casa' };
+  }
+  renderVals() {
+    const list = [
+      ['casa', 'Casa', 'M3 10.5 12 3l9 7.5M5 9.5V21h14V9.5'],
+      ['trabalho', 'Trabalho', 'M3 7h18v13H3zM9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2'],
+      ['favorito', 'Favorito', 'M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z']
+    ];
+    const kinds = list.map(([id, label, icon]) => {
+      const on = id === this.state.kind;
+      return { label, icon, checked: on ? 'true' : 'false', bg: on ? '#C5D4FF' : '#3C3E3D', fg: on ? '#0B2A66' : '#E3E3E3', pick: () => this.setState({ kind: id }) };
+    });
+    return { kinds };
+  }
+}
+</script>
+</body>
+</html>

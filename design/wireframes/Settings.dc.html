@@ -11,96 +11,139 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 <style>body{margin:0}</style>
 </helmet>
-<div style="width: 1280px; height: 720px; display: flex; background: #000000; color: #E8EAED; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
-  <dc-import name="Rail" theme="noite" active="none" hint-size="104px,720px"></dc-import>
-  <main style="flex: 1; min-width: 0; display: flex; background: #121316; border-radius: 28px 0 0 28px; overflow: hidden">
-    <nav aria-label="Seções" style="width: 340px; flex: none; box-sizing: border-box; padding: 20px 12px; display: flex; flex-direction: column; gap: 4px; border-right: 1px solid #2B2C30">
-      <div style="display: flex; align-items: center; gap: 8px; margin: 0 0 12px">
-        <a href="AppDrawer.dc.html" aria-label="Voltar" style="width: 76px; height: 76px; border-radius: 38px; color: #E8EAED; display: flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
-        <h1 style="margin: 0; font-size: 30px; font-weight: 500">Ajustes</h1>
-      </div>
-      <sc-for list="{{sections}}" as="s" hint-placeholder-count="5">
-        <button type="button" onClick="{{s.pick}}" aria-current="{{s.current}}" style="height: 76px; border: 0; border-radius: 38px; background: {{s.bg}}; color: {{s.fg}}; font: inherit; font-size: 22px; text-align: left; padding: 0 28px; cursor: pointer">{{s.label}}</button>
-      </sc-for>
-    </nav>
-
-    <section style="flex: 1; min-width: 0; box-sizing: border-box; padding: 28px 36px; display: flex; flex-direction: column; gap: 28px">
-      <div>
-        <h2 style="margin: 0 0 6px; font-size: 26px; font-weight: 500">Tema</h2>
-        <p style="margin: 0 0 16px; font-size: 18px; color: #A9ADB3">No automático, o tema segue os faróis do carro (sinal da MCU).</p>
-        <div role="radiogroup" aria-label="Tema" style="display: flex; gap: 12px">
-          <sc-for list="{{themes}}" as="t" hint-placeholder-count="3">
-            <button type="button" role="radio" aria-checked="{{t.checked}}" onClick="{{t.pick}}" style="height: 76px; border: 2px solid {{t.border}}; border-radius: 38px; background: {{t.bg}}; color: {{t.fg}}; font: inherit; font-size: 20px; font-weight: 500; padding: 0 28px; cursor: pointer">{{t.label}}</button>
-          </sc-for>
+<div style="width: 1280px; height: 720px; display: flex; background: #151616; color: #E3E3E3; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
+  <dc-import name="Rail" theme="noite" aberto="apps" badge="" hint-size="96px,720px"></dc-import>
+  <main style="flex: 1; min-width: 0; box-sizing: border-box; padding: 12px 12px 12px 0; display: flex">
+    <div style="flex: 1; min-width: 0; border-radius: 24px; background: #262625; display: flex; overflow: hidden">
+      <nav aria-label="Seções" style="width: 352px; flex: none; box-sizing: border-box; padding: 12px; display: flex; flex-direction: column; gap: 2px; overflow-y: auto; border-right: 1px solid #3C3E3D">
+        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px">
+          <a href="AppDrawer.dc.html" aria-label="Voltar" style="width: 76px; height: 76px; flex: none; border-radius: 38px; color: #E3E3E3; display: flex; align-items: center; justify-content: center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5M11 18l-6-6 6-6"></path></svg></a>
+          <h1 style="margin: 0; font-size: 32px; font-weight: 400">Ajustes</h1>
         </div>
-      </div>
+        <sc-for list="{{sections}}" as="s" hint-placeholder-count="9">
+          <button type="button" onClick="{{s.pick}}" aria-current="{{s.current}}" style="flex: none; min-height: 76px; border: 0; border-radius: 38px; background: {{s.bg}}; color: {{s.fg}}; font: inherit; font-size: 22px; text-align: left; padding: 0 24px; display: flex; align-items: center; gap: 12px; cursor: pointer">
+            <span style="flex: 1">{{s.label}}</span>
+            <sc-if value="{{s.isNew}}" hint-placeholder-val="{{false}}"><span style="height: 26px; padding: 0 10px; border-radius: 13px; background: #83EA8F; color: #0B3D17; font-size: 14px; font-weight: 500; display: flex; align-items: center">Novo</span></sc-if>
+          </button>
+        </sc-for>
+      </nav>
 
-      <div>
-        <h2 style="margin: 0 0 16px; font-size: 26px; font-weight: 500">Navegação</h2>
-        <div style="display: flex; align-items: center; height: 76px; border-radius: 20px; background: #1E1F22; padding: 0 24px">
-          <span style="flex: 1; font-size: 22px">App de navegação padrão</span>
-          <span style="font-size: 22px; color: #8AB4F8; font-weight: 500">Waze</span>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#A9ADB3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-left: 8px"><path d="M9 18l6-6-6-6"></path></svg>
-        </div>
-      </div>
-
-      <div>
-        <h2 style="margin: 0 0 16px; font-size: 26px; font-weight: 500">Veículo</h2>
-        <div style="display: flex; flex-direction: column; gap: 8px">
-          <div style="display: flex; align-items: center; height: 76px; border-radius: 20px; background: #1E1F22; padding: 0 24px">
-            <span style="flex: 1"><span style="display: block; font-size: 22px">Baixar o volume na marcha à ré</span></span>
-            <button type="button" role="switch" aria-checked="{{duckChecked}}" aria-label="Baixar o volume na marcha à ré" onClick="{{toggleDuck}}" style="width: 72px; height: 40px; border: 0; border-radius: 20px; background: {{duckTrack}}; padding: 4px; display: flex; justify-content: {{duckAlign}}; cursor: pointer"><span style="width: 32px; height: 32px; border-radius: 16px; background: {{duckThumb}}"></span></button>
-          </div>
-          <div style="display: flex; align-items: center; height: 76px; border-radius: 20px; background: #1E1F22; padding: 0 24px">
-            <span style="flex: 1; font-size: 22px">Mostrar tensão da bateria</span>
-            <button type="button" role="switch" aria-checked="true" aria-label="Mostrar tensão da bateria" style="width: 72px; height: 40px; border: 0; border-radius: 20px; background: #8AB4F8; padding: 4px; display: flex; justify-content: flex-end; cursor: pointer"><span style="width: 32px; height: 32px; border-radius: 16px; background: #0B1A33"></span></button>
-          </div>
-        </div>
-      </div>
-
-      <div style="flex: 1"></div>
-      <div style="display: flex; align-items: center; gap: 16px">
-        <button type="button" style="height: 64px; border: 2px solid #F28B82; border-radius: 32px; background: transparent; color: #F28B82; font: inherit; font-size: 20px; font-weight: 500; padding: 0 26px; cursor: pointer">Voltar ao launcher original</button>
-        <span style="font-size: 16px; color: #A9ADB3">Versão 0.1.0</span>
-      </div>
-    </section>
+      <section style="flex: 1; min-width: 0; box-sizing: border-box; padding: 28px 32px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px">
+        <h2 style="margin: 0 0 12px; font-size: 30px; font-weight: 400">{{title}}</h2>
+        <sc-for list="{{rows}}" as="r" hint-placeholder-count="5">
+          <button type="button" onClick="{{r.act}}" role="{{r.role}}" aria-checked="{{r.checked}}" style="flex: none; min-height: 88px; box-sizing: border-box; padding: 12px 24px; border: 0; border-radius: 20px; background: #2F3130; color: {{r.color}}; font: inherit; text-align: left; display: flex; align-items: center; gap: 20px; cursor: pointer">
+            <span style="flex: 1; min-width: 0">
+              <span style="display: flex; align-items: center; gap: 10px; font-size: 24px">{{r.title}}<sc-if value="{{r.isNew}}" hint-placeholder-val="{{false}}"><span style="height: 24px; padding: 0 9px; border-radius: 12px; background: #83EA8F; color: #0B3D17; font-size: 13px; font-weight: 500; display: inline-flex; align-items: center">Novo</span></sc-if></span>
+              <sc-if value="{{r.hasSub}}" hint-placeholder-val="{{true}}"><span style="display: block; font-size: 19px; color: #A8ABAE; margin-top: 4px">{{r.sub}}</span></sc-if>
+            </span>
+            <sc-if value="{{r.isChoice}}" hint-placeholder-val="{{true}}"><span style="font-size: 22px; font-weight: 500; color: #A8C7FA; white-space: nowrap">{{r.value}}</span></sc-if>
+            <sc-if value="{{r.isInfo}}" hint-placeholder-val="{{false}}"><span style="font-size: 22px; color: #A8ABAE; white-space: nowrap">{{r.value}}</span></sc-if>
+            <sc-if value="{{r.chevron}}" hint-placeholder-val="{{true}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#A8ABAE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg></sc-if>
+            <sc-if value="{{r.isSwitch}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="width: 68px; height: 40px; flex: none; box-sizing: border-box; padding: 4px; border-radius: 20px; background: {{r.track}}; border: 2px solid {{r.trackLine}}; display: flex; justify-content: {{r.align}}; align-items: center"><span style="width: {{r.thumb}}px; height: {{r.thumb}}px; border-radius: 50%; background: {{r.knob}}"></span></span></sc-if>
+          </button>
+        </sc-for>
+      </section>
+    </div>
   </main>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+<script type="text/x-dc" data-dc-script data-props='{"secao":{"editor":"enum","options":["aparencia","barra","painel","apps","navegacao","midia","notificacoes","veiculo","sistema"],"default":"barra"},"$preview":{"width":1280,"height":720}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { section: 'aparencia', theme: 'auto', duck: true };
+    this.state = { section: null, vals: {} };
   }
   renderVals() {
-    const secs = [
-      ['aparencia', 'Aparência'],
-      ['barra', 'Barra lateral'],
-      ['navegacao', 'Navegação'],
-      ['midia', 'Mídia'],
-      ['veiculo', 'Veículo'],
-      ['sistema', 'Sistema']
+    const sw = (id, title, sub, on, isNew) => ({ kind: 'switch', id, title, sub, def: on, isNew });
+    const ch = (id, title, options, sub, isNew) => ({ kind: 'choice', id, title, options, sub, isNew });
+    const ln = (title, sub, isNew) => ({ kind: 'link', title, sub, isNew });
+    const info = (title, value, sub) => ({ kind: 'info', title, value, sub });
+    const danger = (title, sub) => ({ kind: 'danger', title, sub });
+    const S = [
+      ['aparencia', 'Aparência', false, [
+        ch('tema', 'Tema', ['Automático', 'Dia', 'Noite'], 'No automático, segue os faróis do carro'),
+        ch('texto', 'Tamanho do texto', ['Normal', 'Grande']),
+        ch('icones', 'Formato dos ícones', ['Redondo', 'Quadrado arredondado', 'Original do app']),
+        ln('Pacote de ícones', 'Nenhum (ícones originais)'),
+        ch('anim', 'Animação da gaveta', ['Crescer do botão', 'Revelação circular', 'Deslizar da barra', 'Subir de baixo', 'Esmaecer e ampliar', 'Sem animação'])
+      ]],
+      ['barra', 'Barra de navegação', false, [
+        ch('posicao', 'Posição', ['Vertical (esquerda)', 'Horizontal (embaixo)']),
+        ch('lado', 'Lado do motorista', ['Esquerda', 'Direita'], 'Direita espelha a barra, como em carros com volante à direita', true),
+        ln('Apps fixados', 'Waze, Spotify · até 3'),
+        sw('selo', 'Selo de notificações', 'Mostra quantas notificações estão na Central', true),
+        sw('voz', 'Comando de voz', null, true),
+        sw('clima', 'Clima na barra', 'Temperatura abaixo do relógio', false, true)
+      ]],
+      ['painel', 'Painel', false, [
+        ch('layout', 'Layout', ['2 cards', '1 card', '3 cards']),
+        ch('card1', 'Card 1', ['Mídia', 'Mensagens e sugestões', 'Clima agora', 'Veículo']),
+        ch('card2', 'Card 2', ['Mensagens e sugestões', 'Destinos e sugestões', 'Clima agora', 'Clima por hora', 'Previsão da semana', 'Veículo', 'Relógio e data', 'Notificações']),
+        ch('estilo', 'Card de mídia', ['Capa em tela cheia', 'Compacto'], null, true),
+        info('Dica', '', 'Toque longo num card do painel também troca o widget (com o carro parado)')
+      ]],
+      ['apps', 'Acesso rápido aos apps', false, [
+        ch('ordem', 'Ordem', ['Alfabética', 'Personalizada']),
+        sw('sair', 'Mostrar "Sair" primeiro', 'Volta ao launcher original da multimídia', true, true),
+        sw('sugeridos', 'Mostrar apps sugeridos', 'Os mais usados neste horário aparecem no topo', true, true),
+        ln('Apps ocultos', '3 apps')
+      ]],
+      ['navegacao', 'Navegação', false, [
+        ch('navapp', 'App de navegação padrão', ['Waze', 'Google Maps', 'HERE WeGo']),
+        ln('Casa', 'Rua das Flores, 120'),
+        ln('Trabalho', 'Av. Paulista, 1000'),
+        ln('Favoritos', '2 destinos'),
+        sw('aprender', 'Aprender lugares frequentes', 'Os dados ficam só na multimídia', false),
+        danger('Apagar histórico de locais')
+      ]],
+      ['midia', 'Mídia', false, [
+        ch('musicapp', 'App de música padrão', ['Spotify', 'YouTube Music', 'Rádio']),
+        sw('split', 'Abrir apps de mídia em tela dividida', null, true),
+        sw('tint', 'Tingir o player com a cor da capa', null, true),
+        info('Acesso às notificações', 'Concedido')
+      ]],
+      ['notificacoes', 'Notificações', true, [
+        sw('hun', 'Mostrar notificações de alerta', 'Se desligado, tudo vai direto para a Central', true, true),
+        sw('ler', 'Tocar na mensagem lê em voz alta', null, true, true),
+        ln('Conversas silenciadas', '1 conversa', true),
+        ch('limite', 'Limite da Central', ['20 notificações', '50 notificações'], 'As mais antigas saem para dar lugar às novas', true),
+        sw('chamadas', 'Alertas de chamada do Bluetooth', null, true, true)
+      ]],
+      ['veiculo', 'Veículo', false, [
+        sw('duck', 'Baixar o volume na ré', null, true),
+        sw('bateria', 'Mostrar tensão da bateria', null, true),
+        sw('simular', 'Simular sinais do veículo', 'Para testes sem o carro ligado', false),
+        ln('Diagnóstico', 'Sinais da MCU e do CAN')
+      ]],
+      ['sistema', 'Sistema', false, [
+        info('Versão', '0.1.0'),
+        ln('Exportar logs', 'Salva em Android/data/app.mylauncher/files/logs'),
+        danger('Voltar ao launcher original', 'Abre a escolha de tela inicial do sistema')
+      ]]
     ];
-    const sections = secs.map(([id, label]) => {
-      const on = id === this.state.section;
-      return { label, current: on ? 'page' : 'false', bg: on ? '#2B3A55' : 'transparent', fg: on ? '#D2E3FC' : '#E8EAED', pick: () => this.setState({ section: id }) };
+    const current = this.state.section ?? (this.props.secao ?? 'barra');
+    const vals = this.state.vals;
+    const set = (id, v) => this.setState({ vals: { ...this.state.vals, [id]: v } });
+    const sections = S.map(([id, label, isNew]) => {
+      const on = id === current;
+      return { label, isNew, current: on ? 'page' : 'false', bg: on ? '#004A77' : 'transparent', fg: on ? '#C2E7FF' : '#E3E3E3', pick: () => this.setState({ section: id }) };
     });
-    const opts = [['auto', 'Automático'], ['dia', 'Dia'], ['noite', 'Noite']];
-    const themes = opts.map(([id, label]) => {
-      const on = id === this.state.theme;
-      return { label, checked: on ? 'true' : 'false', bg: on ? '#2B3A55' : 'transparent', fg: on ? '#D2E3FC' : '#E8EAED', border: on ? '#8AB4F8' : '#3A3B40', pick: () => this.setState({ theme: id }) };
+    const sec = S.find((s) => s[0] === current) ?? S[1];
+    const rows = sec[3].map((r) => {
+      const base = { title: r.title, sub: r.sub ?? '', hasSub: !!r.sub, isNew: !!r.isNew, isSwitch: false, isChoice: false, isInfo: false, chevron: false, value: '', color: '#E3E3E3', role: 'button', checked: 'false', act: () => {} };
+      if (r.kind === 'switch') {
+        const on = vals[r.id] ?? r.def;
+        return { ...base, isSwitch: true, role: 'switch', checked: on ? 'true' : 'false', track: on ? '#A8C7FA' : '#3C3E3D', trackLine: on ? '#A8C7FA' : '#8E918F', knob: on ? '#062E6F' : '#8E918F', thumb: on ? 28 : 20, align: on ? 'flex-end' : 'flex-start', act: () => set(r.id, !on) };
+      }
+      if (r.kind === 'choice') {
+        const i = vals[r.id] ?? 0;
+        return { ...base, isChoice: true, chevron: true, value: r.options[i], act: () => set(r.id, (i + 1) % r.options.length) };
+      }
+      if (r.kind === 'info') return { ...base, isInfo: true, value: r.value };
+      if (r.kind === 'danger') return { ...base, color: '#F2B8B5' };
+      return { ...base, chevron: true };
     });
-    const duck = this.state.duck;
-    return {
-      sections,
-      themes,
-      duckChecked: duck ? 'true' : 'false',
-      duckTrack: duck ? '#8AB4F8' : '#3A3B40',
-      duckThumb: duck ? '#0B1A33' : '#A9ADB3',
-      duckAlign: duck ? 'flex-end' : 'flex-start',
-      toggleDuck: () => this.setState({ duck: !this.state.duck })
-    };
+    return { sections, title: sec[1], rows };
   }
 }
 </script>

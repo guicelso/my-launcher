@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<title>Apps</title>
+<title>Acesso rápido aos apps</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -11,67 +11,90 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 <style>body{margin:0}</style>
 </helmet>
-<div style="width: 1280px; height: 720px; display: flex; background: #000000; color: #E8EAED; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
-  <dc-import name="Rail" theme="noite" active="apps" hint-size="104px,720px"></dc-import>
-  <main style="flex: 1; min-width: 0; box-sizing: border-box; padding: 20px 32px 24px 24px; display: flex; flex-direction: column; gap: 16px; background: #121316; border-radius: 28px 0 0 28px">
-    <header style="display: flex; align-items: center; gap: 16px">
-      <h1 style="margin: 0; font-size: 32px; font-weight: 500; flex: 1">Apps</h1>
-      <label style="width: 380px; height: 64px; box-sizing: border-box; border-radius: 32px; background: #2B2C30; display: flex; align-items: center; gap: 12px; padding: 0 22px; color: #A9ADB3">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-        <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Buscar app</span>
-        <input type="search" placeholder="Buscar app" style="flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: #E8EAED; font: inherit; font-size: 20px">
-      </label>
-      <button type="button" style="height: 64px; border: 0; border-radius: 32px; background: #2B2C30; color: #E8EAED; font: inherit; font-size: 18px; font-weight: 500; padding: 0 24px; cursor: pointer">Editar barra</button>
-    </header>
-
-    <div style="flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-rows: 176px; gap: 8px 8px; align-content: start">
-      <sc-for list="{{apps}}" as="app" hint-placeholder-count="18">
-        <sc-if value="{{app.isLink}}" hint-placeholder-val="{{false}}">
-          <a href="Settings.dc.html" style="border-radius: 24px; color: #E8EAED; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px">
-            <span style="width: 96px; height: 96px; border-radius: 48px; background: {{app.bg}}; color: {{app.fg}}; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 700">{{app.letter}}</span>
-            <span style="font-size: 18px; text-align: center; max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{app.name}}</span>
+<div style="width: 1280px; height: 720px; display: flex; background: #151616; color: #E3E3E3; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
+  <dc-import name="Rail" theme="noite" aberto="apps" badge="3" hint-size="96px,720px"></dc-import>
+  <main style="flex: 1; min-width: 0; box-sizing: border-box; padding: 12px 12px 12px 0; display: flex; gap: 12px">
+    <section aria-label="Apps" style="flex: 1; min-width: 0; position: relative; border-radius: 24px; background: #252626; overflow: hidden; display: flex; flex-direction: column">
+      <sc-if value="{{editing}}" hint-placeholder-val="{{false}}">
+        <div style="flex: none; display: flex; align-items: center; gap: 16px; padding: 16px 16px 0 28px">
+          <div style="flex: 1; min-width: 0">
+            <div style="font-size: 24px; font-weight: 500">Editar apps</div>
+            <div style="font-size: 18px; color: #A8ABAE; margin-top: 2px">Arraste para reordenar · toque em − para ocultar</div>
+          </div>
+          <a href="AppDrawer.dc.html" style="height: 64px; padding: 0 32px; border-radius: 32px; background: #C5D4FF; color: #0B2A66; display: flex; align-items: center; font-size: 22px; font-weight: 500; text-decoration: none">Concluído</a>
+        </div>
+      </sc-if>
+      <div style="flex: 1; min-height: 0; overflow-y: auto; box-sizing: border-box; padding: 24px 20px 96px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 188px; gap: 4px">
+        <sc-for list="{{items}}" as="it" hint-placeholder-count="16">
+          <a href="{{it.href}}" style="position: relative; border-radius: 24px; color: #E3E3E3; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; outline: {{it.slot}}; outline-offset: -6px; transform: {{it.lift}}; box-shadow: {{it.shadow}}; background: {{it.tileBg}}">
+            <span style="position: relative; width: 92px; height: 92px; border-radius: {{shape}}; background: {{it.bg}}; color: {{it.fg}}; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 700; opacity: {{it.ghost}}">
+              <sc-if value="{{it.isApp}}" hint-placeholder-val="{{true}}">{{it.letter}}</sc-if>
+              <sc-if value="{{it.isExit}}" hint-placeholder-val="{{false}}"><svg width="44" height="44" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.5 11 7.2 6.4A2 2 0 0 1 9.1 5h5.8a2 2 0 0 1 1.9 1.4L18.5 11H5.5zM4 12.5A1.5 1.5 0 0 1 5.5 11h13a1.5 1.5 0 0 1 1.5 1.5V17H4zM5 17h3v2H5zM16 17h3v2h-3z"></path><circle cx="7.5" cy="14.2" r="1.3" fill="#141618"></circle><circle cx="16.5" cy="14.2" r="1.3" fill="#141618"></circle></svg></sc-if>
+              <sc-if value="{{it.isSettings}}" hint-placeholder-val="{{false}}"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg></sc-if>
+              <sc-if value="{{it.isHidden}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 22 12s-1 2-3 4M6.6 6.6A10.4 10.4 0 0 0 2 12s3.5 7 10 7a9.7 9.7 0 0 0 5.4-1.6"></path></svg></sc-if>
+              <sc-if value="{{it.dot}}" hint-placeholder-val="{{false}}"><span aria-label="Novidade" style="position: absolute; top: -2px; right: -2px; width: 22px; height: 22px; border-radius: 11px; background: #84EA90; border: 3px solid #252626"></span></sc-if>
+              <sc-if value="{{it.minus}}" hint-placeholder-val="{{false}}"><span aria-label="Ocultar {{it.name}}" style="position: absolute; top: -6px; left: -6px; width: 36px; height: 36px; border-radius: 18px; background: #E3E3E3; color: #151616; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 500; line-height: 1">−</span></sc-if>
+            </span>
+            <span style="font-size: 22px; text-align: center; max-width: 176px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: {{it.ghost}}">{{it.name}}</span>
           </a>
-        </sc-if>
-        <sc-if value="{{app.isButton}}" hint-placeholder-val="{{true}}">
-          <button type="button" style="border: 0; border-radius: 24px; background: transparent; color: #E8EAED; font: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; cursor: pointer">
-            <span style="width: 96px; height: 96px; border-radius: 48px; background: {{app.bg}}; color: {{app.fg}}; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 700">{{app.letter}}</span>
-            <span style="font-size: 18px; text-align: center; max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{app.name}}</span>
-          </button>
-        </sc-if>
-      </sc-for>
-    </div>
-    <div aria-hidden="true" style="display: flex; justify-content: center; gap: 8px">
-      <span style="width: 24px; height: 8px; border-radius: 4px; background: #E8EAED"></span>
-      <span style="width: 8px; height: 8px; border-radius: 4px; background: #5F6368"></span>
+        </sc-for>
+      </div>
+      <sc-if value="{{notEditing}}" hint-placeholder-val="{{true}}">
+        <a href="AppDrawerEdit.dc.html" style="position: absolute; right: 20px; bottom: 20px; height: 64px; padding: 0 28px 0 22px; border-radius: 32px; background: #3C3E3D; color: #E3E3E3; display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 500; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.4)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg>Editar</a>
+      </sc-if>
+      <sc-if value="{{editing}}" hint-placeholder-val="{{false}}">
+        <div style="position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); height: 52px; padding: 0 22px; border-radius: 26px; background: #3C3E3D; color: #E3E3E3; display: flex; align-items: center; gap: 10px; font-size: 18px; white-space: nowrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FDD663" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 20h20zM12 10v4M12 17h.01"></path></svg>A edição fica bloqueada acima de 5 km/h</div>
+      </sc-if>
+    </section>
+
+    <div style="width: 420px; flex: none; position: relative">
+      <dc-import name="MapCard" theme="noite" modo="navegando" compacto="{{true}}" hint-size="100%,100%"></dc-import>
     </div>
   </main>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+<script type="text/x-dc" data-dc-script data-props='{"editar":{"editor":"boolean","default":false},"formato":{"editor":"enum","options":["redondo","quadrado","original"],"default":"redondo","tsType":"formato dos ícones (spec 011)"},"$preview":{"width":1280,"height":720}}'>
 class Component extends DCLogic {
   renderVals() {
+    const editing = !!this.props.editar;
     const raw = [
-      ['Waze', 'W', '#3FB8E8', '#04212E'],
-      ['Google Maps', 'M', '#34A853', '#FFFFFF'],
-      ['HERE WeGo', 'H', '#48DAD0', '#04221F'],
-      ['Spotify', 'S', '#1DB954', '#04210F'],
-      ['YouTube Music', 'Y', '#FF4E45', '#2A0300'],
-      ['SoundCloud', 'S', '#FF7A1A', '#2A1100'],
-      ['Rádio', 'R', '#FBBC04', '#2A1F00'],
-      ['Música USB', 'U', '#A142F4', '#FFFFFF'],
-      ['Telefone', 'T', '#34A853', '#FFFFFF'],
-      ['WhatsApp', 'W', '#25D366', '#052E16'],
-      ['YouTube', 'Y', '#FF4E45', '#2A0300'],
-      ['Vídeo', 'V', '#5F6368', '#FFFFFF'],
-      ['Equalizador', 'E', '#8AB4F8', '#0B1A33'],
-      ['Ajustes do carro', 'C', '#5F6368', '#FFFFFF'],
-      ['Espelhamento', 'Z', '#F28B82', '#2A0300'],
-      ['Navegador', 'N', '#8AB4F8', '#0B1A33'],
-      ['Ajustes do launcher', 'A', '#E8EAED', '#202124', true],
-      ['Launcher original', 'D', '#3A3B40', '#E8EAED']
+      ['Sair', '', '#141618', '#E3E3E3', 'exit', 'Settings.dc.html'],
+      ['Ajustes', '', '#1A73E8', '#FFFFFF', 'settings', 'Settings.dc.html'],
+      ['Equalizador', 'E', '#8AB4F8', '#0B1A33', 'app', 'AppDrawer.dc.html'],
+      ['Espelhamento', 'Z', '#F28B82', '#2A0300', 'app', 'AppDrawer.dc.html'],
+      ['Google Maps', 'M', '#FFFFFF', '#188038', 'app', 'MapFull.dc.html'],
+      ['HERE WeGo', 'H', '#48DAD0', '#04221F', 'app', 'MapFull.dc.html'],
+      ['Música USB', 'U', '#A142F4', '#FFFFFF', 'app', 'MediaBrowse.dc.html'],
+      ['Rádio', 'R', '#FBBC04', '#2A1F00', 'app', 'MediaBrowse.dc.html'],
+      ['Spotify', 'S', '#1ED760', '#04210F', 'app', 'MediaSplit.dc.html'],
+      ['Telefone', 'T', '#FFFFFF', '#1A73E8', 'app', 'HunCall.dc.html'],
+      ['Waze', 'W', '#33CCFF', '#062330', 'app', 'MapFull.dc.html', true],
+      ['WhatsApp', 'W', '#25D366', '#052E16', 'app', 'MessageCenter.dc.html', true],
+      ['YouTube Music', 'Y', '#FF3B30', '#FFFFFF', 'app', 'MediaBrowse.dc.html'],
+      ['Vídeo', 'V', '#5F6368', '#FFFFFF', 'app', 'AppDrawer.dc.html'],
+      ['3 apps ocultos', '', '#3C3E3D', '#E3E3E3', 'hidden', 'Settings.dc.html']
     ];
-    const apps = raw.map(([name, letter, bg, fg, isLink]) => ({ name, letter, bg, fg, isLink: !!isLink, isButton: !isLink }));
-    return { apps };
+    const shapes = { redondo: '50%', quadrado: '26px', original: '18px' };
+    const items = raw.map(([name, letter, bg, fg, kind, href, dot], i) => {
+      const dragging = editing && name === 'Waze';
+      const slot = editing && name === 'Spotify';
+      return {
+        name, letter, bg, fg, href: editing ? '#' : href, dot: !!dot && !editing,
+        isApp: kind === 'app', isExit: kind === 'exit', isSettings: kind === 'settings', isHidden: kind === 'hidden',
+        minus: editing && kind === 'app' && !dragging,
+        lift: dragging ? 'translate(-24px, -12px) scale(1.08)' : 'none',
+        shadow: dragging ? '0 12px 28px rgba(0,0,0,0.55)' : 'none',
+        tileBg: dragging ? '#2E3030' : 'transparent',
+        slot: slot ? '2px dashed #5F6368' : 'none',
+        ghost: slot ? 0.25 : 1
+      };
+    }).filter((it) => !(editing && it.isHidden));
+    return {
+      items,
+      editing,
+      notEditing: !editing,
+      shape: shapes[this.props.formato ?? 'redondo'] ?? '50%'
+    };
   }
 }
 </script>

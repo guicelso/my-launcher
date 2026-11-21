@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Card do mapa</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<section aria-label="Mapa" style="position: absolute; inset: 0; border-radius: 24px; overflow: hidden; background: {{c.base}}; color: {{c.text}}; font-family: Roboto, system-ui, sans-serif">
+  <svg viewBox="0 0 760 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%">
+    <rect width="760" height="700" fill="{{c.base}}"></rect>
+    <g fill="{{c.block}}">
+      <rect x="40" y="60" width="150" height="110" rx="6"></rect><rect x="40" y="200" width="150" height="140" rx="6"></rect><rect x="230" y="40" width="170" height="120" rx="6"></rect>
+      <rect x="230" y="190" width="70" height="90" rx="6"></rect><rect x="560" y="40" width="160" height="150" rx="6"></rect><rect x="580" y="230" width="140" height="120" rx="6"></rect>
+      <rect x="40" y="380" width="150" height="120" rx="6"></rect><rect x="230" y="420" width="150" height="160" rx="6"></rect><rect x="560" y="400" width="160" height="110" rx="6"></rect>
+      <rect x="40" y="540" width="150" height="130" rx="6"></rect><rect x="580" y="560" width="140" height="120" rx="6"></rect>
+    </g>
+    <path d="M640 0 C 600 120, 700 220, 620 330 S 560 520, 760 600" stroke="{{c.water}}" stroke-width="0" fill="none"></path>
+    <g stroke="{{c.road}}" stroke-width="10" fill="none" stroke-linecap="round">
+      <path d="M0 185 H760"></path><path d="M0 365 L760 380"></path><path d="M0 520 H420 L760 540"></path>
+      <path d="M210 0 V700"></path><path d="M540 0 L555 700"></path><path d="M300 290 C 360 300, 380 340, 420 365"></path>
+    </g>
+    <path d="M330 700 C 360 560, 430 470, 520 420 S 690 330, 760 250" stroke="{{c.major}}" stroke-width="18" fill="none" stroke-linecap="round"></path>
+    <g opacity="{{routeOpacity}}">
+      <path d="M470 700 V0" stroke="{{c.routeEdge}}" stroke-width="22" fill="none"></path>
+      <path d="M470 700 V0" stroke="{{c.route}}" stroke-width="14" fill="none"></path>
+    </g>
+    <ellipse cx="470" cy="520" rx="46" ry="34" fill="{{c.puck}}"></ellipse>
+    <path d="M470 494 L490 536 L470 528 L450 536 Z" fill="#FFFFFF"></path>
+  </svg>
+
+  <sc-if value="{{isNav}}" hint-placeholder-val="{{true}}">
+    <div style="position: absolute; top: 16px; left: 16px; width: 360px; max-width: calc(100% - 120px); box-sizing: border-box; padding: 18px 22px; border-radius: 16px; background: {{c.maneuver}}; color: #FFFFFF; display: flex; gap: 20px; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.3)">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M9 4 4 9l5 5"></path><path d="M4 9h9a6 6 0 0 1 6 6v5"></path></svg>
+      <div style="min-width: 0">
+        <div style="font-size: 26px; font-weight: 500; line-height: 1.15">350 m</div>
+        <div style="font-size: 28px; line-height: 1.2">Av. Brigadeiro Faria Lima</div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{navFull}}" hint-placeholder-val="{{true}}">
+    <div style="position: absolute; left: 16px; bottom: 16px; width: 360px; max-width: calc(100% - 120px); box-sizing: border-box; border-radius: 16px; background: {{c.panel}}; border: 1px solid {{c.panelLine}}; box-shadow: 0 2px 8px rgba(0,0,0,0.3)">
+      <div style="display: flex; align-items: center; gap: 16px; padding: 14px 16px">
+        <button type="button" aria-label="Encerrar navegação" style="width: 68px; height: 68px; flex: none; border: 2px solid {{c.panelLine}}; border-radius: 34px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+        <div>
+          <div style="font-size: 26px; line-height: 1.2"><span style="color: {{c.eta}}; font-weight: 500">23 min</span><span style="color: {{c.muted}}"> · 9,4 km</span></div>
+          <div style="font-size: 24px; color: {{c.muted}}">18:58</div>
+        </div>
+      </div>
+      <div style="height: 1px; background: {{c.panelLine}}"></div>
+      <div style="display: flex; justify-content: space-around; padding: 2px 4px">
+        <button type="button" aria-label="Opções de rota" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"></path><circle cx="12" cy="12" r="7"></circle></svg></button>
+        <button type="button" aria-label="Rotas alternativas" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22v-7l-6-6V4M12 15l6-6V4M3 7l3-3 3 3M15 7l3-3 3 3"></path></svg></button>
+        <button type="button" aria-label="Buscar ao longo da rota" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m20 20-4.8-4.8"></path></svg></button>
+        <button type="button" aria-label="Adicionar parada" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21.5s-7-6.2-7-11.5a7 7 0 0 1 14 0c0 5.3-7 11.5-7 11.5z"></path><circle cx="12" cy="10" r="2.6"></circle></svg></button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{navCompact}}" hint-placeholder-val="{{false}}">
+    <div style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); height: 64px; box-sizing: border-box; padding: 0 24px 0 12px; border-radius: 16px 16px 0 0; background: {{c.panel}}; border: 1px solid {{c.panelLine}}; border-bottom: 0; display: flex; align-items: center; gap: 12px; white-space: nowrap; font-size: 24px">
+      <button type="button" aria-label="Encerrar navegação" style="width: 52px; height: 52px; border: 0; border-radius: 26px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+      <span><span style="color: {{c.etaGreen}}; font-weight: 500">24 min</span><span style="color: {{c.muted}}"> · 32,5 km · 12:26</span></span>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{isFree}}" hint-placeholder-val="{{false}}">
+    <div style="position: absolute; top: 16px; left: 16px; right: 16px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start">
+      <a href="SaveDestination.dc.html" style="align-self: stretch; height: 68px; box-sizing: border-box; padding: 0 12px 0 24px; border-radius: 34px; background: {{c.panel}}; color: {{c.muted}}; display: flex; align-items: center; gap: 14px; text-decoration: none; font-size: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.3)">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m20 20-4.8-4.8"></path></svg>
+        <span style="flex: 1">Para onde?</span>
+        <span aria-hidden="true" style="width: 52px; height: 52px; border-radius: 26px; display: flex; align-items: center; justify-content: center; color: {{c.text}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="8.5" y="2.5" width="7" height="12" rx="3.5"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5"></path></svg></span>
+      </a>
+      <div style="display: flex; gap: 10px">
+        <button type="button" style="height: 56px; border: 0; border-radius: 28px; background: {{c.panel}}; color: {{c.text}}; font: inherit; font-size: 20px; padding: 0 20px 0 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.3)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="{{c.accent}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5M5 9.5V21h14V9.5"></path></svg>Casa · 12 min</button>
+        <button type="button" style="height: 56px; border: 0; border-radius: 28px; background: {{c.panel}}; color: {{c.text}}; font: inherit; font-size: 20px; padding: 0 20px 0 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.3)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="{{c.accent}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path></svg>Trabalho · 25 min</button>
+      </div>
+    </div>
+    <div style="position: absolute; left: 16px; bottom: 16px; width: 76px; height: 76px; border-radius: 38px; background: {{c.panel}}; box-shadow: 0 2px 8px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; justify-content: center">
+      <span style="font-size: 28px; font-weight: 500; line-height: 1">48</span>
+      <span style="font-size: 14px; color: {{c.muted}}; margin-top: 2px">km/h</span>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{showControls}}" hint-placeholder-val="{{true}}">
+    <div style="position: absolute; right: 16px; bottom: 16px; display: flex; flex-direction: column; align-items: center; gap: 12px">
+      <button type="button" aria-label="Centralizar na posição atual" style="width: 76px; height: 76px; border: 1px solid {{c.panelLine}}; border-radius: 38px; background: {{c.panel}}; color: {{c.accent}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3.5" fill="currentColor"></circle><circle cx="12" cy="12" r="7"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg></button>
+      <div style="width: 76px; border: 1px solid {{c.panelLine}}; border-radius: 38px; background: {{c.panel}}; display: flex; flex-direction: column; overflow: hidden">
+        <button type="button" aria-label="Aproximar" style="height: 76px; border: 0; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+        <button type="button" aria-label="Afastar" style="height: 76px; border: 0; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
+      </div>
+    </div>
+  </sc-if>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["noite","dia"],"default":"noite"},"modo":{"editor":"enum","options":["navegando","livre"],"default":"navegando"},"compacto":{"editor":"boolean","default":false,"tsType":"só a faixa de ETA, sem botões (ao lado da grade de apps ou da Central)"},"$preview":{"width":760,"height":696}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const P = {
+      noite: { base: '#1B2638', block: '#202D41', road: '#2B3A50', major: '#3A4A62', water: '#13324A', route: '#02B0FF', routeEdge: '#0174DE', puck: '#0174DE', maneuver: '#005B2A', panel: '#171E24', panelLine: '#2E3944', text: '#E3E3E3', muted: '#C4C7C5', eta: '#FDD663', etaGreen: '#81C995', accent: '#8AB4F8' },
+      dia: { base: '#F1EFEA', block: '#E6E2DA', road: '#FFFFFF', major: '#F8D77A', water: '#AAD3F0', route: '#1A73E8', routeEdge: '#1557B0', puck: '#1A73E8', maneuver: '#0D652D', panel: '#FFFFFF', panelLine: '#DADCE0', text: '#1F1F1F', muted: '#5F6368', eta: '#B06000', etaGreen: '#137333', accent: '#0B57D0' }
+    };
+    const c = this.props.theme === 'dia' ? P.dia : P.noite;
+    const nav = (this.props.modo ?? 'navegando') === 'navegando';
+    const compact = !!this.props.compacto;
+    return {
+      c,
+      isNav: nav,
+      navFull: nav && !compact,
+      navCompact: nav && compact,
+      isFree: !nav,
+      showControls: !compact,
+      routeOpacity: nav ? 1 : 0
+    };
+  }
+}
+</script>
+</body>
+</html>

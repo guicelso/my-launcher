@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<title>Mapa</title>
+<title>Mapa expandido</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -11,69 +11,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 <style>body{margin:0}</style>
 </helmet>
-<div style="width: 1280px; height: 720px; display: flex; background: #000000; color: #E8EAED; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
-  <dc-import name="Rail" theme="noite" active="nav" hint-size="104px,720px"></dc-import>
-  <main aria-label="Mapa em tela cheia" style="position: relative; flex: 1; min-width: 0; background: #1B1F24; border-radius: 28px 0 0 28px; overflow: hidden">
-    <svg viewBox="0 0 1176 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%">
-      <rect width="1176" height="720" fill="#1B1F24"></rect>
-      <path d="M0 560 C 220 500, 420 640, 680 590 S 1050 500, 1176 530 L1176 720 L0 720 Z" fill="#0E2233"></path>
-      <rect x="780" y="70" width="260" height="170" rx="20" fill="#1A2B22"></rect>
-      <rect x="90" y="300" width="190" height="120" rx="16" fill="#1A2B22"></rect>
-      <g stroke="#2E353D" stroke-width="10" fill="none" stroke-linecap="round">
-        <path d="M0 150 H1176"></path>
-        <path d="M0 265 L1176 315"></path>
-        <path d="M0 455 L1176 405"></path>
-        <path d="M150 0 L210 720"></path>
-        <path d="M400 0 V720"></path>
-        <path d="M650 0 L610 720"></path>
-        <path d="M900 0 L960 720"></path>
-        <path d="M1080 0 L1120 720"></path>
-      </g>
-      <path d="M0 660 C 260 600, 470 400, 588 360 S 900 210, 1176 185" stroke="#4A5560" stroke-width="24" fill="none" stroke-linecap="round"></path>
-      <circle cx="588" cy="360" r="38" fill="#8AB4F8" fill-opacity="0.22"></circle>
-      <circle cx="588" cy="360" r="17" fill="#8AB4F8" stroke="#FFFFFF" stroke-width="4"></circle>
-      <path d="M588 328 L599 346 L588 342 L577 346 Z" fill="#FFFFFF"></path>
-    </svg>
-
-    <div style="position: absolute; top: 16px; left: 16px; width: 520px; display: flex; flex-direction: column; gap: 12px">
-      <button type="button" style="height: 76px; border: 0; border-radius: 38px; background: #1E1F22; color: #A9ADB3; font: inherit; font-size: 24px; display: flex; align-items: center; gap: 16px; padding: 0 28px; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.5); text-align: left">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-        <span style="flex: 1">Para onde?</span>
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg>
-      </button>
-      <div style="display: flex; gap: 12px">
-        <button type="button" style="height: 56px; border: 0; border-radius: 28px; background: #1E1F22; color: #E8EAED; font: inherit; font-size: 18px; display: flex; align-items: center; gap: 10px; padding: 0 22px; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.5)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8AB4F8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path></svg>Casa
-        </button>
-        <button type="button" style="height: 56px; border: 0; border-radius: 28px; background: #1E1F22; color: #E8EAED; font: inherit; font-size: 18px; display: flex; align-items: center; gap: 10px; padding: 0 22px; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.5)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8AB4F8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path></svg>Trabalho
-        </button>
-        <button type="button" style="height: 56px; border: 0; border-radius: 28px; background: #1E1F22; color: #E8EAED; font: inherit; font-size: 18px; display: flex; align-items: center; gap: 10px; padding: 0 22px; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.5)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8AB4F8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 22V8l6-5 6 5v14"></path><path d="M15 12h6v10"></path><path d="M7 12h4M7 16h4"></path></svg>Postos
-        </button>
-      </div>
-    </div>
-
-    <div style="position: absolute; top: 16px; right: 16px; display: flex; flex-direction: column; gap: 12px">
-      <button type="button" aria-label="Orientação: norte para cima" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: #1E1F22; color: #E8EAED; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.5)"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 5 15 13H9z" fill="#F28B82" stroke="none"></path><path d="M12 19 9 13h6z" fill="currentColor" stroke="none"></path></svg></button>
-      <button type="button" aria-label="Aproximar" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: #1E1F22; color: #E8EAED; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.5)"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
-      <button type="button" aria-label="Afastar" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: #1E1F22; color: #E8EAED; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.5)"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
-    </div>
-
-    <div style="position: absolute; left: 16px; bottom: 16px; display: flex; gap: 12px; align-items: flex-end">
-      <div style="width: 84px; height: 84px; border-radius: 42px; background: #1E1F22; box-shadow: 0 4px 16px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center; justify-content: center">
-        <span style="font-size: 32px; font-weight: 700; line-height: 1">48</span>
-        <span style="font-size: 14px; color: #A9ADB3; margin-top: 2px">km/h</span>
-      </div>
-      <div style="height: 56px; padding: 0 20px; border-radius: 28px; background: #1E1F22; box-shadow: 0 4px 16px rgba(0,0,0,0.5); display: flex; align-items: center; font-size: 20px; font-weight: 500">[Rua atual]</div>
-    </div>
-
-    <div style="position: absolute; right: 16px; bottom: 16px; display: flex; gap: 12px">
-      <button type="button" aria-label="Centralizar na posição atual" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: #1E1F22; color: #8AB4F8; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.5)"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg></button>
-      <button type="button" style="height: 76px; border: 0; border-radius: 38px; background: #8AB4F8; color: #0B1A33; font: inherit; font-size: 20px; font-weight: 500; display: flex; align-items: center; gap: 10px; padding: 0 28px; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.5)">
-        Abrir no Waze
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"></path><path d="M20 4 10 14"></path><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"></path></svg>
-      </button>
+<div style="width: 1280px; height: 720px; display: flex; background: #151616; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
+  <dc-import name="Rail" theme="noite" aberto="apps" badge="3" hint-size="96px,720px"></dc-import>
+  <main style="flex: 1; min-width: 0; box-sizing: border-box; padding: 12px 12px 12px 0; display: flex">
+    <div style="flex: 1; position: relative">
+      <dc-import name="MapCard" theme="noite" modo="navegando" hint-size="100%,100%"></dc-import>
     </div>
   </main>
 </div>

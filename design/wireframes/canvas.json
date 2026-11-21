@@ -1,1 +1,98 @@
-{"v":3,"createdOnFiles":{"v":1,"at":"2026-11-21T15:00:00Z"},"title":"Launcher Automotivo — Wireframes","launch":{"view":"canvas"},"pages":[],"boards":{"Main.dc.html":{"x":0,"y":0,"w":1280,"h":720,"title":"Início · noite (padrão)","is_interactive":true},"HomeDay.dc.html":{"x":1360,"y":0,"w":1280,"h":720,"title":"Início · dia (faróis desligados)","is_interactive":true},"HomeEmbedded.dc.html":{"x":2720,"y":0,"w":1280,"h":720,"title":"Início · navegação embutida (fase futura)","is_interactive":true},"MapFull.dc.html":{"x":0,"y":1120,"w":1280,"h":720,"title":"Mapa em tela cheia","is_interactive":true},"Media.dc.html":{"x":1360,"y":1120,"w":1280,"h":720,"title":"Mídia","is_interactive":true},"AppDrawer.dc.html":{"x":2720,"y":1120,"w":1280,"h":720,"title":"Gaveta de apps","is_interactive":true},"Settings.dc.html":{"x":4080,"y":1120,"w":1280,"h":720,"title":"Ajustes do launcher","is_interactive":true},"Rail.dc.html":{"x":0,"y":2240,"w":104,"h":720,"title":"Barra lateral (componente)","is_interactive":true}},"order":["Main.dc.html","HomeDay.dc.html","HomeEmbedded.dc.html","MapFull.dc.html","Media.dc.html","AppDrawer.dc.html","Settings.dc.html","Rail.dc.html"],"notes":{"t1":{"x":0,"y":-300,"text":"Início — tela principal","kind":"title1","maxW":4000},"t2":{"x":0,"y":820,"text":"Telas","kind":"title1","maxW":5360},"t3":{"x":0,"y":1940,"text":"Componentes","kind":"title1","maxW":1400}},"designSystems":[]}
+{"v":3,"createdOnFiles":{"v":1,"at":"2026-11-21T15:00:00Z"},"title":"Launcher Automotivo — Wireframes","launch":{"view":"canvas","page":"visao"},
+"pages":[
+{"id":"visao","name":"Visão geral da interface do sistema"},
+{"id":"barra","name":"Barra de navegação"},
+{"id":"conteudo","name":"Área de conteúdo"},
+{"id":"acesso","name":"Acesso rápido aos apps"},
+{"id":"notificacoes","name":"Notificações"},
+{"id":"status","name":"Barra de status"},
+{"id":"entrada","name":"Métodos de entrada"},
+{"id":"musica","name":"Apps de música"},
+{"id":"mensagens","name":"Apps de mensagens"},
+{"id":"launcher","name":"Personalizações do launcher"}
+],
+"boards":{
+"Main.dc.html":{"x":0,"y":0,"w":1280,"h":720,"title":"Painel · barra vertical (padrão)","page":"visao","is_interactive":true},
+"HomeHorizontal.dc.html":{"x":1360,"y":0,"w":1280,"h":720,"title":"Painel · barra horizontal","page":"visao","is_interactive":true},
+"HomeDay.dc.html":{"x":2720,"y":0,"w":1280,"h":720,"title":"Painel · tema dia (faróis desligados)","page":"visao","is_interactive":true},
+
+"Rail.dc.html":{"x":0,"y":0,"w":96,"h":720,"title":"Barra vertical","page":"barra","is_interactive":true},
+"Taskbar.dc.html":{"x":176,"y":0,"w":1280,"h":88,"title":"Barra horizontal · direção à esquerda","page":"barra","is_interactive":true},
+"TaskbarRHD.dc.html":{"x":176,"y":208,"w":1280,"h":88,"title":"Barra horizontal invertida · direção à direita","page":"barra","is_interactive":true},
+"RailMenu.dc.html":{"x":1536,"y":0,"w":1280,"h":720,"title":"Toque longo num app da barra","page":"barra","is_interactive":true},
+
+"HomeMessage.dc.html":{"x":0,"y":0,"w":1280,"h":720,"title":"Minimizada · navegação + mensagem + mídia","page":"conteudo","is_interactive":true},
+"HomeMusic.dc.html":{"x":1360,"y":0,"w":1280,"h":720,"title":"Minimizada · navegação + mídia","page":"conteudo","is_interactive":true},
+"MapFull.dc.html":{"x":2720,"y":0,"w":1280,"h":720,"title":"Expandida · mapa","page":"conteudo","is_interactive":true},
+"MediaSplit.dc.html":{"x":4080,"y":0,"w":1280,"h":720,"title":"Tela dividida · mapa + player","page":"conteudo","is_interactive":true},
+"MapCard.dc.html":{"x":0,"y":840,"w":760,"h":696,"title":"Card do mapa (componente)","page":"conteudo","is_interactive":true},
+
+"AppDrawer.dc.html":{"x":0,"y":0,"w":1280,"h":720,"title":"Acesso rápido aos apps","page":"acesso","is_interactive":true},
+"AppDrawerEdit.dc.html":{"x":1360,"y":0,"w":1280,"h":720,"title":"Acesso rápido · modo de edição","page":"acesso","is_interactive":true},
+
+"Hun.dc.html":{"x":0,"y":0,"w":1280,"h":720,"title":"Notificação de alerta · mensagem","page":"notificacoes","is_interactive":true},
+"HunCall.dc.html":{"x":1360,"y":0,"w":1280,"h":720,"title":"Notificação de alerta · chamada","page":"notificacoes","is_interactive":true},
+"HunNav.dc.html":{"x":2720,"y":0,"w":1280,"h":720,"title":"Notificação de alerta · navegação","page":"notificacoes","is_interactive":true},
+"HunReminder.dc.html":{"x":0,"y":840,"w":1280,"h":720,"title":"Notificação de alerta · lembrete","page":"notificacoes","is_interactive":true},
+"NotificationCenter.dc.html":{"x":1360,"y":840,"w":1280,"h":720,"title":"Central de notificações","page":"notificacoes","is_interactive":true},
+
+"StatusBar.dc.html":{"x":0,"y":0,"w":1280,"h":720,"title":"Elementos de status e fundos","page":"status","is_interactive":true},
+
+"InputMethods.dc.html":{"x":0,"y":0,"w":1280,"h":720,"title":"Toque e foco (teclas do volante)","page":"entrada","is_interactive":true},
+
+"MediaBrowse.dc.html":{"x":0,"y":0,"w":1280,"h":720,"title":"Navegação · lista","page":"musica","is_interactive":true},
+"MediaBrowseGrid.dc.html":{"x":1360,"y":0,"w":1280,"h":720,"title":"Navegação · grade","page":"musica","is_interactive":true},
+"Media.dc.html":{"x":2720,"y":0,"w":1280,"h":720,"title":"Reprodução","page":"musica","is_interactive":true},
+"MediaActions.dc.html":{"x":0,"y":840,"w":1280,"h":720,"title":"Reprodução · ações secundárias","page":"musica","is_interactive":true},
+"MediaQueue.dc.html":{"x":1360,"y":840,"w":1280,"h":720,"title":"Fila","page":"musica","is_interactive":true},
+
+"MessageHun.dc.html":{"x":0,"y":0,"w":1280,"h":720,"title":"Mensagem recebida","page":"mensagens","is_interactive":true},
+"MessageCenter.dc.html":{"x":1360,"y":0,"w":1280,"h":720,"title":"Mensagens salvas na Central","page":"mensagens","is_interactive":true},
+"VoiceReply.dc.html":{"x":2720,"y":0,"w":1280,"h":720,"title":"Responder por voz","page":"mensagens","is_interactive":true},
+
+"Settings.dc.html":{"x":0,"y":0,"w":1280,"h":720,"title":"Ajustes do launcher","page":"launcher","is_interactive":true},
+"HomeWidgets.dc.html":{"x":1360,"y":0,"w":1280,"h":720,"title":"Painel · 3 cards (widgets)","page":"launcher","is_interactive":true},
+"WidgetPicker.dc.html":{"x":2720,"y":0,"w":1280,"h":720,"title":"Trocar widget","page":"launcher","is_interactive":true},
+"SaveDestination.dc.html":{"x":0,"y":840,"w":1280,"h":720,"title":"Salvar destino sem digitar","page":"launcher","is_interactive":true}
+},
+"order":["Main.dc.html","HomeHorizontal.dc.html","HomeDay.dc.html","Rail.dc.html","Taskbar.dc.html","TaskbarRHD.dc.html","RailMenu.dc.html","HomeMessage.dc.html","HomeMusic.dc.html","MapFull.dc.html","MediaSplit.dc.html","MapCard.dc.html","AppDrawer.dc.html","AppDrawerEdit.dc.html","Hun.dc.html","HunCall.dc.html","HunNav.dc.html","HunReminder.dc.html","NotificationCenter.dc.html","StatusBar.dc.html","InputMethods.dc.html","MediaBrowse.dc.html","MediaBrowseGrid.dc.html","Media.dc.html","MediaActions.dc.html","MediaQueue.dc.html","MessageHun.dc.html","MessageCenter.dc.html","VoiceReply.dc.html","Settings.dc.html","HomeWidgets.dc.html","WidgetPicker.dc.html","SaveDestination.dc.html"],
+"notes":{
+"t_visao":{"x":0,"y":-300,"text":"Visão geral da interface do sistema","kind":"title1","maxW":4000,"page":"visao"},
+"s_visao1":{"x":0,"y":800,"w":600,"page":"visao","fill":"blue","text":"Anatomia (doc oficial)\n1 Acesso rápido aos apps (grade) · 2 Assistente digital → aqui é o Comando de voz · 3 Área de conteúdo · 4 Dock de apps (fixados + recentes) · 5 Barra de navegação · 6 Selo da Central de notificações · 7 Elementos de status.\nA barra fica sempre visível; em tela larga ela vai para a lateral, do lado do motorista."},
+"s_visao2":{"x":680,"y":800,"w":600,"page":"visao","fill":"green","text":"Nosso launcher (mantido)\n• Tema dia/noite automático pelos faróis (spec 006).\n• Barra vertical ou horizontal (spec 014).\n• Coluna direita com widgets trocáveis (spec 013).\n• Status com 4G, Wi-Fi e Bluetooth no lugar da bateria do celular.\n• Sem ativos do Google: Roboto, ícones genéricos e apps como círculos com inicial."},
+
+"t_barra":{"x":0,"y":-300,"text":"Barra de navegação","kind":"title1","maxW":2816,"page":"barra"},
+"s_barra1":{"x":176,"y":416,"w":600,"page":"barra","fill":"blue","text":"Doc oficial\n1 Acesso rápido (vira o ícone do Painel quando a grade está aberta) · 2 Assistente · 3 Dock de apps · 4 Selo de notificações · 5 Status.\nVariações: horizontal (direção à esquerda), horizontal invertida (direção à direita: itens da direita para a esquerda) e vertical (telas largas)."},
+"s_barra2":{"x":856,"y":416,"w":600,"page":"barra","fill":"green","text":"Nosso launcher (mantido)\n• Toque longo num app: Fixar/Desafixar, Remover dos recentes, Informações, Ocultar e Desinstalar (specs 009/011).\n• Ponto de 6 dp marca os apps fixados.\n• Ajustes liga e desliga o selo, a voz e o clima na barra.\n• Alvos de toque de 76 dp."},
+
+"t_conteudo":{"x":0,"y":-300,"text":"Área de conteúdo","kind":"title1","maxW":5360,"page":"conteudo"},
+"s_conteudo1":{"x":840,"y":840,"w":600,"page":"conteudo","fill":"blue","text":"Doc oficial\nMinimizada (painel): mapa ou app principal + cards de tarefas simultâneas. Quando chega uma mensagem, o card de mídia encolhe para mostrar a prévia.\nExpandida: o app ocupa toda a área. Entra pelo card, notificação ou alerta; sai pelo ícone do Painel."},
+"s_conteudo2":{"x":1520,"y":840,"w":600,"page":"conteudo","fill":"green","text":"Nosso launcher (mantido)\n• Área de trabalho: o mapa é criado uma vez e só a largura dos painéis anima (spec 010).\n• Tocar num app de mídia abre o player dividindo a tela com o mapa.\n• Mapa próprio (MapLibre) com busca \"Para onde?\" quando não há rota."},
+
+"t_acesso":{"x":0,"y":-300,"text":"Acesso rápido aos apps","kind":"title1","maxW":2640,"page":"acesso"},
+"s_acesso1":{"x":0,"y":800,"w":600,"page":"acesso","fill":"blue","text":"Doc oficial\nGrade com rolagem vertical, ícone + nome. \"Sair\" vem primeiro e volta ao sistema do carro; depois os apps em ordem alfabética. Em telas largas a grade abre ao lado da barra e o mapa continua visível. Apps podem ser ocultados e reordenados."},
+"s_acesso2":{"x":680,"y":800,"w":600,"page":"acesso","fill":"green","text":"Nosso launcher (mantido)\n• \"Sair\" = voltar ao launcher original (DoFun).\n• Edição na própria multimídia (não no celular), só com o carro parado.\n• Ordem alfabética ou personalizada; apps ocultos listados no fim.\n• Formato dos ícones e pacote de ícones (spec 011)."},
+
+"t_notificacoes":{"x":0,"y":-300,"text":"Notificações","kind":"title1","maxW":4000,"page":"notificacoes"},
+"s_notif1":{"x":2720,"y":840,"w":600,"page":"notificacoes","fill":"blue","text":"Doc oficial\nCada notificação: ícone do app, texto principal e secundário, até 3 ações e avatar. O alerta cobre parte da tela e expira para a Central. Navegação e chamada: só alerta. Mensagem: alerta + Central. Lembrete: só Central. A Central abre pelo selo e lista do mais novo para o mais antigo."},
+"s_notif2":{"x":3400,"y":840,"w":600,"page":"notificacoes","fill":"green","text":"Nosso launcher\n• Fonte: NotificationListener (spec 004).\n• Chamadas vêm do app Bluetooth da multimídia.\n• Ajustes → Notificações: mostrar alertas, ler mensagens em voz alta, conversas silenciadas."},
+
+"t_status":{"x":0,"y":-300,"text":"Barra de status","kind":"title1","maxW":2000,"page":"status"},
+"s_status1":{"x":1360,"y":0,"w":600,"page":"status","fill":"blue","text":"Doc oficial\nRelógio, clima, conectividade e bateria, sempre na mesma ordem. O clima pode ser desligado. Fundos: opaco (padrão), transparente (mídia, mensagens, grade de apps) e gradiente semitransparente (navegação).\nNo layout atual os elementos de status ficam dentro da barra de navegação."},
+
+"t_entrada":{"x":0,"y":-300,"text":"Métodos de entrada","kind":"title1","maxW":2000,"page":"entrada"},
+"s_entrada1":{"x":1360,"y":0,"w":600,"page":"entrada","fill":"blue","text":"Doc oficial\nTudo precisa funcionar com toque capacitivo, toque resistivo e controle giratório, que move o foco de um controle por vez.\nNa nossa multimídia, as teclas do volante fazem o papel do controle giratório."},
+
+"t_musica":{"x":0,"y":-300,"text":"Apps de música","kind":"title1","maxW":4000,"page":"musica"},
+"s_musica1":{"x":2720,"y":840,"w":600,"page":"musica","fill":"blue","text":"Doc oficial\nUm modelo para todos os apps de áudio: navegação (lista ou grade, com subcabeçalhos e indicadores Explícito, Salvo, Novo e Em andamento) → reprodução → fila. O botão flutuante leva à reprodução. Ordem dos controles: Fila, Anterior, Tocar/Pausar, Próxima, opcional. Com mais de 5 ações, o último vira \"mais\" e abre até 4 ações secundárias."},
+"s_musica2":{"x":3400,"y":840,"w":600,"page":"musica","fill":"green","text":"Nosso launcher (mantido)\n• Fonte de mídia por MediaSession (spec 004).\n• Player tingido pela cor da capa (opcional) e troca de faixa animada (spec 010).\n• Barra de progresso com arrastar para buscar."},
+
+"t_mensagens":{"x":0,"y":-300,"text":"Apps de mensagens","kind":"title1","maxW":4000,"page":"mensagens"},
+"s_msg1":{"x":0,"y":800,"w":600,"page":"mensagens","fill":"blue","text":"Doc oficial\nMensagens chegam animadas do topo. Tocar lê a mensagem em voz alta e, em seguida, pergunta se quer responder. Sem toque, ela vai para a Central. Fluxo: Responder → \"Qual é a mensagem?\" → ditado → \"Quer enviar?\" → Sim → \"Mensagem enviada\"."},
+"s_msg2":{"x":680,"y":800,"w":600,"page":"mensagens","fill":"green","text":"Nosso launcher\n• Leitura com o TTS do sistema; resposta pela RemoteInput da notificação (WhatsApp, SMS).\n• Ditado pelo reconhecimento de voz instalado na multimídia."},
+
+"t_launcher":{"x":0,"y":-300,"text":"Personalizações do launcher","kind":"title1","maxW":4000,"page":"launcher"},
+"s_launcher1":{"x":1360,"y":840,"w":600,"page":"launcher","fill":"green","text":"Opções novas inspiradas no doc\n• Lado do motorista (inverte a barra).\n• Clima na barra.\n• Mostrar \"Sair\" e apps sugeridos na grade.\n• Estilo do card de mídia (capa em tela cheia ou compacto).\n• Seção Notificações."},
+"s_launcher2":{"x":2040,"y":840,"w":600,"page":"launcher","fill":"green","text":"Mantidas\nTema, texto, formato e pacote de ícones, animação da gaveta, barra vertical/horizontal, apps fixados, layout e widgets do painel, ordem e apps ocultos, destinos, tela dividida, ré, bateria, diagnóstico e voltar ao launcher original."}
+},
+"designSystems":[]}
