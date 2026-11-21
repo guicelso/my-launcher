@@ -3,6 +3,8 @@ package app.mylauncher
 import android.content.Context
 import app.mylauncher.core.debug.DebugMediaPlayer
 import app.mylauncher.data.apps.AppsRepository
+import app.mylauncher.data.destinations.DestinationRequests
+import app.mylauncher.data.destinations.PlacesLearner
 import app.mylauncher.data.location.LocationRepository
 import app.mylauncher.data.media.MediaApps
 import app.mylauncher.data.media.MediaRepository
@@ -49,6 +51,8 @@ class AppContainer(val context: Context) {
     val debugPlayer = DebugMediaPlayer(context)
     private val topWayMedia = TopWayMediaBridge(context, appScope, vehicle, topWay)
     private val reverseDucker = ReverseDucker(context, appScope, vehicle, settings.settings)
+    val destinationRequests = DestinationRequests()
+    val placesLearner = PlacesLearner(context, appScope, vehicle, settings.settings) { location.location.value }
 
     fun start() {
         apps.start()
@@ -59,5 +63,6 @@ class AppContainer(val context: Context) {
         media.setExternalSource(topWayMedia)
         media.start()
         reverseDucker.start()
+        placesLearner.start()
     }
 }

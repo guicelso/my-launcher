@@ -41,7 +41,9 @@ class MainActivity : ComponentActivity() {
         setContent { LauncherRoot(container, navigator, navPane) }
 
         if (!container.location.hasPermission()) {
-            locationPermission.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
+            locationPermission.launch(
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE),
+            )
         }
     }
 

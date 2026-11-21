@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,6 +31,9 @@ data class AppMenuActions(
     val onUnpin: (String) -> Unit,
     val onRemoveRecent: (String) -> Unit,
     val onAppInfo: (String) -> Unit,
+    val onHide: (String) -> Unit = {},
+    val canUninstall: (String) -> Boolean = { false },
+    val onUninstall: (String) -> Unit = {},
 )
 
 /**
@@ -78,16 +82,27 @@ fun AppContextMenu(
         if (showRemoveRecent && !pinned && pkg in actions.recents) {
             Item("Remover dos recentes", LauncherIcons.Minus) { actions.onRemoveRecent(pkg); onDismiss() }
         }
+        Item("Ocultar da gaveta", LauncherIcons.Close) { actions.onHide(pkg); onDismiss() }
         Item("Informações do app", LauncherIcons.Settings) { actions.onAppInfo(pkg); onDismiss() }
+        // Ação destrutiva separada e em vermelho, com a confirmação do próprio sistema (R11.1).
+        if (actions.canUninstall(pkg)) {
+            HorizontalDivider(Modifier.padding(horizontal = 16.dp, vertical = 4.dp), color = c.outline)
+            Item("Desinstalar", LauncherIcons.Minus, danger = true) { actions.onUninstall(pkg); onDismiss() }
+        }
     }
 }
 
 @Composable
-private fun Item(label: String, icon: ImageVector, enabled: Boolean = true, onClick: () -> Unit) {
+private fun Item(label: String, icon: ImageVector, enabled: Boolean = true, danger: Boolean = false, onClick: () -> Unit) {
     val c = LocalLauncherColors.current
+    val fg = when {
+        danger -> c.danger
+        enabled -> c.onSurface
+        else -> c.onSurfaceVariant
+    }
     DropdownMenuItem(
-        text = { Text(label, style = MaterialTheme.typography.titleMedium, color = if (enabled) c.onSurface else c.onSurfaceVariant) },
-        leadingIcon = { Icon(icon, null, Modifier.size(28.dp), tint = if (enabled) c.primary else c.onSurfaceVariant) },
+        text = { Text(label, style = MaterialTheme.typography.titleMedium, color = fg) },
+        leadingIcon = { Icon(icon, null, Modifier.size(28.dp), tint = if (danger) c.danger else if (enabled) c.primary else c.onSurfaceVariant) },
         onClick = onClick,
         enabled = enabled,
         modifier = Modifier.height(76.dp),

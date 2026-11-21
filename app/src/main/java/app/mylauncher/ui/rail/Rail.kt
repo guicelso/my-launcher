@@ -33,6 +33,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.boundsInRoot
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -47,6 +49,7 @@ import app.mylauncher.ui.components.AppIcon
 import app.mylauncher.ui.components.AppMenuActions
 import app.mylauncher.ui.components.TouchIconButton
 import app.mylauncher.ui.components.pressable
+import app.mylauncher.ui.drawer.DrawerAnchor
 import app.mylauncher.ui.icons.LauncherIcons
 import app.mylauncher.ui.theme.Dimens
 import app.mylauncher.ui.theme.LocalLauncherColors
@@ -79,6 +82,7 @@ fun Rail(
     onNotifications: () -> Unit,
     onVoice: () -> Unit,
     onClockLongPress: () -> Unit,
+    appsAnchor: DrawerAnchor? = null,
     modifier: Modifier = Modifier,
 ) {
     val c = LocalLauncherColors.current
@@ -99,7 +103,10 @@ fun Rail(
             RailApp(pkg, pkg == activePackage, apps, menu, onLaunchApp)
         }
 
-        RailButton(LauncherIcons.Apps, "Todos os apps", screen == Screen.APPS, onApps)
+        RailButton(
+            LauncherIcons.Apps, "Todos os apps", screen == Screen.APPS, onApps,
+            Modifier.onGloballyPositioned { appsAnchor?.bounds = it.boundsInRoot() },
+        )
 
         Spacer(Modifier.weight(1f))
 
@@ -166,10 +173,16 @@ private fun RailApp(pkg: String, active: Boolean, apps: AppsRepository, menu: Ap
 }
 
 @Composable
-private fun RailButton(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, active: Boolean, onClick: () -> Unit) {
+private fun RailButton(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    label: String,
+    active: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     val c = LocalLauncherColors.current
     TouchIconButton(
-        icon, label, onClick,
+        icon, label, onClick, modifier = modifier,
         shape = ItemShape,
         background = if (active) c.activeBg else Color.Transparent,
         tint = if (active) c.primary else c.onSurfaceVariant,

@@ -24,6 +24,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mylauncher.AppContainer
 import app.mylauncher.core.CrashGuard
 import app.mylauncher.data.media.NotificationsSummary
+import app.mylauncher.data.location.LocationRepository
+import app.mylauncher.data.prefs.AppOrder
 import app.mylauncher.data.prefs.LauncherSettings
 import app.mylauncher.data.prefs.Recents
 import app.mylauncher.nav.NavIntents
@@ -32,7 +34,9 @@ import app.mylauncher.ui.components.AppMenuActions
 import app.mylauncher.ui.dashboard.DashboardPanel
 import app.mylauncher.ui.dashboard.Suggestion
 import app.mylauncher.ui.debug.DebugDialog
+import app.mylauncher.ui.drawer.AnimatedDrawer
 import app.mylauncher.ui.drawer.AppDrawerScreen
+import app.mylauncher.ui.drawer.DrawerAnchor
 import app.mylauncher.ui.icons.LauncherIcons
 import app.mylauncher.ui.media.MediaCard
 import app.mylauncher.ui.media.MediaSources
@@ -49,6 +53,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 
+/** Velocidade máxima considerada "parado" para edições (bloqueio de distração). */
+const val PARKED_MAX_KMH = 5
+
 @Composable
 fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: NavigationPane) {
     val settings by container.settings.settings.collectAsStateWithLifecycle()
@@ -59,6 +66,11 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
     val notifs by container.messages.summary.collectAsStateWithLifecycle()
     var debugOpen by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
+    val location by container.location.location.collectAsStateWithLifecycle()
+    val appsAnchor = remember { DrawerAnchor() }
+    // Parado: velocidade da MCU (ou do GPS, se a MCU não informar) até 5 km/h (spec 011, R11.7).
+    val speed = vehicle.speedKmh ?: LocationRepository.speedKmh(location) ?: 0
+    val parked = speed <= PARKED_MAX_KMH
 
     val hour = Calendar.getInstance().apply { timeInMillis = status.now }.get(Calendar.HOUR_OF_DAY)
     val night = ThemeResolver.isNight(settings.theme, vehicle, hour)
@@ -83,6 +95,9 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
             onUnpin = container.settings::unpin,
             onRemoveRecent = container.settings::removeRecent,
             onAppInfo = { container.systemActions.openAppInfo(it) },
+            onHide = container.settings::hide,
+            canUninstall = apps::canUninstall,
+            onUninstall = apps::uninstall,
         )
         val screen = navigator.screen
         val mediaVisible = screen == Screen.SPLIT_MEDIA || screen == Screen.MEDIA
@@ -107,6 +122,7 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                 onNotifications = { container.systemActions.expandNotifications() },
                 onVoice = { container.systemActions.startVoice() },
                 onClockLongPress = { debugOpen = true },
+                appsAnchor = appsAnchor,
             )
             Box(Modifier.weight(1f).fillMaxHeight()) {
                 // Área de trabalho: mapa sempre vivo + painel lateral animado (spec 010).
@@ -149,34 +165,49 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                     },
                 )
 
-                // Telas por cima da área de trabalho: entram/saem com fade + escala sutil (R10.3).
+                // Gaveta de apps: abre no estilo escolhido nos Ajustes (padrão: cresce do botão).
+                AnimatedDrawer(
+                    visible = navigator.overlay == Screen.APPS,
+                    style = settings.drawerAnimation,
+                    anchor = appsAnchor,
+                ) {
+                    AppDrawerScreen(
+                        apps = apps,
+                        allApps = allApps,
+                        settings = settings,
+                        onLaunch = openApp,
+                        onOpenSettings = { navigator.go(Screen.SETTINGS) },
+                        onOpenStockLauncher = { CrashGuard.openFallback(container.context) },
+                        onSetPinned = container.settings::setPinned,
+                        menu = menu,
+                        parked = parked,
+                        onCommitOrder = { order ->
+                            container.settings.setCustomOrder(order)
+                            container.settings.setAppOrder(AppOrder.CUSTOM)
+                        },
+                        onOpenHidden = { navigator.go(Screen.SETTINGS) },
+                        modifier = Modifier.fillMaxSize().background(c.background),
+                    )
+                }
+
+                // Ajustes: por cima da área de trabalho, com fade + escala sutil (R10.3).
                 AnimatedContent(
-                    targetState = navigator.overlay,
+                    targetState = navigator.overlay == Screen.SETTINGS,
                     transitionSpec = {
                         (fadeIn(tween(220)) + scaleIn(tween(220), initialScale = 0.96f))
                             .togetherWith(fadeOut(tween(160)) + scaleOut(tween(160), targetScale = 0.98f))
                     },
-                    label = "overlay",
-                ) { overlay ->
-                    when (overlay) {
-                        Screen.APPS -> AppDrawerScreen(
-                            apps = apps,
-                            allApps = allApps,
-                            settings = settings,
-                            onLaunch = openApp,
-                            onOpenSettings = { navigator.go(Screen.SETTINGS) },
-                            onOpenStockLauncher = { CrashGuard.openFallback(container.context) },
-                            onSetPinned = container.settings::setPinned,
-                            menu = menu,
-                            modifier = Modifier.fillMaxSize().background(c.background),
-                        )
-                        Screen.SETTINGS -> SettingsScreen(
+                    label = "settings",
+                ) { open ->
+                    if (open) {
+                        SettingsScreen(
                             container = container,
                             onBack = { navigator.back() },
                             onOpenDrawer = { navigator.go(Screen.APPS) },
                             modifier = Modifier.fillMaxSize().background(c.background),
                         )
-                        else -> Spacer(Modifier)
+                    } else {
+                        Spacer(Modifier)
                     }
                 }
             }

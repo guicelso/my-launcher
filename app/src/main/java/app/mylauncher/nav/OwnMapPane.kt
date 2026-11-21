@@ -44,6 +44,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mylauncher.AppContainer
+import app.mylauncher.data.destinations.SharedPlace
 import app.mylauncher.data.location.LocationRepository
 import app.mylauncher.data.prefs.Destination
 import app.mylauncher.ui.components.PillShape
@@ -101,6 +102,10 @@ class OwnMapPane(private val container: AppContainer) : NavigationPane {
                 active = active,
                 onMap = { map = it },
                 onTrackingDismissed = { following = false },
+                // Toque longo no mapa: "Salvar este ponto como…" (spec 012, R12.2).
+                onLongPress = { lat, lon ->
+                    container.destinationRequests.request(SharedPlace("%.6f,%.6f".format(java.util.Locale.US, lat, lon), null))
+                },
             )
 
             LaunchedEffect(map, location) {
@@ -138,6 +143,7 @@ class OwnMapPane(private val container: AppContainer) : NavigationPane {
                         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                             settings.home?.let { d -> Chip("Casa", LauncherIcons.Home) { navigate(d) } }
                             settings.work?.let { d -> Chip("Trabalho", LauncherIcons.Work) { navigate(d) } }
+                            settings.favorites.take(2).forEach { d -> Chip(d.label, LauncherIcons.Pin) { navigate(d) } }
                             Chip("Postos", LauncherIcons.Fuel) { apps.launchIntent(NavIntents.search(navApp, "posto de combustível")); Unit }
                         }
                     }
@@ -199,6 +205,7 @@ private fun MapViewHost(
     active: Boolean,
     onMap: (MapLibreMap) -> Unit,
     onTrackingDismissed: () -> Unit,
+    onLongPress: (Double, Double) -> Unit,
 ) {
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
@@ -247,6 +254,10 @@ private fun MapViewHost(
                 isTiltGesturesEnabled = false
             }
             m.cameraPosition = CameraPosition.Builder().target(MapStyles.FALLBACK_CENTER).zoom(4.0).build()
+            m.addOnMapLongClickListener { point ->
+                onLongPress(point.latitude, point.longitude)
+                true
+            }
             m.addOnCameraMoveStartedListener { reason ->
                 if (reason == MapLibreMap.OnCameraMoveStartedListener.REASON_API_GESTURE) onTrackingDismissed()
             }

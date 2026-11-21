@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,6 +41,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import app.mylauncher.data.apps.AppEntry
 import app.mylauncher.data.apps.AppsRepository
+import app.mylauncher.data.prefs.AppOrder
+import app.mylauncher.data.prefs.AppOrdering
 import app.mylauncher.data.prefs.LauncherSettings
 import app.mylauncher.ui.components.AppContextMenu
 import app.mylauncher.ui.components.AppIcon
@@ -77,14 +80,24 @@ fun AppDrawerScreen(
     onOpenStockLauncher: () -> Unit,
     onSetPinned: (List<String>) -> Unit,
     menu: AppMenuActions,
+    parked: Boolean,
+    onCommitOrder: (List<String>) -> Unit,
+    onOpenHidden: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val c = LocalLauncherColors.current
     var query by rememberSaveable { mutableStateOf("") }
     var editing by rememberSaveable { mutableStateOf(false) }
+    // Edição só com o carro parado (R11.7).
+    LaunchedEffect(parked) { if (!parked) editing = false }
 
-    val items: List<DrawerItem> = remember(allApps, query, settings.hidden) {
-        val filtered = AppsRepository.filter(allApps, query, settings.hidden).map { DrawerItem.App(it) }
+    val ordered = remember(allApps, settings.appOrder, settings.customOrder) {
+        if (settings.appOrder == AppOrder.CUSTOM) AppOrdering.apply(allApps, settings.customOrder) { it.packageName } else allApps
+    }
+    val hiddenCount = remember(allApps, settings.hidden) { allApps.count { it.packageName in settings.hidden } }
+
+    val items: List<DrawerItem> = remember(ordered, query, settings.hidden) {
+        val filtered = AppsRepository.filter(ordered, query, settings.hidden).map { DrawerItem.App(it) }
         val internal = buildList {
             add(DrawerItem.Internal("Ajustes do launcher", LauncherIcons.Settings, onOpenSettings))
             if (allApps.none { it.packageName == STOCK_LAUNCHER }) {
@@ -99,28 +112,49 @@ fun AppDrawerScreen(
     ScreenPanel(modifier) {
         Column(Modifier.fillMaxSize().padding(start = 24.dp, top = 20.dp, end = 32.dp, bottom = 16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Text(
-                    if (editing) "Toque para fixar na barra (máx. ${LauncherSettings.MAX_RAIL_APPS})" else "Apps",
-                    style = MaterialTheme.typography.headlineMedium, color = c.onSurface, modifier = Modifier.weight(1f),
-                )
-                SearchField(query, { query = it }, Modifier.width(380.dp))
+                Column(Modifier.weight(1f)) {
+                    Text(if (editing) "Editar gaveta" else "Apps", style = MaterialTheme.typography.headlineMedium, color = c.onSurface)
+                    if (editing) {
+                        Text(
+                            "Toque para fixar na barra (máx. ${LauncherSettings.MAX_RAIL_APPS}) · segure e arraste para reordenar",
+                            style = MaterialTheme.typography.bodyMedium, color = c.onSurfaceVariant,
+                        )
+                    }
+                }
+                if (!editing) SearchField(query, { query = it }, Modifier.width(380.dp))
                 Box(
                     Modifier
                         .height(64.dp)
                         .clip(PillShape)
                         .background(if (editing) c.primary else c.surface2)
-                        .clickable(role = Role.Button) { editing = !editing }
+                        .pressable(enabled = parked || editing) { editing = !editing }
                         .padding(horizontal = 24.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
-                        if (editing) "Concluir" else "Editar barra",
+                        when {
+                            editing -> "Concluir"
+                            parked -> "Editar"
+                            else -> "Pare o carro para editar"
+                        },
                         style = MaterialTheme.typography.labelLarge,
-                        color = if (editing) c.onPrimary else c.onSurface,
+                        color = if (editing) c.onPrimary else if (parked) c.onSurface else c.onSurfaceVariant,
                     )
                 }
             }
             Spacer(Modifier.height(16.dp))
+            if (editing) {
+                EditGrid(
+                    apps = apps,
+                    entries = ordered.filter { it.packageName !in settings.hidden },
+                    pinned = settings.pinned,
+                    onTogglePin = { pkg -> onSetPinned(togglePin(settings.pinned, pkg)) },
+                    // Arrastar implica ordem personalizada (inclui os ocultos no fim para não perdê-los).
+                    onCommitOrder = { order -> onCommitOrder(order + settings.hidden.filter { it !in order }) },
+                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                )
+                return@Column
+            }
             HorizontalPager(pager, Modifier.weight(1f).fillMaxWidth()) { page ->
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     pages[page].chunked(COLUMNS).forEach { row ->
@@ -149,6 +183,18 @@ fun AppDrawerScreen(
                         }
                     }
                 }
+            }
+            if (hiddenCount > 0) {
+                Text(
+                    if (hiddenCount == 1) "1 app oculto" else "$hiddenCount apps ocultos",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = c.primary,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .clip(PillShape)
+                        .pressable(onClick = onOpenHidden)
+                        .padding(horizontal = 20.dp, vertical = 8.dp),
+                )
             }
             if (pages.size > 1) {
                 Row(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.Center) {

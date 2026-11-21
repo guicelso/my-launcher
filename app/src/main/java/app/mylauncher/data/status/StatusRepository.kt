@@ -1,15 +1,19 @@
 package app.mylauncher.data.status
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.telephony.PhoneStateListener
+import android.telephony.ServiceState
 import android.telephony.SignalStrength
 import android.telephony.TelephonyManager
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -62,9 +66,29 @@ class StatusRepository(private val context: Context) {
         }
 
         override fun onDataConnectionStateChanged(state: Int, networkType: Int) {
-            _state.update { it.copy(networkLabel = NetworkLabels.of(networkType) ?: it.networkLabel, hasSim = simReady()) }
+            val label = NetworkLabels.of(networkType) ?: currentNetworkLabel()
+            _state.update { it.copy(networkLabel = label ?: it.networkLabel, hasSim = simReady()) }
+        }
+
+        override fun onServiceStateChanged(serviceState: ServiceState) {
+            val inService = serviceState.state == ServiceState.STATE_IN_SERVICE
+            _state.update {
+                if (inService) {
+                    it.copy(hasSim = simReady(), networkLabel = currentNetworkLabel() ?: it.networkLabel)
+                } else {
+                    // Sem cobertura: barras vazias e sem rótulo de tecnologia.
+                    it.copy(hasSim = simReady(), networkLabel = null, signalLevel = 0)
+                }
+            }
         }
     }
+
+    /** Tipo de dados atual direto do sistema (precisa de READ_PHONE_STATE; sem ela, null). */
+    @SuppressLint("MissingPermission")
+    private fun currentNetworkLabel(): String? = runCatching {
+        if (context.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) return null
+        NetworkLabels.of(tm.dataNetworkType)
+    }.getOrNull()
 
     private fun simReady() = runCatching { tm.simState == TelephonyManager.SIM_STATE_READY }.getOrDefault(false)
     private val networks = mutableMapOf<Network, NetworkCapabilities>()
@@ -100,9 +124,13 @@ class StatusRepository(private val context: Context) {
         runCatching { cm.registerNetworkCallback(NetworkRequest.Builder().build(), netCallback) }
         @Suppress("DEPRECATION")
         runCatching {
-            tm.listen(phoneListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS or PhoneStateListener.LISTEN_DATA_CONNECTION_STATE)
+            tm.listen(
+                phoneListener,
+                PhoneStateListener.LISTEN_SIGNAL_STRENGTHS or PhoneStateListener.LISTEN_DATA_CONNECTION_STATE or
+                    PhoneStateListener.LISTEN_SERVICE_STATE,
+            )
         }
-        _state.update { it.copy(hasSim = simReady()) }
+        _state.update { it.copy(hasSim = simReady(), networkLabel = currentNetworkLabel()) }
         updateBluetooth()
     }
 
