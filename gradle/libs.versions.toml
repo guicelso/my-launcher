@@ -11,6 +11,7 @@ maplibre = "11.13.5"
 junit = "4.13.2"
 media = "1.7.0"
 palette = "1.0.0"
+profileinstaller = "1.4.1"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -31,6 +32,7 @@ maplibre-android = { module = "org.maplibre.gl:android-sdk", version.ref = "mapl
 junit = { module = "junit:junit", version.ref = "junit" }
 androidx-media = { module = "androidx.media:media", version.ref = "media" }
 androidx-palette = { module = "androidx.palette:palette-ktx", version.ref = "palette" }
+androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profileinstaller" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

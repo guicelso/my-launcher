@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.maplibre.android)
     implementation(libs.androidx.media)
     implementation(libs.androidx.palette)
+    implementation(libs.androidx.profileinstaller)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

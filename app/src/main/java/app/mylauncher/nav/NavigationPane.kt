@@ -1,6 +1,8 @@
 package app.mylauncher.nav
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.Modifier
 
 enum class PaneMode { CARD, FULL }
@@ -15,3 +17,10 @@ interface NavigationPane {
     @Composable
     fun Content(mode: PaneMode, modifier: Modifier, active: Boolean, onExpand: () -> Unit)
 }
+
+/**
+ * Tamanho fixo da superfície do mapa (a área de trabalho inteira). O mapa nunca é
+ * redimensionado durante as animações: o card só recorta a janela visível (spec 010,
+ * desempenho na GPU PowerVR GE8322).
+ */
+val LocalMapCanvasSize = compositionLocalOf<DpSize?> { null }

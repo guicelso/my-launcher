@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
-import androidx.compose.foundation.layout.requiredWidthIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -28,7 +27,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import app.mylauncher.nav.LocalMapCanvasSize
 import app.mylauncher.nav.NavigationPane
 import app.mylauncher.nav.PaneMode
 import app.mylauncher.ui.Screen
@@ -38,9 +39,6 @@ import app.mylauncher.ui.theme.Dimens
 object PanelWidths {
     val dashboard = 408.dp
     val split = 600.dp
-
-    /** O mapa nunca é medido abaixo disto (é só recortado), para não dar tamanho 0 ao MapLibre. */
-    val mapMin = 320.dp
 }
 
 private fun <T> panelSpring() = spring<T>(dampingRatio = Spring.DampingRatioNoBouncy, stiffness = MOTION_STIFFNESS)
@@ -80,8 +78,9 @@ fun Workspace(
         val gap by animateDpAsState(if (mapFull || mediaFull) 0.dp else Dimens.gap, panelSpring(), label = "gap")
         val endRadius by animateDpAsState(if (mapFull) 0.dp else Dimens.cardRadius, panelSpring(), label = "radius")
 
+        val mapCanvas = DpSize(maxWidth, maxHeight)
         SharedTransitionLayout {
-            CompositionLocalProvider(LocalSharedScope provides this) {
+            CompositionLocalProvider(LocalSharedScope provides this, LocalMapCanvasSize provides mapCanvas) {
                 Row(Modifier.fillMaxSize().padding(start = start, top = outer, end = outer, bottom = outer)) {
                     Box(
                         Modifier
@@ -92,7 +91,7 @@ fun Workspace(
                     ) {
                         navPane.Content(
                             mode = if (mapFull) PaneMode.FULL else PaneMode.CARD,
-                            modifier = Modifier.requiredWidthIn(min = PanelWidths.mapMin).fillMaxSize(),
+                            modifier = Modifier.fillMaxSize(),
                             active = active && !mediaFull,
                             onExpand = onExpandMap,
                         )

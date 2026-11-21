@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -272,7 +273,9 @@ private fun MapViewHost(
         }
     }
 
-    AndroidView(factory = { mapView }, modifier = Modifier.fillMaxSize())
+    val canvas = LocalMapCanvasSize.current
+    // Tamanho fixo (centralizado e recortado pelo card) para não redesenhar o mapa a cada quadro.
+    AndroidView(factory = { mapView }, modifier = if (canvas != null) Modifier.requiredSize(canvas) else Modifier.fillMaxSize())
 }
 
 /** Liga/desliga a renderização do MapView sem chamadas duplicadas. */

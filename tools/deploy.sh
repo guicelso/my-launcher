@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 # Compila, instala e define o launcher como tela inicial (spec 001, R1.6).
-# Uso: tools/deploy.sh [--release] [--no-build]
+# Uso: tools/deploy.sh [--debug] [--no-build]   (padrão: release otimizada com R8)
 #   DEVICE=<serial> para outro aparelho (padrão: $HU_IP:5555; ex.: DEVICE=emulator-5554)
 set -euo pipefail
 cd "$(dirname "$0")/.."
 source tools/env.sh
 
-VARIANT=debug
+VARIANT=release
 BUILD=1
 for arg in "$@"; do
   case "$arg" in
+    --debug) VARIANT=debug ;;
     --release) VARIANT=release ;;
     --no-build) BUILD=0 ;;
   esac
@@ -28,6 +29,9 @@ APK="app/build/outputs/apk/$VARIANT/app-$VARIANT.apk"
 
 echo "==> Instalando $APK em $DEVICE"
 "${ADB[@]}" install -r -t "$APK"
+
+echo "==> Pré-compilando (AOT) para a interface rodar fluida"
+"${ADB[@]}" shell cmd package compile -m speed -f $PKG >/dev/null || true
 
 echo "==> Permissões"
 "${ADB[@]}" shell pm grant $PKG android.permission.ACCESS_FINE_LOCATION || true

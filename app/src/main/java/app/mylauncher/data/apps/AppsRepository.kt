@@ -38,7 +38,7 @@ class AppsRepository(
     private val scope: CoroutineScope,
 ) {
     private val launcherApps = context.getSystemService(LauncherApps::class.java)
-    private val iconCache = LruCache<String, ImageBitmap>(128)
+    private val iconCache = LruCache<String, ImageBitmap>(192)
     private val _apps = MutableStateFlow<List<AppEntry>>(emptyList())
     val apps: StateFlow<List<AppEntry>> = _apps.asStateFlow()
 
@@ -65,6 +65,11 @@ class AppsRepository(
             val list = withContext(Dispatchers.Default) { load() }
             _apps.value = list
             FileLog.i("Apps carregados: ${list.size}")
+            // Aquece o cache dos ícones da gaveta (96 dp) para ela abrir sem atraso.
+            withContext(Dispatchers.Default) {
+                val px = (96 * context.resources.displayMetrics.density).toInt()
+                list.take(PREWARM).forEach { icon(it.packageName, px) }
+            }
         }
     }
 
@@ -137,6 +142,8 @@ class AppsRepository(
     }
 
     companion object {
+        private const val PREWARM = 72
+
         /** Busca sem acento e sem diferenciar maiúsculas (R3.4). */
         fun normalize(s: String): String =
             Normalizer.normalize(s, Normalizer.Form.NFD).replace(Regex("\\p{Mn}+"), "").lowercase(Locale.ROOT)
