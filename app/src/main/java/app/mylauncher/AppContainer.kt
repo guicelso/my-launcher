@@ -2,6 +2,8 @@ package app.mylauncher
 
 import android.content.Context
 import app.mylauncher.data.apps.AppsRepository
+import app.mylauncher.data.media.MediaRepository
+import app.mylauncher.data.media.MessagesRepository
 import app.mylauncher.data.prefs.SettingsRepository
 import app.mylauncher.data.status.StatusRepository
 import app.mylauncher.data.vehicle.FakeVehicleSource
@@ -26,6 +28,8 @@ class AppContainer(val context: Context) {
     val apps = AppsRepository(context, settings, appScope)
     val status = StatusRepository(context)
     val systemActions = SystemActions(context)
+    val media = MediaRepository(context, apps, appScope)
+    val messages = MessagesRepository(appScope, context.packageName)
 
     val fakeVehicle = FakeVehicleSource()
     val realVehicle: VehicleSource = UnavailableVehicleSource()
@@ -39,6 +43,7 @@ class AppContainer(val context: Context) {
     fun start() {
         apps.start()
         status.start()
+        media.start()
         realVehicle.start()
     }
 }

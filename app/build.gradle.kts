@@ -66,6 +66,7 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
 
     implementation(libs.maplibre.android)
+    implementation(libs.androidx.media)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

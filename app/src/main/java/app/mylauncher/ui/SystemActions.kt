@@ -3,6 +3,7 @@ package app.mylauncher.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.provider.Settings
 import android.speech.RecognizerIntent
 import app.mylauncher.core.FileLog
 
@@ -35,4 +36,10 @@ class SystemActions(private val context: Context) {
         Class.forName("android.app.StatusBarManager").getMethod("expandNotificationsPanel").invoke(sbm)
         true
     }.getOrElse { FileLog.w("expandNotificationsPanel indisponível", it); false }
+
+    /** Abre a tela do sistema para conceder acesso às notificações (R4.2, alternativa ao adb). */
+    fun openNotificationAccess(): Boolean = runCatching {
+        context.startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        true
+    }.getOrElse { FileLog.e("Falha ao abrir acesso às notificações", it); false }
 }
