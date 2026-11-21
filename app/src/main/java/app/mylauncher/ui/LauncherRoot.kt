@@ -26,11 +26,14 @@ import app.mylauncher.nav.NavigationPane
 import app.mylauncher.nav.PaneMode
 import app.mylauncher.ui.components.ScreenPanel
 import app.mylauncher.ui.dashboard.DashboardScreen
-import app.mylauncher.ui.dashboard.MediaCardPlaceholder
 import app.mylauncher.ui.dashboard.Suggestion
 import app.mylauncher.ui.debug.DebugDialog
 import app.mylauncher.ui.drawer.AppDrawerScreen
 import app.mylauncher.ui.icons.LauncherIcons
+import app.mylauncher.ui.media.MediaCard
+import app.mylauncher.ui.media.MediaScreen
+import app.mylauncher.ui.media.MediaSources
+import app.mylauncher.data.media.NotificationsSummary
 import app.mylauncher.ui.rail.Rail
 import app.mylauncher.ui.theme.LauncherTheme
 import app.mylauncher.ui.theme.LocalLauncherColors
@@ -43,6 +46,8 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
     val vehicle by container.vehicle.collectAsStateWithLifecycle()
     val status by container.status.state.collectAsStateWithLifecycle()
     val allApps by container.apps.apps.collectAsStateWithLifecycle()
+    val media by container.media.state.collectAsStateWithLifecycle()
+    val notifs by container.messages.summary.collectAsStateWithLifecycle()
     var debugOpen by remember { mutableStateOf(false) }
 
     val hour = Calendar.getInstance().apply { timeInMillis = status.now }.get(Calendar.HOUR_OF_DAY)
@@ -66,7 +71,7 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                 batteryV = vehicle.batteryV.takeIf { settings.showBattery },
                 railApps = railApps,
                 apps = apps,
-                hasNotifications = false,
+                hasNotifications = notifs.count > 0,
                 voiceAvailable = container.systemActions.voiceIntent != null,
                 onDashboard = { navigator.go(Screen.DASHBOARD) },
                 onApps = { navigator.go(Screen.APPS) },
@@ -80,10 +85,20 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                     when (screen) {
                         Screen.DASHBOARD -> DashboardScreen(
                             navPane = navPane,
-                            suggestions = suggestions(container, settings) { navigator.go(Screen.SETTINGS) },
+                            suggestions = suggestions(container, settings, notifs) { navigator.go(Screen.SETTINGS) },
                             apps = apps,
                             onOpenMap = { navigator.go(Screen.MAP) },
-                            mediaCard = { m -> MediaCardPlaceholder(m) },
+                            mediaCard = { m ->
+                                MediaCard(
+                                    state = media,
+                                    apps = apps,
+                                    musicApp = settings.musicApp,
+                                    onOpenMedia = { navigator.go(Screen.MEDIA) },
+                                    onOpenApp = { apps.launch(it) },
+                                    onGrantAccess = { container.systemActions.openNotificationAccess() },
+                                    modifier = m,
+                                )
+                            },
                         )
                         Screen.MAP -> ScreenPanel(Modifier.fillMaxSize()) {
                             navPane.Content(PaneMode.FULL, Modifier.fillMaxSize(), onExpand = {})
@@ -98,7 +113,15 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                             onSetPinned = container.settings::setPinned,
                             modifier = Modifier.fillMaxSize(),
                         )
-                        Screen.MEDIA, Screen.SETTINGS -> ScreenPanel(Modifier.fillMaxSize()) {
+                        Screen.MEDIA -> MediaScreen(
+                            state = media,
+                            sources = MediaSources.list(settings.musicApp, media.nowPlaying?.sourcePackage, apps::isInstalled),
+                            apps = apps,
+                            onOpenApp = { apps.launch(it) },
+                            onGrantAccess = { container.systemActions.openNotificationAccess() },
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                        Screen.SETTINGS -> ScreenPanel(Modifier.fillMaxSize()) {
                             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                                 Text("Em construção", style = MaterialTheme.typography.titleLarge, color = c.onSurfaceVariant)
                             }
@@ -120,16 +143,28 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
 }
 
 /** Card de sugestões (R2.9): destinos salvos; sem itens, atalho para os Ajustes. */
-private fun suggestions(container: AppContainer, s: LauncherSettings, openSettings: () -> Unit): List<Suggestion> {
+private fun suggestions(
+    container: AppContainer,
+    s: LauncherSettings,
+    notifs: NotificationsSummary,
+    openSettings: () -> Unit,
+): List<Suggestion> {
     val apps = container.apps
     val navLabel = apps.label(s.navApp)
-    val list = buildList {
+    val list = mutableListOf<Suggestion>().apply {
         s.home?.let { d ->
             add(Suggestion("Casa", "Navegar com $navLabel", LauncherIcons.Home) { apps.launchIntent(NavIntents.navigate(s.navApp, d)) })
         }
         s.work?.let { d ->
             add(Suggestion("Trabalho", "Navegar com $navLabel", LauncherIcons.Work) { apps.launchIntent(NavIntents.navigate(s.navApp, d)) })
         }
+    }
+    notifs.lastMessage?.let { m ->
+        list.add(
+            Suggestion(m.sender.ifBlank { apps.label(m.packageName) }, m.text.ifBlank { "Nova mensagem" }, appPackage = m.packageName) {
+                runCatching { m.contentIntent?.send() }.onFailure { apps.launch(m.packageName) }
+            },
+        )
     }
     return list.ifEmpty {
         listOf(Suggestion("Configurar destinos", "Casa e Trabalho nos Ajustes", LauncherIcons.Settings, onClick = openSettings))

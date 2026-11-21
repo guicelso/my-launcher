@@ -121,17 +121,3 @@ fun SuggestionsCard(items: List<Suggestion>, apps: AppsRepository, modifier: Mod
         }
     }
 }
-
-/** Card de mídia provisório (substituído na spec 004). */
-@Composable
-fun MediaCardPlaceholder(modifier: Modifier = Modifier) {
-    val c = LocalLauncherColors.current
-    LauncherCard(modifier) {
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Icon(LauncherIcons.Music, null, Modifier.size(44.dp), tint = c.onSurfaceVariant)
-                Text("Nada tocando", style = MaterialTheme.typography.titleLarge, color = c.onSurfaceVariant)
-            }
-        }
-    }
-}
