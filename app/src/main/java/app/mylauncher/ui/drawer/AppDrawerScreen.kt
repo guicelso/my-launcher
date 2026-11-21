@@ -3,6 +3,7 @@ package app.mylauncher.ui.drawer
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,7 +42,9 @@ import androidx.compose.ui.unit.dp
 import app.mylauncher.data.apps.AppEntry
 import app.mylauncher.data.apps.AppsRepository
 import app.mylauncher.data.prefs.LauncherSettings
+import app.mylauncher.ui.components.AppContextMenu
 import app.mylauncher.ui.components.AppIcon
+import app.mylauncher.ui.components.AppMenuActions
 import app.mylauncher.ui.components.PillShape
 import app.mylauncher.ui.components.ScreenPanel
 import app.mylauncher.ui.icons.LauncherIcons
@@ -73,6 +76,7 @@ fun AppDrawerScreen(
     onOpenSettings: () -> Unit,
     onOpenStockLauncher: () -> Unit,
     onSetPinned: (List<String>) -> Unit,
+    menu: AppMenuActions,
     modifier: Modifier = Modifier,
 ) {
     val c = LocalLauncherColors.current
@@ -125,6 +129,7 @@ fun AppDrawerScreen(
                                 Tile(
                                     item = item,
                                     apps = apps,
+                                    menu = menu,
                                     pinned = item is DrawerItem.App && item.entry.packageName in settings.pinned,
                                     editing = editing,
                                     modifier = Modifier.weight(1f),
@@ -168,21 +173,28 @@ fun togglePin(current: List<String>, pkg: String): List<String> = when {
     else -> current + pkg
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Tile(
     item: DrawerItem,
     apps: AppsRepository,
+    menu: AppMenuActions,
     pinned: Boolean,
     editing: Boolean,
     modifier: Modifier,
     onClick: () -> Unit,
 ) {
     val c = LocalLauncherColors.current
+    var menuOpen by remember { mutableStateOf(false) }
     Column(
         modifier
             .fillMaxSize()
             .clip(RoundedCornerShape(24.dp))
-            .clickable(role = Role.Button, onClick = onClick),
+            .combinedClickable(
+                role = Role.Button,
+                onClick = onClick,
+                onLongClick = if (item is DrawerItem.App && !editing) ({ menuOpen = true }) else null,
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -222,6 +234,9 @@ private fun Tile(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 12.dp, start = 4.dp, end = 4.dp),
         )
+        if (item is DrawerItem.App) {
+            AppContextMenu(item.entry.packageName, menuOpen, { menuOpen = false }, menu, showRemoveRecent = false)
+        }
     }
 }
 

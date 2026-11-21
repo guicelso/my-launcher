@@ -42,4 +42,13 @@ class SystemActions(private val context: Context) {
         context.startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         true
     }.getOrElse { FileLog.e("Falha ao abrir acesso às notificações", it); false }
+
+    /** Tela de informações do app (spec 009, R9.1). */
+    fun openAppInfo(pkg: String): Boolean = runCatching {
+        context.startActivity(
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, android.net.Uri.fromParts("package", pkg, null))
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+        )
+        true
+    }.getOrElse { FileLog.e("Falha ao abrir informações de $pkg", it); false }
 }

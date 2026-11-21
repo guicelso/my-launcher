@@ -21,6 +21,7 @@ import app.mylauncher.data.prefs.Recents
 import app.mylauncher.nav.NavIntents
 import app.mylauncher.nav.NavigationPane
 import app.mylauncher.nav.PaneMode
+import app.mylauncher.ui.components.AppMenuActions
 import app.mylauncher.ui.components.ScreenPanel
 import app.mylauncher.ui.dashboard.DashboardScreen
 import app.mylauncher.ui.dashboard.Suggestion
@@ -62,6 +63,15 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                 isInstalled = apps::isInstalled,
             )
         }
+        val menu = AppMenuActions(
+            pinned = settings.pinned,
+            recents = settings.recents,
+            label = apps::label,
+            onPin = container.settings::pin,
+            onUnpin = container.settings::unpin,
+            onRemoveRecent = container.settings::removeRecent,
+            onAppInfo = { container.systemActions.openAppInfo(it) },
+        )
         Row(Modifier.fillMaxSize().background(c.background)) {
             Rail(
                 screen = navigator.screen,
@@ -71,6 +81,9 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                 apps = apps,
                 hasNotifications = notifs.count > 0,
                 voiceAvailable = container.systemActions.voiceIntent != null,
+                showBell = settings.showBell,
+                showVoice = settings.showVoice,
+                menu = menu,
                 onDashboard = { navigator.go(Screen.DASHBOARD) },
                 onApps = { navigator.go(Screen.APPS) },
                 onLaunchApp = { apps.launch(it) },
@@ -109,6 +122,7 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                             onOpenSettings = { navigator.go(Screen.SETTINGS) },
                             onOpenStockLauncher = { CrashGuard.openFallback(container.context) },
                             onSetPinned = container.settings::setPinned,
+                            menu = menu,
                             modifier = Modifier.fillMaxSize(),
                         )
                         Screen.MEDIA -> MediaScreen(
