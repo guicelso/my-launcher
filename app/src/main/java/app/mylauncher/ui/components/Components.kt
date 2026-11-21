@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
@@ -72,7 +73,8 @@ fun TouchIconButton(
 @Composable
 fun AppIcon(apps: AppsRepository, pkg: String, size: Dp, modifier: Modifier = Modifier) {
     val px = with(LocalDensity.current) { size.roundToPx() }
-    val bitmap by produceState<ImageBitmap?>(null, pkg, px) {
+    val style by apps.iconStyle.collectAsState()
+    val bitmap by produceState<ImageBitmap?>(null, pkg, px, style) {
         value = withContext(Dispatchers.IO) { apps.icon(pkg, px) }
     }
     val bmp = bitmap

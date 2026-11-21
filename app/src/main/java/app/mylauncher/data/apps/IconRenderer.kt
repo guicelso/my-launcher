@@ -8,16 +8,35 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.AdaptiveIconDrawable
 import android.graphics.drawable.Drawable
+import app.mylauncher.data.prefs.IconShape
 
 /**
- * Ícones redondos, como no Android Auto, independentes da máscara do firmware
- * (na TopWay ela é quadrada e deixava cantos retos aparecendo).
+ * Ícones no formato escolhido (redondo por padrão, como no Android Auto), independentes da
+ * máscara do firmware (na TopWay ela é quadrada e deixava cantos retos aparecendo).
  */
 object IconRenderer {
     /** Fração do ícone legado dentro do círculo. */
     private const val LEGACY_SCALE = 0.72f
+    private const val SQUIRCLE_RADIUS = 0.24f
 
-    fun circular(drawable: Drawable, size: Int): Bitmap {
+    /** Renderiza no formato escolhido (spec 011, R11.5). */
+    fun render(drawable: Drawable, size: Int, shape: IconShape): Bitmap = when (shape) {
+        IconShape.ROUND -> circular(drawable, size)
+        IconShape.SQUIRCLE -> masked(drawable, size, round = false)
+        IconShape.ORIGINAL -> original(drawable, size)
+    }
+
+    /** Desenha como está (pacotes de ícones já trazem o próprio formato; ou máscara do sistema). */
+    fun original(drawable: Drawable, size: Int): Bitmap {
+        val out = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        drawable.setBounds(0, 0, size, size)
+        drawable.draw(Canvas(out))
+        return out
+    }
+
+    fun circular(drawable: Drawable, size: Int): Bitmap = masked(drawable, size, round = true)
+
+    private fun masked(drawable: Drawable, size: Int, round: Boolean): Bitmap {
         val content = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(content)
         if (drawable is AdaptiveIconDrawable) {
@@ -31,15 +50,20 @@ object IconRenderer {
             drawable.setBounds(inset, inset, size - inset, size - inset)
             drawable.draw(canvas)
         }
-        return mask(content, size)
+        return mask(content, size, round)
     }
 
-    /** Recorte circular com antialiasing (clipPath não suaviza a borda). */
-    private fun mask(content: Bitmap, size: Int): Bitmap {
+    /** Recorte com antialiasing (clipPath não suaviza a borda). */
+    private fun mask(content: Bitmap, size: Int, round: Boolean): Bitmap {
         val out = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(out)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-        canvas.drawCircle(size / 2f, size / 2f, size / 2f, paint)
+        if (round) {
+            canvas.drawCircle(size / 2f, size / 2f, size / 2f, paint)
+        } else {
+            val r = size * SQUIRCLE_RADIUS
+            canvas.drawRoundRect(0f, 0f, size.toFloat(), size.toFloat(), r, r, paint)
+        }
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
         canvas.drawBitmap(content, 0f, 0f, paint)
         content.recycle()

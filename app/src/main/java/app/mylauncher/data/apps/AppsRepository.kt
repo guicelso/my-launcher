@@ -16,6 +16,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.Collator
@@ -38,6 +40,11 @@ class AppsRepository(
     private val scope: CoroutineScope,
 ) {
     private val launcherApps = context.getSystemService(LauncherApps::class.java)
+    val iconPacks = IconPacks(context)
+
+    /** Muda quando o formato ou o pacote de ícones muda: as telas recarregam os ícones. */
+    private val _iconStyle = MutableStateFlow("")
+    val iconStyle: StateFlow<String> = _iconStyle.asStateFlow()
     private val iconCache = LruCache<String, ImageBitmap>(192)
     private val _apps = MutableStateFlow<List<AppEntry>>(emptyList())
     val apps: StateFlow<List<AppEntry>> = _apps.asStateFlow()
@@ -53,6 +60,12 @@ class AppsRepository(
     fun start() {
         launcherApps.registerCallback(callback)
         refresh()
+        scope.launch {
+            settings.settings.map { "${it.iconShape}|${it.iconPack}" }.distinctUntilChanged().collect { style ->
+                if (_iconStyle.value.isNotEmpty()) iconCache.evictAll()
+                _iconStyle.value = style
+            }
+        }
     }
 
     private fun changed(pkg: String) {
@@ -95,20 +108,43 @@ class AppsRepository(
     /** Ícone redondo do app em [sizePx], com cache. Chamar fora da thread principal quando possível. */
     fun icon(pkg: String, sizePx: Int = 112): ImageBitmap? {
         val entry = find(pkg)
-        val key = "${entry?.key ?: "$pkg/"}@$sizePx"
+        val s = settings.settings.value
+        val key = "${entry?.key ?: "$pkg/"}@$sizePx|${s.iconShape}|${s.iconPack}"
         iconCache.get(key)?.let { return it }
-        val drawable = runCatching {
-            if (entry != null) {
-                launcherApps.getActivityList(pkg, entry.user)
-                    .firstOrNull { it.componentName == entry.component }
-                    ?.getIcon(0)
-            } else {
-                context.packageManager.getApplicationIcon(pkg)
-            }
-        }.getOrNull() ?: return null
-        val bmp = IconRenderer.circular(drawable, sizePx).asImageBitmap()
+        // Pacote de ícones primeiro (já vem no formato do pacote); senão, o ícone do app no formato escolhido.
+        val packIcon = s.iconPack?.let { pack ->
+            entry?.component?.let { iconPacks.drawable(pack, it) }
+        }
+        val bmp = if (packIcon != null) {
+            IconRenderer.original(packIcon, sizePx)
+        } else {
+            val drawable = runCatching {
+                if (entry != null) {
+                    launcherApps.getActivityList(pkg, entry.user)
+                        .firstOrNull { it.componentName == entry.component }
+                        ?.getIcon(0)
+                } else {
+                    context.packageManager.getApplicationIcon(pkg)
+                }
+            }.getOrNull() ?: return null
+            IconRenderer.render(drawable, sizePx, s.iconShape)
+        }.asImageBitmap()
         iconCache.put(key, bmp)
         return bmp
+    }
+
+    /** Desinstalar pela confirmação do sistema (spec 011, R11.1). Apps de sistema não podem. */
+    fun canUninstall(pkg: String): Boolean = runCatching {
+        val flags = context.packageManager.getApplicationInfo(pkg, 0).flags
+        flags and android.content.pm.ApplicationInfo.FLAG_SYSTEM == 0
+    }.getOrDefault(false)
+
+    fun uninstall(pkg: String) {
+        runCatching {
+            context.startActivity(
+                Intent(Intent.ACTION_DELETE, android.net.Uri.fromParts("package", pkg, null)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+            )
+        }.onFailure { FileLog.e("Falha ao desinstalar $pkg", it) }
     }
 
     /** Abre o app e registra nos recentes (R3.5). */
