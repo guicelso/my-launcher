@@ -29,4 +29,6 @@ Mostrar e controlar o que está tocando, venha de um app de terceiros (MediaSess
 - Descobrir quais extras o `CommandService` envia em `Source_recieve`.
 
 ## Resultados
-_(preencher após a validação)_
+**2026-11-21, no carro:**
+- YouTube Music aparece no card com capa e título.
+- Tocar/pausar, avançar e voltar funcionam (A1 ✔).

@@ -48,4 +48,8 @@ adb -s $HU_IP:5555 exec-out screencap -p > discovery/shot-001.png
 Qualquer UI além de um placeholder com o nome do app.
 
 ## Resultados
-_(preencher após a validação)_
+**2026-11-21, no carro (TS18):**
+- Deploy via `tools/deploy.sh` funcionou: o launcher virou HOME e a interface aparece na orientação correta.
+- `screenOrientation="landscape"` foi removido do manifesto, porque o firmware gira a tela por software (`ro.sf.swrotation=90`).
+- **Atenção:** o `adb screencap` dessa multimídia sai **girado 90°**. É a imagem antes da rotação do firmware; a tela real fica correta.
+- `am start -W`: TotalTime 4,7–5,8 s com o app frio, logo após a instalação. **A6 ainda pendente:** medir em boot normal.

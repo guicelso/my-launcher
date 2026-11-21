@@ -41,4 +41,7 @@ Um app de teste mínimo (pode ser uma activity de debug no próprio launcher) qu
 3. registra em `Resultados` quais canais funcionam como app comum.
 
 ## Resultados
-_(preencher após a validação)_
+**2026-11-21, no carro:**
+- O sinal de farol chega e troca o tema (A1/A2 ✔).
+- A tensão da bateria chega pela MCU.
+- Ré, ACC e velocidade ainda precisam ser conferidos na tela de diagnóstico.

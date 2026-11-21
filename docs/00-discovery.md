@@ -29,7 +29,10 @@ Dados brutos em `discovery/device-20261121-134517/` e `discovery/decompiled/` (l
      - Esse shell roda como uid **system** via `Runtime.exec`. Ele **não usa um shell de verdade**: não aceita `;`, `>` nem pipes.
   2. Executar `setprop service.adb.tcp.port 5555` e `settings put global adb_enabled 1`.
   3. Pelo adb, executar `setprop persist.adb.tcp.port 5555`. Com isso, a porta continua aberta após o reboot (já confirmado).
-- **Pendência:** depois do reboot, o adb voltou como `unauthorized` e o pedido de autorização não apareceu. Provavelmente o firmware desliga `adb_enabled` no boot. A tentativa em aberto: no EngineerMode, `adb_enabled 0` → `1` → `setprop ctl.restart adbd`, e então aceitar com "Sempre permitir".
+- **Autorização persistente (resolvido em 2026-11-21):** o pedido "Permitir depuração" não aparece nesse firmware, que zera `adb_enabled` no boot. A solução foi:
+  1. baixar `~/.android/adbkey.pub` do notebook pelo navegador da multimídia;
+  2. no EngineerMode (uid system), rodar `cp /sdcard/Download/adbkey.pub /data/misc/adb/adb_keys`, `chmod 640 /data/misc/adb/adb_keys` e `setprop ctl.restart adbd`.
+- O `adb screencap` sai **girado 90°**, porque o firmware rotaciona a tela por software (`ro.sf.swrotation=90`, `persist.sf.forcerotation=2`).
 - O adbd do fabricante registra no logcat todo comando recebido (`Tianyuan Current sh name: …`).
 
 ## 3. Apps relevantes
@@ -90,7 +93,7 @@ Detalhes e caminhos de evidência estão nos fontes decompilados (caminhos relat
 
 ## 5. Pontos em aberto
 
-- [ ] Autorização do adb persistente após o reboot (§2).
+- [x] Autorização do adb persistente após o reboot (§2).
 - [ ] Testar o bind em `CarService` e `CommandService` a partir de um app comum (spec 006).
 - [ ] Testar `TWUtil.open()` e `0x9F1A` a partir de um app comum (specs 006/008).
 - [ ] Ver se a barra de sistema da TopWay some com o modo imersivo (spec 001).

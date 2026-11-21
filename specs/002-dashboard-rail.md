@@ -45,4 +45,7 @@ Construir a tela principal no layout do Android Auto: barra lateral, card do map
 4. Comparar com o protótipo e medir a CPU no carro.
 
 ## Resultados
-_(preencher após a validação)_
+**2026-11-21, no carro:**
+- Os faróis trocam o tema automaticamente (A2 ✔).
+- Tensão da bateria exibida.
+- Os recentes na barra lateral se atualizam com o uso.

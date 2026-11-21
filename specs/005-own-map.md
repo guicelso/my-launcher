@@ -34,4 +34,6 @@ Primeira implementação do `NavigationPane`: um mapa vetorial próprio que most
 - Ver se existe geocodificação reversa offline viável para o nome da rua. Se não existir, o rótulo fica de fora.
 
 ## Resultados
-_(preencher após a validação)_
+**2026-11-21, no carro:**
+- O GPS real chega ao mapa, com marcador e rua atual.
+- A busca abre o Maps/Waze.
