@@ -42,6 +42,7 @@ enum class WidgetType(val label: String) {
     VEHICLE("Veículo"),
     CLOCK("Relógio e data"),
     NOTIFICATIONS("Notificações"),
+    CLOCK_WEATHER("Data, hora e clima"),
 }
 
 /** Posição da barra (spec 014). */

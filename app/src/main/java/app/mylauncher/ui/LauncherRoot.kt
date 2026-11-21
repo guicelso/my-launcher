@@ -43,6 +43,7 @@ import app.mylauncher.ui.components.AppMenuActions
 import app.mylauncher.data.prefs.WidgetType
 import app.mylauncher.ui.dashboard.DashboardPanel
 import app.mylauncher.ui.dashboard.SuggestionsCard
+import app.mylauncher.ui.widgets.ClockWeatherWidget
 import app.mylauncher.ui.widgets.ClockWidget
 import app.mylauncher.ui.widgets.NotificationsWidget
 import app.mylauncher.ui.widgets.VehicleWidget
@@ -164,6 +165,7 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                                     WidgetType.WEATHER -> WeatherWidget(weather, wm)
                                     WidgetType.VEHICLE -> VehicleWidget(vehicle, wm)
                                     WidgetType.CLOCK -> ClockWidget(status.now, wm)
+                                    WidgetType.CLOCK_WEATHER -> ClockWeatherWidget(status.now, weather, wm)
                                     WidgetType.NOTIFICATIONS -> NotificationsWidget(
                                         notifs, apps,
                                         onOpen = { pkg, intent -> runCatching { intent?.send() ?: apps.launch(pkg) }.onFailure { apps.launch(pkg) } },

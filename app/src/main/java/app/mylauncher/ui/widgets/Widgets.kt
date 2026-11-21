@@ -1,6 +1,8 @@
 package app.mylauncher.ui.widgets
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -114,23 +117,59 @@ private fun VehicleRow(icon: ImageVector, label: String, value: String?) {
     }
 }
 
-/** Relógio e data grandes. */
+/** Relógio e data grandes, centralizados. */
 @Composable
 fun ClockWidget(now: Long, modifier: Modifier = Modifier) {
     val c = LocalLauncherColors.current
     LauncherCard(modifier) {
-        BoxWithConstraints(Modifier.fillMaxSize().padding(20.dp)) {
+        BoxWithConstraints(Modifier.fillMaxSize().padding(20.dp), contentAlignment = Alignment.Center) {
             val compact = maxWidth < 300.dp
-            Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
-                Text(SimpleDateFormat("HH:mm", PtBr).format(Date(now)), fontSize = if (compact) 52.sp else 76.sp, fontWeight = FontWeight.Medium, color = c.onSurface)
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(SimpleDateFormat("HH:mm", PtBr).format(Date(now)), fontSize = if (compact) 52.sp else 80.sp, fontWeight = FontWeight.Medium, color = c.onSurface)
                 Text(
-                    SimpleDateFormat("EEEE, d 'de' MMMM", PtBr).format(Date(now)).replaceFirstChar { it.uppercase() },
-                    style = MaterialTheme.typography.titleMedium, color = c.onSurfaceVariant, maxLines = 2,
+                    dateLabel(now), style = MaterialTheme.typography.titleMedium, color = c.onSurfaceVariant,
+                    textAlign = TextAlign.Center, maxLines = 2,
                 )
             }
         }
     }
 }
+
+/** Data, hora e clima juntos, centralizados (widget combinado). */
+@Composable
+fun ClockWeatherWidget(now: Long, weather: Weather?, modifier: Modifier = Modifier) {
+    val c = LocalLauncherColors.current
+    LauncherCard(modifier) {
+        BoxWithConstraints(Modifier.fillMaxSize().padding(20.dp), contentAlignment = Alignment.Center) {
+            val compact = maxWidth < 300.dp || maxHeight < 260.dp
+            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(if (compact) 6.dp else 12.dp)) {
+                Text(SimpleDateFormat("HH:mm", PtBr).format(Date(now)), fontSize = if (compact) 48.sp else 72.sp, fontWeight = FontWeight.Medium, color = c.onSurface)
+                Text(dateLabel(now), style = MaterialTheme.typography.titleMedium, color = c.onSurfaceVariant, textAlign = TextAlign.Center, maxLines = 1)
+                Box(Modifier.padding(vertical = if (compact) 2.dp else 6.dp).size(width = 48.dp, height = 1.dp).background(c.outline))
+                if (weather != null) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        Icon(weatherIcon(weather.kind, weather.isDay), weather.description, Modifier.size(if (compact) 32.dp else 44.dp), tint = c.primary)
+                        Text("${weather.temperature}°", fontSize = if (compact) 28.sp else 36.sp, fontWeight = FontWeight.Medium, color = c.onSurface)
+                        if (!compact) {
+                            Column {
+                                Text(weather.description, style = MaterialTheme.typography.bodyLarge, color = c.onSurface, maxLines = 1)
+                                if (weather.min != null && weather.max != null) {
+                                    Text("${weather.min}° / ${weather.max}°", style = MaterialTheme.typography.bodyMedium, color = c.onSurfaceVariant)
+                                }
+                            }
+                        }
+                    }
+                    weather.city?.let { Text(it, style = MaterialTheme.typography.bodyMedium, color = c.onSurfaceVariant, maxLines = 1) }
+                } else {
+                    Text("Clima aguardando localização", style = MaterialTheme.typography.bodyMedium, color = c.onSurfaceVariant)
+                }
+            }
+        }
+    }
+}
+
+private fun dateLabel(now: Long) =
+    SimpleDateFormat("EEEE, d 'de' MMMM", PtBr).format(Date(now)).replaceFirstChar { it.uppercase() }
 
 /** Últimas notificações (spec 004/013). */
 @Composable
