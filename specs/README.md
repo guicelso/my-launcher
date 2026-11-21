@@ -30,8 +30,12 @@ Cada critério de aceite referencia os requisitos que cobre.
 | [005](005-own-map.md) | Mapa próprio (MapLibre) | Implementada · validar no carro | 002 |
 | [006](006-vehicle-integration.md) | Integração com o veículo (TopWay) | Implementada · validar no carro | 001 |
 | [007](007-settings.md) | Ajustes do launcher | Implementada · validar no carro | 002, 006 |
-| [009](009-rail-interactions.md) | Interações da barra lateral (menu, fixar, sino) | Aprovada | 002, 003, 007 |
-| [010](010-workspace-split-player.md) | Área de trabalho, tela dividida, animações e player | Aprovada | 002, 004, 005 |
+| [009](009-rail-interactions.md) | Interações da barra lateral (menu, fixar, sino) | Implementada · validar no carro | 002, 003, 007 |
+| [010](010-workspace-split-player.md) | Área de trabalho, tela dividida, animações e player | Implementada · validada no carro (animações) | 002, 004, 005 |
+| [011](011-drawer-management.md) | Gestão da gaveta (ordem, ocultar, desinstalar) e ícones (formato, pacotes) | Rascunho | 003, 009 |
+| [012](012-destinations.md) | Destinos sem digitação (local atual, compartilhar, aprendizado) | Rascunho | 005, 006 |
+| [013](013-dashboard-widgets.md) | Widgets configuráveis no painel (clima, veículo…) e grades | Rascunho | 002, 010 |
+| [014](014-rail-orientation.md) | Barra vertical ou horizontal | Rascunho | 002, 010 |
 | [008](008-embedded-navigation.md) | Navegação embutida (Waze/Maps no painel) | Pesquisa (ferramentas dos spikes S6.1/S8.1 prontas) | 005, 006 |
 
 A ordem sugerida é 001 → 002 → 003 → 004 → 006 → 005 → 007 → 008. A 006 vem antes do mapa porque o tema automático pelos faróis é central no visual.
