@@ -43,7 +43,7 @@ Gaveta de apps e Ajustes abrem **por cima** da área de trabalho. O mapa fica pa
 ### Player
 - **R10.10** O fundo do player DEVE ser tingido com a cor dominante da capa (Palette), escurecida para manter contraste ≥ 4,5:1, com transição de cor de 500 ms ao trocar de faixa.
 - **R10.11** A troca de faixa DEVE animar capa e título (slide horizontal + fade, na direção da troca).
-- **R10.12** A barra de progresso DEVE avançar de forma contínua (sem saltos a cada 500 ms). Se a sessão permitir, DEVE aceitar arrastar para buscar, com alvo de toque de 76 dp de altura.
+- **R10.12** A barra de progresso DEVE atualizar uma vez por segundo, sem animação contínua: ela forçava o redesenho da interface o tempo todo (medido no carro). Se a sessão permitir, DEVE aceitar arrastar para buscar, com alvo de toque de 76 dp de altura.
 - **R10.13** O botão tocar/pausar DEVE trocar de ícone com animação (crossfade + escala).
 - **R10.14** O player dividido DEVE mostrar: app de origem, capa (≥ 240 dp), título, artista, progresso, controles (aleatório, anterior, tocar/pausar, próxima, repetir) e os botões **Fila** e **Expandir**.
 

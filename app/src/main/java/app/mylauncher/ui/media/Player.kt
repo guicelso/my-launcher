@@ -11,8 +11,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -280,10 +278,8 @@ fun SeekBar(np: NowPlaying, controls: MediaControls?) {
     val position = rememberPosition(np)
     var dragging by remember { mutableStateOf(false) }
     var dragFraction by remember { mutableFloatStateOf(0f) }
-    val live = np.fraction(position)
-    // Avanço contínuo: anima linearmente entre os ticks de 500 ms.
-    val smooth by animateFloatAsState(live, tween(if (np.playing) 500 else 150, easing = LinearEasing), label = "progress")
-    val shown = if (dragging) dragFraction else smooth
+    // Atualiza 1×/s sem animação contínua (desempenho na GPU da multimídia).
+    val shown = if (dragging) dragFraction else np.fraction(position)
     val canSeek = np.canSeek && np.durationMs > 0 && controls != null
 
     Column {

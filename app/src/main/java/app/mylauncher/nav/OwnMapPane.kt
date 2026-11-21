@@ -204,10 +204,11 @@ private fun MapViewHost(
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val loadColor = LocalLauncherColors.current.surface2.toArgb()
     val mapView = remember {
-        // SurfaceView (padrão): o mapa desenha numa camada própria, numa thread separada,
-        // sem forçar o redesenho da interface a cada quadro. Como a superfície tem tamanho fixo
-        // (LocalMapCanvasSize) e só é recortada pelo card, ela nunca é redimensionada.
+        // TextureView: na TS18 compõe melhor com os cantos arredondados recortados (medido no
+        // carro: o SurfaceView ficou menos fluido). Tamanho fixo (LocalMapCanvasSize) e 30 fps
+        // limitam o custo dos redesenhos.
         val options = MapLibreMapOptions.createFromAttributes(context)
+            .textureMode(true)
             .foregroundLoadColor(loadColor)
         MapView(context, options).apply {
             onCreate(null)

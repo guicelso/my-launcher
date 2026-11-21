@@ -28,7 +28,10 @@ import app.mylauncher.ui.icons.LauncherIcons
 import app.mylauncher.ui.theme.LocalLauncherColors
 import kotlinx.coroutines.delay
 
-/** Posição atual, interpolada localmente a cada 500 ms enquanto toca (R4.8). */
+/**
+ * Posição atual, interpolada localmente uma vez por segundo enquanto toca (R4.8).
+ * Uma vez por segundo, como no Android Auto: evita redesenhar a interface continuamente.
+ */
 @Composable
 fun rememberPosition(np: NowPlaying): Long {
     var now by remember { mutableLongStateOf(SystemClock.elapsedRealtime()) }
@@ -36,7 +39,7 @@ fun rememberPosition(np: NowPlaying): Long {
         while (true) {
             now = SystemClock.elapsedRealtime()
             if (!np.playing) break
-            delay(500)
+            delay(1_000)
         }
     }
     return np.positionAt(now)
