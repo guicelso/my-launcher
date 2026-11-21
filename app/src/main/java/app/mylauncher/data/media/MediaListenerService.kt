@@ -1,6 +1,9 @@
 package app.mylauncher.data.media
 
+import android.content.ComponentName
+import android.content.Context
 import android.service.notification.NotificationListenerService
+import androidx.core.app.NotificationManagerCompat
 import android.service.notification.StatusBarNotification
 import app.mylauncher.core.FileLog
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,6 +49,24 @@ class MediaListenerService : NotificationListenerService() {
         val notifications: StateFlow<List<StatusBarNotification>> = _notifications.asStateFlow()
 
         @Volatile private var instance: MediaListenerService? = null
+
+        /**
+         * Pede ao sistema para (re)conectar o listener (spec 016). No boot da multimídia, o
+         * NotificationManager tenta conectar antes de enxergar os apps de /data, recebe "not found"
+         * e não tenta de novo: o acesso continua concedido, mas o launcher fica sem sessões de
+         * mídia e o card pede a permissão. `requestRebind` é a API para o dono do listener pedir
+         * a conexão; só tem efeito se o acesso estiver concedido.
+         */
+        fun requestRebind(context: Context) {
+            runCatching {
+                NotificationListenerService.requestRebind(ComponentName(context, MediaListenerService::class.java))
+                FileLog.i("NotificationListener desconectado com acesso concedido: pedindo reconexão")
+            }.onFailure { FileLog.w("Falha ao pedir reconexão do NotificationListener: ${it.message}") }
+        }
+
+        /** O acesso às notificações está concedido nas configurações do sistema. */
+        fun isGranted(context: Context): Boolean =
+            NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.packageName)
 
         /** Dispensa uma notificação pela chave (Central de notificações). */
         fun dismiss(key: String) {

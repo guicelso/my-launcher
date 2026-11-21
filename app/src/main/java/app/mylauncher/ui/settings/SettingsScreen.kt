@@ -327,7 +327,8 @@ private fun DestinationEditor(label: String, current: Destination?, onSave: (Des
 @Composable
 private fun Media(container: AppContainer, s: LauncherSettings) {
     val apps = container.apps
-    val granted by MediaListenerService.connected.collectAsStateWithLifecycle()
+    val connected by MediaListenerService.connected.collectAsStateWithLifecycle()
+    val granted = connected || MediaListenerService.isGranted(container.context)
     val options = MediaSources.list(s.musicApp, null, apps::isInstalled)
     SettingsGroup("App de música padrão", "Retomado pelo card de mídia quando nada está tocando.") {
         if (options.isEmpty()) SettingRow("Nenhum app de música instalado")
@@ -352,7 +353,14 @@ private fun Media(container: AppContainer, s: LauncherSettings) {
         )
     }
     SettingsGroup("Acesso às notificações", "Necessário para ver o que está tocando e as mensagens recebidas.") {
-        SettingRow(if (granted) "Concedido" else "Não concedido", if (granted) null else "Toque para abrir a tela do sistema") {
+        SettingRow(
+            if (granted) "Concedido" else "Não concedido",
+            when {
+                !granted -> "Toque para abrir a tela do sistema"
+                !connected -> "Conectando ao serviço de notificações…"
+                else -> null
+            },
+        ) {
             if (!granted) PillButton("Permitir") { container.systemActions.openNotificationAccess() }
         }
     }
