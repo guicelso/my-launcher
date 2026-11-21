@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arg_res_0x7f030000">
+        <item>百帕</item>
+        <item>英寸汞柱</item>
+    </array>
+    <array name="arg_res_0x7f030001">
+        <item>米</item>
+        <item>英尺</item>
+    </array>
+    <array name="arg_res_0x7f030002">
+        <item>公里/時</item>
+        <item>英里/時</item>
+    </array>
+</resources>

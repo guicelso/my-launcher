@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="arg_res_0x7f070000">24dp</dimen>
+    <dimen name="arg_res_0x7f070001">80dp</dimen>
+    <dimen name="arg_res_0x7f070002">64dp</dimen>
+    <dimen name="arg_res_0x7f070003">8dp</dimen>
+    <dimen name="arg_res_0x7f070004">8dp</dimen>
+    <dimen name="arg_res_0x7f070017">580dp</dimen>
+    <dimen name="arg_res_0x7f07004e">16dp</dimen>
+    <dimen name="arg_res_0x7f070050">20dp</dimen>
+    <dimen name="arg_res_0x7f070082">320dp</dimen>
+    <dimen name="arg_res_0x7f070085">0dp</dimen>
+    <dimen name="arg_res_0x7f070087">2dp</dimen>
+    <dimen name="arg_res_0x7f070089">24dp</dimen>
+    <dimen name="arg_res_0x7f07008a">576dp</dimen>
+    <dimen name="arg_res_0x7f07008b">320dp</dimen>
+    <dimen name="arg_res_0x7f07008e">@dimen/arg_res_0x7f07008d</dimen>
+    <dimen name="arg_res_0x7f070091">160dp</dimen>
+    <dimen name="arg_res_0x7f07024c">64dp</dimen>
+    <dimen name="arg_res_0x7f0702f7">64dp</dimen>
+    <dimen name="arg_res_0x7f07031b">440dp</dimen>
+    <dimen name="arg_res_0x7f07032e">680dp</dimen>
+</resources>

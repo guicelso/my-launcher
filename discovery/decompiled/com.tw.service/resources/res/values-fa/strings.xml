@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apk_noinstall">این برنامه نصب نشده است</string>
+    <string name="brightness">روشنایی</string>
+    <string name="bt">تلفن</string>
+    <string name="calibration">کالیبراسیون</string>
+    <string name="camera_title">دوربین ماشین</string>
+    <string name="car_saturation">اشباع</string>
+    <string name="contrast">کنتراست</string>
+    <string name="disc">دیسک</string>
+    <string name="ipod">آيبود</string>
+    <string name="memory">حافظه</string>
+    <string name="music">موزیک</string>
+    <string name="navi">جهت یاب</string>
+    <string name="photo">عکس</string>
+    <string name="radio">رادیو</string>
+    <string name="release">انتشار</string>
+    <string name="saturation">اشباع</string>
+    <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="tv">تلویزیون</string>
+    <string name="ui">UI غیرمجاز است، لطفا با تامین کننده تماس بگیرید</string>
+    <string name="video">ویدیو</string>
+    <string name="volume">حجم صدا</string>
+</resources>

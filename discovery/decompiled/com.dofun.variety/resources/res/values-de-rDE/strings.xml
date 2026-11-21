@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="arg_res_0x7f1003d3">APK-Downloadpfad ist abnormal!</string>
+    <string name="arg_res_0x7f1003d4">- Bitte aktualisieren Sie die Version online~ \n Mehr aktualisierte Funktionen, optimierte Erfahrung</string>
+    <string name="arg_res_0x7f1003d5">(aktuelle Version:%s)</string>
+    <string name="arg_res_0x7f1003d6">Keine Erinnerung auf dem Startbildschirm</string>
+    <string name="arg_res_0x7f1003d7">Das Update-Paket konnte nicht heruntergeladen werden! Bitte versuche es erneut。</string>
+    <string name="arg_res_0x7f1003d8">Heruntergeladen:</string>
+    <string name="arg_res_0x7f1003d9">wird heruntergeladen</string>
+    <string name="arg_res_0x7f1003da">Aktualisierungspaket konnte nicht installiert werden</string>
+    <string name="arg_res_0x7f1003db">Versuch zu laden…</string>
+    <string name="arg_res_0x7f1003dc">Der Server ist beschäftigt, bitte versuchen Sie es später noch einmal</string>
+    <string name="arg_res_0x7f1003dd">Das Netzwerk ist anormal. Bitte versuchen Sie es erneut</string>
+    <string name="arg_res_0x7f1003de">Bitte überprüfen Sie Ihr Netzwerk!</string>
+    <string name="arg_res_0x7f1003df">- Derzeit die neueste Version, kein Update erforderlich!</string>
+    <string name="arg_res_0x7f1003e0">Jetzt erleben</string>
+    <string name="arg_res_0x7f1003e1">lade es erneut runter</string>
+    <string name="arg_res_0x7f1003e2">SD-Karte ist nicht verfügbar, bitte SD-Karte einlegen!</string>
+    <string name="arg_res_0x7f1003e3">%</string>
+    <string name="arg_res_0x7f1003e4">0</string>
+    <string name="arg_res_0x7f1003e5">erneuern</string>
+    <string name="arg_res_0x7f1003e6">Versionshinweise:</string>
+    <string name="arg_res_0x7f1003e7">Ausführung</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.cardoor.variety.base.ui.adapt.AutoRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rv_car_model_categories"
+    android:paddingLeft="80px"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>

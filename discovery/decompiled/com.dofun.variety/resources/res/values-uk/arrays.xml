@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arg_res_0x7f030002">
+        <item>Км/год</item>
+        <item>Миля/год</item>
+    </array>
+    <array name="arg_res_0x7f030008">
+        <item>Неділя</item>
+        <item>Понеділок</item>
+        <item>Вівторок</item>
+        <item>Середа</item>
+        <item>Четвер</item>
+        <item>П\'ятниця</item>
+        <item>Субота</item>
+    </array>
+</resources>

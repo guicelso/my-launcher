@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:id="@+id/item_nav_file_picker"
+    android:background="?android:attr/selectableItemBackground"
+    android:focusable="true"
+    android:clickable="true"
+    android:layout_width="wrap_content"
+    android:layout_height="48dp">
+    <TextView
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/arg_res_0x7f060322"
+        android:ellipsize="middle"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:id="@+id/tv_btn_nav_file_picker"
+        android:paddingLeft="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:maxEms="12"
+        android:singleLine="true"
+        android:drawableRight="@drawable/arg_res_0x7f08017a"
+        android:drawablePadding="16dp"
+        android:textAllCaps="false"
+        android:drawableEnd="@drawable/arg_res_0x7f08017a"/>
+</LinearLayout>

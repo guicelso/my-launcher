@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reverse_view_mode1">tryb standardowy</string>
+    <string name="reverse_view_mode2">pełny ekran</string>
+    <string name="reverse_view_mode3">Tryb 16:9</string>
+</resources>

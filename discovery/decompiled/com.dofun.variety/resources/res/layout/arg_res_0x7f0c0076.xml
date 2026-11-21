@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.cardoor.variety.base.ui.adapt.AutoConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="50px"
+        android:layout_marginTop="10px"
+        android:layout_marginRight="50px"
+        android:layout_marginBottom="20px"
+        app:layout_constraintTop_toTopOf="0">
+        <cn.cardoor.variety.base.ui.adapt.AutoRecyclerView
+            android:id="@+id/rv_vip_card"
+            android:background="#151e36"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.dofun.variety.auth.recharge.VipRechargeScrollBehavior"/>
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <cn.cardoor.variety.base.ui.adapt.AutoRelativeLayout
+                android:id="@+id/rl_show"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <FrameLayout
+                    android:id="@+id/fl_error"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+                        android:textSize="25px"
+                        android:textColor="#acacac"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/arg_res_0x7f1001c6"
+                        android:drawableTop="@mipmap/arg_res_0x7f0e0056"
+                        android:drawablePadding="25px"/>
+                </FrameLayout>
+            </cn.cardoor.variety.base.ui.adapt.AutoRelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</cn.cardoor.variety.base.ui.adapt.AutoConstraintLayout>

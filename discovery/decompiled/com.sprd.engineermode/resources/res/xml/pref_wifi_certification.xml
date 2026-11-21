@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:title="MAX Power"
+        android:key="max_power"
+        android:summary="@string/transmit_at_maximum_power"/>
+    <SwitchPreference
+        android:enabled="true"
+        android:title="No Sleep"
+        android:key="lna_bypass"/>
+    <SwitchPreference
+        android:title="WIFI Adaptive"
+        android:key="wifi_adaptive"/>
+    <SwitchPreference
+        android:enabled="true"
+        android:title="Scan Off"
+        android:key="wifi_scan_off"/>
+    <SwitchPreference
+        android:title="Beamforming"
+        android:key="beamforming_key"/>
+    <SwitchPreference
+        android:title="STBC RX"
+        android:key="stbc_rx_key"/>
+</PreferenceScreen>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arg_res_0x7f030002">
+        <item>קמש</item>
+        <item>קמש</item>
+    </array>
+    <array name="arg_res_0x7f030008">
+        <item>יום ראשון</item>
+        <item>יום שני</item>
+        <item>יום שלישי</item>
+        <item>יום רביעי</item>
+        <item>יום חמישי</item>
+        <item>יום שישי</item>
+        <item>יום שבת</item>
+    </array>
+</resources>

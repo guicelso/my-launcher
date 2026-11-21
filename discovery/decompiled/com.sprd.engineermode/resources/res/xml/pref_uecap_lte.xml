@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:title="@string/ue_cap_dlca"
+        android:key="dlca"/>
+    <SwitchPreference
+        android:title="@string/ue_cap_ulca"
+        android:key="ulca"/>
+    <SwitchPreference
+        android:title="@string/ue_cap_ul_64qam"
+        android:key="ul_64qam"/>
+</PreferenceScreen>

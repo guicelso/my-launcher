@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arg_res_0x7f030002">
+        <item>km/h</item>
+        <item>mph</item>
+    </array>
+    <array name="arg_res_0x7f030008">
+        <item>niedziela</item>
+        <item>poniedziałek</item>
+        <item>wtorek</item>
+        <item>środa</item>
+        <item>czwartek</item>
+        <item>piątek</item>
+        <item>w sobotę</item>
+    </array>
+</resources>

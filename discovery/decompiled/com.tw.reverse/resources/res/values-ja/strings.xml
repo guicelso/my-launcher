@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="adjust">調整</string>
+    <string name="app_name">逆転</string>
+    <string name="brightness">明るさ</string>
+    <string name="calibration">較正</string>
+    <string name="camera_alarm">「周囲の環境に注意してください」</string>
+    <string name="camera_alarm_AHD">周囲の環境に注意し、AHDHDカメラの使用をお勧めします。</string>
+    <string name="camera_alarm_user">&lt;fontcolor =＃00FFD92E &gt; AHD高解像度&lt;/ font&gt;カメラを使用することをお勧めします&lt;br&gt; CCDカメラ用になりました</string>
+    <string name="camera_alarm_user_cancel">キャンセル</string>
+    <string name="camera_alarm_user_ok">OK</string>
+    <string name="camera_detecting">検出しています...</string>
+    <string name="camera_frame">フレーム</string>
+    <string name="camera_reset">リセット</string>
+    <string name="camera_tip">ツールチップ</string>
+    <string name="camera_tip_close">閉じる</string>
+    <string name="camera_tip_open">開く</string>
+    <string name="camera_title">「カーカメラ」</string>
+    <string name="camera_title_camera">カメラ</string>
+    <string name="camera_title_settings">カメラ設定</string>
+    <string name="car_saturation">飽和</string>
+    <string name="contrast">コントラスト</string>
+    <string name="image_debounce">画像の安定化</string>
+    <string name="memory">メモリー</string>
+    <string name="reset">リセット</string>
+    <string name="reverse_tip">警告！ このオプションを変更すると、ビデオ信号が発生しない場合があります</string>
+    <string name="reverse_view_mode1">標準モード</string>
+    <string name="reverse_view_mode2">フルスクリーンモード</string>
+    <string name="reverse_view_mode3">16:9モード</string>
+    <string name="reversing_ruler_line">ルーラーラインを反転する</string>
+    <string name="reversing_ruler_line_settings">ルーラーライン設定を逆にする</string>
+    <string name="saturation">色度</string>
+    <string name="save">保存</string>
+    <string name="ui">UIが許可されていません。サプライヤに連絡してください</string>
+    <string name="warning_driving_t">警告！ \n運転中のビデオの視聴は禁止されています</string>
+    <string name="warning_signal_t">ビデオ信号がありません</string>
+</resources>

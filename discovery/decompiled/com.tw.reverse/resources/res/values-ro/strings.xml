@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="adjust">Ajustați</string>
+    <string name="app_name">Marșarier</string>
+    <string name="brightness">Luminozitate</string>
+    <string name="camera_CommonorAHD_ahd">AHD</string>
+    <string name="camera_CommonorAHD_common">CCD</string>
+    <string name="camera_alarm">Vă rugăm să acordați atenție mediului înconjurător.</string>
+    <string name="camera_alarm_AHD">Vă rugăm să acordați atenție mediului înconjurător și să recomandați utilizarea camerei AHD HD.</string>
+    <string name="camera_alarm_user">Recomandat pentru a utiliza &lt;font color=#00FFD92E&gt;cameră AHD de înaltă definiție&lt;/font&gt;acum&lt;br&gt;Acum pentru camera CCD</string>
+    <string name="camera_alarm_user_cancel">Anulare</string>
+    <string name="camera_alarm_user_ok">OK</string>
+    <string name="camera_detecting">Detectare...</string>
+    <string name="camera_frame">Cadru</string>
+    <string name="camera_reset">Resetați</string>
+    <string name="camera_tip">Sfat</string>
+    <string name="camera_tip_close">Închide</string>
+    <string name="camera_tip_open">Deschis</string>
+    <string name="camera_title">Camera auto</string>
+    <string name="camera_title_camera">Cameră</string>
+    <string name="camera_title_settings">Setările camerei</string>
+    <string name="car_saturation">Saturație</string>
+    <string name="contrast">Contrast</string>
+    <string name="image_debounce">Dereglare imagine</string>
+    <string name="reset">Reset</string>
+    <string name="reverse_ahd_auto">AUTO</string>
+    <string name="reverse_ahd_ntsc">NTSC</string>
+    <string name="reverse_ahd_pal">PAL</string>
+    <string name="reverse_tip">Avertizare! Modificarea acestei opțiuni poate duce la lipsa semnalului video</string>
+    <string name="reverse_view_mode1">Mod standard</string>
+    <string name="reverse_view_mode2">Modul ecran întreg</string>
+    <string name="reverse_view_mode3">Modul 16:9</string>
+    <string name="reversing_ruler_line">Linie de ghidare la mersul înapoi</string>
+    <string name="reversing_ruler_line_settings">Ajustare linie de ghidare la mersul înapoi</string>
+    <string name="saturation">Saturație</string>
+    <string name="save">Salvați</string>
+    <string name="warning_signal_t">Fără semnal video</string>
+</resources>

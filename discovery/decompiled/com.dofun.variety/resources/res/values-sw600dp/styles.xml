@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="arg_res_0x7f110384" parent="@style/arg_res_0x7f1100f6">
+        <item name="arg_res_0x7f0405a8">center</item>
+        <item name="arg_res_0x7f0405b8">fixed</item>
+    </style>
+</resources>

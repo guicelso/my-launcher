@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="cvbs_mode_entries">
+        <item>@string/cvbs_mode_interlace</item>
+        <item>@string/cvbs_mode_deinterlace</item>
+    </array>
+    <array name="cvbs_mode_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+</resources>

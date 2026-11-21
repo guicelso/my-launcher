@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:title="Preview"
+        android:key="preview"/>
+    <Preference
+        android:title="Recording"
+        android:key="recording"/>
+    <Preference
+        android:title="Restore Defaults"
+        android:key="restore_defaults"/>
+</PreferenceScreen>

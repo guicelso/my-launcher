@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arg_res_0x7f030002">
+        <item>กม. / ชม</item>
+        <item>ไมล์ / ชั่วโมง</item>
+    </array>
+    <array name="arg_res_0x7f030008">
+        <item>วันอาทิตย์</item>
+        <item>วันจันทร์</item>
+        <item>วันอังคาร</item>
+        <item>วันพุธ</item>
+        <item>วันพฤหัสบดี</item>
+        <item>วันศุกร์</item>
+        <item>วันเสาร์</item>
+    </array>
+</resources>

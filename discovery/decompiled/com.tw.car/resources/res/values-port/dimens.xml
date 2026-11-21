@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fuel_data_height">@dimen/tw_dp_h60</dimen>
+    <dimen name="fuel_data_text">@dimen/tw_dp_h16</dimen>
+    <dimen name="fuel_data_width1">@dimen/tw_dp_w350</dimen>
+    <dimen name="fuel_data_width2">@dimen/tw_dp_w300</dimen>
+    <dimen name="fuel_width">@dimen/tw_dp_w1000</dimen>
+</resources>

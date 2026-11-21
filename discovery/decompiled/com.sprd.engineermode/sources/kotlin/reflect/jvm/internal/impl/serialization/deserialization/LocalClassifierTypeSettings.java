@@ -1,0 +1,25 @@
+package kotlin.reflect.jvm.internal.impl.serialization.deserialization;
+
+import kotlin.reflect.jvm.internal.impl.types.SimpleType;
+import org.jetbrains.annotations.Nullable;
+
+/* JADX INFO: compiled from: LocalClassifierTypeSettings.kt */
+/* JADX INFO: loaded from: classes4.dex */
+public interface LocalClassifierTypeSettings {
+    @Nullable
+    SimpleType getReplacementTypeForLocalClassifiers();
+
+    /* JADX INFO: compiled from: LocalClassifierTypeSettings.kt */
+    public static final class Default implements LocalClassifierTypeSettings {
+        public static final Default INSTANCE = new Default();
+
+        private Default() {
+        }
+
+        @Override // kotlin.reflect.jvm.internal.impl.serialization.deserialization.LocalClassifierTypeSettings
+        @Nullable
+        public SimpleType getReplacementTypeForLocalClassifiers() {
+            return null;
+        }
+    }
+}

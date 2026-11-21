@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<view xmlns:android="http://schemas.android.com/apk/res/android"
+    android:theme="@style/arg_res_0x7f1102bf"
+    android:layout_gravity="bottom"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    class="com.google.android.material.snackbar.SnackbarContentLayout">
+    <TextView
+        android:textAppearance="@style/arg_res_0x7f110219"
+        android:ellipsize="end"
+        android:layout_gravity="start|center_vertical"
+        android:id="@+id/snackbar_text"
+        android:paddingLeft="@dimen/arg_res_0x7f07008c"
+        android:paddingTop="@dimen/arg_res_0x7f07008d"
+        android:paddingRight="@dimen/arg_res_0x7f07008c"
+        android:paddingBottom="@dimen/arg_res_0x7f07008d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="@integer/arg_res_0x7f0a0006"
+        android:layout_weight="1"
+        android:textAlignment="viewStart"/>
+    <Button
+        android:textColor="?attr/arg_res_0x7f040213"
+        android:layout_gravity="end|center_vertical"
+        android:id="@+id/snackbar_action"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/arg_res_0x7f070089"
+        android:minWidth="48dp"
+        android:layout_marginStart="@dimen/arg_res_0x7f070089"
+        style="?attr/arg_res_0x7f040185"/>
+</view>

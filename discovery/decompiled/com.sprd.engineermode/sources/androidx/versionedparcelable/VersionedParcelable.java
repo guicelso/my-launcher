@@ -1,0 +1,8 @@
+package androidx.versionedparcelable;
+
+import android.support.annotation.RestrictTo;
+
+/* JADX INFO: loaded from: classes4.dex */
+@RestrictTo({RestrictTo.Scope.LIBRARY_GROUP})
+public interface VersionedParcelable {
+}

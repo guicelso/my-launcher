@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="adjust">Upravit</string>
+    <string name="app_name">Couvání</string>
+    <string name="brightness">Jas</string>
+    <string name="camera_alarm">Věnujte prosím pozornost okolí vozu</string>
+    <string name="camera_alarm_AHD">Věnujte pozornost okolí vozu, doporučujeme použití kamery AHD HD.</string>
+    <string name="camera_alarm_user">Doporučeno použít &lt;font color=#00FFD92E&gt;AHD High Definition&lt;/font&gt;fotoaparát&lt;br&gt;nyní pro kameru CCD</string>
+    <string name="camera_alarm_user_cancel">Zrušit</string>
+    <string name="camera_alarm_user_ok">OK</string>
+    <string name="camera_detecting">Detekce…</string>
+    <string name="camera_frame">Rámec</string>
+    <string name="camera_reset">Reset</string>
+    <string name="camera_tip">Počáteční lišta</string>
+    <string name="camera_tip_close">Zavřít</string>
+    <string name="camera_tip_open">Otevřít</string>
+    <string name="camera_title">Kamera</string>
+    <string name="camera_title_camera">Kamera</string>
+    <string name="camera_title_settings">Nastavení kamery</string>
+    <string name="car_saturation">Sytost</string>
+    <string name="contrast">Kontrast</string>
+    <string name="image_debounce">Stabilizace obrazu</string>
+    <string name="mirror_left_right">Zrcadlový obraz →/←</string>
+    <string name="mirror_top_bottom">Zrcadlový obraz ↑/↓</string>
+    <string name="reset">Restart</string>
+    <string name="reverse_tip">Varování! Úprava této možnosti může mít za následek ztrátu video signálu</string>
+    <string name="reversing_ruler_line">Linie couvání</string>
+    <string name="reversing_ruler_line_settings">Upravit linii couvání</string>
+    <string name="saturation">Sytost</string>
+    <string name="save">Uložit</string>
+    <string name="warning_signal_t">Žádný video signál</string>
+</resources>

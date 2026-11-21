@@ -1,0 +1,239 @@
+package io.reactivex.internal.operators.flowable;
+
+import io.reactivex.Flowable;
+import io.reactivex.FlowableSubscriber;
+import io.reactivex.exceptions.MissingBackpressureException;
+import io.reactivex.internal.queue.MpscLinkedQueue;
+import io.reactivex.internal.subscriptions.SubscriptionHelper;
+import io.reactivex.internal.util.AtomicThrowable;
+import io.reactivex.internal.util.BackpressureHelper;
+import io.reactivex.plugins.RxJavaPlugins;
+import io.reactivex.processors.UnicastProcessor;
+import io.reactivex.subscribers.DisposableSubscriber;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
+import kotlin.jvm.internal.LongCompanionObject;
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
+/* JADX INFO: loaded from: classes4.dex */
+public final class FlowableWindowBoundary<T, B> extends AbstractFlowableWithUpstream<T, Flowable<T>> {
+    final int capacityHint;
+    final Publisher<B> other;
+
+    public FlowableWindowBoundary(Flowable<T> source, Publisher<B> other, int capacityHint) {
+        super(source);
+        this.other = other;
+        this.capacityHint = capacityHint;
+    }
+
+    @Override // io.reactivex.Flowable
+    protected void subscribeActual(Subscriber<? super Flowable<T>> subscriber) {
+        WindowBoundaryMainSubscriber<T, B> parent = new WindowBoundaryMainSubscriber<>(subscriber, this.capacityHint);
+        subscriber.onSubscribe(parent);
+        parent.innerNext();
+        this.other.subscribe(parent.boundarySubscriber);
+        this.source.subscribe((FlowableSubscriber) parent);
+    }
+
+    static final class WindowBoundaryMainSubscriber<T, B> extends AtomicInteger implements FlowableSubscriber<T>, Subscription, Runnable {
+        static final Object NEXT_WINDOW = new Object();
+        private static final long serialVersionUID = 2233020065421370272L;
+        final int capacityHint;
+        volatile boolean done;
+        final Subscriber<? super Flowable<T>> downstream;
+        long emitted;
+        UnicastProcessor<T> window;
+        final WindowBoundaryInnerSubscriber<T, B> boundarySubscriber = new WindowBoundaryInnerSubscriber<>(this);
+        final AtomicReference<Subscription> upstream = new AtomicReference<>();
+        final AtomicInteger windows = new AtomicInteger(1);
+        final MpscLinkedQueue<Object> queue = new MpscLinkedQueue<>();
+        final AtomicThrowable errors = new AtomicThrowable();
+        final AtomicBoolean stopWindows = new AtomicBoolean();
+        final AtomicLong requested = new AtomicLong();
+
+        WindowBoundaryMainSubscriber(Subscriber<? super Flowable<T>> downstream, int capacityHint) {
+            this.downstream = downstream;
+            this.capacityHint = capacityHint;
+        }
+
+        @Override // io.reactivex.FlowableSubscriber
+        public void onSubscribe(Subscription s) {
+            SubscriptionHelper.setOnce(this.upstream, s, LongCompanionObject.MAX_VALUE);
+        }
+
+        public void onNext(T t) {
+            this.queue.offer(t);
+            drain();
+        }
+
+        public void onError(Throwable e) {
+            this.boundarySubscriber.dispose();
+            if (this.errors.addThrowable(e)) {
+                this.done = true;
+                drain();
+            } else {
+                RxJavaPlugins.onError(e);
+            }
+        }
+
+        public void onComplete() {
+            this.boundarySubscriber.dispose();
+            this.done = true;
+            drain();
+        }
+
+        public void cancel() {
+            if (this.stopWindows.compareAndSet(false, true)) {
+                this.boundarySubscriber.dispose();
+                if (this.windows.decrementAndGet() == 0) {
+                    SubscriptionHelper.cancel(this.upstream);
+                }
+            }
+        }
+
+        public void request(long n) {
+            BackpressureHelper.add(this.requested, n);
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            if (this.windows.decrementAndGet() == 0) {
+                SubscriptionHelper.cancel(this.upstream);
+            }
+        }
+
+        void innerNext() {
+            this.queue.offer(NEXT_WINDOW);
+            drain();
+        }
+
+        void innerError(Throwable e) {
+            SubscriptionHelper.cancel(this.upstream);
+            if (this.errors.addThrowable(e)) {
+                this.done = true;
+                drain();
+            } else {
+                RxJavaPlugins.onError(e);
+            }
+        }
+
+        void innerComplete() {
+            SubscriptionHelper.cancel(this.upstream);
+            this.done = true;
+            drain();
+        }
+
+        void drain() {
+            if (getAndIncrement() != 0) {
+                return;
+            }
+            int iAddAndGet = 1;
+            Subscriber<? super Flowable<T>> subscriber = this.downstream;
+            MpscLinkedQueue<Object> mpscLinkedQueue = this.queue;
+            AtomicThrowable atomicThrowable = this.errors;
+            long j = this.emitted;
+            while (this.windows.get() != 0) {
+                UnicastProcessor<T> unicastProcessor = this.window;
+                boolean z = this.done;
+                if (z && atomicThrowable.get() != null) {
+                    mpscLinkedQueue.clear();
+                    Throwable thTerminate = atomicThrowable.terminate();
+                    if (unicastProcessor != null) {
+                        this.window = null;
+                        unicastProcessor.onError(thTerminate);
+                    }
+                    subscriber.onError(thTerminate);
+                    return;
+                }
+                Object objPoll = mpscLinkedQueue.poll();
+                boolean z2 = objPoll == null;
+                if (z && z2) {
+                    Throwable thTerminate2 = atomicThrowable.terminate();
+                    if (thTerminate2 == null) {
+                        if (unicastProcessor != null) {
+                            this.window = null;
+                            unicastProcessor.onComplete();
+                        }
+                        subscriber.onComplete();
+                        return;
+                    }
+                    if (unicastProcessor != null) {
+                        this.window = null;
+                        unicastProcessor.onError(thTerminate2);
+                    }
+                    subscriber.onError(thTerminate2);
+                    return;
+                }
+                if (!z2) {
+                    if (objPoll != NEXT_WINDOW) {
+                        unicastProcessor.onNext((T) objPoll);
+                    } else {
+                        if (unicastProcessor != null) {
+                            this.window = null;
+                            unicastProcessor.onComplete();
+                        }
+                        if (!this.stopWindows.get()) {
+                            UnicastProcessor<T> unicastProcessorCreate = UnicastProcessor.create(this.capacityHint, this);
+                            this.window = unicastProcessorCreate;
+                            this.windows.getAndIncrement();
+                            if (j != this.requested.get()) {
+                                j++;
+                                subscriber.onNext(unicastProcessorCreate);
+                            } else {
+                                SubscriptionHelper.cancel(this.upstream);
+                                this.boundarySubscriber.dispose();
+                                atomicThrowable.addThrowable(new MissingBackpressureException("Could not deliver a window due to lack of requests"));
+                                this.done = true;
+                            }
+                        }
+                    }
+                } else {
+                    this.emitted = j;
+                    iAddAndGet = addAndGet(-iAddAndGet);
+                    if (iAddAndGet == 0) {
+                        return;
+                    }
+                }
+            }
+            mpscLinkedQueue.clear();
+            this.window = null;
+        }
+    }
+
+    static final class WindowBoundaryInnerSubscriber<T, B> extends DisposableSubscriber<B> {
+        boolean done;
+        final WindowBoundaryMainSubscriber<T, B> parent;
+
+        WindowBoundaryInnerSubscriber(WindowBoundaryMainSubscriber<T, B> parent) {
+            this.parent = parent;
+        }
+
+        public void onNext(B t) {
+            if (this.done) {
+                return;
+            }
+            this.parent.innerNext();
+        }
+
+        public void onError(Throwable t) {
+            if (this.done) {
+                RxJavaPlugins.onError(t);
+            } else {
+                this.done = true;
+                this.parent.innerError(t);
+            }
+        }
+
+        public void onComplete() {
+            if (this.done) {
+                return;
+            }
+            this.done = true;
+            this.parent.innerComplete();
+        }
+    }
+}

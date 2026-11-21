@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="arg_res_0x7f11014c" parent="@style/arg_res_0x7f110157">
+    </style>
+    <style name="arg_res_0x7f11014d" parent="@style/arg_res_0x7f110158">
+    </style>
+    <style name="arg_res_0x7f110157" parent="@android:style/Theme.Material.NoActionBar">
+    </style>
+    <style name="arg_res_0x7f110158" parent="@android:style/Theme.Material.Light.NoActionBar">
+    </style>
+</resources>

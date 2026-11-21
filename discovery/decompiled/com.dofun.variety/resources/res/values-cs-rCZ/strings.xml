@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="arg_res_0x7f1003d3">Cesta ke stažení APK je abnormální!</string>
+    <string name="arg_res_0x7f1003d4">- Aktualizujte prosím síťovou verzi ~ Další funkce aktualizace, optimalizovat zážitek</string>
+    <string name="arg_res_0x7f1003d5">(Aktuální verze:%s)</string>
+    <string name="arg_res_0x7f1003d6">Nepřipomínat na ploše</string>
+    <string name="arg_res_0x7f1003d7">Stažení aktualizačního balíčku se nezdařilo! Zkuste to prosím znovu.</string>
+    <string name="arg_res_0x7f1003d8">Staženo:</string>
+    <string name="arg_res_0x7f1003d9">Stahování</string>
+    <string name="arg_res_0x7f1003da">Balíček aktualizace instalace se nezdařil</string>
+    <string name="arg_res_0x7f1003db">Těžko naložit…</string>
+    <string name="arg_res_0x7f1003dc">Server je zaneprázdněn, zkuste to prosím znovu později</string>
+    <string name="arg_res_0x7f1003dd">Síť je neobvyklá! Zkuste to prosím znovu</string>
+    <string name="arg_res_0x7f1003de">Zkontrolujte síť!</string>
+    <string name="arg_res_0x7f1003df">- Aktuálně aktuální, nevyžadují se žádné aktualizace!</string>
+    <string name="arg_res_0x7f1003e0">zažít teď</string>
+    <string name="arg_res_0x7f1003e1">stáhnout znovu</string>
+    <string name="arg_res_0x7f1003e2">Karta SD není k dispozici, vložte prosím kartu SD!</string>
+    <string name="arg_res_0x7f1003e3">%</string>
+    <string name="arg_res_0x7f1003e4">0</string>
+    <string name="arg_res_0x7f1003e5">Aktualizovat</string>
+    <string name="arg_res_0x7f1003e6">Pokyny k aktualizaci:</string>
+    <string name="arg_res_0x7f1003e7">Verze</string>
+</resources>

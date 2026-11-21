@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_top_content"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpaper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/iv_back"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/tw_dp_h30"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+        <ImageView
+            android:id="@+id/shape_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tw_dp_w25"
+            android:layout_marginRight="@dimen/tw_dp_w25"
+            android:src="@drawable/tw_lev_shape"
+            android:scaleType="center"/>
+        <ImageView
+            android:id="@+id/shape_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tw_dp_w25"
+            android:layout_marginRight="@dimen/tw_dp_w25"
+            android:src="@drawable/tw_lev_shape"
+            android:scaleType="center"/>
+        <ImageView
+            android:id="@+id/shape_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tw_dp_w25"
+            android:layout_marginRight="@dimen/tw_dp_w25"
+            android:src="@drawable/tw_lev_shape"
+            android:scaleType="center"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/tw_color_panle_change"
+        android:layout_width="@dimen/color_panel_width"
+        android:layout_height="@dimen/tw_dp_h300"
+        android:layout_marginTop="@dimen/tw_dp_h110"
+        android:layout_centerHorizontal="true">
+        <include layout="@layout/tw_color_panle_change"/>
+    </RelativeLayout>
+</RelativeLayout>

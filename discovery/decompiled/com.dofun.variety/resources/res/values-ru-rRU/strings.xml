@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="arg_res_0x7f1003d3">APK путь загрузки ненормальный!</string>
+    <string name="arg_res_0x7f1003d4">- Пожалуйста, обновите сетевую версию ~  n Дополнительные функции обновления, оптимизируйте работу</string>
+    <string name="arg_res_0x7f1003d5">(Текущая версия:%s)</string>
+    <string name="arg_res_0x7f1003d6">Не напоминать на главном экране</string>
+    <string name="arg_res_0x7f1003d7">Загрузка пакета обновления не удалась! Пожалуйста, попробуйте еще раз.</string>
+    <string name="arg_res_0x7f1003d8">загруженный:</string>
+    <string name="arg_res_0x7f1003d9">загрузка</string>
+    <string name="arg_res_0x7f1003da">Не удалось установить пакет обновления</string>
+    <string name="arg_res_0x7f1003db">Трудно загрузить…</string>
+    <string name="arg_res_0x7f1003dc">Сервер занят, пожалуйста, попробуйте позже</string>
+    <string name="arg_res_0x7f1003dd">Сеть ненормальная! Пожалуйста, попробуйте еще раз</string>
+    <string name="arg_res_0x7f1003de">Пожалуйста, проверьте вашу сеть!</string>
+    <string name="arg_res_0x7f1003df">- В настоящее время обновляется, обновлений не требуется!</string>
+    <string name="arg_res_0x7f1003e0">опыт сейчас</string>
+    <string name="arg_res_0x7f1003e1">скачать снова</string>
+    <string name="arg_res_0x7f1003e2">SD-карта недоступна, пожалуйста, вставьте SD-карту!</string>
+    <string name="arg_res_0x7f1003e3">%</string>
+    <string name="arg_res_0x7f1003e4">0</string>
+    <string name="arg_res_0x7f1003e5">обновление</string>
+    <string name="arg_res_0x7f1003e6">Обновить инструкции:</string>
+    <string name="arg_res_0x7f1003e7">издание</string>
+</resources>

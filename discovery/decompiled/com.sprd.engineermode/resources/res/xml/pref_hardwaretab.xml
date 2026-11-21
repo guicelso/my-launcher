@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.sprd.engineermode.EMLongClickPreference
+        android:title="De Sense PLL"
+        android:key="de_sense_pll"
+        android:summary="@string/de_sense_pll_introduction">
+        <intent
+            android:targetPackage="com.sprd.engineermode"
+            android:action="android.intent.action.MAIN"
+            android:targetClass="com.sprd.engineermode.hardware.DeSensePLLActivity"/>
+    </com.sprd.engineermode.EMLongClickPreference>
+    <com.sprd.engineermode.EMSwitchPreference
+        android:title="Control charge region"
+        android:key="usb_charge"/>
+    <com.sprd.engineermode.EMSwitchPreference
+        android:title="Camera Idle Sleep"
+        android:key="camera_idle_sleep"
+        android:summaryOn="Open"
+        android:summaryOff="Close"/>
+    <com.sprd.engineermode.EMSwitchPreference
+        android:title="@string/camera_test_mode"
+        android:key="camera_test_mode"
+        android:summaryOn="Open"
+        android:summaryOff="Close"/>
+    <ListPreference
+        android:entries="@array/reset_setting_entries"
+        android:title="Reset Setting"
+        android:key="reset_setting"
+        android:defaultValue="0"
+        android:entryValues="@array/reset_setting_values"/>
+    <Preference
+        android:title="@string/antenna_set"
+        android:key="antenna_set">
+        <intent
+            android:targetPackage="com.sprd.engineermode"
+            android:action="android.intent.action.MAIN"
+            android:targetClass="com.sprd.engineermode.hardware.AntennaSettingsActivity"/>
+    </Preference>
+    <ListPreference
+        android:entries="@array/asdiv_value"
+        android:title="@string/asdiv_settings"
+        android:key="asdiv_key"
+        android:dialogTitle="@string/asdiv_settings"
+        android:entryValues="@array/asdiv_string"/>
+    <com.sprd.engineermode.EMLongClickPreference
+        android:title="@string/coulometer_power"
+        android:key="coulometer_power"
+        android:summary="@string/coulometer_power_introduction">
+        <intent
+            android:targetPackage="com.sprd.engineermode"
+            android:action="android.intent.action.MAIN"
+            android:targetClass="com.sprd.engineermode.hardware.CoulometerPowerTestActivity"/>
+    </com.sprd.engineermode.EMLongClickPreference>
+    <com.sprd.engineermode.EMLongClickPreference
+        android:title="@string/camera_fps"
+        android:key="camera_fps"
+        android:summary="@string/camera_fps_introduction">
+        <intent
+            android:targetPackage="com.sprd.engineermode"
+            android:action="android.intent.action.MAIN"
+            android:targetClass="com.sprd.engineermode.hardware.CameraFPSActivity"/>
+    </com.sprd.engineermode.EMLongClickPreference>
+    <com.sprd.engineermode.EMSwitchPreference
+        android:title="FM play by DSP"
+        android:key="fm_dsp"/>
+    <Preference
+        android:title="RF Send Power"
+        android:key="key_sendpower"/>
+</PreferenceScreen>

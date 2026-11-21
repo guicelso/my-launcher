@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="Bluetooth Settings">
+    <PreferenceCategory android:title="BQB">
+        <Preference
+            android:title="Controller BQB Mode"
+            android:key="controller_bqb_mode"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="more">
+        <Preference
+            android:title="Mod_Index / LE_PHY"
+            android:key="more_settings"/>
+    </PreferenceCategory>
+</PreferenceScreen>

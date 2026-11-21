@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="PS Related"
+    android:summary="More information">
+    <PreferenceScreen android:title="Lock Frequency">
+        <Preference
+            android:title="GSM Frequency"
+            android:key="gsm_frequency"/>
+        <Preference
+            android:title="TD/W/LTE Frequency"
+            android:key="others_frequency"/>
+    </PreferenceScreen>
+    <Preference
+        android:title="AOC Setting"
+        android:key="aocsetting"/>
+    <Preference
+        android:title="@string/hspa_setting"
+        android:key="hspa_setting">
+        <intent
+            android:targetPackage="com.sprd.engineermode"
+            android:action="android.intent.action.MAIN"
+            android:targetClass="com.sprd.engineermode.telephony.HspaSettingActivity"/>
+    </Preference>
+</PreferenceScreen>

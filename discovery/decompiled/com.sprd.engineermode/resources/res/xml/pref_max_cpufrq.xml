@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="@string/maxcpufrq">
+    <Preference
+        android:title="@string/ca53_frq"
+        android:key="ca53_frq"/>
+    <Preference
+        android:title="@string/jvl_frq"
+        android:key="jvl_frq"/>
+</PreferenceScreen>

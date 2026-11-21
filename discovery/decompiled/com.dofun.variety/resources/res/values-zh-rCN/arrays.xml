@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arg_res_0x7f030000">
+        <item>百帕</item>
+        <item>英寸汞柱</item>
+    </array>
+    <array name="arg_res_0x7f030001">
+        <item>米</item>
+        <item>英尺</item>
+    </array>
+    <array name="arg_res_0x7f030002">
+        <item>公里/时</item>
+        <item>英里/时</item>
+    </array>
+    <array name="arg_res_0x7f030008">
+        <item>星期天</item>
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+    </array>
+    <array name="arg_res_0x7f030009">
+        <item>日</item>
+        <item>一</item>
+        <item>二</item>
+        <item>三</item>
+        <item>四</item>
+        <item>五</item>
+        <item>六</item>
+    </array>
+</resources>

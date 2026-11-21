@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" style="@style/fragment_root_style">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="@string/sound_setting1"
+            style="@style/fragmen_title_style"/>
+        <LinearLayout style="@style/fragment_linearlayout_style">
+            <com.dofun.carsetting.widget.InfoPreference
+                android:entries="@array/key_tone_entries"
+                android:id="@+id/ip_key_tone"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entryValues="@array/key_tone_entries_value"
+                app:key="ip_key_tone"
+                app:title="@string/buzzer_settings_title"/>
+            <com.dofun.carsetting.widget.InfoPreference
+                android:entries="@array/sound_priority_entries"
+                android:id="@+id/ip_sound_priority"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entryValues="@array/sound_priority_values"
+                app:key="sound_priority"
+                app:title="@string/sound_priority_title"/>
+            <com.dofun.carsetting.widget.InfoPreference
+                android:entries="@array/navi_channel_entries"
+                android:id="@+id/ip_navi_channel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entryValues="@array/navi_channel_values"
+                app:key="navi_channel"
+                app:title="@string/navi_audio_title"/>
+            <com.dofun.carsetting.widget.InfoPreference
+                android:id="@+id/ringtone_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:key="ringtone_title"
+                app:title="@string/ringtone_title"/>
+            <com.dofun.carsetting.widget.InfoPreference
+                android:entries="@array/svc_entries"
+                android:id="@+id/speed_compensation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entryValues="@array/svc_values"
+                app:key="speed_compensation"
+                app:title="@string/svc_title"/>
+            <com.dofun.carsetting.widget.SwitchPreference
+                android:id="@+id/hdmi_raw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:key="hdmi_raw"
+                app:title="@string/hdmi_raw"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/ll_sound_mix"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:text="@string/guide_mix_voice_set"
+                style="@style/fragmen_title_style"/>
+            <LinearLayout style="@style/fragment_linearlayout_style">
+                <TextView
+                    android:text="@string/key_navi"
+                    style="@style/fragment_hint_style"/>
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <View style="@style/FragmentFacilitySeekbarView"/>
+                    <SeekBar
+                        android:id="@+id/guide_sound_seek_bar"
+                        style="@style/CustomSeekbarStyle"/>
+                    <View style="@style/FragmentFacilitySeekbarView"/>
+                </LinearLayout>
+                <View style="@style/fragment_divider_View_style"/>
+                <TextView
+                    android:text="@string/guide_background_void"
+                    style="@style/fragment_hint_style"/>
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <View style="@style/FragmentFacilitySeekbarView"/>
+                    <SeekBar
+                        android:id="@+id/background_sound_seek_bar"
+                        style="@style/CustomSeekbarStyle"/>
+                    <View style="@style/FragmentFacilitySeekbarView"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

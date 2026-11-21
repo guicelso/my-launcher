@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="adjust">Ajustar</string>
+    <string name="app_name">Cámara</string>
+    <string name="brightness">brillo</string>
+    <string name="calibration">Calibración</string>
+    <string name="camera_alarm">Por favor, preste atención al entorno circundante.</string>
+    <string name="camera_alarm_AHD">Preste atención al entorno circundante y recomiende el uso de la cámara AHD HD.</string>
+    <string name="camera_alarm_user_cancel">Cancelar</string>
+    <string name="camera_alarm_user_ok">OK</string>
+    <string name="camera_detecting">Comprobación</string>
+    <string name="camera_frame">Marco</string>
+    <string name="camera_reset">Reiniciar</string>
+    <string name="camera_tip_close">Cerrado</string>
+    <string name="camera_tip_open">Abierto</string>
+    <string name="camera_title">Cámara de coche</string>
+    <string name="camera_title_settings">Ajustes de la cámara</string>
+    <string name="car_saturation">Saturación</string>
+    <string name="contrast">Contraste</string>
+    <string name="disc">Disco</string>
+    <string name="front">Cámara frontal</string>
+    <string name="image_debounce">Estabilización de imágen</string>
+    <string name="memory">memoria</string>
+    <string name="photo">Foto</string>
+    <string name="reset">Reiniciar</string>
+    <string name="reverse_nissan_no_prompt_display">Sin visualización de aviso</string>
+    <string name="reverse_tip">¡Advertencia! La modificación de esta opción puede resultar en que no haya señal de video.</string>
+    <string name="reverse_view_mode1">Modo Estandar</string>
+    <string name="reverse_view_mode2">Modo de pantalla completa</string>
+    <string name="reverse_view_mode3">Modo 16:9</string>
+    <string name="reversing_ruler_line">Liíeas de cámara</string>
+    <string name="reversing_ruler_line_settings">Ajuste líneas de cámara</string>
+    <string name="saturation">Saturación</string>
+    <string name="save">Guardar</string>
+    <string name="stop">STOP</string>
+    <string name="traffic">Tráfico</string>
+    <string name="ui">Interfaz de usuario no autorizada, comuníquese con el proveedor</string>
+    <string name="warning_driving_t">¡Advertencia! \n Está prohibido mirar videos mientras se conduce</string>
+    <string name="warning_signal_t">Sin señal de vídeo</string>
+</resources>

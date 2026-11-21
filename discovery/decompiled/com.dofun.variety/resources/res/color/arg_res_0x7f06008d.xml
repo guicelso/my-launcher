@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:state_enabled="false"
+        android:color="?attr/arg_res_0x7f04022a"
+        android:alpha="@dimen/arg_res_0x7f070109"/>
+    <item
+        android:color="?attr/arg_res_0x7f04021a"
+        app:state_error="true"/>
+    <item
+        android:color="?attr/arg_res_0x7f040233"
+        app:state_indeterminate="true"/>
+    <item
+        android:state_checked="true"
+        android:color="?attr/arg_res_0x7f040233"/>
+    <item
+        android:state_checked="false"
+        android:color="?attr/arg_res_0x7f04022c"/>
+</selector>

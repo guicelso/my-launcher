@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:background="@drawable/rb_item_bg"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/navi_bar_item_height">
+    <ImageView
+        android:id="@+id/id_navi_bar_icon"
+        android:layout_width="@dimen/main_radio_btn_drawable_size"
+        android:layout_height="@dimen/main_radio_btn_drawable_size"
+        android:scaleType="centerInside"/>
+    <TextView
+        android:textSize="@dimen/title_text_size"
+        android:textColor="@color/text_color_normal"
+        android:gravity="center"
+        android:id="@+id/id_navi_bar_text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/tw_dp_w1"/>
+</LinearLayout>

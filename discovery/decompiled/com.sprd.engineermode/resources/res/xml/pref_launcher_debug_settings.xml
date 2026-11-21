@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/launcherdebug"
+    android:key="launcher_debug_preferencescreen">
+    <PreferenceCategory
+        android:title="Launcher"
+        android:key="category_launcher">
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="All Log"
+            android:key="launcher_all_log"
+            android:disableDependentsState="true"/>
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="External Message Log"
+            android:key="launcher_external_log"
+            android:dependency="launcher_all_log"/>
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="Loader Log"
+            android:key="launcher_loader_log"
+            android:dependency="launcher_all_log"/>
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="Widget Log"
+            android:key="launcher_widget_log"
+            android:dependency="launcher_all_log"/>
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="Performance Log"
+            android:key="launcher_perform_log"
+            android:dependency="launcher_all_log"/>
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="Unread Log"
+            android:key="launcher_unread_log"
+            android:dependency="launcher_all_log"/>
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="Dynamicicon Log"
+            android:key="launcher_dynamicicon_log"
+            android:dependency="launcher_all_log"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Wallpapers">
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="Wallpapers Log"
+            android:key="wallpapers_log"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="LauncherFrameworks">
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="LauncherFrameworks Log"
+            android:key="launcherframeworks_log"/>
+    </PreferenceCategory>
+</PreferenceScreen>

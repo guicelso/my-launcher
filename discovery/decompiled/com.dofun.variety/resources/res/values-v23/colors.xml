@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="arg_res_0x7f060002">r/i/c.xml</color>
+    <color name="arg_res_0x7f060003">r/i/d.xml</color>
+    <color name="pb">r/i/pb.xml</color>
+    <color name="arg_res_0x7f060013">r/i/s.xml</color>
+    <color name="arg_res_0x7f060014">r/i/t.xml</color>
+    <color name="arg_res_0x7f060015">r/i/u.xml</color>
+    <color name="arg_res_0x7f060016">r/i/v.xml</color>
+    <color name="arg_res_0x7f060017">r/i/u.xml</color>
+    <color name="arg_res_0x7f060018">r/i/x.xml</color>
+</resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:maxLength="10"
+        android:numeric="integer"
+        android:title="@string/dev_flag_1"
+        android:key="dev_flag_1"
+        android:summary="please input data"/>
+    <EditTextPreference
+        android:maxLength="10"
+        android:numeric="integer"
+        android:title="@string/dev_flag_2"
+        android:key="dev_flag_2"
+        android:summary="please input data"/>
+    <EditTextPreference
+        android:maxLength="10"
+        android:numeric="integer"
+        android:title="@string/dev_flag_3"
+        android:key="dev_flag_3"
+        android:summary="please input data"/>
+</PreferenceScreen>

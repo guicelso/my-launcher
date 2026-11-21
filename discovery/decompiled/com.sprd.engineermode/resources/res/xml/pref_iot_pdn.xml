@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="Iot Pdp">
+    <com.sprd.engineermode.EMSwitchPreference
+        android:title="PDP 2"
+        android:key="key_pdp_one"
+        android:defaultValue="false"
+        android:summaryOn="Activate"
+        android:summaryOff="Deactivate"/>
+    <com.sprd.engineermode.EMSwitchPreference
+        android:title="PDP 3"
+        android:key="key_pdp_two"
+        android:defaultValue="false"
+        android:summaryOn="Activate"
+        android:summaryOff="Deactivate"/>
+    <PreferenceScreen android:title="@string/dedicate_pdn">
+        <Preference
+            android:title="AT+CGDSCONT"
+            android:key="at_cgd">
+            <intent
+                android:targetPackage="com.sprd.engineermode"
+                android:action="android.intent.action.MAIN"
+                android:targetClass="com.sprd.engineermode.debuglog.DdedicateCgdPdpActivity"/>
+        </Preference>
+        <Preference
+            android:title="AT+CGEQOS"
+            android:key="at_cge">
+            <intent
+                android:targetPackage="com.sprd.engineermode"
+                android:action="android.intent.action.MAIN"
+                android:targetClass="com.sprd.engineermode.debuglog.DdedicateCgePdpActivity"/>
+        </Preference>
+        <Preference
+            android:title="AT+CGTFT"
+            android:key="at_cgt">
+            <intent
+                android:targetPackage="com.sprd.engineermode"
+                android:action="android.intent.action.MAIN"
+                android:targetClass="com.sprd.engineermode.debuglog.DdedicateCgtPdpActivity"/>
+        </Preference>
+        <Preference
+            android:title="AT+CGACT"
+            android:key="at_cga">
+            <intent
+                android:targetPackage="com.sprd.engineermode"
+                android:action="android.intent.action.MAIN"
+                android:targetClass="com.sprd.engineermode.debuglog.DdedicateCgaPdpActivity"/>
+        </Preference>
+    </PreferenceScreen>
+</PreferenceScreen>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="arg_res_0x7f11004f" parent="@style/arg_res_0x7f11004d">
+    </style>
+    <style name="arg_res_0x7f110056" parent="@style/arg_res_0x7f110054">
+    </style>
+    <style name="arg_res_0x7f110067" parent="@style/arg_res_0x7f110065">
+    </style>
+    <style name="arg_res_0x7f110071" parent="@style/arg_res_0x7f11006f">
+    </style>
+    <style name="arg_res_0x7f110277" parent="@style/arg_res_0x7f110059">
+        <item name="arg_res_0x7f040682">@dimen/arg_res_0x7f07001c</item>
+        <item name="arg_res_0x7f040683">@dimen/arg_res_0x7f07001d</item>
+        <item name="arg_res_0x7f040684">@dimen/arg_res_0x7f07001e</item>
+        <item name="arg_res_0x7f040685">@dimen/arg_res_0x7f07001f</item>
+    </style>
+    <style name="arg_res_0x7f11028a" parent="@style/arg_res_0x7f11005d">
+        <item name="arg_res_0x7f040682">@dimen/arg_res_0x7f07001c</item>
+        <item name="arg_res_0x7f040683">@dimen/arg_res_0x7f07001d</item>
+        <item name="arg_res_0x7f040684">@dimen/arg_res_0x7f07001e</item>
+        <item name="arg_res_0x7f040685">@dimen/arg_res_0x7f07001f</item>
+    </style>
+</resources>

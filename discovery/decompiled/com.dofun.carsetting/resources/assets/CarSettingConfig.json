@@ -1,0 +1,302 @@
+﻿[
+//  {"title":"此配置文件可放到system/etc目录下打包，也可通过导入的方式，将文件放在各个平台对应的拷贝目录下（t5q_copyfiles）"}
+//  {
+//    "title": "车载设置",
+//    "ID": "main_layout_bg",
+//    "visibility": "1",
+//    "isNeedPwd": false,
+//    "strPwd": "0000",
+//    "items": [
+//    ]
+//  },
+//  {
+//    "title": "网络",
+//    "ID": "rb_internet",
+//    "visibility": "1",
+//    "isNeedPwd": false,
+//    "strPwd": "1111",
+//    "items": [
+//    ]
+//  },
+//  {
+//    "title": "显示",
+//    "ID": "rb_devices",
+//    "visibility": "1",
+//    "isNeedPwd": false,
+//    "strPwd": "2222",
+//    "items": [
+//      {
+//        "ID": "sp_wifi",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      }
+//    ]
+//  },
+//  {
+//    "title": "声音",
+//    "ID": "rb_sound",
+//    "visibility": "1",
+//    "isNeedPwd": false,
+//    "strPwd": "",
+//    "items": [
+//    ]
+//  },
+//  {
+//    "title": "通用",
+//    "ID": "rb_general",
+//    "visibility": "1",
+//    "isNeedPwd": false,
+//    "strPwd": "123456",
+//    "items": [
+//      {
+//        "title": "在线音乐设置",
+//        "ID": "netmusic_setting",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      },
+//      {
+//        "title": "在线视频设置",
+//        "ID": "netvideo_setting",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      },
+//      {
+//        "title": "休眠时效",
+//        "ID": "sleep",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      },
+//      {
+//        "title": "休眠模式",
+//        "ID": "sleep_mode",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      },
+//      {
+//        "title": "延时关机",
+//        "ID": "ip_shutdown_delay",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      },
+//      {
+//        "title": "导航应用设置",
+//        "ID": "navi_settings",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      },
+//      {
+//        "title": "面板灯设置",
+//        "ID": "panel_light",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      }
+//    ,
+//      {
+//        "title": "前视频通道",
+//        "ID": "front_view",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      }
+//    ,
+//      {
+//        "title": "前视镜像",
+//        "ID": "front_view_mirror",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      }
+//    ,
+//      {
+//        "title": "桌面窗口功能设置",
+//        "ID": "ip_pip_function",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      }
+//    ,
+//      {
+//        "title": "桌面窗口应用选择",
+//        "ID": "ip_pip_function",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      }
+//    ,
+//      {
+//        "title": "行车记录仪应用选择",
+//        "ID": "recorder_setting",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      }
+//    ,
+//      {
+//        "title": "卫星信息",
+//        "ID": "gps_settings",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      }
+//    ,
+//      {
+//        "title": "位置信息",
+//        "ID": "location_settings",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      }
+//    ,
+//      {
+//        "title": "应用权限",
+//        "ID": "app_info",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      }
+//    ,
+//      {
+//        "title": "停车监控",
+//        "ID": "shutdown_monitor",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      }
+//    ,
+//      {
+//        "title": "视频悬浮窗",
+//        "ID": "system_floatvideo",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      }
+//    ,
+//      {
+//        "title": "导航启动记忆",
+//        "ID": "navi_autostart",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      }
+//    ,
+//      {
+//        "title": "原车电瓶电量",
+//        "ID": "voltage_display",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      }
+//    ]
+//  },
+//  {
+//    "title": "原车",
+//    "ID": "rb_original",
+//    "visibility": "1",
+//    "isNeedPwd": false,
+//    "strPwd": "",
+//    "items": [
+//    ]
+//  },
+//  {
+//    "title": "倒车",
+//    "ID": "rb_reverse",
+//    "visibility": "1",
+//    "isNeedPwd": false,
+//    "strPwd": "",
+//    "items": [
+//    ]
+//  },
+//  {
+//    "title": "语音",
+//    "ID": "rb_voice",
+//    "visibility": "1",
+//    "isNeedPwd": false,
+//    "strPwd": "",
+//    "items": [
+//    ]
+//  },
+//  {
+//    "title": "个人",
+//    "ID": "rb_personal",
+//    "visibility": "1",
+//    "isNeedPwd": false,
+//    "strPwd": "",
+//    "items": [
+//    ]
+//  },
+//  {
+//    "title": "系统",
+//    "ID": "rb_system",
+//    "visibility": "1",
+//    "isNeedPwd": false,
+//    "strPwd": "",
+//    "items": [
+//    ]
+//  },
+//  {
+//    "title": "工厂",
+//    "ID": "rb_factory",
+//    "visibility": "1",
+//    "isNeedPwd": true,
+//    "strPwd": "123456",
+//    "strPwd2": "8888",
+//    "items": [
+//      {
+//        "ID": "eq_settings",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      },
+//      {
+//        "ID": "dsp_mode",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      },
+//      {
+//        "ID": "panel_light",
+//        "visibility": "1",
+//        "isNeedPwd": true,
+//        "strPwd": "11111"
+//      },
+//      {
+//        "ID": "system_iis",
+//        "visibility": "0",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      },
+//      {
+//        "ID": "front_view",
+//        "visibility": "1",
+//        "isNeedPwd": false,
+//        "strPwd": ""
+//      }
+//    ]
+//  },
+//  {
+//    "title": "更多",
+//    "ID": "rb_setting",
+//    "visibility": "1",
+//    "isNeedPwd": false,
+//    "strPwd": "",
+//    "items": [
+//    ]
+//  },
+//  {
+//    "title": "关于",
+//    "ID": "rb_devices_info",
+//    "visibility": "1",
+//    "isNeedPwd": false,
+//    "strPwd": "",
+//    "items": [
+//    ]
+//  }
+]

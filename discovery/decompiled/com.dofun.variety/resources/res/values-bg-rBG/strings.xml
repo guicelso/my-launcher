@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="arg_res_0x7f1003d3">Пътят за изтегляне на APK е ненормален!</string>
+    <string name="arg_res_0x7f1003d4">- Моля, актуализирайте версията на мрежата ~ повече функции за обновяване, оптимизирайте опита</string>
+    <string name="arg_res_0x7f1003d5">(Текуща версия:%s)</string>
+    <string name="arg_res_0x7f1003d6">Без напомняне на началния екран</string>
+    <string name="arg_res_0x7f1003d7">Неуспешно изтегляне на пакета за актуализация! Моля, опитайте отново.</string>
+    <string name="arg_res_0x7f1003d8">Изтеглили:</string>
+    <string name="arg_res_0x7f1003d9">Изтеглянето</string>
+    <string name="arg_res_0x7f1003da">Неуспешен пакет за актуализация на инсталацията</string>
+    <string name="arg_res_0x7f1003db">Трудно е да се зареди…</string>
+    <string name="arg_res_0x7f1003dc">Сървърът е зает, моля, опитайте отново по-късно</string>
+    <string name="arg_res_0x7f1003dd">Мрежата е необичайна! Моля, опитайте отново</string>
+    <string name="arg_res_0x7f1003de">Моля, проверете мрежата си!</string>
+    <string name="arg_res_0x7f1003df">- Понастоящем актуална, не се изискват актуализации!</string>
+    <string name="arg_res_0x7f1003e0">опит сега</string>
+    <string name="arg_res_0x7f1003e1">изтеглете отново</string>
+    <string name="arg_res_0x7f1003e2">SD картата не е налична, моля, поставете SD карта!</string>
+    <string name="arg_res_0x7f1003e3">%</string>
+    <string name="arg_res_0x7f1003e4">0</string>
+    <string name="arg_res_0x7f1003e5">Актуализация</string>
+    <string name="arg_res_0x7f1003e6">Инструкции за актуализиране:</string>
+    <string name="arg_res_0x7f1003e7">издание</string>
+</resources>

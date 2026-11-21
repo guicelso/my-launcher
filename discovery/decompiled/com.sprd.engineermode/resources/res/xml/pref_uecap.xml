@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:title="@string/ue_cap_4g"
+        android:key="lte">
+        <intent
+            android:targetPackage="com.sprd.engineermode"
+            android:targetClass="com.sprd.engineermode.telephony.UeCapLteActivity"/>
+    </Preference>
+    <PreferenceScreen
+        android:title="@string/ue_cap_3g"
+        android:key="wcdma">
+        <Preference android:title="@string/ue_cap_wcdma">
+            <intent
+                android:targetPackage="com.sprd.engineermode"
+                android:targetClass="com.sprd.engineermode.telephony.UeCapWcdmaActivity"/>
+        </Preference>
+        <Preference android:title="@string/ue_cap_cdma">
+            <intent
+                android:targetPackage="com.sprd.engineermode"
+                android:targetClass="com.sprd.engineermode.telephony.UeCapC2kActivity"/>
+        </Preference>
+    </PreferenceScreen>
+    <Preference
+        android:title="@string/ue_cap_2g"
+        android:key="gsm">
+        <intent
+            android:targetPackage="com.sprd.engineermode"
+            android:targetClass="com.sprd.engineermode.telephony.UeCapGsmActivity"/>
+    </Preference>
+</PreferenceScreen>

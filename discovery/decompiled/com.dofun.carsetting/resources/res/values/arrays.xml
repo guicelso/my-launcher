@@ -1,0 +1,2144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="air_popup_window_entries">
+        <item>@string/close</item>
+        <item>@string/second_8</item>
+        <item>@string/second_6</item>
+        <item>@string/second_4</item>
+        <item>@string/second_2</item>
+        <item>@string/forever</item>
+    </array>
+    <array name="air_popup_window_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </array>
+    <array name="air_style_entries">
+        <item>@string/tw_scene</item>
+        <item>@string/tw_simple</item>
+    </array>
+    <array name="air_style_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="amplifier_control_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="amplifier_control_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="ampvol_entries">
+        <item>10db</item>
+        <item>8db</item>
+        <item>6db</item>
+        <item>4db</item>
+        <item>2db</item>
+        <item>0db</item>
+        <item>-3db</item>
+        <item>-6db</item>
+        <item>-9db</item>
+        <item>-12db</item>
+        <item>-15db</item>
+    </array>
+    <array name="ampvol_value">
+        <item>40</item>
+        <item>32</item>
+        <item>24</item>
+        <item>16</item>
+        <item>8</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </array>
+    <array name="ant_pwr_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="ant_pwr_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="ap_channel_entries">
+        <item>36</item>
+        <item>40</item>
+        <item>44</item>
+        <item>48</item>
+        <item>52</item>
+        <item>56</item>
+        <item>60</item>
+        <item>64</item>
+        <item>100</item>
+        <item>104</item>
+        <item>108</item>
+        <item>112</item>
+        <item>116</item>
+        <item>120</item>
+        <item>124</item>
+        <item>128</item>
+        <item>132</item>
+        <item>136</item>
+        <item>140</item>
+        <item>149</item>
+        <item>153</item>
+        <item>157</item>
+        <item>161</item>
+        <item>165</item>
+    </array>
+    <array name="ap_channel_value">
+        <item>36</item>
+        <item>40</item>
+        <item>44</item>
+        <item>48</item>
+        <item>52</item>
+        <item>56</item>
+        <item>60</item>
+        <item>64</item>
+        <item>100</item>
+        <item>104</item>
+        <item>108</item>
+        <item>112</item>
+        <item>116</item>
+        <item>120</item>
+        <item>124</item>
+        <item>128</item>
+        <item>132</item>
+        <item>136</item>
+        <item>140</item>
+        <item>149</item>
+        <item>153</item>
+        <item>157</item>
+        <item>161</item>
+        <item>165</item>
+    </array>
+    <array name="apk_update_entries">
+        <item>@string/apk_update_entries_item0</item>
+        <item>@string/apk_update_entries_item1</item>
+    </array>
+    <array name="apk_update_string_entries">
+        <item>@string/apk_update_entries_item0</item>
+        <item>@string/apk_update_entries_item1</item>
+    </array>
+    <array name="apk_update_string_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="apk_update_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="apks_black_list">
+        <item>com.tw.ac_c8e8</item>
+        <item>com.tw.car</item>
+        <item>com.tw.canuart_t3w6</item>
+        <item>com.android.settings</item>
+        <item>com.dofun.carsetting</item>
+        <item>com.tw.service.xt</item>
+    </array>
+    <array name="asp">
+        <item>TDA7415</item>
+        <item>Rohm37XXX</item>
+        <item>TDA7719</item>
+        <item>PT2313</item>
+        <item>NXP6831</item>
+        <item>SI479X</item>
+        <item>ROHM32107</item>
+    </array>
+    <array name="aux_selection_entries">
+        <item>@string/reverse_ahd_ntsc</item>
+        <item>@string/reverse_ahd_pal</item>
+    </array>
+    <array name="aux_selection_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="blmode_entries">
+        <item>@string/blmode_entries_item0</item>
+        <item>@string/blmode_entries_item1</item>
+        <item>@string/blmode_entries_item2</item>
+    </array>
+    <array name="blmode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="brake_mode_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+        <item>@string/brake_mode_entries_item0</item>
+    </array>
+    <array name="brake_mode_string_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+        <item>@string/brake_mode_entries_item0</item>
+    </array>
+    <array name="brake_mode_string_values">
+        <item>0</item>
+        <item>1</item>
+        <item>3</item>
+    </array>
+    <array name="brake_mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="brightness_mode_entries">
+        <item>@string/light_auto</item>
+        <item>@string/light_day</item>
+        <item>@string/light_night</item>
+    </array>
+    <array name="brightness_mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="bt_battery_entries">
+        <item>@string/str_hide</item>
+        <item>@string/display_open</item>
+    </array>
+    <array name="bt_battery_value">
+        <item>1</item>
+        <item>0</item>
+    </array>
+    <array name="bt_ic_entries">
+        <item>BC6</item>
+        <item>BC8</item>
+    </array>
+    <array name="bt_ic_entries2">
+        <item>@string/bt_built_in</item>
+        <item>BC6</item>
+        <item>BC8</item>
+    </array>
+    <array name="bt_ic_entries3">
+        <item>@string/bt_built_in</item>
+        <item>BC6</item>
+        <item>BC7</item>
+        <item>BC8</item>
+    </array>
+    <array name="bt_ic_entries_ts18a">
+        <item>@string/bt_built_in</item>
+        <item>BC8</item>
+    </array>
+    <array name="bt_ic_value">
+        <item>2</item>
+        <item>6</item>
+    </array>
+    <array name="bt_ic_value2">
+        <item>0</item>
+        <item>2</item>
+        <item>6</item>
+    </array>
+    <array name="bt_ic_value3">
+        <item>0</item>
+        <item>2</item>
+        <item>4</item>
+        <item>6</item>
+    </array>
+    <array name="bt_ic_value_ts18a">
+        <item>0</item>
+        <item>6</item>
+    </array>
+    <array name="bt_mic_select_entries">
+        <item>@string/rear_mic</item>
+        <item>@string/front_mic</item>
+    </array>
+    <array name="bt_mic_select_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="buzzer_mode_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="c_sd_entries">
+        <item>@string/fan_temp_entries_item0</item>
+        <item>@string/about_signal_strength_c</item>
+        <item>@string/fan_temp_entries_item2</item>
+        <item>@string/c_sd_entries_item0</item>
+    </array>
+    <array name="c_sd_values">
+        <item>8000000</item>
+        <item>12000000</item>
+        <item>16000000</item>
+        <item>20000000</item>
+    </array>
+    <array name="canbus_entries">
+        <item>0db</item>
+        <item>-3db</item>
+        <item>-6db</item>
+        <item>-9db</item>
+        <item>-12db</item>
+        <item>-15db</item>
+    </array>
+    <array name="canbus_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </array>
+    <array name="cfg_export_entries">
+        <item>@string/cfg_export_entries_item0</item>
+        <item>@string/cfg_export_entries_item1</item>
+        <item>@string/cfg_export_entries_item2</item>
+        <item>@string/cfg_export_entries_item3</item>
+        <item>@string/cfg_export_entries_item4</item>
+    </array>
+    <array name="cfg_export_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </array>
+    <array name="cid_entries_t5">
+        <item>CID</item>
+        <item>MCU</item>
+        <item>CPU</item>
+    </array>
+    <array name="cid_values_t5">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="close_open_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="close_open_entries_value">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="close_open_entries_value2">
+        <item>1</item>
+        <item>0</item>
+    </array>
+    <array name="config_entries">
+        <item>@string/rds</item>
+        <item>@string/bc6</item>
+        <item>@string/bc7</item>
+        <item>@string/bc8</item>
+        <item>@string/config_entries_item4</item>
+        <item>@string/nodvd</item>
+        <item>@string/key_recorder</item>
+        <item>@string/tw_air_control</item>
+        <item>@string/config_entries_item8</item>
+        <item>@string/config_entries_item9</item>
+        <item>@string/config_entries_item10</item>
+        <item>@string/config_entries_item11</item>
+        <item>@string/config_entries_item12</item>
+        <item>@string/config_entries_item13</item>
+        <item>@string/config_entries_item14</item>
+        <item>@string/tw_dialer_control</item>
+    </array>
+    <array name="config_entries_360">
+        <item>@string/rds</item>
+        <item>@string/bc6</item>
+        <item>@string/bc7</item>
+        <item>@string/bc8</item>
+        <item>@string/config_entries_item4</item>
+        <item>@string/nodvd</item>
+        <item>@string/key_recorder</item>
+        <item>@string/tw_air_control</item>
+        <item>@string/config_entries_item8</item>
+        <item>@string/config_360</item>
+        <item>@string/config_entries_item9</item>
+        <item>@string/config_entries_item10</item>
+        <item>@string/config_entries_item11</item>
+        <item>@string/config_entries_item12</item>
+        <item>@string/config_entries_item13</item>
+        <item>@string/config_entries_item14</item>
+        <item>@string/tw_dialer_control</item>
+    </array>
+    <array name="config_no_chrome_entries">
+        <item>@string/rds</item>
+        <item>@string/bc6</item>
+        <item>@string/bc7</item>
+        <item>@string/bc8</item>
+        <item>@string/config_entries_item4</item>
+        <item>@string/nodvd</item>
+        <item>@string/key_recorder</item>
+        <item>@string/tw_air_control</item>
+        <item>@string/config_entries_item8</item>
+        <item>@string/config_entries_item9</item>
+        <item>@string/config_entries_item10</item>
+        <item>@string/config_entries_item11</item>
+        <item>@string/config_entries_item12</item>
+        <item>@string/config_entries_item13</item>
+    </array>
+    <array name="config_no_chrome_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+    </array>
+    <array name="config_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+    </array>
+    <array name="control_switch_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="control_switch_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="ctype">
+        <item>SS</item>
+        <item>RZC</item>
+        <item>HC</item>
+        <item>PH</item>
+        <item>WC</item>
+        <item>HZ</item>
+        <item>BG</item>
+        <item>GR</item>
+        <item>XBS</item>
+        <item>JY</item>
+        <item>DJ</item>
+        <item>ASKJ</item>
+        <item>BSD</item>
+        <item>CYT</item>
+    </array>
+    <array name="dark_ui_mode_entries">
+        <item>@string/dark_ui_mode_entries_item0</item>
+        <item>@string/dark_ui_mode_entries_item1</item>
+    </array>
+    <array name="dark_ui_mode_values">
+        <item>@string/key_enter</item>
+        <item>@string/dlg_cancel</item>
+    </array>
+    <array name="door_entries">
+        <item>@string/door_entries_item0</item>
+        <item>@string/door_entries_item1</item>
+        <item>@string/door_entries_item2</item>
+        <item>@string/door_entries_item3</item>
+    </array>
+    <array name="door_info_string_entries">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="door_info_string_values">
+        <item>@string/door_entries_item0</item>
+        <item>@string/door_entries_item1</item>
+        <item>@string/door_entries_item2</item>
+        <item>@string/door_entries_item3</item>
+    </array>
+    <array name="door_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="dropdown_menu_background_entries">
+        <item>@string/frosted</item>
+        <item>@string/gradient</item>
+    </array>
+    <array name="dropdown_menu_background_values">
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="dsp_mode_public_entries">
+        <item>ANG</item>
+        <item>IIS</item>
+    </array>
+    <array name="dsp_mode_public_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="dsp_vol_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="dsp_vol_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="echo_delay_param_entries">
+        <item>@string/echo_delay_0</item>
+        <item>@string/echo_delay_120</item>
+    </array>
+    <array name="echo_delay_param_value">
+        <item>0</item>
+        <item>120</item>
+    </array>
+    <array name="eq_entries">
+        <item>@string/key_eq</item>
+        <item>FiberDSP</item>
+        <item>CARDA_007</item>
+    </array>
+    <array name="eq_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="f_hd_entries">
+        <item>@string/f_hd_entries_item0</item>
+        <item>@string/f_hd_entries_item1</item>
+        <item>@string/f_hd_entries_item2</item>
+        <item>@string/f_hd_entries_item3</item>
+        <item>@string/f_hd_entries_item4</item>
+        <item>@string/f_hd_entries_item5</item>
+        <item>@string/f_hd_entries_item6</item>
+    </array>
+    <array name="f_sd_entries">
+        <item>@string/f_sd_entries_item0</item>
+        <item>@string/f_sd_entries_item1</item>
+    </array>
+    <array name="f_sd_values">
+        <item>4</item>
+        <item>1</item>
+    </array>
+    <array name="f_usb11_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="f_usb11_values">
+        <item>1</item>
+        <item>0</item>
+    </array>
+    <array name="fan_temp_entries">
+        <item>@string/open</item>
+        <item>@string/fan_temp_entries_item0</item>
+        <item>@string/about_signal_strength_c</item>
+        <item>@string/fan_temp_entries_item2</item>
+        <item>@string/close</item>
+    </array>
+    <array name="fan_temp_values">
+        <item>0</item>
+        <item>1</item>
+        <item>8</item>
+        <item>14</item>
+        <item>15</item>
+    </array>
+    <array name="floating_style_entries">
+        <item>@string/floating_box</item>
+        <item>@string/vertical_floating_always</item>
+        <item>@string/vertical_floating_auto</item>
+    </array>
+    <array name="floating_style_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="force_imei_entries">
+        <item>CID</item>
+        <item>MCU</item>
+    </array>
+    <array name="force_imei_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="force_pip_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="force_pip_value">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="forced_app_orientation_entries">
+        <item>@string/light_auto</item>
+        <item>@string/forced_app_orientation_entries_item1</item>
+        <item>@string/forced_app_orientation_entries_item2</item>
+    </array>
+    <array name="forced_app_orientation_entries2">
+        <item>@string/forced_app_orientation_entries_item1</item>
+    </array>
+    <array name="forced_app_orientation_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="forced_app_orientation_values2">
+        <item>1</item>
+    </array>
+    <array name="forward_looking__channelvalue">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="forward_looking_channel_entries">
+        <item>@string/tw_no_aux</item>
+        <item>@string/key_tv</item>
+    </array>
+    <array name="forward_looking_entries">
+        <item>@string/close</item>
+        <item>10s</item>
+        <item>15s</item>
+        <item>20s</item>
+    </array>
+    <array name="forward_looking_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="front_in_aux_tv">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="front_in_aux_tv_t100">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="front_view_entries">
+        <item>@string/tw_no_aux</item>
+        <item>@string/key_tv</item>
+    </array>
+    <array name="front_view_entries_t100">
+        <item>@string/tw_no_aux</item>
+        <item>@string/key_tv</item>
+        <item>@string/key_fcam</item>
+    </array>
+    <array name="fz">
+        <item />
+        <item>2Din FZ</item>
+        <item>1Din FZ</item>
+    </array>
+    <array name="getspeed_mode_entries">
+        <item>@string/getspeed_mode_a</item>
+        <item>MCU</item>
+        <item>GPS</item>
+    </array>
+    <array name="getspeed_mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="global_key_entries">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="global_key_values">
+        <item>@string/global_key_0</item>
+        <item>@string/global_key_1</item>
+    </array>
+    <array name="hicar_1024x600_screen_size_entries">
+        <item>6.2 inch</item>
+        <item>7.0 inch</item>
+        <item>8.0 inch</item>
+        <item>9.0 inch</item>
+        <item>10.1 inch</item>
+        <item>@string/custom</item>
+    </array>
+    <array name="hicar_1024x600_screen_size_values">
+        <item>6.2</item>
+        <item>7.0</item>
+        <item>8.0</item>
+        <item>9.0</item>
+        <item>10.1</item>
+        <item>-1</item>
+    </array>
+    <array name="hicar_1024x768_screen_size_entries">
+        <item>8.4 inch</item>
+        <item>9.7 inch</item>
+        <item>10.4 inch</item>
+        <item>12.7 inch</item>
+        <item>@string/custom</item>
+    </array>
+    <array name="hicar_1024x768_screen_size_values">
+        <item>8.4</item>
+        <item>9.7</item>
+        <item>10.4</item>
+        <item>12.7</item>
+        <item>-1</item>
+    </array>
+    <array name="hicar_1280x480_screen_size_entries">
+        <item>6.86 inch</item>
+        <item>8.8 inch</item>
+        <item>10.25 inch</item>
+        <item>12.3 inch</item>
+        <item>@string/custom</item>
+    </array>
+    <array name="hicar_1280x480_screen_size_values">
+        <item>6.86</item>
+        <item>8.8</item>
+        <item>10.25</item>
+        <item>12.3</item>
+        <item>-1</item>
+    </array>
+    <array name="hicar_1280x720_screen_size_entries">
+        <item>7.0 inch</item>
+        <item>8.0 inch</item>
+        <item>9.0 inch</item>
+        <item>10.1 inch</item>
+        <item>@string/custom</item>
+    </array>
+    <array name="hicar_1280x720_screen_size_values">
+        <item>7.0</item>
+        <item>8.0</item>
+        <item>9.0</item>
+        <item>10.1</item>
+        <item>-1</item>
+    </array>
+    <array name="hicar_1280x800_screen_size_entries">
+        <item>7.0 inch</item>
+        <item>8.0 inch</item>
+        <item>9.0 inch</item>
+        <item>10.1 inch</item>
+        <item>12.1 inch</item>
+        <item>@string/custom</item>
+    </array>
+    <array name="hicar_1280x800_screen_size_values">
+        <item>7.0</item>
+        <item>8.0</item>
+        <item>9.0</item>
+        <item>10.1</item>
+        <item>12.1</item>
+        <item>-1</item>
+    </array>
+    <array name="hicar_1440x540_screen_size_entries">
+        <item>12.3 inch</item>
+        <item>@string/custom</item>
+    </array>
+    <array name="hicar_1440x540_screen_size_values">
+        <item>12.3</item>
+        <item>-1</item>
+    </array>
+    <array name="hicar_1600x720_screen_size_entries">
+        <item>10.33 inch</item>
+        <item>@string/custom</item>
+    </array>
+    <array name="hicar_1600x720_screen_size_values">
+        <item>10.33</item>
+        <item>-1</item>
+    </array>
+    <array name="hicar_1920x1080_screen_size_entries">
+        <item>13.3 inch</item>
+        <item>15.6 inch</item>
+        <item>@string/custom</item>
+    </array>
+    <array name="hicar_1920x1080_screen_size_values">
+        <item>13.3</item>
+        <item>15.6</item>
+        <item>-1</item>
+    </array>
+    <array name="hicar_1920x1200_screen_size_entries">
+        <item>12.95 inch</item>
+        <item>@string/custom</item>
+    </array>
+    <array name="hicar_1920x1200_screen_size_values">
+        <item>12.95</item>
+        <item>-1</item>
+    </array>
+    <array name="hicar_1920x720_screen_size_entries">
+        <item>8.8 inch</item>
+        <item>10.25 inch</item>
+        <item>@string/custom</item>
+    </array>
+    <array name="hicar_1920x720_screen_size_values">
+        <item>8.8</item>
+        <item>10.25</item>
+        <item>-1</item>
+    </array>
+    <array name="hicar_1920x860_screen_size_entries">
+        <item>12.3 inch</item>
+        <item>@string/custom</item>
+    </array>
+    <array name="hicar_1920x860_screen_size_values">
+        <item>12.3</item>
+        <item>-1</item>
+    </array>
+    <array name="hicar_2000x1200_screen_size_entries">
+        <item>9.5 inch</item>
+        <item>10.4 inch</item>
+        <item>11.5 inch</item>
+        <item>@string/custom</item>
+    </array>
+    <array name="hicar_2000x1200_screen_size_values">
+        <item>9.5</item>
+        <item>10.4</item>
+        <item>11.5</item>
+        <item>-1</item>
+    </array>
+    <array name="hicar_800x480_screen_size_entries">
+        <item>6.2 inch</item>
+        <item>7.0 inch</item>
+        <item>8.0 inch</item>
+        <item>@string/custom</item>
+    </array>
+    <array name="hicar_800x480_screen_size_values">
+        <item>6.2</item>
+        <item>7.0</item>
+        <item>8.0</item>
+        <item>-1</item>
+    </array>
+    <array name="hicar_800x600_screen_size_entries">
+        <item>8.4 inch</item>
+        <item>@string/custom</item>
+    </array>
+    <array name="hicar_800x600_screen_size_values">
+        <item>8.4</item>
+        <item>-1</item>
+    </array>
+    <array name="hicar_default_screen_size_entries">
+        <item>10.1 inch</item>
+        <item>@string/custom</item>
+    </array>
+    <array name="hicar_default_screen_size_values">
+        <item>10.1</item>
+        <item>-1</item>
+    </array>
+    <array name="high_definition_selection_entries">
+        <item>@string/high_definition_selection_entries_item0</item>
+        <item>AHD 720p 25fps</item>
+        <item>AHD 720p 30fps</item>
+        <item>TVI 720p 25fps</item>
+        <item>TVI 720p 30fps</item>
+        <item>@string/reverse_ahd_ntsc</item>
+        <item>@string/reverse_ahd_pal</item>
+    </array>
+    <array name="high_definition_selection_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>6</item>
+        <item>3</item>
+        <item>4</item>
+    </array>
+    <array name="key_all">
+        <item>@string/key_vol_up</item>
+        <item>@string/key_vol_down</item>
+        <item>@string/key_mute</item>
+        <item>@string/key_mode</item>
+        <item>@string/key_power</item>
+        <item>@string/key_home</item>
+        <item>@string/key_menu</item>
+        <item>@string/key_back</item>
+        <item>@string/key_next</item>
+        <item>@string/key_play_pause</item>
+        <item>@string/key_prev</item>
+        <item>@string/key_answer</item>
+        <item>@string/key_reject</item>
+        <item>@string/key_bn</item>
+        <item>@string/key_navi</item>
+        <item>@string/key_radio</item>
+        <item>@string/key_apps</item>
+        <item>@string/key_ipod</item>
+        <item>@string/key_disc</item>
+        <item>@string/key_eject</item>
+        <item>@string/key_ts</item>
+        <item>@string/key_audiooff</item>
+        <item>@string/key_button</item>
+        <item>@string/key_music</item>
+        <item>@string/key_video</item>
+        <item>@string/key_photo</item>
+        <item>@string/key_media</item>
+        <item>@string/key_panelup</item>
+        <item>@string/key_paneldown</item>
+        <item>@string/key_rolling</item>
+        <item>@string/key_ffwd</item>
+        <item>@string/key_rew</item>
+        <item>@string/key_eq</item>
+        <item>@string/key_help</item>
+        <item>@string/key_recent</item>
+        <item>@string/key_screenshot</item>
+        <item>@string/key_tv</item>
+        <item>@string/key_ams</item>
+        <item>@string/key_speech</item>
+        <item>@string/key_recorder</item>
+        <item>@string/key_fcam</item>
+        <item>@string/key_dvr</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>*</item>
+        <item>#</item>
+        <item>@string/key_del</item>
+        <item>@string/key_aux</item>
+        <item>@string/key_settings</item>
+        <item>@string/key_loud</item>
+    </array>
+    <array name="key_clear">
+        <item>@string/key_clear_item0</item>
+        <item>@string/key_clear_item1</item>
+        <item>@string/key_clear_item2</item>
+        <item>@string/key_clear_item3</item>
+    </array>
+    <array name="key_export">
+        <item>@string/log2file_entries_item0</item>
+        <item>@string/log2file_entries_item1</item>
+        <item>@string/log2file_entries_item2</item>
+        <item>@string/log2file_entries_item3</item>
+        <item>@string/log2file_entries_item4</item>
+        <item>@string/log2file_entries_item5</item>
+        <item>@string/log2file_entries_item6</item>
+    </array>
+    <array name="key_impedances">
+        <item>@string/fan_temp_entries_item0</item>
+        <item>@string/about_signal_strength_c</item>
+        <item>@string/fan_temp_entries_item2</item>
+    </array>
+    <array name="key_none">
+        <item>@string/key_bn</item>
+        <item>@string/key_play_pause</item>
+        <item>@string/key_reject</item>
+        <item>@string/key_apps</item>
+        <item>@string/key_ipod</item>
+        <item>@string/key_ts</item>
+        <item>@string/key_audiooff</item>
+        <item>string/key_music</item>
+        <item>@string/key_video</item>
+        <item>@string/key_photo</item>
+        <item>@string/key_media</item>
+        <item>@string/key_panelup</item>
+        <item>@string/key_paneldown</item>
+        <item>@string/key_rolling</item>
+        <item>@string/key_ffwd</item>
+        <item>@string/key_rew</item>
+        <item>@string/key_eq</item>
+        <item>@string/key_help</item>
+        <item>@string/key_recent</item>
+        <item>@string/key_screenshot</item>
+        <item>@string/key_tv</item>
+        <item>@string/key_ams</item>
+        <item>@string/key_button</item>
+        <item>@string/key_recorder</item>
+        <item>@string/key_fcam</item>
+        <item>@string/key_dvr</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>*</item>
+        <item>#</item>
+        <item>@string/key_del</item>
+        <item>@string/key_aux</item>
+        <item>@string/key_settings</item>
+        <item>@string/key_loud</item>
+        <item>@string/key_bt</item>
+        <item>@string/key_up</item>
+        <item>@string/key_down</item>
+        <item>@string/key_left</item>
+        <item>@string/key_right</item>
+        <item>@string/key_enter</item>
+    </array>
+    <array name="key_pos">
+        <item>@string/key_pos_item0</item>
+        <item>@string/key_pos_item1</item>
+        <item>@string/key_pos_item2</item>
+        <item>@string/key_pos_item3</item>
+        <item>@string/key_pos_item4</item>
+        <item>@string/key_pos_item5</item>
+        <item>@string/key_pos_item6</item>
+        <item>@string/key_pos_item7</item>
+        <item>@string/key_pos_item8</item>
+        <item>@string/key_ts</item>
+    </array>
+    <array name="key_tone_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="key_tone_entries_value">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="key_type">
+        <item>@string/key_type_item0</item>
+        <item>@string/key_type_item1</item>
+        <item>@string/key_type_item2</item>
+    </array>
+    <array name="key_update_entries">
+        <item>@string/key_update_entries_item0</item>
+        <item>@string/key_update_entries_item1</item>
+        <item>@string/key_update_entries_item2</item>
+        <item>@string/key_update_entries_item3</item>
+    </array>
+    <array name="key_update_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="knobs_entries">
+        <item>@string/knobs_entries_item0</item>
+        <item>@string/knobs_entries_item1</item>
+    </array>
+    <array name="knobs_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="lcd_type1_entries">
+        <item>@string/close</item>
+        <item>HDMI</item>
+        <item>EDP</item>
+    </array>
+    <array name="lcd_type2_entries">
+        <item>@string/close</item>
+        <item>HDMI</item>
+    </array>
+    <array name="lcd_type3_entries">
+        <item>@string/close</item>
+        <item>HDMI</item>
+        <item>TV+HDMI</item>
+    </array>
+    <array name="lcd_type_valuses">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="left_right_seat_entries">
+        <item>@string/left_right_seat_entries_item0</item>
+        <item>@string/left_right_seat_entries_item1</item>
+    </array>
+    <array name="left_right_seat_reverse_normal_entries">
+        <item>@string/left_right_seat_entries_item0</item>
+        <item>@string/left_right_seat_entries_item1_normal</item>
+        <item>@string/left_right_seat_entries_item1_reverse</item>
+    </array>
+    <array name="left_right_seat_reverse_normal_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="left_right_seat_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="location_type2_entries">
+        <item>@string/location_type2_entries_item0</item>
+        <item>@string/location_type2_entries_item1</item>
+    </array>
+    <array name="location_type2_values">
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="location_type_entries">
+        <item>@string/location_type_entries_item0</item>
+        <item>@string/location_type_entries_item1</item>
+    </array>
+    <array name="location_type_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="log2file_entries">
+        <item>@string/log2file_entries_item0</item>
+        <item>@string/log2file_entries_item1</item>
+        <item>@string/log2file_entries_item2</item>
+        <item>@string/log2file_entries_item3</item>
+        <item>@string/log2file_entries_item4</item>
+        <item>@string/log2file_entries_item5</item>
+        <item>@string/log2file_entries_item6</item>
+    </array>
+    <array name="log2file_entries2">
+        <item>@string/log2file_entries_item0</item>
+        <item>@string/log2file_entries_item1</item>
+        <item>@string/log2file_entries_item2</item>
+        <item>@string/log2file_entries_item3</item>
+        <item>@string/log2file_entries_item4</item>
+        <item>@string/log2file_entries_item5</item>
+        <item>@string/log2file_entries_item6</item>
+    </array>
+    <array name="log2file_string_entries">
+        <item>@string/log2file_entries_item0</item>
+        <item>@string/log2file_entries_item1</item>
+        <item>@string/log2file_entries_item2</item>
+        <item>@string/log2file_entries_item3</item>
+        <item>@string/log2file_entries_item4</item>
+        <item>@string/log2file_entries_item5</item>
+    </array>
+    <array name="log2file_string_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </array>
+    <array name="log2file_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </array>
+    <array name="low_voltage_protection_entries">
+        <item>10.5V</item>
+        <item>10.8V</item>
+        <item>11V</item>
+        <item>11.5V</item>
+        <item>11.8V</item>
+        <item>12V</item>
+    </array>
+    <array name="low_voltage_protection_values">
+        <item>5</item>
+        <item>8</item>
+        <item>10</item>
+        <item>15</item>
+        <item>18</item>
+        <item>20</item>
+    </array>
+    <array name="mic_mode_entries">
+        <item>@string/original</item>
+        <item>@string/box</item>
+    </array>
+    <array name="mic_mode_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="mic_t527_mode_entries">
+        <item>@string/preposition_mic</item>
+        <item>@string/postposition_mic</item>
+    </array>
+    <array name="microphone_parameter_entries">
+        <item>@string/standard_bracket</item>
+        <item>@string/high_bracket</item>
+    </array>
+    <array name="microphone_parameter_value">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="navi_audio_entries">
+        <item>@string/navi_audio_entries_item0</item>
+        <item>@string/navi_audio_entries_item1</item>
+    </array>
+    <array name="navi_audio_values">
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="navi_autostart_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="navi_autostart_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="navi_channel_entries">
+        <item>@string/mixing</item>
+        <item>@string/unmixed</item>
+    </array>
+    <array name="navi_channel_values">
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="navibar_type_entries">
+        <item>@string/navibar_type_value1</item>
+        <item>@string/navibar_type_value2</item>
+        <item>@string/navibar_type_value3</item>
+    </array>
+    <array name="navibar_type_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="navigation_bar_entries">
+        <item>@string/str_hide</item>
+        <item>@string/display_bottom</item>
+        <item>@string/display_left</item>
+        <item>@string/display_right</item>
+    </array>
+    <array name="navigation_bar_entries_ts20">
+        <item>@string/display_tradition</item>
+        <item>@string/display_bottom</item>
+        <item>@string/display_left</item>
+        <item>@string/display_right</item>
+    </array>
+    <array name="navigation_bar_long_screen_entries">
+        <item>@string/str_hide</item>
+        <item>@string/display_left</item>
+        <item>@string/display_right</item>
+    </array>
+    <array name="navigation_bar_long_screen_values">
+        <item>0</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="navigation_bar_no_hide_entries">
+        <item>@string/display_bottom</item>
+        <item>@string/display_left</item>
+        <item>@string/display_right</item>
+    </array>
+    <array name="navigation_bar_no_hide_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="navigation_bar_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="navigation_bar_values_ts20">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="new_reverse_cis1_entries">
+        <item>AHD 720P 25fps</item>
+        <item>AHD 720P 30fps</item>
+    </array>
+    <array name="new_reverse_cis1_less1080_entries">
+        <item>AHD 720P 25fps</item>
+        <item>AHD 720P 30fps</item>
+        <item>AHD 1080P 25fps</item>
+        <item>AHD 1080P 30fps</item>
+        <item>TVI 720P 25fps</item>
+        <item>TVI 720P 30fps</item>
+        <item>TVI 1080P 25fps</item>
+        <item>TVI 1080P 30fps</item>
+    </array>
+    <array name="new_reverse_cis1_ts18_entries">
+        <item>@string/light_auto</item>
+    </array>
+    <array name="new_reverse_cis2_csiless255_entries">
+        <item>@string/light_auto</item>
+        <item>CVBS NTSC</item>
+        <item>CVBS PAL</item>
+        <item>AHD 720P 25fps</item>
+        <item>AHD 720P 30fps</item>
+        <item>AHD 1080P 25fps</item>
+        <item>AHD 1080P 30fps</item>
+        <item>TVI 720P 25fps</item>
+        <item>TVI 720P 30fps</item>
+        <item>TVI 1080P 25fps</item>
+        <item>TVI 1080P 30fps</item>
+    </array>
+    <array name="new_reverse_cis2_csimore255_entries">
+        <item>@string/light_auto</item>
+        <item>CVBS NTSC</item>
+        <item>CVBS PAL</item>
+        <item>AHD 720P 25fps</item>
+    </array>
+    <array name="new_reverse_cis2_entries">
+        <item>@string/light_auto</item>
+        <item>CVBS NTSC</item>
+        <item>CVBS PAL</item>
+        <item>AHD 720P 25fps</item>
+        <item>AHD 720P 30fps</item>
+        <item>AHD 1080P 25fps</item>
+        <item>AHD 1080P 30fps</item>
+        <item>TVI 720P 25fps</item>
+        <item>TVI 720P 30fps</item>
+        <item>TVI 1080P 25fps</item>
+        <item>TVI 1080P 30fps</item>
+    </array>
+    <array name="on_off_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="panel_light_color_entries">
+        <item>@string/panel_light_color_entries_item0</item>
+        <item>@string/panel_light_color_entries_item1</item>
+        <item>@string/panel_light_color_entries_item2</item>
+    </array>
+    <array name="panel_light_color_values">
+        <item>16711680</item>
+        <item>65280</item>
+        <item>255</item>
+    </array>
+    <array name="panel_light_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="panel_light_entries1">
+        <item>@string/panel_light_entries1_item0</item>
+        <item>@string/panel_light_entries1_item1</item>
+    </array>
+    <array name="panel_light_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="performance_mode_entries">
+        <item>@string/normal_mode</item>
+        <item>@string/overclocking_mode</item>
+    </array>
+    <array name="performance_mode_value">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="platform_list">
+        <item>t5</item>
+        <item>ts10</item>
+        <item>ts18</item>
+        <item>ts10s</item>
+        <item>T3</item>
+        <item>TS7</item>
+        <item>TS6</item>
+        <item>TS8</item>
+        <item>TS9</item>
+        <item>T3O</item>
+        <item>T3Q</item>
+        <item>T3P</item>
+        <item>T3L</item>
+        <item>T18</item>
+        <item>T6</item>
+        <item>T100</item>
+        <item>T133</item>
+        <item>T133pro</item>
+        <item>A100</item>
+        <item>A133</item>
+        <item>A133pro</item>
+        <item>TQ919</item>
+    </array>
+    <array name="projects">
+        <item>@string/local_music</item>
+        <item>@string/local_video</item>
+        <item>@string/local_bluetooth</item>
+        <item>@string/local_radio</item>
+        <item>@string/key_home</item>
+        <item>@string/other</item>
+    </array>
+    <array name="question_types">
+        <item>@string/question_types_item0</item>
+        <item>@string/question_types_item1</item>
+    </array>
+    <array name="radio_region_entries">
+        <item>@string/radio_region_entries_item0</item>
+        <item>@string/radio_region_entries_item1</item>
+        <item>@string/radio_region_entries_item2</item>
+        <item>@string/radio_region_entries_item3</item>
+        <item>@string/radio_region_entries_item4</item>
+        <item>@string/radio_region_entries_item5</item>
+        <item>@string/radio_region_entries_item6</item>
+        <item>@string/radio_region_entries_item7</item>
+    </array>
+    <array name="radio_region_string_entries">
+        <item>@string/radio_region_entries_item0</item>
+        <item>@string/radio_region_entries_item1</item>
+        <item>@string/radio_region_entries_item2</item>
+        <item>@string/radio_region_entries_item3</item>
+        <item>@string/radio_region_entries_item4</item>
+        <item>@string/radio_region_entries_item8</item>
+        <item>@string/radio_region_entries_item5</item>
+        <item>@string/radio_region_entries_item6</item>
+        <item>@string/radio_region_entries_item7</item>
+    </array>
+    <array name="radio_region_string_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>8</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </array>
+    <array name="radio_region_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </array>
+    <array name="resolution_entries">
+        <item>800x480</item>
+        <item>1024x600</item>
+        <item>1280x480</item>
+        <item>1280x720</item>
+        <item>1280x768</item>
+    </array>
+    <array name="resolution_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </array>
+    <array name="reverse_360_entries">
+        <item>AHD 720p 25fps</item>
+        <item>AHD 720p 30fps</item>
+        <item>AHD 1080p 25fps</item>
+        <item>AHD 1080p 30fps</item>
+    </array>
+    <array name="reverse_360_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="reverse_camera_entries_t3p">
+        <item>CCD</item>
+        <item>AHD 25fps</item>
+        <item>AHD 30fps</item>
+        <item>TVI 25fps</item>
+        <item>TVI 30fps</item>
+    </array>
+    <array name="reverse_camera_type_entries">
+        <item>AHD</item>
+        <item>TVI</item>
+    </array>
+    <array name="reverse_camera_values_t3p">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </array>
+    <array name="reverse_csi_less255_type_entries">
+        <item>360</item>
+        <item>@string/reverse</item>
+        <item>@string/reverse_type_a</item>
+        <item>@string/reverse_type_b</item>
+    </array>
+    <array name="reverse_csi_more_255_type_entries">
+        <item>360</item>
+        <item>@string/reverse</item>
+        <item>CVBS</item>
+    </array>
+    <array name="reverse_delay_entries">
+        <item>@string/reverse_delay_entries_item5</item>
+        <item>@string/reverse_delay_entries_item0</item>
+        <item>@string/reverse_delay_entries_item1</item>
+        <item>@string/reverse_delay_entries_item2</item>
+        <item>@string/reverse_delay_entries_item3</item>
+        <item>@string/reverse_delay_entries_item4</item>
+    </array>
+    <array name="reverse_delay_values">
+        <item>0</item>
+        <item>100</item>
+        <item>200</item>
+        <item>400</item>
+        <item>600</item>
+        <item>1000</item>
+    </array>
+    <array name="reverse_mute_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="reverse_mute_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="reverse_state_entries">
+        <item>360</item>
+        <item>@string/reverse_state_b</item>
+        <item>@string/normal</item>
+    </array>
+    <array name="reverse_state_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="reverse_ts10_type_entries">
+        <item>360</item>
+        <item>@string/normal</item>
+    </array>
+    <array name="reverse_ts10s_type_entries">
+        <item>360</item>
+        <item>@string/normal</item>
+        <item>@string/reverse_type_b</item>
+        <item>@string/reverse_type_a</item>
+    </array>
+    <array name="reverse_ts_type_entries">
+        <item>360</item>
+        <item>@string/normal</item>
+        <item>@string/reverse_type_b</item>
+        <item>@string/reverse_type_a</item>
+    </array>
+    <array name="reverse_type1_entries">
+        <item>360</item>
+        <item>@string/reverse</item>
+        <item>CVBS</item>
+    </array>
+    <array name="reverse_type_entries_two">
+        <item>@string/reverse_type_a</item>
+        <item>@string/reverse_type_b</item>
+        <item>@string/normal</item>
+    </array>
+    <array name="reverse_type_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>6</item>
+    </array>
+    <array name="reverse_unused_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="reverse_unused_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="rotation_angle_entries">
+        <item>0°</item>
+        <item>180°</item>
+    </array>
+    <array name="rotation_angle_values">
+        <item>0</item>
+        <item>2</item>
+    </array>
+    <array name="rotation_switch_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="rotation_switch_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="screen_display_entries">
+        <item>@string/screen_rotation</item>
+        <item>@string/forced_app_orientation_entries_item2</item>
+        <item>@string/forced_app_orientation_entries_item1</item>
+    </array>
+    <array name="screen_display_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="screen_size_entries">
+        <item>2K-10.36</item>
+        <item>2K-11.50</item>
+    </array>
+    <array name="screen_size_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="screen_timeout_entries_tw">
+        <item>@string/screen_timeout_entries_item0</item>
+        <item>@string/screen_timeout_entries_item1</item>
+        <item>@string/screen_timeout_entries_item2</item>
+        <item>@string/screen_timeout_entries_item3</item>
+        <item>@string/screen_timeout_entries_item4</item>
+        <item>@string/screen_timeout_entries_item5</item>
+        <item>@string/screen_timeout_entries_item6</item>
+        <item>@string/screen_timeout_entries_item7</item>
+    </array>
+    <array name="shortcut_360_entries">
+        <item>@string/shortcut_360_a</item>
+        <item>@string/shortcut_360_b</item>
+        <item>@string/shortcut_360_c</item>
+        <item>@string/shortcut_360_d</item>
+        <item>@string/shortcut_360_e</item>
+        <item>@string/shortcut_360_f</item>
+    </array>
+    <array name="shortcut_360_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </array>
+    <array name="shutdown_delay_entries">
+        <item>@string/shutdown_delay_entries_item0</item>
+        <item>@string/shutdown_delay_entries_item1</item>
+        <item>@string/shutdown_delay_entries_item2</item>
+        <item>@string/shutdown_delay_entries_item3</item>
+    </array>
+    <array name="shutdown_delay_entries1">
+        <item>@string/shutdown_delay_entries1_item0</item>
+        <item>@string/shutdown_delay_entries1_item1</item>
+        <item>@string/shutdown_delay_entries1_item2</item>
+        <item>@string/shutdown_delay_entries1_item3</item>
+        <item>@string/shutdown_delay_entries1_item4</item>
+        <item>@string/shutdown_delay_entries1_item5</item>
+        <item>@string/shutdown_delay_entries1_item6</item>
+        <item>@string/shutdown_delay_entries1_item7</item>
+        <item>@string/shutdown_delay_entries1_item8</item>
+    </array>
+    <array name="shutdown_delay_entries2">
+        <item>@string/shutdown_delay_entries_item0</item>
+        <item>@string/shutdown_delay_entries_item1</item>
+        <item>@string/shutdown_delay_entries_item2</item>
+        <item>@string/shutdown_delay_entries_item3</item>
+    </array>
+    <array name="shutdown_delay_entries3">
+        <item>@string/shutdown_delay_entries1_item0</item>
+        <item>@string/shutdown_delay_entries1_item1</item>
+        <item>@string/shutdown_delay_entries1_item2</item>
+        <item>@string/shutdown_delay_entries1_item3</item>
+        <item>@string/shutdown_delay_entries1_item4</item>
+        <item>@string/shutdown_delay_entries1_item5</item>
+        <item>@string/shutdown_delay_entries1_item6</item>
+    </array>
+    <array name="shutdown_delay_entries4">
+        <item>@string/shutdown_delay_entries1_item0</item>
+        <item>@string/shutdown_delay_entries1_item1</item>
+        <item>@string/shutdown_delay_entries1_item2</item>
+        <item>@string/shutdown_delay_entries1_item3</item>
+        <item>@string/shutdown_delay_entries1_item4</item>
+        <item>@string/shutdown_delay_entries1_item5</item>
+        <item>@string/shutdown_delay_entries1_item6</item>
+        <item>@string/shutdown_delay_entries1_item7</item>
+        <item>@string/shutdown_delay_entries1_item8</item>
+    </array>
+    <array name="shutdown_delay_values">
+        <item>0</item>
+        <item>10</item>
+        <item>30</item>
+        <item>60</item>
+    </array>
+    <array name="shutdown_delay_values1">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </array>
+    <array name="shutdown_delay_values2">
+        <item>0</item>
+        <item>10</item>
+        <item>30</item>
+        <item>60</item>
+    </array>
+    <array name="shutdown_delay_values3">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </array>
+    <array name="shutdown_delay_values4">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>13</item>
+        <item>35</item>
+    </array>
+    <array name="sleep_entries">
+        <item>@string/light_sleep_no</item>
+        <item>@string/light_sleep_2h</item>
+        <item>@string/light_sleep_1d</item>
+        <item>@string/light_sleep_3d</item>
+        <item>@string/light_sleep_7d</item>
+    </array>
+    <array name="sleep_entries_t5">
+        <item>@string/light_sleep_no</item>
+        <item>@string/light_sleep_1d</item>
+        <item>@string/light_sleep_3d</item>
+        <item>@string/light_sleep_7d</item>
+    </array>
+    <array name="sleep_mode_entries">
+        <item>@string/airplane_mode</item>
+        <item>@string/light_sleep_mode_dis</item>
+        <item>@string/light_sleep_mode_crash</item>
+    </array>
+    <array name="sleep_mode_values">
+        <item>0</item>
+        <item>3</item>
+        <item>7</item>
+    </array>
+    <array name="sleep_string_entries">
+        <item>@string/light_sleep_no</item>
+        <item>@string/light_sleep_2h</item>
+        <item>@string/light_sleep_1d</item>
+        <item>@string/light_sleep_3d</item>
+        <item>@string/light_sleep_7d</item>
+        <item>@string/light_sleep_30d</item>
+    </array>
+    <array name="sleep_string_entries_normal">
+        <item>@string/light_sleep_no</item>
+        <item>@string/light_sleep_2h</item>
+        <item>@string/light_sleep_1d</item>
+        <item>@string/light_sleep_3d</item>
+        <item>@string/light_sleep_7d</item>
+    </array>
+    <array name="sleep_values">
+        <item>0</item>
+        <item>2</item>
+        <item>24</item>
+        <item>72</item>
+        <item>168</item>
+    </array>
+    <array name="sleep_values_t5">
+        <item>0</item>
+        <item>24</item>
+        <item>72</item>
+        <item>168</item>
+    </array>
+    <array name="sleepn_string_values">
+        <item>0</item>
+        <item>2</item>
+        <item>24</item>
+        <item>72</item>
+        <item>168</item>
+        <item>255</item>
+    </array>
+    <array name="sleepn_string_values_normal">
+        <item>0</item>
+        <item>2</item>
+        <item>24</item>
+        <item>72</item>
+        <item>168</item>
+    </array>
+    <array name="sound_entries">
+        <item>@string/system_sound_priority_title</item>
+        <item>@string/rd_party_sound_priority</item>
+        <item>@string/intelligent_priority</item>
+    </array>
+    <array name="sound_priority_entries">
+        <item>@string/system_sound_priority_title</item>
+        <item>@string/rd_party_sound_priority</item>
+        <item>@string/intelligent_priority</item>
+    </array>
+    <array name="sound_priority_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="sound_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="spdif_out_entries">
+        <item>@string/spdif_out_item0</item>
+        <item>@string/spdif_out_item1</item>
+    </array>
+    <array name="spdif_out_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="svc_entries">
+        <item>@string/close</item>
+        <item>@string/about_signal_strength_l</item>
+        <item>@string/about_signal_strength_c</item>
+        <item>@string/about_signal_strength_h</item>
+    </array>
+    <array name="svc_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="swap_last_next_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="swap_last_next_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="swc_voice_mode_entries">
+        <item>@string/swc_voice_mode_entries_item0</item>
+        <item>@string/swc_voice_mode_entries_item1</item>
+    </array>
+    <array name="swc_voice_mode_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="sy">
+        <item>TEF662X</item>
+        <item>SI473X</item>
+        <item>TEF665X</item>
+        <item>TEF668X</item>
+        <item>SI475X</item>
+        <item>TDA7706</item>
+        <item>TDA7786</item>
+        <item>TEF685X</item>
+        <item>TDA7703</item>
+        <item>QN8035</item>
+        <item>SI4754C</item>
+        <item>NXP_6831</item>
+        <item>TDA7708</item>
+        <item>TDA7707</item>
+        <item>10db</item>
+        <item>8db</item>
+        <item>6db</item>
+        <item>4db</item>
+        <item>2db</item>
+        <item>0db</item>
+        <item>-3db</item>
+        <item>-6db</item>
+        <item>-9db</item>
+        <item>-12db</item>
+        <item>-15db</item>
+    </array>
+    <array name="system_acswitch_entries">
+        <item>@string/open</item>
+        <item>@string/close</item>
+    </array>
+    <array name="system_acswitch_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="system_door2_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="system_door2_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="system_floatvideo_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="system_floatvideo_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="system_fradar_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="system_fradar_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="system_front_ops_entries">
+        <item>@string/open</item>
+        <item>@string/close</item>
+    </array>
+    <array name="system_front_ops_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="system_line2_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="system_line2_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="system_line_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="system_line_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="system_mirror_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="system_mirror_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="system_park_entries">
+        <item>CAM + OPS</item>
+        <item>CAM</item>
+        <item>OPS</item>
+        <item>@string/system_park_entries_item0</item>
+    </array>
+    <array name="system_park_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="system_ta_entries">
+        <item>@string/system_ta_entries_item0</item>
+        <item>@string/system_ta_entries_item1</item>
+    </array>
+    <array name="system_ta_values">
+        <item>0</item>
+        <item>3</item>
+    </array>
+    <array name="system_update_string_entries">
+        <item>@string/system_local_update</item>
+        <item>@string/system_online_update</item>
+    </array>
+    <array name="system_update_string_entries_no_online">
+        <item>@string/system_local_update</item>
+    </array>
+    <array name="systemnavi_mode_entries">
+        <item>@string/systemnavi_mode_entries_item0</item>
+        <item>@string/systemnavi_mode_entries_item1</item>
+    </array>
+    <array name="systemnavi_mode_values">
+        <item>1</item>
+        <item>0</item>
+    </array>
+    <array name="t100_ahd360_entries">
+        <item>AUTO</item>
+        <item>@string/reverse_ahd_ntsc</item>
+        <item>@string/reverse_ahd_pal</item>
+        <item>@string/reverse_ahd_25f</item>
+        <item>@string/reverse_ahd_30f</item>
+        <item>@string/reverse_ahd_1080p_25f</item>
+        <item>@string/reverse_ahd_1080p_30f</item>
+        <item>@string/reverse_tvi_25f</item>
+        <item>@string/reverse_tvi_30f</item>
+        <item>@string/reverse_tvi_1080p_25f</item>
+        <item>@string/reverse_tvi_1080p_30f</item>
+    </array>
+    <array name="t100_ahd360_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </array>
+    <array name="t100_reverse_csi_less255_type_entries">
+        <item>@string/reverse</item>
+        <item>@string/reverse_type_a</item>
+    </array>
+    <array name="t100_reverse_csi_less255_type_entries2">
+        <item>@string/reverse_type_a</item>
+    </array>
+    <array name="t100_reverse_csi_less255_type_entries3">
+        <item>360</item>
+        <item>@string/reverse</item>
+        <item>@string/reverse_type_a</item>
+        <item>@string/reverse_type_b</item>
+    </array>
+    <array name="t100_sendfm_reverse_csi_less255_type_entries">
+        <item>@string/reverse</item>
+        <item>@string/reverse_type_a2</item>
+        <item>@string/reverse_type_c</item>
+        <item>@string/reverse_type_a</item>
+    </array>
+    <array name="t527_reverse_csi_less255_type_entries">
+        <item>360</item>
+        <item>@string/reverse</item>
+        <item>@string/reverse_type_a</item>
+        <item>@string/reverse_type_b</item>
+        <item>@string/reverse_type_d</item>
+    </array>
+    <array name="t5q_ahd360_entries">
+        <item>@string/light_auto</item>
+        <item>CVBS_NTSC</item>
+        <item>CVBS_PAL</item>
+        <item>AHD 720p 25fps</item>
+        <item>AHD 720p 30fps</item>
+        <item>AHD 1080p 25fps</item>
+        <item>AHD 1080p 30fps</item>
+        <item>TVI 720p 25fps</item>
+        <item>TVI 720p 30fps</item>
+        <item>TVI 1080p 25fps</item>
+        <item>TVI 1080p 30fps</item>
+    </array>
+    <array name="t5q_ahd360_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </array>
+    <array name="t919_camera_format_entries">
+        <item>@string/reverse_ahd_ntsc</item>
+        <item>@string/reverse_ahd_pal</item>
+        <item>@string/reverse_ahd_25f</item>
+        <item>@string/reverse_ahd_30f</item>
+        <item>@string/reverse_tvi_25f</item>
+        <item>@string/reverse_tvi_30f</item>
+        <item>@string/reverse_ahd_1080p_25f</item>
+        <item>@string/reverse_ahd_1080p_30f</item>
+        <item>@string/reverse_tvi_1080p_25f</item>
+        <item>@string/reverse_tvi_1080p_30f</item>
+    </array>
+    <array name="t919_camera_format_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </array>
+    <array name="temp_mode_entries">
+        <item>@string/temp_mode_entries_item0</item>
+        <item>@string/temp_mode_entries_item1</item>
+        <item>@string/temp_mode_entries_item2</item>
+    </array>
+    <array name="temp_mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="the_voltage_display_entries">
+        <item>@string/str_hide</item>
+        <item>@string/display_open</item>
+    </array>
+    <array name="the_voltage_display_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="track_direction_entries">
+        <item>@string/knobs_entries_item0</item>
+        <item>@string/knobs_entries_item1</item>
+    </array>
+    <array name="track_direction_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="ts9_ahd360_entries">
+        <item>@string/reverse_ahd_ntsc</item>
+        <item>@string/reverse_ahd_pal</item>
+        <item>@string/reverse_ahd_25f</item>
+        <item>@string/reverse_ahd_30f</item>
+        <item>@string/reverse_tvi_25f</item>
+        <item>@string/reverse_tvi_30f</item>
+        <item>@string/reverse_ahd_1080p_25f</item>
+        <item>@string/reverse_ahd_1080p_30f</item>
+        <item>@string/reverse_tvi_1080p_25f</item>
+        <item>@string/reverse_tvi_1080p_30f</item>
+    </array>
+    <array name="ts9_ahd360_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </array>
+    <array name="tv_mode_ABS_entries">
+        <item>@string/tv_mode_entries_item0</item>
+        <item>@string/tv_mode_entries_item1</item>
+        <item>@string/tv_mode_ABS_entries_item0</item>
+    </array>
+    <array name="tv_mode_DVB_entries">
+        <item>@string/tv_mode_entries_item0</item>
+        <item>@string/tv_mode_entries_item1</item>
+        <item>@string/tv_mode_DVB_entries_item0</item>
+    </array>
+    <array name="tv_mode_DVB_t5_entries">
+        <item>@string/tv_mode_entries_item0</item>
+        <item>@string/tv_mode_entries_item1</item>
+    </array>
+    <array name="tv_mode_VSH_entries">
+        <item>@string/tv_mode_entries_item0</item>
+        <item>@string/tv_mode_entries_item1</item>
+        <item>@string/tv_mode_ABS_entries_item0</item>
+    </array>
+    <array name="tv_mode_entries">
+        <item>@string/tv_mode_entries_item0</item>
+        <item>@string/tv_mode_entries_item1</item>
+    </array>
+    <array name="tv_mode_t5_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="tv_mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>3</item>
+    </array>
+    <array name="tv_norm_entries">
+        <item>@string/tv_norm_entries_item0</item>
+        <item>@string/tv_norm_entries_item1</item>
+        <item>@string/tv_norm_entries_item2</item>
+        <item>@string/tv_norm_entries_item3</item>
+        <item>@string/tv_norm_entries_item4</item>
+        <item>@string/tv_norm_entries_item5</item>
+        <item>@string/tv_norm_entries_item6</item>
+    </array>
+    <array name="tv_norm_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </array>
+    <array name="video_out_entries_ch_t5">
+        <item>@string/close</item>
+        <item>TV</item>
+    </array>
+    <array name="video_out_entries_t5">
+        <item>@string/close</item>
+        <item>CVBS</item>
+        <item>HDMI</item>
+    </array>
+    <array name="video_out_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </array>
+    <array name="voice_btn_wake_up_entries">
+        <item>@string/voice_btn_wake_up_item1</item>
+        <item>@string/voice_btn_wake_up_item0</item>
+    </array>
+    <array name="voice_btn_wake_up_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="vr_entries">
+        <item>@string/vr_entries_item0</item>
+        <item>@string/vr_entries_item1</item>
+    </array>
+    <array name="vr_t5_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="vr_values">
+        <item>0</item>
+        <item>2</item>
+    </array>
+    <array name="x_knobs_entries">
+        <item>@string/close</item>
+        <item>@string/open</item>
+    </array>
+    <array name="x_knobs_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+</resources>

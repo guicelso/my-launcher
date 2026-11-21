@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="adjust">Ayarlamak</string>
+    <string name="app_name">Geri</string>
+    <string name="brightness">Parlaklık</string>
+    <string name="bt">Telefon</string>
+    <string name="calibration">Kalibrasyon</string>
+    <string name="camera_alarm">Lütfen çevre çevreye dikkat edin</string>
+    <string name="camera_alarm_AHD">Lütfen çevredeki ortama dikkat edin ve AHD HD kameranın kullanılmasını önerin.</string>
+    <string name="camera_alarm_user_cancel">İptal Etme</string>
+    <string name="camera_alarm_user_ok">TAMAM</string>
+    <string name="camera_detecting">Algılanıyor...</string>
+    <string name="camera_frame">Çerçeve</string>
+    <string name="camera_reset">Sıfırla</string>
+    <string name="camera_tip_close">Kapalı</string>
+    <string name="camera_tip_open">Açık</string>
+    <string name="camera_title">Araba Kamerası</string>
+    <string name="camera_title_settings">Kamera Ayarları</string>
+    <string name="car_saturation">Doyma</string>
+    <string name="contrast">Kontrast</string>
+    <string name="disc">Dizk</string>
+    <string name="front">Ön kamera</string>
+    <string name="image_debounce">Görüntü geri dönüşü</string>
+    <string name="memory">hafıza</string>
+    <string name="photo">Fotoğraf</string>
+    <string name="reset">Sıfırla</string>
+    <string name="reverse_nissan_no_prompt_display">Prompter ekranı YOK</string>
+    <string name="reverse_tip">Uyarı! Bu seçeneğin değiştirilmesi video sinyali olmamasına neden olabilir</string>
+    <string name="reverse_view_mode1">standart mod</string>
+    <string name="reverse_view_mode2">tam ekran modu</string>
+    <string name="reverse_view_mode3">16:9 modu</string>
+    <string name="reversing_ruler_line">Geri  Cetvel Çizgisi</string>
+    <string name="reversing_ruler_line_settings">Geri Cetvel Satır Ayarlama</string>
+    <string name="saturation">Doyma</string>
+    <string name="save">Kayıt etme</string>
+    <string name="stop">DUR</string>
+    <string name="traffic">Trafik</string>
+    <string name="tv">TV</string>
+    <string name="ui">Kullanıcı arayüzü yetkilendirilmemiş, lütfen tedarikçiyle iletişim kurun!</string>
+    <string name="warning_driving_t">Uyarı! \n Araba sürerken video izlemek yasaktır</string>
+    <string name="warning_signal_t">video sinyali yok</string>
+</resources>

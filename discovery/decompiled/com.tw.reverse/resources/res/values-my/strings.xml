@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="adjust">ညှိ</string>
+    <string name="app_name">ပြောင်းပြန်</string>
+    <string name="brightness">တောက်ပမှု</string>
+    <string name="camera_CommonorAHD_ahd">AHD</string>
+    <string name="camera_CommonorAHD_common">CCD</string>
+    <string name="camera_alarm">ပတ်ဝန်းကျင်ကို ဂရုစိုက်ပါ။</string>
+    <string name="camera_alarm_AHD">ပတ်ဝန်းကျင်ပတ်ဝန်းကျင်ကို အာရုံစိုက်ပြီး AHD HD ကင်မရာကို အသုံးပြုရန် အကြံပြုအပ်ပါသည်။</string>
+    <string name="camera_alarm_user">&lt;font color=#00FFD92E&gt;AHD မြင့်မားသော ကြည်လင်ပြတ်သားမှု&lt;/font&gt;ကင်မရာကို အသုံးပြုရန် အကြံပြုထားသည်&lt;br&gt;ယခု CCD ကင်မရာအတွက်</string>
+    <string name="camera_alarm_user_cancel">မလုပ်တော့</string>
+    <string name="camera_alarm_user_ok">အိုကေ</string>
+    <string name="camera_detecting">ဖော်ထုတ်နေသည်...</string>
+    <string name="camera_frame">ဘောင်</string>
+    <string name="camera_reset">ပြန်လည်သတ်မှတ်ပါ။</string>
+    <string name="camera_tip">ထိပ်ဖျား</string>
+    <string name="camera_tip_close">ပိတ်လိုက်</string>
+    <string name="camera_tip_open">ဖွင့်သည်။</string>
+    <string name="camera_title">ကားကင်မရာ</string>
+    <string name="camera_title_camera">ကင်မရာ</string>
+    <string name="camera_title_mode">မုဒ်ရွေးချယ်မှု</string>
+    <string name="camera_title_settings">ကင်မရာ ဆက်တင်များ</string>
+    <string name="car_saturation">ရွှဲ</string>
+    <string name="contrast">ဆန့်ကျင်ဘက်</string>
+    <string name="down">-</string>
+    <string name="image_debounce">ပုံထွက်ပေါ်ခြင်း</string>
+    <string name="mirror_left_right">ကြေးမုံ →/←</string>
+    <string name="mirror_top_bottom">ကြေးမုံ ↑/↓</string>
+    <string name="reset">ပြန်လည်သတ်မှတ်ပါ။</string>
+    <string name="reverse_ahd_1080p_25f">AHD 1080p 25fps</string>
+    <string name="reverse_ahd_1080p_30f">AHD 1080p 30fps</string>
+    <string name="reverse_ahd_25f">AHD 720p 25fps</string>
+    <string name="reverse_ahd_30f">AHD 720p 30fps</string>
+    <string name="reverse_ahd_auto">အလိုအလျောက်</string>
+    <string name="reverse_ahd_ntsc">NTSC</string>
+    <string name="reverse_ahd_pal">PAL</string>
+    <string name="reverse_tip">သတိပေးချက် ဤရွေးချယ်မှုကို မွမ်းမံခြင်းသည် ဗီဒီယိုအချက်ပြမှု မရှိနိုင်ပါ။</string>
+    <string name="reverse_tvi_1080p_25f">TVI 1080p 25fps</string>
+    <string name="reverse_tvi_1080p_30f">TVI 1080p 30fps</string>
+    <string name="reverse_tvi_25f">TVI 720p 25fps</string>
+    <string name="reverse_tvi_30f">TVI 720p 30fps</string>
+    <string name="reverse_view_mode1">စံမုဒ်</string>
+    <string name="reverse_view_mode2">မျက်နှာပြင်အပြည့် မုဒ်</string>
+    <string name="reverse_view_mode3">16:9 မုဒ်</string>
+    <string name="reversing_ruler_line">မျဉ်းပြောင်းပြန်</string>
+    <string name="reversing_ruler_line_settings">Reversing Ruler Line Adjust</string>
+    <string name="saturation">ရွှဲ</string>
+    <string name="save">သိမ်းဆည်းပါ။</string>
+    <string name="up">+</string>
+    <string name="warning_signal_t">ဗီဒီယိုအချက်ပြမှု မရှိပါ။</string>
+</resources>

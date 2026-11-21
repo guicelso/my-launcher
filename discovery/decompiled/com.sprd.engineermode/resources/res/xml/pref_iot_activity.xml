@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:title="@string/iot_common"
+        android:key="iot_common"/>
+    <Preference
+        android:title="@string/iot_huawei"
+        android:key="iot_huawei"/>
+    <Preference
+        android:title="@string/iot_ericsson"
+        android:key="iot_ericsson"/>
+    <Preference
+        android:title="@string/iot_nsn"
+        android:key="iot_nsn"/>
+</PreferenceScreen>

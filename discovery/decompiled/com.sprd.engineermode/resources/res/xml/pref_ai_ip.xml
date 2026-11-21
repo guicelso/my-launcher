@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/ai_ip">
+        <ListPreference
+            android:entries="@array/ai_ip_str"
+            android:title="@string/ai_ip_function"
+            android:key="ai_ip_key"
+            android:dialogTitle="@string/ai_ip_switch"
+            android:entryValues="@array/ai_ip_value"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/nn_log"
+        android:key="nn_log">
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="@string/model_log"
+            android:key="model_log_key"/>
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="@string/compilation_log"
+            android:key="compilation_log_key"/>
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="@string/execution_log"
+            android:key="execution_log_key"/>
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="@string/cpuexec_log"
+            android:key="cpuexec_log_key"/>
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="@string/manager_log"
+            android:key="manager_log_key"/>
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="@string/driver_log"
+            android:key="driver_log_key"/>
+    </PreferenceCategory>
+</PreferenceScreen>

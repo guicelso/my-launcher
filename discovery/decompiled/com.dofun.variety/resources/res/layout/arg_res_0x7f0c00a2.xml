@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.cardoor.variety.base.ui.adapt.AutoFrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+        android:textSize="20px"
+        android:textColor="@android:color/white"
+        android:id="@+id/tv_search_history_val"
+        android:paddingLeft="20px"
+        android:paddingTop="10px"
+        android:paddingRight="20px"
+        android:paddingBottom="10px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25px"
+        app:adapt_calc_base_on="3"
+        app:bl_corners_radius="70px"
+        app:bl_solid_color="#1affffff"/>
+</cn.cardoor.variety.base.ui.adapt.AutoFrameLayout>

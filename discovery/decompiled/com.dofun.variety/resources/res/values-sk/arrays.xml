@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arg_res_0x7f030002">
+        <item>km/h</item>
+        <item>mph</item>
+    </array>
+    <array name="arg_res_0x7f030008">
+        <item>nedeľa</item>
+        <item>pondelok</item>
+        <item>utorok</item>
+        <item>streda</item>
+        <item>štvrtok</item>
+        <item>piatok</item>
+        <item>sobota</item>
+    </array>
+</resources>

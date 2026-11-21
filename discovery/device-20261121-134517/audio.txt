@@ -1,0 +1,151 @@
+
+MediaFocusControl dump time: 13:45:19
+
+Audio Focus stack entries (last is top of stack):
+  source:android.os.BinderProxy@6e8892f -- pack: com.google.android.apps.youtube.music -- client: android.media.AudioManager@e6217f0aasr@6af8169 -- gain: GAIN -- flags:  -- loss: none -- notified: true -- uid: 10156 -- attr: AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_MUSIC flags=0x800 tags= bundle=null -- sdk:37
+
+
+No external focus policy
+
+
+
+ Notify on duck:  true
+
+ In ring or call: false
+
+
+
+Audio event log: focus commands as seen by MediaFocusControl
+11-21 12:53:49:301 requestAudioFocus() from uid/pid 10156/14038 clientId=android.media.AudioManager@6d09b9aaqz@579b1fe callingPack=com.google.android.apps.youtube.music req=1 flags=0x0 sdk=36
+11-21 13:15:06:308 requestAudioFocus() from uid/pid 10156/29426 clientId=android.media.AudioManager@77ec1ebaaqz@6d05b48 callingPack=com.google.android.apps.youtube.music req=1 flags=0x0 sdk=36
+11-21 13:22:50:826 requestAudioFocus() from uid/pid 10156/3509 clientId=android.media.AudioManager@e6217f0aasr@6af8169 callingPack=com.google.android.apps.youtube.music req=1 flags=0x0 sdk=37
+11-21 13:27:33:393 requestAudioFocus() from uid/pid 1000/11659 clientId=AudioFocus_For_Phone_Ring_And_Calls callingPack=com.android.server.telecom req=2 flags=0x4 sdk=0
+11-21 13:27:38:687 abandonAudioFocus() from uid/pid 1000/11659 clientId=AudioFocus_For_Phone_Ring_And_Calls
+
+Stream volumes (device: index)
+- STREAM_VOICE_CALL:
+   Muted: false
+   Min: 0
+   Max: 15
+   streamVolume:15
+   Current: 8 (headphone): 15, 40000000 (default): 15
+   Devices: headphone
+- STREAM_SYSTEM:
+   Muted: false
+   Min: 0
+   Max: 15
+   streamVolume:14
+   Current: 2 (speaker): 14, 8 (headphone): 14, 40000000 (default): 14
+   Devices: headphone
+- STREAM_RING:
+   Muted: false
+   Min: 0
+   Max: 15
+   streamVolume:14
+   Current: 2 (speaker): 14, 8 (headphone): 14, 40000000 (default): 14
+   Devices: speaker, headphone
+- STREAM_MUSIC:
+   Muted: false
+   Min: 0
+   Max: 15
+   streamVolume:14
+   Current: 8 (headphone): 14, 40000000 (default): 14
+   Devices: headphone
+- STREAM_ALARM:
+   Muted: false
+   Min: 0
+   Max: 15
+   streamVolume:15
+   Current: 2 (speaker): 15, 40000000 (default): 14
+   Devices: speaker, headphone
+- STREAM_NOTIFICATION:
+   Muted: false
+   Min: 0
+   Max: 15
+   streamVolume:14
+   Current: 2 (speaker): 14, 8 (headphone): 14, 40000000 (default): 14
+   Devices: headphone
+- STREAM_BLUETOOTH_SCO:
+   Muted: false
+   Min: 0
+   Max: 15
+   streamVolume:14
+   Current: 40000000 (default): 14
+   Devices: headphone
+- STREAM_SYSTEM_ENFORCED:
+   Muted: false
+   Min: 0
+   Max: 15
+   streamVolume:14
+   Current: 2 (speaker): 14, 8 (headphone): 14, 40000000 (default): 14
+   Devices: headphone
+- STREAM_DTMF:
+   Muted: false
+   Min: 0
+   Max: 15
+   streamVolume:14
+   Current: 2 (speaker): 14, 8 (headphone): 14, 40000000 (default): 14
+   Devices: headphone
+- STREAM_TTS:
+   Muted: false
+   Min: 0
+   Max: 15
+   streamVolume:14
+   Current: 8 (headphone): 14, 40000000 (default): 14
+   Devices: speaker
+- STREAM_ACCESSIBILITY:
+   Muted: false
+   Min: 0
+   Max: 15
+   streamVolume:14
+   Current: 8 (headphone): 14, 40000000 (default): 14
+   Devices: headphone
+
+- mute affected streams = 0x6f
+
+Ringer mode: 
+- mode (internal) = NORMAL
+- mode (external) = NORMAL
+- ringer mode affected streams = 0x1a6 (STREAM_SYSTEM,STREAM_RING,STREAM_NOTIFICATION,STREAM_SYSTEM_ENFORCED,STREAM_DTMF)
+- ringer mode muted streams = 0x0
+- delegate = ZenModeHelper
+
+Audio routes:
+  mMainType=0x2
+  mBluetoothName=null
+
+Other state:
+  mVolumeController=VolumeController(null,mVisible=false)
+  mSafeMediaVolumeState=SAFE_MEDIA_VOLUME_DISABLED
+  mSafeMediaVolumeIndex=100
+  mSafeUsbMediaVolumeIndex=30
+  mSafeUsbMediaVolumeDbfs=-37.0
+  sIndependentA11yVolume=false
+  mPendingVolumeCommand=null
+  mMusicActiveMs=0
+  mMcc=724
+  mCameraSoundForced=false
+  mHasVibrator=true
+  mVolumePolicy=VolumePolicy[volumeDownToEnterSilent=false,volumeUpToExitSilent=false,doNotDisturbWhenSilent=false,vibrateToSilentDebounce=400]
+  mAvrcpAbsVolSupported=false
+  mIsSingleVolume=false
+  mUseFixedVolume=false
+  mFixedVolumeDevices=0x2c1c00
+  mHdmiCecSink=false
+  mHdmiAudioSystemClient=null
+  mHdmiPlaybackClient=null
+  mHdmiTvClient=null
+  mHdmiSystemAudioSupported=false
+
+Audio policies:
+Audio event log: dynamic policy events (logged when command received by AudioService)
+
+PlaybackActivityMonitor dump time: 13:45:19
+
+  playback listeners:
+ (S)com.android.server.audio.PlaybackActivityMonitor$PlayMonitorClient@428eb3c
+
+
+  players:
+  ID:15 -- type:android.media.MediaPlayer -- u/pid:1000/11659 -- state:idle -- attr:AudioAttributes: usage=USAGE_NOTIFICATION_RINGTONE content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null
+Failed to write while dumping service audio: Broken pipe

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+        android:textSize="30px"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:id="@+id/tv_content"
+        android:paddingLeft="26px"
+        android:paddingTop="8px"
+        android:paddingRight="26px"
+        android:paddingBottom="8px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="200px"
+        android:minHeight="60px"
+        app:adapt_calc_base_on="5"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintLeft_toLeftOf="0"
+        app:layout_constraintRight_toRightOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"/>
+</merge>

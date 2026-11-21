@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="@dimen/arg_res_0x7f0702eb"
+    android:width="@dimen/arg_res_0x7f0702eb"
+    android:viewportWidth="@integer/arg_res_0x7f0a0041"
+    android:viewportHeight="@integer/arg_res_0x7f0a0041">
+    <group
+        android:name="@string/arg_res_0x7f100247"
+        android:pivotX="@integer/arg_res_0x7f0a0040"
+        android:pivotY="@integer/arg_res_0x7f0a0040">
+        <path
+            android:name="@string/arg_res_0x7f10024a"
+            android:fillColor="#ffffffff"
+            android:pathData="@string/arg_res_0x7f10024c"/>
+    </group>
+</vector>

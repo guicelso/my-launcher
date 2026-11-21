@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="adjust">Penyesuaian</string>
+    <string name="app_name">Mundur</string>
+    <string name="brightness">Kecerahan</string>
+    <string name="camera_CommonorAHD_ahd">AHD</string>
+    <string name="camera_CommonorAHD_common">CCD</string>
+    <string name="camera_alarm">Harap perhatikan kondisi lingkungan sekitar</string>
+    <string name="camera_alarm_AHD">Harap perhatikan kondisi lingkungan sekitar dan direkomendasikan menggunakan kamera AHD HD</string>
+    <string name="camera_alarm_user">Recommended to use &lt;font color=#00FFD92E&gt;AHD high definition&lt;/font&gt;camera&lt;br&gt;Now for the CCD camera</string>
+    <string name="camera_alarm_user_cancel">Batal</string>
+    <string name="camera_alarm_user_ok">OK</string>
+    <string name="camera_detecting">Mendeteksi…</string>
+    <string name="camera_frame">Bingkai</string>
+    <string name="camera_reset">Setel ulang</string>
+    <string name="camera_tip">Tip</string>
+    <string name="camera_tip_close">Tutup</string>
+    <string name="camera_tip_open">Buka</string>
+    <string name="camera_title">Kamera Kendaraan</string>
+    <string name="camera_title_camera">Kamera</string>
+    <string name="camera_title_settings">Pengaturan Kamera</string>
+    <string name="car_saturation">Saturasi</string>
+    <string name="contrast">Kontras</string>
+    <string name="down">-</string>
+    <string name="image_debounce">Image debounce</string>
+    <string name="reset">Setel ulang</string>
+    <string name="reverse_ahd_1080p_25f">AHD 1080p 25fps</string>
+    <string name="reverse_ahd_1080p_30f">AHD 1080p 30fps</string>
+    <string name="reverse_ahd_25f">AHD 720p 25fps</string>
+    <string name="reverse_ahd_30f">AHD 720p 30fps</string>
+    <string name="reverse_ahd_auto">AUTO</string>
+    <string name="reverse_ahd_ntsc">NTSC</string>
+    <string name="reverse_ahd_pal">PAL</string>
+    <string name="reverse_tip">Peringatan! Memodifikasi opsi ini dapat mengakibatkan tidak ada sinyal video</string>
+    <string name="reverse_tvi_1080p_25f">TVI 1080p 25fps</string>
+    <string name="reverse_tvi_1080p_30f">TVI 1080p 30fps</string>
+    <string name="reverse_tvi_25f">TVI 720p 25fps</string>
+    <string name="reverse_tvi_30f">TVI 720p 30fps</string>
+    <string name="reversing_ruler_line">Garis Penggaris Mundur</string>
+    <string name="reversing_ruler_line_settings">Pengaturan Garis Penggaris Mundur</string>
+    <string name="saturation">Saturasi</string>
+    <string name="save">Simpan</string>
+    <string name="up">+</string>
+    <string name="warning_signal_t">Tidak ada sinyal video</string>
+</resources>

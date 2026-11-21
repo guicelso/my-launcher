@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="arg_res_0x7f1003d3">La ruta de descarga de APK es anormal!</string>
+    <string name="arg_res_0x7f1003d4">- Actualice la versión en línea~ \n Funciones más actualizadas, experiencia optimizada</string>
+    <string name="arg_res_0x7f1003d5">(versión actual:%s)</string>
+    <string name="arg_res_0x7f1003d6">No recordar a l’inici</string>
+    <string name="arg_res_0x7f1003d7">¡Error al descargar el paquete de actualización! Inténtalo de nuevo.</string>
+    <string name="arg_res_0x7f1003d8">Descargado:</string>
+    <string name="arg_res_0x7f1003d9">descargando</string>
+    <string name="arg_res_0x7f1003da">No se pudo instalar el paquete de actualización</string>
+    <string name="arg_res_0x7f1003db">Tratando de cargar…</string>
+    <string name="arg_res_0x7f1003dc">El servidor está ocupado. Vuelve a intentarlo más tarde.</string>
+    <string name="arg_res_0x7f1003dd">¡La red es anormal! Vuelve a intentarlo</string>
+    <string name="arg_res_0x7f1003de">Comprueba tu red!</string>
+    <string name="arg_res_0x7f1003df">- Actualmente la última versión, no es necesario actualizar!</string>
+    <string name="arg_res_0x7f1003e0">experiència ara</string>
+    <string name="arg_res_0x7f1003e1">descarregar de nou</string>
+    <string name="arg_res_0x7f1003e2">La tarjeta SD no está disponible, inserte la tarjeta SD!</string>
+    <string name="arg_res_0x7f1003e3">%</string>
+    <string name="arg_res_0x7f1003e4">0</string>
+    <string name="arg_res_0x7f1003e5">renovar</string>
+    <string name="arg_res_0x7f1003e6">Notas de lanzamiento:</string>
+    <string name="arg_res_0x7f1003e7">Versión</string>
+</resources>

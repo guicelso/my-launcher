@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:title="@string/ue_cap_gsm_diversity"
+        android:key="GSM diversity"/>
+</PreferenceScreen>

@@ -1,0 +1,82 @@
+TASK de.szalkowski.activitylauncher id=2075 userId=0
+  ACTIVITY de.szalkowski.activitylauncher/.entrypoint.MainActivity a44bdac pid=9342
+    Local Activity deb5e9c State:
+      mResumed=false mStopped=true mFinished=false
+      mChangingConfigurations=false
+      mCurrentConfig={1.3 724mcc6mnc [pt_BR,en_US] ldltr sw720dp w1280dp h662dp 160dpi xlrg long land night finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 1280, 720) mAppBounds=Rect(0, 0 - 1280, 720) mWindowingMode=fullscreen mDisplayWindowingMode=fullscreen mActivityType=standard mAlwaysOnTop=undefined mRotation=ROTATION_0} s.1}
+      mLoadersStarted=true
+      Active Fragments in ebadb75:
+        #0: w20{5eb470a #0 androidx.lifecycle.LifecycleDispatcher.report_fragment_tag}
+          mFragmentId=#0 mContainerId=#0 mTag=androidx.lifecycle.LifecycleDispatcher.report_fragment_tag
+          mState=3 mIndex=0 mWho=android:fragment:0 mBackStackNesting=0
+          mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+          mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+          mRetainInstance=false mRetaining=false mUserVisibleHint=true
+          mFragmentManager=FragmentManager{ebadb75 in HostCallbacks{8e7b7b}}
+          mHost=android.app.Activity$HostCallbacks@8e7b7b
+          Child FragmentManager{26c3d98 in w20{5eb470a}}:
+            FragmentManager misc state:
+              mHost=android.app.Activity$HostCallbacks@8e7b7b
+              mContainer=android.app.Fragment$1@e6ab9f1
+              mParent=w20{5eb470a #0 androidx.lifecycle.LifecycleDispatcher.report_fragment_tag}
+              mCurState=3 mStateSaved=true mDestroyed=false
+      Added Fragments:
+        #0: w20{5eb470a #0 androidx.lifecycle.LifecycleDispatcher.report_fragment_tag}
+      FragmentManager misc state:
+        mHost=android.app.Activity$HostCallbacks@8e7b7b
+        mContainer=android.app.Activity$HostCallbacks@8e7b7b
+        mCurState=3 mStateSaved=true mDestroyed=false
+    ViewRoot:
+      mAdded=true mRemoved=false
+      mConsumeBatchedInputScheduled=false
+      mConsumeBatchedInputImmediatelyScheduled=false
+      mPendingInputEventCount=0
+      mProcessInputEventsScheduled=false
+      mTraversalScheduled=false      mIsAmbientMode=false
+      android.view.ViewRootImpl$NativePreImeInputStage: mQueueLength=0
+      android.view.ViewRootImpl$ImeInputStage: mQueueLength=0
+      android.view.ViewRootImpl$NativePostImeInputStage: mQueueLength=0
+    Choreographer:
+      mFrameScheduled=false
+      mLastFrameTime=94597240 (277035 ms ago)
+    
+InsetsController:
+      InsetsState
+        InsetsSource type=TYPE_UNKNOWN_10 frame=[0,0][0,0] visible=false
+        InsetsSource type=TYPE_BOTTOM_TAPPABLE_ELEMENT frame=[0,720][1280,720] visible=true
+        InsetsSource type=TYPE_TOP_TAPPABLE_ELEMENT frame=[0,0][1280,58] visible=true
+        InsetsSource type=TYPE_RIGHT_GESTURES frame=[1280,0][1280,720] visible=true
+        InsetsSource type=TYPE_LEFT_GESTURES frame=[0,0][0,720] visible=true
+        InsetsSource type=TYPE_BOTTOM_GESTURES frame=[0,720][1280,720] visible=true
+        InsetsSource type=TYPE_TOP_GESTURES frame=[0,0][1280,58] visible=true
+        InsetsSource type=TYPE_SIDE_BAR_1 frame=[0,720][1280,720] visible=true
+        InsetsSource type=TYPE_TOP_BAR frame=[0,0][1280,58] visible=true
+    View Hierarchy:
+      DecorView@1b6610a[MainActivity]
+        android.widget.LinearLayout{97ec9d6 V.E...... .......D 0,0-1280,720}
+          android.view.ViewStub{dff5457 G.E...... ......I. 0,0-0,0 #1020194 android:id/action_mode_bar_stub}
+          android.widget.FrameLayout{3b39b44 V.E...... .......D 0,0-1280,720}
+            androidx.appcompat.widget.FitWindowsLinearLayout{760042d V.E...... .......D 0,0-1280,720 #7f09003f app:id/action_bar_root aid=1073741825}
+              androidx.appcompat.widget.ViewStubCompat{cf5ad62 G.E...... ......I. 0,0-0,0 #7f09004b app:id/action_mode_bar_stub aid=1073741826}
+              androidx.appcompat.widget.ContentFrameLayout{b3adef3 V.E...... .......D 0,0-1280,720 #1020002 android:id/content}
+                androidx.constraintlayout.widget.ConstraintLayout{af127b0 V.E...... .......D 0,0-1280,720 #7f0901a0 app:id/root_layout aid=1073741827}
+                  androidx.coordinatorlayout.widget.CoordinatorLayout{4e5b629 V.E...... .......D 0,58-1280,640 #7f090099 app:id/content_main aid=1073741828}
+                    com.google.android.material.appbar.AppBarLayout{6b38c63 V.E...... ......ID 0,0-1280,64 #7f09005f app:id/appBar aid=1073741829}
+                      com.google.android.material.appbar.MaterialToolbar{f546d89 V.E...... ......ID 0,0-1280,64 #7f09021f app:id/toolbar aid=1073741830}
+                        v7{a136daf V.ED..... ........ 68,12-230,51 aid=1073741831}
+                        androidx.appcompat.widget.ActionMenuView{a0b35bc V.E...... .......D 1224,0-1272,64}
+                          androidx.appcompat.view.menu.ActionMenuItemView{53dae VFED..C.. ......ID 0,8-48,56 #7f09004d app:id/action_settings aid=1073741832}
+                        m6{2975608 VFED..C.. ......ID 8,0-64,64}
+                      android.widget.FrameLayout{148918e G.E...... ......ID 0,64-1280,144 #7f0901b4 app:id/searchContainer aid=1073741833}
+                        com.google.android.material.textfield.TextInputLayout{c8d5945 V.ED..... ......ID 8,8-1272,72 #7f090218 app:id/tilSearch aid=1073741834}
+                          android.widget.FrameLayout{d9a774f V.E...... ......ID 0,0-1264,64}
+                            com.google.android.material.textfield.TextInputEditText{93335cb VFED..CL. ......ID 0,0-1264,64 #7f090213 app:id/tiSearch aid=1073741824}
+                            z60{b33f1a8 V.E...... .......D 0,0-48,64 aid=1073741835}
+                              com.google.android.material.internal.CheckableImageButton{1390edc V.ED..... ......ID 0,8-48,56 #7f090208 app:id/text_input_start_icon}
+                              v7{1fa8be5 G.ED..... ......ID 0,0-0,0 #7f09020d app:id/textinput_prefix_text aid=1073741836}
+                            vj{9adefa6 G.E...... ......ID 1216,0-1264,64 aid=1073741837}
+                              v7{66b86ba G.ED..... ......ID 0,0-0,0 #7f09020e app:id/textinput_suffix_text}
+                              android.widget.FrameLayout{cb1396b G.E...... ......ID 0,0-48,64}
+                                com.google.android.material.internal.CheckableImageButton{ab63cc8 GFED..C.. ......ID 0,8-48,56 #7f090206 app:id/text_input_end_icon}
+Failed to write while dumping service activity: Broken pipe
+    mResumedActivity: ActivityRecord{4245dbe u0 com.sprd.engineermode/.debuglog.AdbShellCMDActivity t2076}

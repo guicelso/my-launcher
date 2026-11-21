@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_dw_app_loading"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:layout_gravity="center"
+        android:id="@+id/spin_kit_view"
+        android:padding="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:SpinKit_Color="@color/arg_res_0x7f060072"
+        app:layout_constraintBottom_toTopOf="@+id/tv_launching"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"
+        app:layout_constraintVertical_chainStyle="2"
+        style="@style/arg_res_0x7f1101ac"/>
+    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+        android:textSize="24px"
+        android:id="@+id/tv_launching"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/arg_res_0x7f1001b2"
+        app:layout_constraintBottom_toTopOf="@+id/desc"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/spin_kit_view"
+        style="@style/arg_res_0x7f110124"/>
+    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+        android:textSize="20px"
+        android:gravity="center_horizontal"
+        android:id="@+id/desc"
+        android:paddingLeft="60dp"
+        android:paddingRight="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/arg_res_0x7f1001c8"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/tv_launching"
+        style="@style/arg_res_0x7f110124"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

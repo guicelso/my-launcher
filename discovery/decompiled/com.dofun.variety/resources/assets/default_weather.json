@@ -1,0 +1,45 @@
+{
+  "city": "定位中**",
+  "city**": "positioning",
+  "week": "未知**",
+  "updatetime": "19700101 00:00:00",
+  "cachetime": "19700101 00:00:00",
+  "temp": "~",
+  "temphigh": "",
+  "templow": "",
+  "img": "-1",
+  "weather": "未知**",
+  "humidity": "未知**",
+  "winddirect": "未知**",
+  "windpower": "未知**",
+  "index": [
+    {
+      "ivalue": "未知**",
+      "iname": "空调指数"
+    },
+    {
+      "ivalue": "未知**",
+      "iname": "紫外线指数"
+    },
+    {
+      "ivalue": "未知**",
+      "iname": "运动指数"
+    },
+    {
+      "ivalue": "未知**",
+      "iname": "感冒指数"
+    },
+    {
+      "ivalue": "未知**",
+      "iname": "洗车指数"
+    },
+    {
+      "ivalue": "未知**",
+      "iname": "空气污染扩散指数 "
+    },
+    {
+      "ivalue": "未知**",
+      "iname": "穿衣指数"
+    }
+  ]
+}

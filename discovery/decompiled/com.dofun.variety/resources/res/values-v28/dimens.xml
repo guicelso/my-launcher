@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="arg_res_0x7f07020e">0.16</dimen>
+    <dimen name="arg_res_0x7f07020f">0.2</dimen>
+    <dimen name="arg_res_0x7f070210">0.4</dimen>
+    <dimen name="arg_res_0x7f070211">0.12</dimen>
+    <dimen name="arg_res_0x7f0702ae">0.24</dimen>
+    <dimen name="arg_res_0x7f0702af">0.4</dimen>
+    <dimen name="arg_res_0x7f0702b0">0.4</dimen>
+    <dimen name="arg_res_0x7f0702b1">0.24</dimen>
+    <dimen name="arg_res_0x7f0702b2">0.12</dimen>
+    <dimen name="arg_res_0x7f0702b3">0.2</dimen>
+    <dimen name="arg_res_0x7f0702b4">0.2</dimen>
+    <dimen name="arg_res_0x7f0702b5">0.12</dimen>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="arg_res_0x7f1003d3">Путања преузимања АПК-а је ненормална!</string>
+    <string name="arg_res_0x7f1003d4">- Ажурирајте мрежну верзију ~ Више могућности ажурирања, оптимизирајте искуство</string>
+    <string name="arg_res_0x7f1003d5">(Тренутна верзија:%s)</string>
+    <string name="arg_res_0x7f1003d6">Ne podsjećaj na početnom zaslonu</string>
+    <string name="arg_res_0x7f1003d7">Преузимање пакета ажурирања није успело! Покушајте поново.</string>
+    <string name="arg_res_0x7f1003d8">Довнлоадед:</string>
+    <string name="arg_res_0x7f1003d9">Преузимање</string>
+    <string name="arg_res_0x7f1003da">Пакет ажурирања инсталације није успио</string>
+    <string name="arg_res_0x7f1003db">Тешко за учитавање…</string>
+    <string name="arg_res_0x7f1003dc">Сервер је заузет, покушајте поново касније</string>
+    <string name="arg_res_0x7f1003dd">Мрежа је абнормална! Покушајте поново</string>
+    <string name="arg_res_0x7f1003de">Проверите своју мрежу!</string>
+    <string name="arg_res_0x7f1003df">- Тренутно ажурирано, није потребно ажурирање!</string>
+    <string name="arg_res_0x7f1003e0">iskustvo sada</string>
+    <string name="arg_res_0x7f1003e1">ponovno preuzmite</string>
+    <string name="arg_res_0x7f1003e2">СД картица није доступна, уметните СД картицу!</string>
+    <string name="arg_res_0x7f1003e3">%</string>
+    <string name="arg_res_0x7f1003e4">0</string>
+    <string name="arg_res_0x7f1003e5">Упдате</string>
+    <string name="arg_res_0x7f1003e6">Упутства за ажурирање:</string>
+    <string name="arg_res_0x7f1003e7">Версион</string>
+</resources>

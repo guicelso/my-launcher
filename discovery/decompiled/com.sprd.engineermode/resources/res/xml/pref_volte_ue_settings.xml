@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/ua_name"
+        android:key="ua_name">
+        <EditTextPreference
+            android:maxLength="255"
+            android:title="@string/sprd_volte"
+            android:key="sprd_volte"
+            android:summary="please input data"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/volte_voice_code_type">
+        <MultiSelectListPreference
+            android:title="@string/volte_voice_code_type"
+            android:key="volte_voice_code"
+            android:dialogTitle="@string/volte_voice_code_type"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/volte_evs_primary">
+        <ListPreference
+            android:entries="@array/evs_primary_bandwidth"
+            android:title="@string/max_bandwidth"
+            android:key="max_bandwidth"
+            android:dialogTitle="@string/max_bandwidth"
+            android:entryValues="@array/evs_primary_bandwidth_value"/>
+        <ListPreference
+            android:entries="@array/evs_primary_bitrate"
+            android:title="@string/max_rate"
+            android:key="max_bitrate"
+            android:dialogTitle="@string/max_rate"
+            android:entryValues="@array/evs_primary_bitrate_value"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/video">
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="@string/video_call_enable"
+            android:key="video_call_enable"/>
+        <MultiSelectListPreference
+            android:title="@string/video_codec"
+            android:key="volte_video_code"/>
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="@string/video_conference_enable"
+            android:key="video_conference_enable"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/sms"
+        android:key="key_msm">
+        <ListPreference
+            android:entries="@array/sms_pdu_str"
+            android:title="@string/sms_pdu_format"
+            android:key="key_sms_pdu"
+            android:dialogTitle="@string/sms_pdu_format"
+            android:entryValues="@array/sms_pdu_value"/>
+    </PreferenceCategory>
+</PreferenceScreen>

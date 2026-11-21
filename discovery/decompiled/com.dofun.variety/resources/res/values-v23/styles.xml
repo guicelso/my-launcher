@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="arg_res_0x7f110030" parent="@android:style/TextAppearance.Material.Widget.ActionBar.Menu">
+    </style>
+    <style name="arg_res_0x7f11003a" parent="@android:style/TextAppearance.Material.Widget.Button.Inverse">
+    </style>
+    <style name="arg_res_0x7f110049" parent="@style/arg_res_0x7f1100a9">
+    </style>
+    <style name="arg_res_0x7f110050" parent="@style/arg_res_0x7f1100aa">
+    </style>
+    <style name="arg_res_0x7f1100a9" parent="@style/arg_res_0x7f1100a7">
+        <item name="arg_res_0x7f040006">?android:attr/actionBarItemBackground</item>
+        <item name="arg_res_0x7f040013">?android:attr/actionMenuTextAppearance</item>
+        <item name="arg_res_0x7f040014">?android:attr/actionMenuTextColor</item>
+        <item name="arg_res_0x7f040024">?android:attr/actionOverflowButtonStyle</item>
+        <item name="arg_res_0x7f040269">@drawable/arg_res_0x7f08003b</item>
+        <item name="arg_res_0x7f0404ff">?android:attr/ratingBarStyleIndicator</item>
+        <item name="arg_res_0x7f040500">?android:attr/ratingBarStyleSmall</item>
+    </style>
+    <style name="arg_res_0x7f1100aa" parent="@style/arg_res_0x7f1100a8">
+        <item name="arg_res_0x7f040006">?android:attr/actionBarItemBackground</item>
+        <item name="arg_res_0x7f040013">?android:attr/actionMenuTextAppearance</item>
+        <item name="arg_res_0x7f040014">?android:attr/actionMenuTextColor</item>
+        <item name="arg_res_0x7f040024">?android:attr/actionOverflowButtonStyle</item>
+        <item name="arg_res_0x7f040269">@drawable/arg_res_0x7f08003b</item>
+        <item name="arg_res_0x7f0404ff">?android:attr/ratingBarStyleIndicator</item>
+        <item name="arg_res_0x7f040500">?android:attr/ratingBarStyleSmall</item>
+    </style>
+    <style name="arg_res_0x7f1100c3" parent="@android:style/Widget.Material.ActionButton.Overflow">
+    </style>
+    <style name="arg_res_0x7f1100c9" parent="@android:style/Widget.Material.Button.Borderless.Colored">
+    </style>
+    <style name="arg_res_0x7f1100cb" parent="@android:style/Widget.Material.Button.Colored">
+        <item name="android:textAppearance">@style/arg_res_0x7f1101ff</item>
+    </style>
+    <style name="arg_res_0x7f1100d5" parent="@android:style/Widget.Material.EditText">
+        <item name="android:breakStrategy">0</item>
+        <item name="android:hyphenationFrequency">0</item>
+    </style>
+    <style name="arg_res_0x7f1100ea" parent="@android:style/Widget.Material.RatingBar.Indicator">
+    </style>
+    <style name="arg_res_0x7f1100eb" parent="@android:style/Widget.Material.RatingBar.Small">
+    </style>
+    <style name="arg_res_0x7f1100f1" parent="@android:style/Widget.Material.Spinner.Underlined">
+    </style>
+    <style name="arg_res_0x7f1100f2" parent="@android:style/Widget.Material.TextView">
+        <item name="android:breakStrategy">1</item>
+        <item name="android:hyphenationFrequency">0</item>
+    </style>
+    <style name="arg_res_0x7f11011b" parent="@style/arg_res_0x7f11000e">
+        <item name="arg_res_0x7f0401ab">?android:attr/colorBackgroundFloating</item>
+    </style>
+    <style name="arg_res_0x7f1102c9" parent="@style/arg_res_0x7f110079">
+        <item name="arg_res_0x7f040219">@color/arg_res_0x7f06020c</item>
+    </style>
+    <style name="arg_res_0x7f1102fd" parent="@style/arg_res_0x7f11007d">
+        <item name="arg_res_0x7f040219">@color/arg_res_0x7f06020c</item>
+    </style>
+    <style name="arg_res_0x7f110388" parent="@style/arg_res_0x7f1100f7">
+        <item name="arg_res_0x7f04004e">@drawable/arg_res_0x7f0801c5</item>
+        <item name="arg_res_0x7f040055">@drawable/arg_res_0x7f0801c5</item>
+        <item name="arg_res_0x7f040056">@drawable/arg_res_0x7f0801c5</item>
+    </style>
+    <style name="arg_res_0x7f110389" parent="@style/arg_res_0x7f1100f8">
+        <item name="arg_res_0x7f04004e">@drawable/arg_res_0x7f0801c5</item>
+        <item name="arg_res_0x7f040055">@drawable/arg_res_0x7f0801c5</item>
+    </style>
+    <style name="arg_res_0x7f1103c1" parent="@style/arg_res_0x7f1100fd">
+        <item name="android:background">@drawable/arg_res_0x7f0801cb</item>
+    </style>
+    <style name="arg_res_0x7f1103c3" parent="@style/arg_res_0x7f1100fe">
+        <item name="android:background">@drawable/arg_res_0x7f0801ca</item>
+    </style>
+    <style name="arg_res_0x7f1103c4" parent="@style/arg_res_0x7f1100ff">
+        <item name="android:background">@drawable/arg_res_0x7f0801cb</item>
+    </style>
+    <style name="arg_res_0x7f1103da" parent="@style/arg_res_0x7f110105">
+        <item name="arg_res_0x7f04004e">@drawable/arg_res_0x7f0801c5</item>
+        <item name="arg_res_0x7f040055">@drawable/arg_res_0x7f0801c5</item>
+        <item name="arg_res_0x7f040056">@drawable/arg_res_0x7f0801c5</item>
+    </style>
+    <style name="arg_res_0x7f110417" parent="@style/arg_res_0x7f110109">
+        <item name="android:background">@drawable/arg_res_0x7f0801cf</item>
+    </style>
+    <style name="arg_res_0x7f11047f" parent="@style/arg_res_0x7f110111">
+        <item name="android:popupBackground">?attr/arg_res_0x7f0404e4</item>
+        <item name="android:popupElevation">8dp</item>
+    </style>
+    <style name="arg_res_0x7f110480" parent="@style/arg_res_0x7f110112">
+        <item name="android:popupBackground">?attr/arg_res_0x7f0404e4</item>
+        <item name="android:popupElevation">8dp</item>
+    </style>
+</resources>

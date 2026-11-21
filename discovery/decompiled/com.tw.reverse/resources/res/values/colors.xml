@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#ff333333</color>
+    <color name="black_40percent">#662d3239</color>
+    <color name="black_lucid">#1affffff</color>
+    <color name="black_lucid_close">#ff666666</color>
+    <color name="black_lucid_deep">#bb666666</color>
+    <color name="black_radio">#ff394555</color>
+    <color name="blue">#ff29adff</color>
+    <color name="blue_deep">#ff2b83e2</color>
+    <color name="camera_title_gray">#f0f0f0</color>
+    <color name="camera_title_white">#ffffff</color>
+    <color name="colorAccent">#ff4081</color>
+    <color name="colorPrimary">#3f51b5</color>
+    <color name="colorPrimaryDark">#303f9f</color>
+    <color name="gray">#ffaaaaaa</color>
+    <color name="kprogresshud_default_color">#b1000000</color>
+    <color name="kprogresshud_grey_color">#449e9e9e</color>
+    <color name="spots_dialog_color">@android:color/holo_blue_dark</color>
+    <color name="trans">#00000000</color>
+    <color name="white">#ffffffff</color>
+    <color name="white_gray">#ffdddddd</color>
+    <color name="white_lucid">#1f000000</color>
+    <color name="yellow">#ffcc00</color>
+</resources>

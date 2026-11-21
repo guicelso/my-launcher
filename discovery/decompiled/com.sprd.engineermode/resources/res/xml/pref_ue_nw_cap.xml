@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:title="@string/ue_cap"
+        android:key="ue_cap"/>
+    <Preference
+        android:title="@string/nw_cap"
+        android:key="nw_cap"/>
+</PreferenceScreen>

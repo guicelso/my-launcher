@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:scrollbarThumbVertical="@drawable/scrollview_bar"
+    style="@style/fragment_root_style">
+    <include layout="@layout/layout_top_content"/>
+    <ProgressBar
+        android:id="@+id/pb_scan"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tw_dp_h20"
+        android:layout_marginLeft="@dimen/tw_dp_w16"
+        android:layout_marginRight="@dimen/tw_dp_w16"
+        android:indeterminate="true"
+        style="?android:attr/progressBarStyleHorizontal"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_wifi_list"
+        android:paddingLeft="@dimen/tw_dp_w16"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

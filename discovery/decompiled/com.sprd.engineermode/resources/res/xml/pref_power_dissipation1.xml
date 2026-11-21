@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/powerdissipation"
+    android:key="powerDissipation">
+    <Preference
+        android:title="DVFS Status"
+        android:key="dvfs"
+        android:summary="On"/>
+    <com.sprd.engineermode.EMSwitchPreference
+        android:title="CPU FRE SWITCH"
+        android:key="cpuFrequenceSwitch"/>
+    <PreferenceScreen
+        android:title="CPU Frequency"
+        android:key="cpuFrequence"
+        android:summary="Make sure thermal IPA is closed"
+        android:dialogTitle="CPU Frequency（400～1400mHz）"/>
+</PreferenceScreen>

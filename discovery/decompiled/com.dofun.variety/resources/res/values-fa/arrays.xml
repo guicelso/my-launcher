@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arg_res_0x7f030002">
+        <item>کیلومتر در ساعت</item>
+        <item>مایل در ساعت</item>
+    </array>
+    <array name="arg_res_0x7f030008">
+        <item>یکشنبه</item>
+        <item>دوشنبه</item>
+        <item>سهشنبه</item>
+        <item>چهار شنبه</item>
+        <item>پنج شنبه</item>
+        <item>جمعه</item>
+        <item>شنبه</item>
+    </array>
+</resources>

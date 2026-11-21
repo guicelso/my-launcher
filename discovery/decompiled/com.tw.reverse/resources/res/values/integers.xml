@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="rv_angle">330</integer>
+    <integer name="rv_angle_port">240</integer>
+    <integer name="rv_percent">50</integer>
+    <integer name="rv_percent_port">70</integer>
+</resources>

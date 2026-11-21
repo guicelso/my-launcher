@@ -1,0 +1,29 @@
+package org.eclipse.paho.client.mqttv3.internal.wire;
+
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+
+/* JADX INFO: loaded from: classes.dex */
+public class MqttPubComp extends MqttAck {
+    public MqttPubComp(byte b, byte[] bArr) {
+        super((byte) 7);
+        DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(bArr));
+        this.msgId = dataInputStream.readUnsignedShort();
+        dataInputStream.close();
+    }
+
+    public MqttPubComp(int i) {
+        super((byte) 7);
+        this.msgId = i;
+    }
+
+    public MqttPubComp(MqttPublish mqttPublish) {
+        super((byte) 7);
+        this.msgId = mqttPublish.getMessageId();
+    }
+
+    @Override // org.eclipse.paho.client.mqttv3.internal.wire.MqttWireMessage
+    protected byte[] getVariableHeader() {
+        return encodeMessageId();
+    }
+}

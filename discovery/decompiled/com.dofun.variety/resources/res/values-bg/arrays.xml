@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arg_res_0x7f030002">
+        <item>км/ч</item>
+        <item>mph</item>
+    </array>
+    <array name="arg_res_0x7f030008">
+        <item>неделя</item>
+        <item>понеделник</item>
+        <item>вторник</item>
+        <item>сряда</item>
+        <item>четвъртък</item>
+        <item>петък</item>
+        <item>Събота</item>
+    </array>
+</resources>

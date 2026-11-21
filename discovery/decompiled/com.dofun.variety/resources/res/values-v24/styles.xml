@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="arg_res_0x7f110038" parent="@android:style/TextAppearance.Material.Widget.Button.Borderless.Colored">
+    </style>
+    <style name="arg_res_0x7f110039" parent="@android:style/TextAppearance.Material.Widget.Button.Colored">
+    </style>
+    <style name="arg_res_0x7f110057" parent="@style/arg_res_0x7f1100ab">
+    </style>
+    <style name="arg_res_0x7f110059" parent="@style/arg_res_0x7f1100ac">
+    </style>
+    <style name="arg_res_0x7f11005b" parent="@style/arg_res_0x7f1100ad">
+    </style>
+    <style name="arg_res_0x7f11005d" parent="@style/arg_res_0x7f1100ae">
+    </style>
+    <style name="arg_res_0x7f11008b" parent="@style/arg_res_0x7f11008c">
+        <item name="android:colorBackground">@color/arg_res_0x7f060049</item>
+        <item name="android:buttonBarButtonStyle">?attr/arg_res_0x7f04019a</item>
+        <item name="android:timePickerDialogTheme">@style/arg_res_0x7f110313</item>
+        <item name="android:datePickerDialogTheme">@style/arg_res_0x7f110313</item>
+        <item name="android:contextPopupMenuStyle">@style/arg_res_0x7f11047f</item>
+        <item name="arg_res_0x7f040007">@style/arg_res_0x7f110310</item>
+        <item name="arg_res_0x7f040008">@dimen/arg_res_0x7f0702f7</item>
+        <item name="arg_res_0x7f04000a">@style/arg_res_0x7f11042c</item>
+        <item name="arg_res_0x7f04000e">@style/arg_res_0x7f110307</item>
+        <item name="arg_res_0x7f040021">@style/arg_res_0x7f11042d</item>
+        <item name="arg_res_0x7f040025">@style/arg_res_0x7f110481</item>
+        <item name="arg_res_0x7f040030">@style/arg_res_0x7f110314</item>
+        <item name="arg_res_0x7f04003c">@style/arg_res_0x7f110430</item>
+        <item name="arg_res_0x7f040185">@style/arg_res_0x7f110442</item>
+        <item name="arg_res_0x7f04018a">@style/arg_res_0x7f110439</item>
+        <item name="arg_res_0x7f04018b">@style/arg_res_0x7f11030f</item>
+        <item name="arg_res_0x7f04019a">@style/arg_res_0x7f110442</item>
+        <item name="arg_res_0x7f0401c2">@style/arg_res_0x7f110456</item>
+        <item name="arg_res_0x7f040213">?attr/arg_res_0x7f04023b</item>
+        <item name="arg_res_0x7f04021a">@color/arg_res_0x7f06004a</item>
+        <item name="arg_res_0x7f040233">@color/arg_res_0x7f060050</item>
+        <item name="arg_res_0x7f040235">@color/arg_res_0x7f060051</item>
+        <item name="arg_res_0x7f040314">@style/arg_res_0x7f11045b</item>
+        <item name="arg_res_0x7f040408">@style/arg_res_0x7f110480</item>
+        <item name="arg_res_0x7f04042d">@style/arg_res_0x7f110318</item>
+        <item name="arg_res_0x7f040436">@style/arg_res_0x7f110320</item>
+        <item name="arg_res_0x7f040440">@style/arg_res_0x7f11045f</item>
+        <item name="arg_res_0x7f040441">@style/arg_res_0x7f11031f</item>
+        <item name="arg_res_0x7f040456">@style/arg_res_0x7f110326</item>
+        <item name="arg_res_0x7f0404ac">@style/arg_res_0x7f11047d</item>
+        <item name="arg_res_0x7f0404e5">@style/arg_res_0x7f11047e</item>
+        <item name="arg_res_0x7f0404fb">@style/arg_res_0x7f110457</item>
+        <item name="arg_res_0x7f040563">@style/arg_res_0x7f110447</item>
+        <item name="arg_res_0x7f040564">@style/arg_res_0x7f110485</item>
+        <item name="arg_res_0x7f040565">@style/arg_res_0x7f110487</item>
+        <item name="arg_res_0x7f0405a4">@style/arg_res_0x7f110458</item>
+        <item name="arg_res_0x7f0405c2">@style/arg_res_0x7f110488</item>
+        <item name="arg_res_0x7f0405e3">?attr/arg_res_0x7f0405ed</item>
+        <item name="arg_res_0x7f0405ec">?attr/arg_res_0x7f0405ed</item>
+        <item name="arg_res_0x7f0405fb">@style/arg_res_0x7f110490</item>
+        <item name="arg_res_0x7f0405fc">@style/arg_res_0x7f110492</item>
+        <item name="arg_res_0x7f0405fd">@style/arg_res_0x7f11048f</item>
+        <item name="arg_res_0x7f0405ff">@style/arg_res_0x7f110494</item>
+        <item name="arg_res_0x7f040600">@style/arg_res_0x7f110496</item>
+        <item name="arg_res_0x7f040601">@style/arg_res_0x7f110493</item>
+        <item name="arg_res_0x7f040602">@style/arg_res_0x7f11048f</item>
+        <item name="arg_res_0x7f04063a">@style/arg_res_0x7f1104a2</item>
+        <item name="arg_res_0x7f040670">com.google.android.material.theme.MaterialComponentsViewInflater</item>
+    </style>
+    <style name="arg_res_0x7f11008d" parent="@style/arg_res_0x7f11008e">
+        <item name="android:colorBackground">@color/arg_res_0x7f060049</item>
+        <item name="android:contextPopupMenuStyle">@style/arg_res_0x7f11047f</item>
+        <item name="arg_res_0x7f040007">@style/arg_res_0x7f110310</item>
+        <item name="arg_res_0x7f040008">@dimen/arg_res_0x7f0702f7</item>
+        <item name="arg_res_0x7f04000a">@style/arg_res_0x7f11042c</item>
+        <item name="arg_res_0x7f04000e">@style/arg_res_0x7f110307</item>
+        <item name="arg_res_0x7f040021">@style/arg_res_0x7f11042d</item>
+        <item name="arg_res_0x7f040025">@style/arg_res_0x7f110481</item>
+        <item name="arg_res_0x7f040030">@style/arg_res_0x7f110314</item>
+        <item name="arg_res_0x7f04003c">@style/arg_res_0x7f110430</item>
+        <item name="arg_res_0x7f040185">@style/arg_res_0x7f110442</item>
+        <item name="arg_res_0x7f04018a">@style/arg_res_0x7f110439</item>
+        <item name="arg_res_0x7f04019a">@style/arg_res_0x7f110444</item>
+        <item name="arg_res_0x7f0401c2">@style/arg_res_0x7f110456</item>
+        <item name="arg_res_0x7f040213">?attr/arg_res_0x7f04023b</item>
+        <item name="arg_res_0x7f04021a">@color/arg_res_0x7f06004a</item>
+        <item name="arg_res_0x7f040233">@color/arg_res_0x7f060050</item>
+        <item name="arg_res_0x7f040235">@color/arg_res_0x7f060051</item>
+        <item name="arg_res_0x7f04023b">@color/arg_res_0x7f060053</item>
+        <item name="arg_res_0x7f040314">@style/arg_res_0x7f11045b</item>
+        <item name="arg_res_0x7f040408">@style/arg_res_0x7f110480</item>
+        <item name="arg_res_0x7f04042d">@style/arg_res_0x7f110318</item>
+        <item name="arg_res_0x7f0404ac">@style/arg_res_0x7f11047d</item>
+        <item name="arg_res_0x7f0404e5">@style/arg_res_0x7f11047e</item>
+        <item name="arg_res_0x7f0404fb">@style/arg_res_0x7f110457</item>
+        <item name="arg_res_0x7f040563">@style/arg_res_0x7f110447</item>
+        <item name="arg_res_0x7f040564">@style/arg_res_0x7f110485</item>
+        <item name="arg_res_0x7f040565">@style/arg_res_0x7f110487</item>
+        <item name="arg_res_0x7f0405a4">@style/arg_res_0x7f110458</item>
+        <item name="arg_res_0x7f0405c2">@style/arg_res_0x7f110488</item>
+        <item name="arg_res_0x7f0405e3">?attr/arg_res_0x7f0405ed</item>
+        <item name="arg_res_0x7f0405ec">?attr/arg_res_0x7f0405ed</item>
+        <item name="arg_res_0x7f0405fb">@style/arg_res_0x7f110490</item>
+        <item name="arg_res_0x7f0405fc">@style/arg_res_0x7f110492</item>
+        <item name="arg_res_0x7f0405fd">@style/arg_res_0x7f11048f</item>
+        <item name="arg_res_0x7f0405ff">@style/arg_res_0x7f110494</item>
+        <item name="arg_res_0x7f040600">@style/arg_res_0x7f110496</item>
+        <item name="arg_res_0x7f040601">@style/arg_res_0x7f110493</item>
+        <item name="arg_res_0x7f040602">@style/arg_res_0x7f11048f</item>
+        <item name="arg_res_0x7f04063a">@style/arg_res_0x7f1104a2</item>
+        <item name="arg_res_0x7f040670">com.google.android.material.theme.MaterialComponentsViewInflater</item>
+    </style>
+    <style name="arg_res_0x7f11008f" parent="@style/arg_res_0x7f110090">
+        <item name="android:colorBackground">@color/arg_res_0x7f060056</item>
+        <item name="android:buttonBarButtonStyle">?attr/arg_res_0x7f04019a</item>
+        <item name="android:timePickerDialogTheme">@style/arg_res_0x7f110313</item>
+        <item name="android:datePickerDialogTheme">@style/arg_res_0x7f110313</item>
+        <item name="android:contextPopupMenuStyle">@style/arg_res_0x7f11047f</item>
+        <item name="arg_res_0x7f040007">@style/arg_res_0x7f110316</item>
+        <item name="arg_res_0x7f040008">@dimen/arg_res_0x7f0702f7</item>
+        <item name="arg_res_0x7f04000a">@style/arg_res_0x7f11045c</item>
+        <item name="arg_res_0x7f040021">@style/arg_res_0x7f11042d</item>
+        <item name="arg_res_0x7f040025">@style/arg_res_0x7f110481</item>
+        <item name="arg_res_0x7f040030">@style/arg_res_0x7f110314</item>
+        <item name="arg_res_0x7f04003c">@style/arg_res_0x7f11042e</item>
+        <item name="arg_res_0x7f040185">@style/arg_res_0x7f110442</item>
+        <item name="arg_res_0x7f04018a">@style/arg_res_0x7f110439</item>
+        <item name="arg_res_0x7f04018b">@style/arg_res_0x7f11030f</item>
+        <item name="arg_res_0x7f04019a">@style/arg_res_0x7f110442</item>
+        <item name="arg_res_0x7f0401c2">@style/arg_res_0x7f110456</item>
+        <item name="arg_res_0x7f040213">?attr/arg_res_0x7f04023b</item>
+        <item name="arg_res_0x7f04021a">@color/arg_res_0x7f060057</item>
+        <item name="arg_res_0x7f040233">@color/arg_res_0x7f06005d</item>
+        <item name="arg_res_0x7f040235">@color/arg_res_0x7f06005e</item>
+        <item name="arg_res_0x7f040314">@style/arg_res_0x7f11045b</item>
+        <item name="arg_res_0x7f040408">@style/arg_res_0x7f110480</item>
+        <item name="arg_res_0x7f04042d">@style/arg_res_0x7f110318</item>
+        <item name="arg_res_0x7f040436">@style/arg_res_0x7f110320</item>
+        <item name="arg_res_0x7f040440">@style/arg_res_0x7f11045f</item>
+        <item name="arg_res_0x7f040441">@style/arg_res_0x7f11031f</item>
+        <item name="arg_res_0x7f040456">@style/arg_res_0x7f110326</item>
+        <item name="arg_res_0x7f0404ac">@style/arg_res_0x7f11047d</item>
+        <item name="arg_res_0x7f0404e5">@style/arg_res_0x7f11047e</item>
+        <item name="arg_res_0x7f0404fb">@style/arg_res_0x7f110457</item>
+        <item name="arg_res_0x7f040563">@style/arg_res_0x7f110447</item>
+        <item name="arg_res_0x7f040564">@style/arg_res_0x7f110485</item>
+        <item name="arg_res_0x7f040565">@style/arg_res_0x7f110487</item>
+        <item name="arg_res_0x7f0405a4">@style/arg_res_0x7f110458</item>
+        <item name="arg_res_0x7f0405c2">@style/arg_res_0x7f110488</item>
+        <item name="arg_res_0x7f0405e3">?attr/arg_res_0x7f0405ed</item>
+        <item name="arg_res_0x7f0405ec">?attr/arg_res_0x7f0405ed</item>
+        <item name="arg_res_0x7f0405fb">@style/arg_res_0x7f110490</item>
+        <item name="arg_res_0x7f0405fc">@style/arg_res_0x7f110492</item>
+        <item name="arg_res_0x7f0405fd">@style/arg_res_0x7f11048f</item>
+        <item name="arg_res_0x7f0405ff">@style/arg_res_0x7f110494</item>
+        <item name="arg_res_0x7f040600">@style/arg_res_0x7f110496</item>
+        <item name="arg_res_0x7f040601">@style/arg_res_0x7f110493</item>
+        <item name="arg_res_0x7f040602">@style/arg_res_0x7f11048f</item>
+        <item name="arg_res_0x7f04063a">@style/arg_res_0x7f1104a2</item>
+        <item name="arg_res_0x7f040670">com.google.android.material.theme.MaterialComponentsViewInflater</item>
+    </style>
+    <style name="arg_res_0x7f110092" parent="@style/arg_res_0x7f110093">
+        <item name="android:colorBackground">@color/arg_res_0x7f060056</item>
+        <item name="android:contextPopupMenuStyle">@style/arg_res_0x7f11047f</item>
+        <item name="arg_res_0x7f040007">@style/arg_res_0x7f110316</item>
+        <item name="arg_res_0x7f040008">@dimen/arg_res_0x7f0702f7</item>
+        <item name="arg_res_0x7f04000a">@style/arg_res_0x7f11045c</item>
+        <item name="arg_res_0x7f040021">@style/arg_res_0x7f11042d</item>
+        <item name="arg_res_0x7f040025">@style/arg_res_0x7f110481</item>
+        <item name="arg_res_0x7f040030">@style/arg_res_0x7f110314</item>
+        <item name="arg_res_0x7f04003c">@style/arg_res_0x7f11042e</item>
+        <item name="arg_res_0x7f040185">@style/arg_res_0x7f110442</item>
+        <item name="arg_res_0x7f04018a">@style/arg_res_0x7f110439</item>
+        <item name="arg_res_0x7f04019a">@style/arg_res_0x7f110444</item>
+        <item name="arg_res_0x7f0401c2">@style/arg_res_0x7f110456</item>
+        <item name="arg_res_0x7f040213">?attr/arg_res_0x7f04023b</item>
+        <item name="arg_res_0x7f04021a">@color/arg_res_0x7f060057</item>
+        <item name="arg_res_0x7f040233">@color/arg_res_0x7f06005d</item>
+        <item name="arg_res_0x7f040235">@color/arg_res_0x7f06005e</item>
+        <item name="arg_res_0x7f04023b">@color/arg_res_0x7f060060</item>
+        <item name="arg_res_0x7f040314">@style/arg_res_0x7f11045b</item>
+        <item name="arg_res_0x7f040408">@style/arg_res_0x7f110480</item>
+        <item name="arg_res_0x7f04042d">@style/arg_res_0x7f110318</item>
+        <item name="arg_res_0x7f0404ac">@style/arg_res_0x7f11047d</item>
+        <item name="arg_res_0x7f0404e5">@style/arg_res_0x7f11047e</item>
+        <item name="arg_res_0x7f0404fb">@style/arg_res_0x7f110457</item>
+        <item name="arg_res_0x7f040563">@style/arg_res_0x7f110447</item>
+        <item name="arg_res_0x7f040564">@style/arg_res_0x7f110485</item>
+        <item name="arg_res_0x7f040565">@style/arg_res_0x7f110487</item>
+        <item name="arg_res_0x7f0405a4">@style/arg_res_0x7f110458</item>
+        <item name="arg_res_0x7f0405c2">@style/arg_res_0x7f110488</item>
+        <item name="arg_res_0x7f0405e3">?attr/arg_res_0x7f0405ed</item>
+        <item name="arg_res_0x7f0405ec">?attr/arg_res_0x7f0405ed</item>
+        <item name="arg_res_0x7f0405fb">@style/arg_res_0x7f110490</item>
+        <item name="arg_res_0x7f0405fc">@style/arg_res_0x7f110492</item>
+        <item name="arg_res_0x7f0405fd">@style/arg_res_0x7f11048f</item>
+        <item name="arg_res_0x7f0405ff">@style/arg_res_0x7f110494</item>
+        <item name="arg_res_0x7f040600">@style/arg_res_0x7f110496</item>
+        <item name="arg_res_0x7f040601">@style/arg_res_0x7f110493</item>
+        <item name="arg_res_0x7f040602">@style/arg_res_0x7f11048f</item>
+        <item name="arg_res_0x7f04063a">@style/arg_res_0x7f1104a2</item>
+        <item name="arg_res_0x7f040670">com.google.android.material.theme.MaterialComponentsViewInflater</item>
+    </style>
+    <style name="arg_res_0x7f1100ab" parent="@style/arg_res_0x7f110083">
+        <item name="android:contextPopupMenuStyle">@style/arg_res_0x7f110403</item>
+    </style>
+    <style name="arg_res_0x7f1100ac" parent="@style/arg_res_0x7f110085">
+        <item name="android:contextPopupMenuStyle">@style/arg_res_0x7f110403</item>
+    </style>
+    <style name="arg_res_0x7f1100ad" parent="@style/arg_res_0x7f110087">
+        <item name="android:contextPopupMenuStyle">@style/arg_res_0x7f110403</item>
+    </style>
+    <style name="arg_res_0x7f1100ae" parent="@style/arg_res_0x7f110089">
+        <item name="android:contextPopupMenuStyle">@style/arg_res_0x7f110403</item>
+    </style>
+    <style name="arg_res_0x7f110209" parent="@style/arg_res_0x7f110208">
+    </style>
+    <style name="arg_res_0x7f11020c" parent="@style/arg_res_0x7f110207">
+    </style>
+    <style name="arg_res_0x7f11020e" parent="@style/arg_res_0x7f11020d">
+    </style>
+    <style name="arg_res_0x7f110210" parent="@style/arg_res_0x7f11020f">
+    </style>
+</resources>

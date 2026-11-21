@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="cvbs_mode_entries">
+        <item>인터레이스</item>
+        <item>디인터레이스</item>
+    </array>
+</resources>

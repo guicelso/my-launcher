@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="adjust" format="integer">
+    </attr>
+    <attr name="brush_width" format="integer">
+    </attr>
+    <attr name="orientation">
+        <enum name="horizontal" value="0" />
+        <enum name="vertical" value="1" />
+    </attr>
+    <attr name="src" format="reference|color">
+    </attr>
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.cardoor.variety.base.ui.adapt.AutoConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8px"
+    app:adapt_calc_base_on="3">
+    <cn.cardoor.variety.base.ui.adapt.AutoImageView
+        android:id="@+id/iv_feature_icon"
+        android:layout_width="20px"
+        android:layout_height="20px"
+        android:src="@mipmap/arg_res_0x7f0e002c"
+        app:adapt_calc_base_on="3"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintLeft_toLeftOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"/>
+    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+        android:textSize="20px"
+        android:textColor="@android:color/white"
+        android:id="@+id/tv_feature_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20px"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintLeft_toRightOf="@+id/iv_feature_icon"
+        app:layout_constraintRight_toRightOf="0"
+        app:layout_constraintStart_toEndOf="@+id/iv_feature_icon"
+        app:layout_constraintTop_toTopOf="0"/>
+</cn.cardoor.variety.base.ui.adapt.AutoConstraintLayout>

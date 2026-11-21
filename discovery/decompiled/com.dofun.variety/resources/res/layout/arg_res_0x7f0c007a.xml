@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+        android:textSize="20px"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:id="@+id/tv_empty_layout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="274px"
+        android:text="@string/arg_res_0x7f1000ee"
+        app:layout_constraintEnd_toEndOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"/>
+    <cn.cardoor.variety.base.ui.adapt.AutoRecyclerView
+        android:id="@+id/rv_coupons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="0"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

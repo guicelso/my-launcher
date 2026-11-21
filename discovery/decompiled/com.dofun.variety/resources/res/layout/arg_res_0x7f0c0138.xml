@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:scrollbarSize="4dp"
+    android:scrollbarThumbHorizontal="@drawable/arg_res_0x7f08024c"
+    android:scrollbarThumbVertical="@drawable/arg_res_0x7f08024c"
+    android:scrollbarStyle="insideOverlay"
+    android:scrollbars="vertical|horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>

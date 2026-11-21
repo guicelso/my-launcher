@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pop_root"
+    android:background="@color/arg_res_0x7f060038"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+        android:textSize="16px"
+        android:textColor="#80ffffff"
+        android:id="@+id/tv_theme_version_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:text="@string/arg_res_0x7f1003b0"
+        android:layout_marginStart="30px"
+        app:adapt_calc_base_on="3"
+        app:layout_constraintLeft_toLeftOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toTopOf="0"/>
+    <cn.cardoor.variety.base.ui.adapt.AutoRecyclerView
+        android:orientation="vertical"
+        android:id="@+id/rv_data"
+        android:scrollbars="vertical"
+        android:fadingEdge="vertical"
+        android:fadingEdgeLength="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10px"
+        android:fadeScrollbars="true"
+        android:requiresFadingEdge="vertical"
+        app:adapt_calc_base_on="3"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintLeft_toLeftOf="0"
+        app:layout_constraintStart_toStartOf="0"
+        app:layout_constraintTop_toBottomOf="@+id/tv_theme_version_switch"
+        app:layout_constraintVertical_bias="0"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

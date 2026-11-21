@@ -1,10 +1,10 @@
-# Dumps do aparelho (contêm IMEI/serial) e binários do fabricante
-discovery/
 # Android/Gradle
 .gradle/
 build/
 local.properties
 *.apk
+# APKs do fabricante extraídos da multimídia (referência da engenharia reversa)
+!discovery/**/*.apk
 *.aab
 .idea/
 *.iml

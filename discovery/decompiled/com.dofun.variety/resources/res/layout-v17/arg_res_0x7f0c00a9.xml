@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.cardoor.variety.base.ui.adapt.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/arg_res_0x7f0801b6"
+    android:paddingLeft="6px"
+    android:paddingRight="6px"
+    android:paddingBottom="6px"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minWidth="200px"
+    android:paddingStart="6px"
+    app:adapt_calc_base_on="3">
+    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+        android:textSize="28px"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/tv_pkg_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="70px"
+        app:adapt_calc_base_on="3"/>
+    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+        android:textColor="#00a2f9"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/tv_pkg_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="90px"
+        app:adapt_calc_base_on="3"
+        app:fitTypeface="false"/>
+    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+        android:textSize="22px"
+        android:textColor="@android:color/darker_gray"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/tv_pkg_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="50px"
+        app:adapt_calc_base_on="3"/>
+</cn.cardoor.variety.base.ui.adapt.AutoLinearLayout>

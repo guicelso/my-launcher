@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:title="@string/ue_cap_cdma_sr1_supported"
+        android:key="sr1_supported"/>
+    <SwitchPreference
+        android:title="@string/ue_cap_cdma_sr3_supported"
+        android:key="sr3_supported"/>
+    <SwitchPreference
+        android:title="@string/ue_cap_cdma_rcclass1_supported"
+        android:key="rcclass1_supported"/>
+    <SwitchPreference
+        android:title="@string/ue_cap_cdma_rcclass2_supported"
+        android:key="rcclass2_supported"/>
+    <SwitchPreference
+        android:title="@string/ue_cap_cdma_rcclass3_supported"
+        android:key="rcclass3_supported"/>
+    <SwitchPreference
+        android:title="@string/ue_cap_cdma_qpch_supported"
+        android:key="qpch_supported"/>
+    <SwitchPreference
+        android:title="@string/ue_cap_cdma_band_class"
+        android:key="band_class"/>
+    <SwitchPreference
+        android:title="@string/ue_cap_cdma_band_sub_class"
+        android:key="band_sub_class"/>
+    <SwitchPreference
+        android:title="@string/ue_cap_cdma_rate1m8_supported"
+        android:key="rate1m8_supported"/>
+</PreferenceScreen>

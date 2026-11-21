@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/arg_res_0x7f080255"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+        android:textSize="20px"
+        android:textColor="@android:color/white"
+        android:layout_gravity="center"
+        android:id="@+id/tv_toast"
+        android:paddingLeft="20px"
+        android:paddingTop="10px"
+        android:paddingRight="20px"
+        android:paddingBottom="10px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</FrameLayout>

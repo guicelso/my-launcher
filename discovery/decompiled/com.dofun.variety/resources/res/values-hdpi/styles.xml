@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="arg_res_0x7f1100d2" parent="@style/arg_res_0x7f1100d3">
+        <item name="arg_res_0x7f040069">18.66dp</item>
+        <item name="arg_res_0x7f0402b3">24dp</item>
+        <item name="arg_res_0x7f04033b">3.33dp</item>
+    </style>
+</resources>

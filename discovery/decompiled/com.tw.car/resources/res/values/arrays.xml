@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="carsettings_0123_entryValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="carsettings_onoff_entries">
+        <item>@string/OFF</item>
+        <item>@string/ON</item>
+    </array>
+    <array name="carsettings_onoff_entryValues">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="ford2012_Headlight_adjustment_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </array>
+    <array name="renault_Language_captur">
+        <item>English</item>
+        <item>Francais</item>
+        <item>Espanol</item>
+        <item>Pyccknn</item>
+        <item>Turkce</item>
+        <item>Portugues</item>
+        <item>Italiano</item>
+        <item>Deutsch</item>
+    </array>
+    <array name="renault_dacia_captur">
+        <item>@string/renault_captur</item>
+        <item>@string/renault_dacia</item>
+        <item>@string/renault_xray</item>
+        <item>@string/renault_duster</item>
+    </array>
+    <array name="renault_dacia_captur_values">
+        <item>0</item>
+        <item>1</item>
+    </array>
+</resources>

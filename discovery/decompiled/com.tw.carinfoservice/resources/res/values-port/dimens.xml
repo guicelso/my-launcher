@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_add_reduce_height">@dimen/tw_dp_w70</dimen>
+    <dimen name="button_add_reduce_width">@dimen/tw_dp_w70</dimen>
+    <dimen name="camera_reset_button_height">@dimen/tw_dp_w57</dimen>
+    <dimen name="camera_reset_button_textg_size">@dimen/tw_dp_w30</dimen>
+    <dimen name="camera_reset_button_width">@dimen/tw_dp_w200</dimen>
+    <dimen name="camera_settings_textsize">@dimen/tw_dp_w36</dimen>
+    <dimen name="camera_view_height">@dimen/tw_dp_w600</dimen>
+    <dimen name="camera_view_padding_left">@dimen/tw_dp_w24</dimen>
+    <dimen name="camera_view_padding_right">@dimen/tw_dp_w24</dimen>
+    <dimen name="camera_view_title_height">@dimen/tw_dp_w80</dimen>
+    <dimen name="camera_view_title_text_size">@dimen/tw_dp_w28</dimen>
+    <dimen name="camera_view_width">@dimen/tw_dp_w720</dimen>
+    <dimen name="cus_rb_480dp_height">@dimen/tw_dp_w55</dimen>
+    <dimen name="reverse_textsize">@dimen/tw_dp_w25</dimen>
+    <dimen name="reverse_tip_top_bottom">@dimen/tw_dp_w12</dimen>
+    <dimen name="seekbar_layout_height">@dimen/tw_dp_w70</dimen>
+    <dimen name="seekbar_layout_width">@dimen/tw_dp_w480</dimen>
+    <dimen name="seekbar_max_height">@dimen/tw_dp_w9</dimen>
+    <dimen name="seekbar_title_textsize">@dimen/tw_dp_w28</dimen>
+    <dimen name="seekbar_width">@dimen/tw_dp_w300</dimen>
+    <dimen name="warming_text_size">@dimen/tw_dp_w36</dimen>
+    <dimen name="warming_view_height">@dimen/tw_dp_w211</dimen>
+    <dimen name="warming_view_width">@dimen/tw_dp_w556</dimen>
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:title="@string/current_mode"
+        android:key="current_mode"
+        android:summary="@string/mode_set"/>
+    <PreferenceScreen
+        android:title="@string/delta_nv"
+        android:key="Delta NV">
+        <Preference
+            android:title="@string/manual_test_mode"
+            android:key="manual_test">
+            <intent
+                android:targetPackage="com.sprd.engineermode"
+                android:action="android.intent.action.MAIN"
+                android:targetClass="com.sprd.engineermode.gcf.ManualDeltaNVActivity"/>
+        </Preference>
+        <Preference
+            android:title="@string/auto_test_mode"
+            android:key="auto_test">
+            <intent
+                android:targetPackage="com.sprd.engineermode"
+                android:action="android.intent.action.MAIN"
+                android:targetClass="com.sprd.engineermode.gcf.AutoTestBySIMActivity"/>
+        </Preference>
+    </PreferenceScreen>
+</PreferenceScreen>

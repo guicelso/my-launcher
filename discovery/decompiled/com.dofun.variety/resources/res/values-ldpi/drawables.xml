@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="arg_res_0x7f08017a">r/o/h6.png</drawable>
+    <drawable name="arg_res_0x7f08017b">r/o/h7.png</drawable>
+    <drawable name="arg_res_0x7f08017c">r/o/h8.png</drawable>
+    <drawable name="arg_res_0x7f08017d">r/o/h9.png</drawable>
+    <drawable name="arg_res_0x7f08017e">r/o/h9.png</drawable>
+    <drawable name="arg_res_0x7f08017f">r/o/ha.png</drawable>
+    <drawable name="arg_res_0x7f080180">r/o/ha.png</drawable>
+    <drawable name="arg_res_0x7f080181">r/o/hc.png</drawable>
+    <drawable name="arg_res_0x7f080182">r/o/hc.png</drawable>
+    <drawable name="arg_res_0x7f080189">r/o/he.png</drawable>
+    <drawable name="arg_res_0x7f080191">r/o/hf.png</drawable>
+    <drawable name="arg_res_0x7f080192">r/o/hg.png</drawable>
+    <drawable name="arg_res_0x7f080193">r/o/hh.png</drawable>
+    <drawable name="arg_res_0x7f080195">r/o/hi.png</drawable>
+    <drawable name="arg_res_0x7f080196">r/o/hj.png</drawable>
+    <drawable name="arg_res_0x7f080197">r/o/hk.png</drawable>
+    <drawable name="arg_res_0x7f080199">r/o/hl.png</drawable>
+    <drawable name="arg_res_0x7f0801a2">r/o/hm.png</drawable>
+    <drawable name="arg_res_0x7f0801a6">r/o/hn.png</drawable>
+    <drawable name="arg_res_0x7f0801a8">r/o/ho.png</drawable>
+    <drawable name="arg_res_0x7f0801aa">r/o/hp.png</drawable>
+    <drawable name="arg_res_0x7f0801ab">r/o/hq.png</drawable>
+    <drawable name="arg_res_0x7f0801ac">r/o/hr.png</drawable>
+</resources>

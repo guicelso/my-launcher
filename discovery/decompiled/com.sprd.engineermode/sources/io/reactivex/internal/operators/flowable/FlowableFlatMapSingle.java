@@ -1,0 +1,335 @@
+package io.reactivex.internal.operators.flowable;
+
+import io.reactivex.Flowable;
+import io.reactivex.FlowableSubscriber;
+import io.reactivex.SingleObserver;
+import io.reactivex.SingleSource;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.exceptions.Exceptions;
+import io.reactivex.functions.Function;
+import io.reactivex.internal.disposables.DisposableHelper;
+import io.reactivex.internal.functions.ObjectHelper;
+import io.reactivex.internal.queue.SpscLinkedArrayQueue;
+import io.reactivex.internal.subscriptions.SubscriptionHelper;
+import io.reactivex.internal.util.AtomicThrowable;
+import io.reactivex.internal.util.BackpressureHelper;
+import io.reactivex.plugins.RxJavaPlugins;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
+import kotlin.jvm.internal.LongCompanionObject;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
+/* JADX INFO: loaded from: classes4.dex */
+public final class FlowableFlatMapSingle<T, R> extends AbstractFlowableWithUpstream<T, R> {
+    final boolean delayErrors;
+    final Function<? super T, ? extends SingleSource<? extends R>> mapper;
+    final int maxConcurrency;
+
+    public FlowableFlatMapSingle(Flowable<T> source, Function<? super T, ? extends SingleSource<? extends R>> mapper, boolean delayError, int maxConcurrency) {
+        super(source);
+        this.mapper = mapper;
+        this.delayErrors = delayError;
+        this.maxConcurrency = maxConcurrency;
+    }
+
+    @Override // io.reactivex.Flowable
+    protected void subscribeActual(Subscriber<? super R> s) {
+        this.source.subscribe((FlowableSubscriber) new FlatMapSingleSubscriber(s, this.mapper, this.delayErrors, this.maxConcurrency));
+    }
+
+    static final class FlatMapSingleSubscriber<T, R> extends AtomicInteger implements FlowableSubscriber<T>, Subscription {
+        private static final long serialVersionUID = 8600231336733376951L;
+        volatile boolean cancelled;
+        final boolean delayErrors;
+        final Subscriber<? super R> downstream;
+        final Function<? super T, ? extends SingleSource<? extends R>> mapper;
+        final int maxConcurrency;
+        Subscription upstream;
+        final AtomicLong requested = new AtomicLong();
+        final CompositeDisposable set = new CompositeDisposable();
+        final AtomicThrowable errors = new AtomicThrowable();
+        final AtomicInteger active = new AtomicInteger(1);
+        final AtomicReference<SpscLinkedArrayQueue<R>> queue = new AtomicReference<>();
+
+        FlatMapSingleSubscriber(Subscriber<? super R> actual, Function<? super T, ? extends SingleSource<? extends R>> mapper, boolean delayErrors, int maxConcurrency) {
+            this.downstream = actual;
+            this.mapper = mapper;
+            this.delayErrors = delayErrors;
+            this.maxConcurrency = maxConcurrency;
+        }
+
+        @Override // io.reactivex.FlowableSubscriber
+        public void onSubscribe(Subscription s) {
+            if (SubscriptionHelper.validate(this.upstream, s)) {
+                this.upstream = s;
+                this.downstream.onSubscribe(this);
+                int m = this.maxConcurrency;
+                if (m == Integer.MAX_VALUE) {
+                    s.request(LongCompanionObject.MAX_VALUE);
+                } else {
+                    s.request(this.maxConcurrency);
+                }
+            }
+        }
+
+        public void onNext(T t) {
+            try {
+                SingleSource<? extends R> ms = (SingleSource) ObjectHelper.requireNonNull(this.mapper.apply(t), "The mapper returned a null SingleSource");
+                this.active.getAndIncrement();
+                FlatMapSingleSubscriber<T, R>.InnerObserver inner = new InnerObserver();
+                if (!this.cancelled && this.set.add(inner)) {
+                    ms.subscribe(inner);
+                }
+            } catch (Throwable ex) {
+                Exceptions.throwIfFatal(ex);
+                this.upstream.cancel();
+                onError(ex);
+            }
+        }
+
+        public void onError(Throwable t) {
+            this.active.decrementAndGet();
+            if (this.errors.addThrowable(t)) {
+                if (!this.delayErrors) {
+                    this.set.dispose();
+                }
+                drain();
+                return;
+            }
+            RxJavaPlugins.onError(t);
+        }
+
+        public void onComplete() {
+            this.active.decrementAndGet();
+            drain();
+        }
+
+        public void cancel() {
+            this.cancelled = true;
+            this.upstream.cancel();
+            this.set.dispose();
+        }
+
+        public void request(long n) {
+            if (SubscriptionHelper.validate(n)) {
+                BackpressureHelper.add(this.requested, n);
+                drain();
+            }
+        }
+
+        /* JADX WARN: Code duplicated, block: B:37:0x007c  */
+        /* JADX WARN: Code duplicated, block: B:43:0x0090 A[RETURN] */
+        /* JADX WARN: Code duplicated, block: B:49:0x0081 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+        void innerSuccess(FlatMapSingleSubscriber<T, R>.InnerObserver inner, R value) {
+            SpscLinkedArrayQueue<R> q;
+            this.set.delete(inner);
+            if (get() == 0) {
+                if (compareAndSet(0, 1)) {
+                    boolean d = this.active.decrementAndGet() == 0;
+                    if (this.requested.get() != 0) {
+                        this.downstream.onNext(value);
+                        SpscLinkedArrayQueue<R> q2 = this.queue.get();
+                        if (d && (q2 == null || q2.isEmpty())) {
+                            Throwable ex = this.errors.terminate();
+                            if (ex != null) {
+                                this.downstream.onError(ex);
+                                return;
+                            } else {
+                                this.downstream.onComplete();
+                                return;
+                            }
+                        }
+                        BackpressureHelper.produced(this.requested, 1L);
+                        if (this.maxConcurrency != Integer.MAX_VALUE) {
+                            this.upstream.request(1L);
+                        }
+                    } else {
+                        SpscLinkedArrayQueue<R> q3 = getOrCreateQueue();
+                        synchronized (q3) {
+                            q3.offer(value);
+                        }
+                    }
+                    if (decrementAndGet() == 0) {
+                        return;
+                    }
+                } else {
+                    q = getOrCreateQueue();
+                    synchronized (q) {
+                        q.offer(value);
+                    }
+                    this.active.decrementAndGet();
+                    if (getAndIncrement() != 0) {
+                        return;
+                    }
+                }
+            } else {
+                q = getOrCreateQueue();
+                synchronized (q) {
+                    q.offer(value);
+                    this.active.decrementAndGet();
+                    if (getAndIncrement() != 0) {
+                        return;
+                    }
+                }
+            }
+            drainLoop();
+        }
+
+        SpscLinkedArrayQueue<R> getOrCreateQueue() {
+            SpscLinkedArrayQueue<R> current;
+            do {
+                SpscLinkedArrayQueue<R> current2 = this.queue.get();
+                if (current2 != null) {
+                    return current2;
+                }
+                current = new SpscLinkedArrayQueue<>(Flowable.bufferSize());
+            } while (!this.queue.compareAndSet(null, current));
+            return current;
+        }
+
+        void innerError(FlatMapSingleSubscriber<T, R>.InnerObserver inner, Throwable e) {
+            this.set.delete(inner);
+            if (this.errors.addThrowable(e)) {
+                if (!this.delayErrors) {
+                    this.upstream.cancel();
+                    this.set.dispose();
+                } else if (this.maxConcurrency != Integer.MAX_VALUE) {
+                    this.upstream.request(1L);
+                }
+                this.active.decrementAndGet();
+                drain();
+                return;
+            }
+            RxJavaPlugins.onError(e);
+        }
+
+        void drain() {
+            if (getAndIncrement() == 0) {
+                drainLoop();
+            }
+        }
+
+        void clear() {
+            SpscLinkedArrayQueue<R> q = this.queue.get();
+            if (q != null) {
+                q.clear();
+            }
+        }
+
+        void drainLoop() {
+            boolean empty;
+            int missed = 1;
+            Subscriber<? super R> a = this.downstream;
+            AtomicInteger n = this.active;
+            AtomicReference<SpscLinkedArrayQueue<R>> qr = this.queue;
+            do {
+                long r = this.requested.get();
+                long e = 0;
+                while (true) {
+                    empty = true;
+                    if (e == r) {
+                        break;
+                    }
+                    if (this.cancelled) {
+                        clear();
+                        return;
+                    }
+                    if (!this.delayErrors && this.errors.get() != null) {
+                        Throwable ex = this.errors.terminate();
+                        clear();
+                        a.onError(ex);
+                        return;
+                    }
+                    boolean d = n.get() == 0;
+                    SpscLinkedArrayQueue<R> q = qr.get();
+                    R v = q != null ? q.poll() : null;
+                    boolean empty2 = v == null;
+                    if (d && empty2) {
+                        Throwable ex2 = this.errors.terminate();
+                        if (ex2 != null) {
+                            a.onError(ex2);
+                            return;
+                        } else {
+                            a.onComplete();
+                            return;
+                        }
+                    }
+                    if (empty2) {
+                        break;
+                    }
+                    a.onNext(v);
+                    e++;
+                }
+                if (e == r) {
+                    if (this.cancelled) {
+                        clear();
+                        return;
+                    }
+                    if (!this.delayErrors && this.errors.get() != null) {
+                        Throwable ex3 = this.errors.terminate();
+                        clear();
+                        a.onError(ex3);
+                        return;
+                    }
+                    boolean d2 = n.get() == 0;
+                    SpscLinkedArrayQueue<R> q2 = qr.get();
+                    if (q2 != null && !q2.isEmpty()) {
+                        empty = false;
+                    }
+                    if (d2 && empty) {
+                        Throwable ex4 = this.errors.terminate();
+                        if (ex4 != null) {
+                            a.onError(ex4);
+                            return;
+                        } else {
+                            a.onComplete();
+                            return;
+                        }
+                    }
+                }
+                if (e != 0) {
+                    BackpressureHelper.produced(this.requested, e);
+                    if (this.maxConcurrency != Integer.MAX_VALUE) {
+                        this.upstream.request(e);
+                    }
+                }
+                missed = addAndGet(-missed);
+            } while (missed != 0);
+        }
+
+        final class InnerObserver extends AtomicReference<Disposable> implements SingleObserver<R>, Disposable {
+            private static final long serialVersionUID = -502562646270949838L;
+
+            InnerObserver() {
+            }
+
+            @Override // io.reactivex.SingleObserver
+            public void onSubscribe(Disposable d) {
+                DisposableHelper.setOnce(this, d);
+            }
+
+            @Override // io.reactivex.SingleObserver
+            public void onSuccess(R value) {
+                FlatMapSingleSubscriber.this.innerSuccess(this, value);
+            }
+
+            @Override // io.reactivex.SingleObserver
+            public void onError(Throwable e) {
+                FlatMapSingleSubscriber.this.innerError(this, e);
+            }
+
+            @Override // io.reactivex.disposables.Disposable
+            public boolean isDisposed() {
+                return DisposableHelper.isDisposed(get());
+            }
+
+            @Override // io.reactivex.disposables.Disposable
+            public void dispose() {
+                DisposableHelper.dispose(this);
+            }
+        }
+    }
+}

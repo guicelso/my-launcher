@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="arg_res_0x7f070268">4dp</dimen>
+    <dimen name="arg_res_0x7f07026a">18dp</dimen>
+    <dimen name="arg_res_0x7f07026b">40dp</dimen>
+    <dimen name="arg_res_0x7f07026c">2dp</dimen>
+    <dimen name="arg_res_0x7f07026e">2dp</dimen>
+    <dimen name="arg_res_0x7f07026f">40dp</dimen>
+    <dimen name="arg_res_0x7f070270">40dp</dimen>
+    <dimen name="arg_res_0x7f07027d">4dp</dimen>
+</resources>

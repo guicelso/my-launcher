@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <cn.cardoor.variety.base.ui.adapt.AutoImageView
+        android:id="@+id/iv_icon"
+        android:visibility="gone"
+        android:layout_width="135px"
+        android:layout_height="135px"
+        app:adapt_calc_base_on="3"
+        app:is_square="true"/>
+    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+        android:textSize="25px"
+        android:textColor="@android:color/white"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:id="@+id/tv_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:lineSpacingExtra="14px"
+        android:lineSpacingMultiplier="1"
+        app:adapt_calc_base_on="3"/>
+</LinearLayout>

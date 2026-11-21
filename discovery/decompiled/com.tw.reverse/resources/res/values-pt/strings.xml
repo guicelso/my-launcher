@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="adjust">Ajustar</string>
+    <string name="app_name">Marcha ré</string>
+    <string name="brightness">Brilho</string>
+    <string name="camera_CommonorAHD_ahd">AHD</string>
+    <string name="camera_CommonorAHD_common">CCD</string>
+    <string name="camera_alarm">Verifique os arredores</string>
+    <string name="camera_alarm_AHD">Verifique os arredores</string>
+    <string name="camera_alarm_user">Recomendado para usar &lt;font color=#00FFD92E&gt;alta definição AHD&lt;/font&gt;câmera&lt;br&gt;Agora para a câmera CCD</string>
+    <string name="camera_alarm_user_cancel">Cancelar</string>
+    <string name="camera_alarm_user_ok">OK</string>
+    <string name="camera_detecting">Detecção...</string>
+    <string name="camera_frame">Quadro</string>
+    <string name="camera_reset">resetar</string>
+    <string name="camera_tip">Dicas</string>
+    <string name="camera_tip_close">Desligado</string>
+    <string name="camera_tip_open">Ligado</string>
+    <string name="camera_title">Câmera do carro</string>
+    <string name="camera_title_camera">Câmera</string>
+    <string name="camera_title_settings">Ajustes de câmera</string>
+    <string name="car_saturation">Saturação</string>
+    <string name="contrast">Contraste</string>
+    <string name="image_debounce">Debounce de imagem</string>
+    <string name="reset">Resetar</string>
+    <string name="reverse_ahd_auto">AUTO</string>
+    <string name="reverse_ahd_ntsc">NTSC</string>
+    <string name="reverse_ahd_pal">AMIGO</string>
+    <string name="reverse_tip">Aviso! Modificar esta opção pode resultar em nenhum sinal de vídeo</string>
+    <string name="reverse_view_mode1">modo padrão</string>
+    <string name="reverse_view_mode2">modo tela cheia</string>
+    <string name="reverse_view_mode3">modo 16:9</string>
+    <string name="reversing_ruler_line">Linha guia</string>
+    <string name="reversing_ruler_line_settings">Ajustes da linha guia</string>
+    <string name="saturation">Saturação</string>
+    <string name="save">Salvar</string>
+    <string name="warning_signal_t">Sem sinal de vídeo</string>
+</resources>

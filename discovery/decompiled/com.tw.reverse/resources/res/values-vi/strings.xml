@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reverse_view_mode1">chế độ căn bản</string>
+    <string name="reverse_view_mode2">chế độ toàn màn hình</string>
+    <string name="reverse_view_mode3">Chế độ 16:9</string>
+</resources>

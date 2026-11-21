@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" style="@style/fragment_root_style">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/layout_top_content"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.dofun.carsetting.widget.InfoPreference
+                android:id="@+id/ip_mobile_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:key="pref_mobile_data"
+                app:summary="通过移动数据访问网络"
+                app:title="移动数据"/>
+            <com.dofun.carsetting.widget.SwitchPreference
+                android:id="@+id/sp_roaming"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:key="pref_roaming"
+                app:summary="漫游时连接到移动数据网络服务"
+                app:title="漫游"/>
+            <com.dofun.carsetting.widget.InfoPreference
+                android:id="@+id/ip_mobile_data_use"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:key="pref_mobile_data_use"
+                app:show_right_icon="false"
+                app:summary="8月1号至8月31号期间使用的移动数据流量为：0B"
+                app:title="流量使用情况"/>
+            <com.dofun.carsetting.widget.SwitchPreference
+                android:id="@+id/sp_mobile_data_online"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:key="pref_mobile_data_online"
+                app:summary="某些移动网络消耗更多电量"
+                app:title="移动数据始终在线"/>
+            <com.dofun.carsetting.widget.InfoPreference
+                android:id="@+id/ip_mobile_network_choose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                app:key="pref_mobile_network_choose"
+                app:show_right_icon="false"
+                app:summary="首选网络"
+                app:title="仅WCDMA"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

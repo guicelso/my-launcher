@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_choose_root"
+    android:background="@drawable/arg_res_0x7f08024b"
+    android:layout_width="match_parent"
+    android:layout_height="120px"
+    android:layout_marginLeft="10px"
+    android:layout_marginTop="10px"
+    android:layout_marginRight="10px"
+    android:layout_marginBottom="10px">
+    <cn.cardoor.variety.base.ui.adapt.AutoImageView
+        android:id="@+id/iv_show_storage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintLeft_toLeftOf="0"
+        app:layout_constraintTop_toTopOf="0"/>
+    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+        android:textSize="20px"
+        android:textColor="#ffffff"
+        android:id="@+id/tv_show_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20px"
+        app:layout_constraintBottom_toBottomOf="0"
+        app:layout_constraintLeft_toRightOf="@+id/iv_show_storage"
+        app:layout_constraintTop_toTopOf="0"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

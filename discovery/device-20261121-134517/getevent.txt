@@ -1,0 +1,43 @@
+add device 1: /dev/input/event2
+  name:     "goodix_ts"
+  events:
+    ABS (0003): ABS_MT_SLOT           : value 0, min 0, max 254, fuzz 0, flat 0, resolution 0
+                ABS_MT_TOUCH_MAJOR    : value 0, min 0, max 255, fuzz 0, flat 0, resolution 0
+                ABS_MT_WIDTH_MAJOR    : value 0, min 0, max 255, fuzz 0, flat 0, resolution 0
+                ABS_MT_POSITION_X     : value 0, min 0, max 1280, fuzz 0, flat 0, resolution 0
+                ABS_MT_POSITION_Y     : value 0, min 0, max 720, fuzz 0, flat 0, resolution 0
+                ABS_MT_TRACKING_ID    : value 0, min 0, max 255, fuzz 0, flat 0, resolution 0
+  input props:
+    INPUT_PROP_DIRECT
+add device 2: /dev/input/event3
+  name:     "gpio-keys"
+  events:
+    KEY (0001): KEY_POWER            
+  input props:
+    <none>
+add device 3: /dev/input/event4
+  name:     "sprdphone Headset Jack"
+  events:
+    SW  (0005): SW_HEADPHONE_INSERT*  SW_MICROPHONE_INSERT 
+  input props:
+    <none>
+add device 4: /dev/input/event0
+  name:     "sc27xx:vibrator"
+  events:
+    FF  (0015): FF_RUMBLE             FF_PERIODIC           FF_SQUARE             FF_TRIANGLE          
+                FF_SINE               FF_GAIN              
+  input props:
+    <none>
+add device 5: /dev/input/event5
+  name:     "sprdphone Headset Keyboard"
+  events:
+    KEY (0001): KEY_VOLUMEDOWN        KEY_VOLUMEUP          KEY_MEDIA             BTN_3                
+                BTN_4                
+  input props:
+    <none>
+add device 6: /dev/input/event1
+  name:     "unisoc-rvc-det"
+  events:
+    KEY (0001): 00f9                  00fa                 
+  input props:
+    <none>

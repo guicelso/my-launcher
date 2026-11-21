@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="cus_rb_480dp" parent="">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">0x11</item>
+        <item name="android:background">@drawable/rb_nobtn_selector_480dp</item>
+        <item name="android:paddingLeft">6dp</item>
+        <item name="android:paddingRight">6dp</item>
+        <item name="android:layout_width">-2</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:button">@null</item>
+    </style>
+</resources>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:sharedUserId="android.uid.system"
+    android:versionCode="1"
+    android:versionName="v1.0.0.220302"
+    android:compileSdkVersion="32"
+    android:compileSdkVersionCodename="12"
+    package="com.tw.coreservice"
+    platformBuildVersionCode="32"
+    platformBuildVersionName="12">
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="19"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.DELETE_PACKAGES"/>
+    <application
+        android:theme="@style/Theme.CoreService"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:name="com.tw.tdservice.app.CoreApplication"
+        android:allowBackup="true">
+        <activity
+            android:name="com.tw.tdservice.ui.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.NoDisplay"
+            android:name="com.tw.tdservice.ui.EmptyActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true"/>
+        <service
+            android:name="com.tw.tdservice.service.MainService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.tw.coreservice.action.MainService"/>
+            </intent-filter>
+        </service>
+        <receiver android:name="com.tw.tdservice.service.MainReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="com.unisound.intent.action.DO_WAKEUP"/>
+                <action android:name="com.unisound.intent.action.DO_WAKEUP_DOFUN"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.tw.tdservice.service.PackageReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

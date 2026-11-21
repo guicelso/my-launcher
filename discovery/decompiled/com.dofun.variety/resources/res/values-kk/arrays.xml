@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arg_res_0x7f030002">
+        <item>км/сағ</item>
+        <item>миль/сағ</item>
+    </array>
+    <array name="arg_res_0x7f030008">
+        <item>жексенбі</item>
+        <item>дүйсенбі</item>
+        <item>сейсенбі</item>
+        <item>сәрсенбі</item>
+        <item>бейсенбі</item>
+        <item>жұма</item>
+        <item>сенбі</item>
+    </array>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apk_noinstall">هذا التطبيق غير مثبت</string>
+    <string name="aux">خارجي</string>
+    <string name="bt">بلوتوث</string>
+    <string name="disc">أسطوانة</string>
+    <string name="ipod">آيبود</string>
+    <string name="music">موسيقى</string>
+    <string name="navi">ملاحة</string>
+    <string name="photo">صورة</string>
+    <string name="radio">راديو</string>
+    <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="tv">تلفزيون</string>
+    <string name="video">فيديو</string>
+    <string name="volume">الصوت</string>
+</resources>

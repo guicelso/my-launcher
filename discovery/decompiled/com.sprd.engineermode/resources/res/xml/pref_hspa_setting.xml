@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.sprd.engineermode.EMSwitchPreference
+        android:title="@string/hsdpa"
+        android:key="hsdpa_setting"/>
+    <com.sprd.engineermode.EMSwitchPreference
+        android:title="@string/hsupa"
+        android:key="hsupa_setting"/>
+</PreferenceScreen>

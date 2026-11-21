@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.sprd.engineermode.EMSwitchPreference
+        android:title="RF Path"
+        android:key="bt_rf_path"
+        android:summaryOn="Shared Path"
+        android:summaryOff="Single Path"/>
+    <com.sprd.engineermode.EMSwitchPreference
+        android:title="BT CLASSIC BQB"
+        android:key="bt_eut"
+        android:summary="@string/bt_eut_prompt"/>
+    <Preference
+        android:title="BT Non-signaling TEST"
+        android:key="bt_nosignal_test"
+        android:summary="please close BT CLASSIC BQB to test"/>
+    <Preference
+        android:title="BT LE BQB"
+        android:key="controller_bqb_mode"/>
+    <PreferenceScreen
+        android:title="BT Debug"
+        android:key="bt_debug">
+        <com.sprd.engineermode.EMSwitchPreference
+            android:title="NON SSP"
+            android:key="no_ssp"
+            android:summary="Restart Bluetooth to take effect"/>
+        <Preference
+            android:title="TX MOD CW"
+            android:key="tx_mod_cw">
+            <intent
+                android:targetPackage="com.sprd.engineermode"
+                android:targetClass="com.sprd.engineermode.connectivity.BT.TxModeCwActivity"/>
+        </Preference>
+    </PreferenceScreen>
+</PreferenceScreen>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.sprd.engineermode.EMSwitchPreference
+        android:title="@string/volte_ipsec_setting_switch"
+        android:key="volte_ipsec_setting_switch"
+        android:summaryOn="Open"
+        android:summaryOff="Close"/>
+    <PreferenceCategory android:title="@string/volte_maintain_algorithm">
+        <CheckBoxPreference
+            android:title="hmac-sha-1-96"
+            android:key="volte_maintain_algorithm_0"/>
+        <CheckBoxPreference
+            android:title="hmac-md5-96"
+            android:key="volte_maintain_algorithm_1"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/volte_encryption_algorithm">
+        <CheckBoxPreference
+            android:title="null"
+            android:key="volte_encryption_algorithm_0"/>
+        <CheckBoxPreference
+            android:title="aes-cbc"
+            android:key="volte_encryption_algorithm_1"/>
+        <CheckBoxPreference
+            android:title="des-ede3-cbc"
+            android:key="volte_encryption_algorithm_2"/>
+    </PreferenceCategory>
+</PreferenceScreen>

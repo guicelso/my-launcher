@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="arg_res_0x7f1000f5">自定义文件类型</string>
+    <string name="arg_res_0x7f100142">空空如也~</string>
+    <string name="arg_res_0x7f10016f">返回</string>
+    <string name="arg_res_0x7f100170">未授予存储权限</string>
+    <string name="arg_res_0x7f100171">已选择·%1$d</string>
+    <string name="arg_res_0x7f100172">取消</string>
+    <string name="arg_res_0x7f100173">SD 存储卡</string>
+    <string name="arg_res_0x7f100174">全选</string>
+    <string name="arg_res_0x7f100175">确认</string>
+    <string name="arg_res_0x7f100207">最多只能选择 %d 项</string>
+    <string name="arg_res_0x7f1003b1">当前文件过多\n正在载入中…</string>
+</resources>

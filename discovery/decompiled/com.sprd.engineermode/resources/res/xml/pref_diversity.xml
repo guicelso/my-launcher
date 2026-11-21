@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="Diversity">
+    <ListPreference
+        android:entries="@array/wdiversity_entries"
+        android:title="@string/wdiversity"
+        android:key="w_Div"
+        android:defaultValue="0"
+        android:entryValues="@array/wdiversity_values"/>
+    <ListPreference
+        android:entries="@array/ltediversity_entries"
+        android:title="@string/ltediversityTX"
+        android:key="lte_SCC_TX"
+        android:defaultValue="0"
+        android:entryValues="@array/ltediversity_values"/>
+    <ListPreference
+        android:entries="@array/ltediversity_entries"
+        android:title="@string/ltediversityRX"
+        android:key="lte_Div_RX"
+        android:defaultValue="0"
+        android:entryValues="@array/ltediversity_values"/>
+    <ListPreference
+        android:entries="@array/ltediversity_entries"
+        android:title="@string/ltediversityPriTX"
+        android:key="lte_Pri_TX"
+        android:defaultValue="0"
+        android:entryValues="@array/ltediversity_values"/>
+    <ListPreference
+        android:entries="@array/ltediversity_entries"
+        android:title="@string/ltediversityPriRX"
+        android:key="lte_Pri_RX"
+        android:defaultValue="0"
+        android:entryValues="@array/ltediversity_values"/>
+</PreferenceScreen>

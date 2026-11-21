@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apk_noinstall">Esta aplicación no está instalada</string>
+    <string name="app_name">TW</string>
+    <string name="aux">AUX</string>
+    <string name="brightness">brillo</string>
+    <string name="bt">Teléfono</string>
+    <string name="calibration">Calibración</string>
+    <string name="camera_title">Cámara</string>
+    <string name="car_saturation">Saturación</string>
+    <string name="cm">CM</string>
+    <string name="contrast">Contraste</string>
+    <string name="disc">disco</string>
+    <string name="down">-</string>
+    <string name="ftemperature">°F</string>
+    <string name="ipod">iPod</string>
+    <string name="memory">memoria</string>
+    <string name="music">Música</string>
+    <string name="navi">navegación</string>
+    <string name="photo">Foto</string>
+    <string name="radio">radio</string>
+    <string name="release">Liberar </string>
+    <string name="saturation">Saturación</string>
+    <string name="status_bar_notification_info_overflow">+999</string>
+    <string name="stop">STOP</string>
+    <string name="temperature">°C</string>
+    <string name="traffic">Tráfico</string>
+    <string name="tv">TV</string>
+    <string name="ui">Interfaz de usuario no autorizada, póngase en contacto con el proveedor</string>
+    <string name="up">+</string>
+    <string name="video">Video</string>
+    <string name="volume">Volumen</string>
+</resources>

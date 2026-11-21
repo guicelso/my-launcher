@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="arg_res_0x7f08003b">r/y/h1.xml</drawable>
+    <drawable name="arg_res_0x7f0801c5">r/y/h2.xml</drawable>
+    <drawable name="arg_res_0x7f0801c9">r/y/d8.xml</drawable>
+    <drawable name="arg_res_0x7f0801ca">r/y/h3.xml</drawable>
+    <drawable name="arg_res_0x7f0801cb">r/y/h4.xml</drawable>
+    <drawable name="arg_res_0x7f0801cc">r/y/gz.xml</drawable>
+    <drawable name="arg_res_0x7f0801cf">r/y/h5.xml</drawable>
+    <drawable name="arg_res_0x7f0801f3">r/y/e7.xml</drawable>
+</resources>

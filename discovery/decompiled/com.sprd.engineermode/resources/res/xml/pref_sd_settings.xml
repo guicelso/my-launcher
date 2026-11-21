@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="@string/sd_settings">
+    <EditTextPreference
+        android:hint="@string/sd_log_size_unit"
+        android:maxLength="5"
+        android:numeric="integer"
+        android:title="@string/sd_set_log_size"
+        android:key="log_size_set"
+        android:summary=""/>
+    <ListPreference
+        android:entries="@array/sd_log_set_entries"
+        android:title="@string/sd_log_set"
+        android:key="sd_log_size_set"
+        android:defaultValue="0"
+        android:entryValues="@array/sd_log_set_values"/>
+    <EditTextPreference
+        android:hint="@string/sd_log_size_unit"
+        android:maxLength="5"
+        android:numeric="integer"
+        android:title="@string/data_set_all_log_size"
+        android:key="data_log_size_set"
+        android:summary=""/>
+    <com.sprd.engineermode.EMSwitchPreference
+        android:title="@string/log_overwrite_enable"
+        android:key="log_overwrite_enable"/>
+    <EditTextPreference
+        android:hint="@string/cap_log_length_hint"
+        android:maxLength="5"
+        android:numeric="integer"
+        android:title="@string/cap_log_length_set"
+        android:key="cap_log_length_set"
+        android:summary=""/>
+</PreferenceScreen>

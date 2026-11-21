@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">[ŢŴÇöŕé one two]</string>
+    <string name="default_province">[广东 one]</string>
+    <string name="up_log">[ÖŢĜ权限 one]</string>
+    <string name="up_log_ing">[正在上传日志 one two]</string>
+    <string name="up_log_failure">[上传失败，请检查网络 one two]</string>
+    <string name="up_log_success">[上传成功 one]</string>
+    <string name="install_launcher">[安装百变主题 one two]</string>
+    <string name="install_core">[安装ŢŴÇöŕé one two]</string>
+    <string name="active_time">[激活时间 one]</string>
+</resources>

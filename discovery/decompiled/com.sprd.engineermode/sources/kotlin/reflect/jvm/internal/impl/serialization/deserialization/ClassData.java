@@ -1,0 +1,84 @@
+package kotlin.reflect.jvm.internal.impl.serialization.deserialization;
+
+import kotlin.jvm.internal.Intrinsics;
+import kotlin.reflect.jvm.internal.impl.descriptors.SourceElement;
+import kotlin.reflect.jvm.internal.impl.metadata.ProtoBuf;
+import kotlin.reflect.jvm.internal.impl.metadata.deserialization.BinaryVersion;
+import kotlin.reflect.jvm.internal.impl.metadata.deserialization.NameResolver;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+/* JADX INFO: compiled from: ClassData.kt */
+/* JADX INFO: loaded from: classes4.dex */
+public final class ClassData {
+
+    @NotNull
+    private final ProtoBuf.Class classProto;
+
+    @NotNull
+    private final BinaryVersion metadataVersion;
+
+    @NotNull
+    private final NameResolver nameResolver;
+
+    @NotNull
+    private final SourceElement sourceElement;
+
+    @NotNull
+    public final NameResolver component1() {
+        return this.nameResolver;
+    }
+
+    @NotNull
+    public final ProtoBuf.Class component2() {
+        return this.classProto;
+    }
+
+    @NotNull
+    public final BinaryVersion component3() {
+        return this.metadataVersion;
+    }
+
+    @NotNull
+    public final SourceElement component4() {
+        return this.sourceElement;
+    }
+
+    public boolean equals(@Nullable Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof ClassData)) {
+            return false;
+        }
+        ClassData classData = (ClassData) obj;
+        return Intrinsics.areEqual(this.nameResolver, classData.nameResolver) && Intrinsics.areEqual(this.classProto, classData.classProto) && Intrinsics.areEqual(this.metadataVersion, classData.metadataVersion) && Intrinsics.areEqual(this.sourceElement, classData.sourceElement);
+    }
+
+    public int hashCode() {
+        NameResolver nameResolver = this.nameResolver;
+        int iHashCode = (nameResolver != null ? nameResolver.hashCode() : 0) * 31;
+        ProtoBuf.Class r2 = this.classProto;
+        int iHashCode2 = (iHashCode + (r2 != null ? r2.hashCode() : 0)) * 31;
+        BinaryVersion binaryVersion = this.metadataVersion;
+        int iHashCode3 = (iHashCode2 + (binaryVersion != null ? binaryVersion.hashCode() : 0)) * 31;
+        SourceElement sourceElement = this.sourceElement;
+        return iHashCode3 + (sourceElement != null ? sourceElement.hashCode() : 0);
+    }
+
+    @NotNull
+    public String toString() {
+        return "ClassData(nameResolver=" + this.nameResolver + ", classProto=" + this.classProto + ", metadataVersion=" + this.metadataVersion + ", sourceElement=" + this.sourceElement + ")";
+    }
+
+    public ClassData(@NotNull NameResolver nameResolver, @NotNull ProtoBuf.Class classProto, @NotNull BinaryVersion metadataVersion, @NotNull SourceElement sourceElement) {
+        Intrinsics.checkParameterIsNotNull(nameResolver, "nameResolver");
+        Intrinsics.checkParameterIsNotNull(classProto, "classProto");
+        Intrinsics.checkParameterIsNotNull(metadataVersion, "metadataVersion");
+        Intrinsics.checkParameterIsNotNull(sourceElement, "sourceElement");
+        this.nameResolver = nameResolver;
+        this.classProto = classProto;
+        this.metadataVersion = metadataVersion;
+        this.sourceElement = sourceElement;
+    }
+}

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="arg_res_0x7f110049" parent="@style/arg_res_0x7f1100b2">
+    </style>
+    <style name="arg_res_0x7f110050" parent="@style/arg_res_0x7f1100b3">
+    </style>
+    <style name="arg_res_0x7f110099" parent="@style/arg_res_0x7f1102c4">
+        <item name="android:backgroundDimAmount">0.32</item>
+        <item name="android:checkedTextViewStyle">@style/arg_res_0x7f11044b</item>
+        <item name="android:dialogCornerRadius">@null</item>
+        <item name="arg_res_0x7f04002f">@style/arg_res_0x7f110142</item>
+        <item name="arg_res_0x7f04019a">@style/arg_res_0x7f110443</item>
+        <item name="arg_res_0x7f04019b">@style/arg_res_0x7f110443</item>
+        <item name="arg_res_0x7f04019c">@style/arg_res_0x7f110444</item>
+        <item name="arg_res_0x7f04019d">@style/arg_res_0x7f110443</item>
+        <item name="arg_res_0x7f04042b">@style/arg_res_0x7f110143</item>
+        <item name="arg_res_0x7f04042c">@integer/arg_res_0x7f0a0046</item>
+    </style>
+    <style name="arg_res_0x7f1100b2" parent="@style/arg_res_0x7f1100af">
+        <item name="arg_res_0x7f04029c">?android:attr/dialogCornerRadius</item>
+    </style>
+    <style name="arg_res_0x7f1100b3" parent="@style/arg_res_0x7f1100b0">
+        <item name="arg_res_0x7f04029c">?android:attr/dialogCornerRadius</item>
+    </style>
+    <style name="arg_res_0x7f11021c" parent="@style/arg_res_0x7f1101d9">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@string/arg_res_0x7f1001e0</item>
+        <item name="android:letterSpacing">0.0312</item>
+        <item name="android:lineHeight">24sp</item>
+        <item name="arg_res_0x7f04032b">@string/arg_res_0x7f1001e0</item>
+        <item name="arg_res_0x7f0403fe">24sp</item>
+    </style>
+    <style name="arg_res_0x7f11021d" parent="@style/arg_res_0x7f1101d8">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@string/arg_res_0x7f1001e0</item>
+        <item name="android:letterSpacing">0.0179</item>
+        <item name="android:lineHeight">20sp</item>
+        <item name="arg_res_0x7f04032b">@string/arg_res_0x7f1001e0</item>
+        <item name="arg_res_0x7f0403fe">20sp</item>
+    </style>
+    <style name="arg_res_0x7f11021e" parent="@style/arg_res_0x7f1101db">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@string/arg_res_0x7f1001e0</item>
+        <item name="android:letterSpacing">0.0333</item>
+        <item name="android:lineHeight">16sp</item>
+        <item name="arg_res_0x7f04032b">@string/arg_res_0x7f1001e0</item>
+        <item name="arg_res_0x7f0403fe">16sp</item>
+    </style>
+    <style name="arg_res_0x7f11021f" parent="@style/arg_res_0x7f1101de">
+        <item name="android:textSize">57sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@string/arg_res_0x7f1001de</item>
+        <item name="android:letterSpacing">-0.0044</item>
+        <item name="android:lineHeight">64sp</item>
+        <item name="arg_res_0x7f04032b">@string/arg_res_0x7f1001de</item>
+        <item name="arg_res_0x7f0403fe">64sp</item>
+    </style>
+    <style name="arg_res_0x7f110220" parent="@style/arg_res_0x7f1101dd">
+        <item name="android:textSize">45sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@string/arg_res_0x7f1001de</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:lineHeight">52sp</item>
+        <item name="arg_res_0x7f04032b">@string/arg_res_0x7f1001de</item>
+        <item name="arg_res_0x7f0403fe">52sp</item>
+    </style>
+    <style name="arg_res_0x7f110221" parent="@style/arg_res_0x7f1101dc">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@string/arg_res_0x7f1001de</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:lineHeight">44sp</item>
+        <item name="arg_res_0x7f04032b">@string/arg_res_0x7f1001de</item>
+        <item name="arg_res_0x7f0403fe">44sp</item>
+    </style>
+    <style name="arg_res_0x7f110222" parent="@style/arg_res_0x7f1101dc">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@string/arg_res_0x7f1001de</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:lineHeight">40sp</item>
+        <item name="arg_res_0x7f04032b">@string/arg_res_0x7f1001de</item>
+        <item name="arg_res_0x7f0403fe">40sp</item>
+    </style>
+    <style name="arg_res_0x7f110223" parent="@style/arg_res_0x7f1101e0">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@string/arg_res_0x7f1001de</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:lineHeight">36sp</item>
+        <item name="arg_res_0x7f04032b">@string/arg_res_0x7f1001de</item>
+        <item name="arg_res_0x7f0403fe">36sp</item>
+    </style>
+    <style name="arg_res_0x7f110224" parent="@style/arg_res_0x7f1101f1">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@string/arg_res_0x7f1001de</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:lineHeight">32sp</item>
+        <item name="arg_res_0x7f04032b">@string/arg_res_0x7f1001de</item>
+        <item name="arg_res_0x7f0403fe">32sp</item>
+    </style>
+    <style name="arg_res_0x7f110225" parent="@style/arg_res_0x7f1101d8">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@string/arg_res_0x7f1001df</item>
+        <item name="android:letterSpacing">0.0071</item>
+        <item name="android:lineHeight">20sp</item>
+        <item name="arg_res_0x7f04032b">@string/arg_res_0x7f1001df</item>
+        <item name="arg_res_0x7f0403fe">20sp</item>
+    </style>
+    <style name="arg_res_0x7f110226" parent="@style/arg_res_0x7f1101db">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@string/arg_res_0x7f1001df</item>
+        <item name="android:letterSpacing">0.0417</item>
+        <item name="android:lineHeight">16sp</item>
+        <item name="arg_res_0x7f04032b">@string/arg_res_0x7f1001df</item>
+        <item name="arg_res_0x7f0403fe">16sp</item>
+    </style>
+    <style name="arg_res_0x7f110227" parent="@style/arg_res_0x7f1101db">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@string/arg_res_0x7f1001df</item>
+        <item name="android:letterSpacing">0.0455</item>
+        <item name="android:lineHeight">16sp</item>
+        <item name="arg_res_0x7f04032b">@string/arg_res_0x7f1001df</item>
+        <item name="arg_res_0x7f0403fe">16sp</item>
+    </style>
+    <style name="arg_res_0x7f110228" parent="@style/arg_res_0x7f1101f1">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@string/arg_res_0x7f1001de</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:lineHeight">28sp</item>
+        <item name="arg_res_0x7f04032b">@string/arg_res_0x7f1001de</item>
+        <item name="arg_res_0x7f0403fe">28sp</item>
+    </style>
+    <style name="arg_res_0x7f110229" parent="@style/arg_res_0x7f1101ef">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@string/arg_res_0x7f1001df</item>
+        <item name="android:letterSpacing">0.0094</item>
+        <item name="android:lineHeight">24sp</item>
+        <item name="arg_res_0x7f04032b">@string/arg_res_0x7f1001df</item>
+        <item name="arg_res_0x7f0403fe">24sp</item>
+    </style>
+    <style name="arg_res_0x7f11022a" parent="@style/arg_res_0x7f1101ef">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@string/arg_res_0x7f1001df</item>
+        <item name="android:letterSpacing">0.0071</item>
+        <item name="android:lineHeight">20sp</item>
+        <item name="arg_res_0x7f04032b">@string/arg_res_0x7f1001df</item>
+        <item name="arg_res_0x7f0403fe">20sp</item>
+    </style>
+    <style name="arg_res_0x7f11038a" parent="@style/arg_res_0x7f110430">
+        <item name="android:background">?attr/arg_res_0x7f040240</item>
+        <item name="android:stateListAnimator">@animator/arg_res_0x7f020009</item>
+        <item name="android:outlineSpotShadowColor">@android:color/transparent</item>
+        <item name="android:outlineAmbientShadowColor">@android:color/transparent</item>
+        <item name="arg_res_0x7f0403fa">true</item>
+    </style>
+    <style name="arg_res_0x7f110393" parent="@style/arg_res_0x7f1100f9">
+        <item name="android:outlineSpotShadowColor">@android:color/transparent</item>
+        <item name="android:outlineAmbientShadowColor">@android:color/transparent</item>
+    </style>
+    <style name="arg_res_0x7f110408" parent="@android:style/Widget">
+        <item name="android:textAppearance">@style/arg_res_0x7f11023a</item>
+        <item name="android:minHeight">@dimen/arg_res_0x7f0701ce</item>
+        <item name="android:paddingStart">@dimen/arg_res_0x7f0701d2</item>
+        <item name="android:outlineSpotShadowColor">@android:color/transparent</item>
+        <item name="android:outlineAmbientShadowColor">@android:color/transparent</item>
+        <item name="arg_res_0x7f040290">true</item>
+        <item name="arg_res_0x7f040292">true</item>
+        <item name="arg_res_0x7f0402c4">@dimen/arg_res_0x7f0701cd</item>
+        <item name="arg_res_0x7f0402d6">true</item>
+        <item name="arg_res_0x7f04034a">false</item>
+        <item name="arg_res_0x7f040454">@style/arg_res_0x7f1102fa</item>
+        <item name="arg_res_0x7f04045a">@dimen/arg_res_0x7f0701ce</item>
+        <item name="arg_res_0x7f040525">?attr/arg_res_0x7f04052c</item>
+        <item name="arg_res_0x7f04052d">@style/arg_res_0x7f11019c</item>
+    </style>
+    <style name="arg_res_0x7f110425" parent="@style/arg_res_0x7f110378">
+        <item name="android:outlineSpotShadowColor">@android:color/transparent</item>
+        <item name="android:outlineAmbientShadowColor">@android:color/transparent</item>
+        <item name="arg_res_0x7f04025f">0dp</item>
+        <item name="arg_res_0x7f040598">?attr/add</item>
+        <item name="arg_res_0x7f040633">?attr/arg_res_0x7f0405ef</item>
+    </style>
+</resources>

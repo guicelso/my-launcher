@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.cardoor.variety.base.ui.adapt.AutoFrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pop_root"
+    android:padding="8px"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:adapt_calc_base_on="3"
+    app:bl_corners_radius="6dp"
+    app:bl_solid_color="#cc0f1828">
+    <cn.cardoor.variety.base.ui.adapt.AutoRecyclerView
+        android:orientation="vertical"
+        android:id="@+id/rv_resolution_list"
+        android:scrollbars="none"
+        android:fadingEdge="vertical"
+        android:fadingEdgeLength="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadeScrollbars="false"
+        android:requiresFadingEdge="vertical"/>
+</cn.cardoor.variety.base.ui.adapt.AutoFrameLayout>

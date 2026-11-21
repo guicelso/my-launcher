@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="arg_res_0x7f100000">Navigate home</string>
+    <string name="arg_res_0x7f100001">Navigate up</string>
+    <string name="arg_res_0x7f100002">More options</string>
+    <string name="arg_res_0x7f100003">Done</string>
+    <string name="arg_res_0x7f100004">See all</string>
+    <string name="arg_res_0x7f100005">Choose an app</string>
+    <string name="arg_res_0x7f100006">OFF</string>
+    <string name="arg_res_0x7f100007">ON</string>
+    <string name="arg_res_0x7f100008">Alt+</string>
+    <string name="arg_res_0x7f100009">Ctrl+</string>
+    <string name="arg_res_0x7f10000a">delete</string>
+    <string name="arg_res_0x7f10000b">enter</string>
+    <string name="arg_res_0x7f10000c">Function+</string>
+    <string name="arg_res_0x7f10000d">Meta+</string>
+    <string name="arg_res_0x7f10000e">Shift+</string>
+    <string name="arg_res_0x7f10000f">space</string>
+    <string name="arg_res_0x7f100010">Sym+</string>
+    <string name="arg_res_0x7f100011">Menu+</string>
+    <string name="arg_res_0x7f100012">Search…</string>
+    <string name="arg_res_0x7f100013">Clear query</string>
+    <string name="arg_res_0x7f100014">Search query</string>
+    <string name="arg_res_0x7f100015">Search</string>
+    <string name="arg_res_0x7f100016">Submit query</string>
+    <string name="arg_res_0x7f100017">Voice search</string>
+    <string name="arg_res_0x7f100018">Share with</string>
+    <string name="arg_res_0x7f100019">Share with %s</string>
+    <string name="arg_res_0x7f10001a">Collapse</string>
+    <string name="arg_res_0x7f1000ac">Answer</string>
+    <string name="arg_res_0x7f1000ad">Video</string>
+    <string name="arg_res_0x7f1000ae">Decline</string>
+    <string name="arg_res_0x7f1000af">Hang Up</string>
+    <string name="arg_res_0x7f1000b0">Incoming call</string>
+    <string name="arg_res_0x7f1000b1">Ongoing call</string>
+    <string name="arg_res_0x7f1000b2">Screening an incoming call</string>
+    <string name="arg_res_0x7f100311">Search</string>
+    <string name="arg_res_0x7f100345">999+</string>
+</resources>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="MTBF">
+    <PreferenceCategory android:title="@+string/settings">
+        <Preference
+            android:title="@+string/mtbf_setting_conn"
+            android:key="setting_conn_set"
+            android:summary="@+string/mtbf_setting_conn_summary"/>
+        <Preference
+            android:title="@+string/mtbf_setting_time"
+            android:key="setting_time_set"
+            android:summary="@+string/mtbf_setting_time_summary"/>
+        <Preference
+            android:title="@+string/mtbf_setting_usb"
+            android:key="setting_usb_set"
+            android:summary="@+string/mtbf_setting_usb_summary"/>
+        <Preference
+            android:title="@+string/mtbf_setting_im"
+            android:key="setting_im_set"
+            android:summary="@+string/mtbf_setting_im_summary"/>
+        <Preference
+            android:title="@+string/mtbf_setting_screen"
+            android:key="setting_screen_set"
+            android:summary="@+string/mtbf_setting_screen_summary"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@+string/mms">
+        <Preference
+            android:title="@+string/mtbf_mms_notify"
+            android:key="setting_mms_set"
+            android:summary="@+string/mtbf_mms_notify_summary"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@+string/calendar">
+        <Preference
+            android:title="@+string/mtbf_calendar_notify"
+            android:key="setting_calendar_set"
+            android:summary="@+string/mtbf_calendar_notify_summary"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@+string/broswer">
+        <Preference
+            android:title="@+string/mtbf_broswer_mode"
+            android:key="setting_broswer_set"
+            android:summary="@+string/mtbf_broswer_mode_summary"/>
+        <Preference
+            android:title="@+string/mtbf_broswer_bookmark"
+            android:key="setting_bookmark_set"
+            android:summary="@+string/mtbf_broswer_bookmark_summary"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@+string/email">
+        <Preference
+            android:title="@+string/mtbf_email_address"
+            android:key="setting_email_addr_set"
+            android:summary="@+string/mtbf_email_address_summary"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@+string/engineermode">
+        <Preference
+            android:title="@+string/mtbf_em_logs"
+            android:key="setting_em_logs_set"
+            android:summary="@+string/mtbf_em_logs_summary"/>
+    </PreferenceCategory>
+</PreferenceScreen>

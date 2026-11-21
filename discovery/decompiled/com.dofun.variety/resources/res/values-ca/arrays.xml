@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arg_res_0x7f030002">
+        <item>km/h</item>
+        <item>mph</item>
+    </array>
+    <array name="arg_res_0x7f030008">
+        <item>diumenge</item>
+        <item>dilluns</item>
+        <item>dimarts</item>
+        <item>dimecres</item>
+        <item>dijous</item>
+        <item>divendres</item>
+        <item>dissabte</item>
+    </array>
+</resources>

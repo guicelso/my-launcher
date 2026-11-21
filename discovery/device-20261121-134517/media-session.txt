@@ -1,0 +1,48 @@
+MEDIA SESSION SERVICE (dumpsys media_session)
+
+1 sessions listeners.
+Global priority session is com.android.server.telecom/HeadsetMediaButton (userId=0)
+  HeadsetMediaButton com.android.server.telecom/HeadsetMediaButton (userId=0)
+    ownerPid=11659, ownerUid=1000, userId=0
+    package=com.android.server.telecom
+    launchIntent=null
+    mediaButtonReceiver=null
+    active=false
+    flags=65537
+    rating type=0
+    controllers: 0
+    state=null
+    audioAttrs=AudioAttributes: usage=USAGE_VOICE_COMMUNICATION content=CONTENT_TYPE_SPEECH flags=0x800 tags= bundle=null
+    volumeType=1, controlType=2, max=0, current=0
+    metadata: null
+    queueTitle=null, size=0
+User Records:
+Record for full_user=0
+  Volume key long-press listener: null
+  Volume key long-press listener package: 
+  Media key listener: null
+  Media key listener package: 
+  Callback: null
+  Last MediaButtonReceiver: PendingIntent{8b9fe10: PendingIntentRecord{62d9246 com.google.android.apps.youtube.music broadcastIntent}}
+  Restored MediaButtonReceiver: null
+  Restored MediaButtonReceiverComponentType: 0
+  Media button session is com.google.android.apps.youtube.music/YouTube playerlib (userId=0)
+  Sessions Stack - have 1 sessions:
+    YouTube playerlib com.google.android.apps.youtube.music/YouTube playerlib (userId=0)
+      ownerPid=3509, ownerUid=10156, userId=0
+      package=com.google.android.apps.youtube.music
+      launchIntent=PendingIntent{2fa3d09: PendingIntentRecord{7459a07 com.google.android.apps.youtube.music startActivity (whitelist: 5ed2dc8:+30s0ms)}}
+      mediaButtonReceiver=PendingIntent{8b9fe10: PendingIntentRecord{62d9246 com.google.android.apps.youtube.music broadcastIntent}}
+      active=true
+      flags=3
+      rating type=2
+      controllers: 2
+      state=PlaybackState {state=3, position=556950, buffered position=0, speed=1.0, updated=1401043024, actions=2600887, custom actions=[Action:mName='Remover "Gostei", mIcon=2131233105, mExtras=null, Action:mName='Modo aleatório desativado, mIcon=2131232836, mExtras=null, Action:mName='Repetir desativado, mIcon=2131232737, mExtras=null, Action:mName='Não gostei, mIcon=2131233523, mExtras=null], active item id=1, error=null}
+      audioAttrs=AudioAttributes: usage=USAGE_MEDIA content=CONTENT_TYPE_UNKNOWN flags=0x800 tags= bundle=null
+      volumeType=1, controlType=2, max=0, current=0
+      metadata: size=9, description=Solomun | Boiler Room: Tulum, Boiler Room, Boiler Room
+      queueTitle=Próximo, size=25
+
+  Session2Tokens:
+Audio playback (lastly played comes first)
+  uid=10156 packages=com.google.android.apps.youtube.music 

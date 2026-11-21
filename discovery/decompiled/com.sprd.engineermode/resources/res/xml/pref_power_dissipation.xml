@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/powerdissipation"
+    android:key="powerDissipation">
+    <com.sprd.engineermode.EMSwitchPreference
+        android:title="DFS"
+        android:key="dfs"/>
+    <com.sprd.engineermode.EMSwitchPreference
+        android:title="DVFS"
+        android:key="dvfs"/>
+    <EditTextPreference
+        android:enabled="false"
+        android:maxLength="4"
+        android:digits="1234567890"
+        android:title="VDDARM"
+        android:key="vddarm"
+        android:summary="mV"
+        android:dialogTitle="VDDARM（900～1400mV）"/>
+    <EditTextPreference
+        android:maxLength="4"
+        android:digits="1234567890"
+        android:title="CPU Fre"
+        android:key="cpuFrequence"
+        android:summary="mHz"
+        android:dialogTitle="CPU Fre（400～1400mHz）"/>
+</PreferenceScreen>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.cardoor.variety.base.ui.adapt.AutoTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:textSize="16px"
+    android:textColor="@color/arg_res_0x7f06032e"
+    android:gravity="center_vertical"
+    android:id="@+id/tv_resolution"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="15px"
+    android:minWidth="110px"
+    android:minHeight="55px"
+    android:layout_marginEnd="15px"/>

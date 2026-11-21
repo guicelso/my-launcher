@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CarSettingWallpaperBG" parent="">
+        <item name="android:gravity">0x11</item>
+        <item name="android:paddingLeft">@dimen/tw_dp_w1</item>
+        <item name="android:paddingTop">@dimen/tw_dp_h1</item>
+        <item name="android:paddingRight">@dimen/tw_dp_w1</item>
+        <item name="android:paddingBottom">@dimen/tw_dp_h1</item>
+        <item name="android:layout_width">@dimen/tw_dp_w150</item>
+        <item name="android:layout_height">@dimen/tw_dp_w110</item>
+        <item name="android:scaleType">1</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+    <style name="CarSettingWallpaperBGLayout" parent="">
+        <item name="android:gravity">0x11</item>
+        <item name="android:background">@drawable/lev_car_setting_wallpaper_choose</item>
+        <item name="android:layout_width">@dimen/tw_dp_w154</item>
+        <item name="android:layout_height">@dimen/tw_dp_w113</item>
+        <item name="android:layout_marginLeft">@dimen/tw_dp_w8</item>
+        <item name="android:layout_marginRight">@dimen/tw_dp_w8</item>
+    </style>
+    <style name="FragmentFacilityColorGreedReduce" parent="">
+        <item name="android:clickable">true</item>
+        <item name="android:layout_width">@dimen/tw_dp_h32</item>
+        <item name="android:layout_height">@dimen/tw_dp_h32</item>
+        <item name="android:layout_marginLeft">@dimen/tw_dp_w4</item>
+        <item name="android:layout_marginRight">@dimen/tw_dp_w4</item>
+    </style>
+    <style name="FragmentFacilityLightButton" parent="">
+        <item name="android:textSize">@dimen/tw_dp_h16</item>
+        <item name="android:textColor">@color/text_color_normal</item>
+        <item name="android:gravity">0x11</item>
+        <item name="android:background">@drawable/tr_b_bg</item>
+        <item name="android:paddingLeft">@dimen/tw_dp_w20</item>
+        <item name="android:paddingRight">@dimen/tw_dp_w20</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_width">@dimen/tw_dp_w168</item>
+        <item name="android:layout_height">@dimen/tw_dp_w75</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:onClick">onClick</item>
+    </style>
+    <style name="FragmentFacilitySoundButton" parent="">
+        <item name="android:textSize">@dimen/tw_dp_h16</item>
+        <item name="android:textColor">@color/text_color_normal</item>
+        <item name="android:gravity">0x11</item>
+        <item name="android:background">@drawable/tr_b_bg</item>
+        <item name="android:paddingLeft">@dimen/tw_dp_w20</item>
+        <item name="android:paddingRight">@dimen/tw_dp_w20</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_width">@dimen/tw_dp_w204</item>
+        <item name="android:layout_height">@dimen/tw_dp_w75</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+    <style name="KeypadText" parent="">
+        <item name="android:textSize">@dimen/tw_dp_h16</item>
+        <item name="android:textStyle">0x0</item>
+        <item name="android:textColor">@color/text_color_normal</item>
+        <item name="android:gravity">0x11</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">-1</item>
+        <item name="android:layout_marginLeft">1dp</item>
+        <item name="android:layout_marginTop">1dp</item>
+        <item name="android:layout_marginRight">1dp</item>
+        <item name="android:layout_marginBottom">1dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:onClick">onClick</item>
+    </style>
+    <style name="KeypadText.Key" parent="@style/KeypadText">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/tw_key</item>
+    </style>
+    <style name="about_info_text_style" parent="">
+        <item name="android:textSize">@dimen/tw_dp_h16</item>
+        <item name="android:textColor">@color/text_color_normal</item>
+        <item name="android:gravity">0x13</item>
+        <item name="android:paddingLeft">@dimen/tw_dp_w8</item>
+        <item name="android:layout_width">-1</item>
+        <item name="android:layout_height">-2</item>
+    </style>
+    <style name="fragmen_title_style" parent="">
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textColor">@color/text_color_normal</item>
+        <item name="android:gravity">0x13</item>
+        <item name="android:paddingLeft">@dimen/tw_dp_w8</item>
+        <item name="android:layout_width">-1</item>
+        <item name="android:layout_height">-2</item>
+        <item name="android:layout_marginLeft">@dimen/tw_dp_w24</item>
+        <item name="android:layout_marginTop">@dimen/tw_dp_h8</item>
+        <item name="android:layout_marginRight">@dimen/tw_dp_w24</item>
+        <item name="android:maxLines">1</item>
+    </style>
+    <style name="fragment_hint_style" parent="">
+        <item name="android:textSize">@dimen/tw_dp_h16</item>
+        <item name="android:textColor">@color/text_color_normal</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:layout_width">-2</item>
+        <item name="android:layout_height">-2</item>
+        <item name="android:layout_marginLeft">@dimen/tw_dp_w16</item>
+        <item name="android:layout_marginRight">@dimen/tw_dp_w16</item>
+        <item name="android:lines">2</item>
+    </style>
+    <style name="fragment_linearlayout_style" parent="">
+        <item name="android:orientation">1</item>
+        <item name="android:background">@drawable/category_bg</item>
+        <item name="android:layout_width">-1</item>
+        <item name="android:layout_height">-2</item>
+        <item name="android:layout_marginLeft">@dimen/tw_dp_w32</item>
+        <item name="android:layout_marginTop">@dimen/tw_dp_h16</item>
+        <item name="android:layout_marginRight">@dimen/tw_dp_w32</item>
+    </style>
+    <style name="fragment_relativeLayout_style" parent="">
+        <item name="android:layout_width">-1</item>
+        <item name="android:layout_height">@dimen/tw_dp_w84</item>
+        <item name="android:layout_marginLeft">@dimen/tw_dp_w16</item>
+        <item name="android:layout_marginTop">@dimen/tw_dp_h10</item>
+        <item name="android:layout_marginRight">@dimen/tw_dp_w16</item>
+    </style>
+    <style name="fragment_root_style" parent="">
+        <item name="android:scrollbarThumbVertical">@drawable/scrollview_bar</item>
+        <item name="android:orientation">1</item>
+        <item name="android:paddingTop">@dimen/tw_dp_h5</item>
+        <item name="android:paddingBottom">@dimen/tw_dp_h10</item>
+        <item name="android:layout_width">-1</item>
+        <item name="android:layout_height">-1</item>
+    </style>
+    <style name="rb_stytle" parent="">
+        <item name="android:enabled">true</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textColor">@drawable/select_navi_bar_text_color</item>
+        <item name="android:gravity">0x13</item>
+        <item name="android:background">@drawable/rb_item_bg</item>
+        <item name="android:paddingLeft">@dimen/tw_dp_w25</item>
+        <item name="android:paddingRight">@dimen/tw_dp_w16</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_width">-1</item>
+        <item name="android:layout_height">@dimen/tw_dp_h72</item>
+        <item name="android:button">@null</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:drawablePadding">@dimen/tw_dp_w10</item>
+    </style>
+    <style name="sim_into_item_style" parent="">
+        <item name="android:textSize">@dimen/tw_dp_h16</item>
+        <item name="android:textColor">@color/text_color_normal</item>
+        <item name="android:gravity">0x13</item>
+        <item name="android:layout_width">-1</item>
+        <item name="android:layout_height">-2</item>
+        <item name="android:layout_marginLeft">@dimen/tw_dp_w16</item>
+        <item name="android:layout_marginTop">@dimen/tw_dp_h16</item>
+        <item name="android:layout_marginRight">@dimen/tw_dp_w16</item>
+        <item name="android:maxLines">1</item>
+    </style>
+    <style name="voice_speed_item_style" parent="">
+        <item name="android:textSize">@dimen/tw_dp_h16</item>
+        <item name="android:textColor">@color/text_color_normal</item>
+        <item name="android:gravity">0x11</item>
+        <item name="android:background">@drawable/tr_b_bg</item>
+        <item name="android:paddingLeft">@dimen/tw_dp_w8</item>
+        <item name="android:paddingRight">@dimen/tw_dp_w8</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/tw_dp_h48</item>
+        <item name="android:layout_marginLeft">@dimen/tw_dp_w16</item>
+        <item name="android:layout_marginRight">@dimen/tw_dp_w16</item>
+        <item name="android:button">@null</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+</resources>

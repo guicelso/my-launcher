@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" style="@style/fragment_root_style">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/layout_top_content"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_title"
+                android:text="@string/tw_recorder"
+                style="@style/fragmen_title_style"/>
+            <TextView
+                android:textSize="@dimen/title_summary_text_size"
+                android:textColor="@color/pref_text_summary_color"
+                android:gravity="center"
+                android:paddingLeft="@dimen/tw_dp_w8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/tw_dp_w24"
+                android:text="@string/recorder_setting_summary"
+                android:maxLines="2"/>
+            <LinearLayout style="@style/fragment_linearlayout_style">
+                <com.dofun.carsetting.widget.MyListView
+                    android:id="@+id/list_guide_soft"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="#00000000"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

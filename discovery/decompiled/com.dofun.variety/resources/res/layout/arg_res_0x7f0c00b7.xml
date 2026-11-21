@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:dofun="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal"
+    android:id="@+id/fl_apps_item"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <com.dofun.overseasvariety.view.DeleteImageView
+        android:id="@+id/iv_app_icon"
+        android:layout_width="@dimen/arg_res_0x7f070054"
+        android:layout_height="@dimen/arg_res_0x7f070054"
+        android:scaleType="center"
+        dofun:enabled_auto_fit="true"
+        dofun:is_square="true"/>
+    <cn.cardoor.variety.base.ui.adapt.AutoTypefaceTextView
+        android:textSize="20px"
+        android:textColor="@android:color/white"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:id="@+id/tv_app_name"
+        android:layout_width="@dimen/arg_res_0x7f070054"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16px"
+        android:lines="1"
+        android:shadowColor="#ff000000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="1"/>
+</FrameLayout>

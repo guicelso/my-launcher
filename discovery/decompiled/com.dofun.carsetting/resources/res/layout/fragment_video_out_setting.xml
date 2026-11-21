@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" style="@style/fragment_root_style">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/layout_top_content"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/ll_video_out_mode"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout style="@style/fragment_linearlayout_style">
+                <com.dofun.carsetting.widget.InfoPreference
+                    android:entries="@array/video_out_entries_t5"
+                    android:id="@+id/ip_video_out_setting_t5q"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entryValues="@array/video_out_values"
+                    app:key="ip_video_out_setting_t5q"
+                    app:show_divider="false"
+                    app:title="@string/video_output_mode"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_title"
+                android:text="@string/video_output_software"
+                style="@style/fragmen_title_style"/>
+            <LinearLayout
+                android:id="@+id/ll_list"
+                style="@style/fragment_linearlayout_style">
+                <com.dofun.carsetting.widget.MyListView
+                    android:id="@+id/list_guide_soft"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="#00000000"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

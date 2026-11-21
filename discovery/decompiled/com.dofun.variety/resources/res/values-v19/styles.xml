@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="arg_res_0x7f11032d" parent="@style/arg_res_0x7f11026a">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:textViewStyle">@style/arg</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="arg_res_0x7f0402c3">@style/arg_res_0x7f11012e</item>
+    </style>
+</resources>

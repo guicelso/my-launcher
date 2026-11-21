@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="adjust">조정하다</string>
+    <string name="app_name">반전</string>
+    <string name="brightness">밝기</string>
+    <string name="calibration">화면 보정</string>
+    <string name="camera_alarm">주변을 잘 살펴주세요</string>
+    <string name="camera_alarm_AHD">주변 환경에 주의하시기 바라며, AHD 고화질 카메라 사용을 권장합니다.</string>
+    <string name="camera_alarm_user_cancel">취소</string>
+    <string name="camera_alarm_user_ok">OK</string>
+    <string name="camera_detecting">확인 중...</string>
+    <string name="camera_frame">FRAME</string>
+    <string name="camera_reset">초기화</string>
+    <string name="camera_tip_close">닫기</string>
+    <string name="camera_tip_open">열기</string>
+    <string name="camera_title">카메라</string>
+    <string name="camera_title_settings">카메라 설정</string>
+    <string name="car_saturation">포화</string>
+    <string name="contrast">대비</string>
+    <string name="disc">디스크</string>
+    <string name="front">전면 카메라</string>
+    <string name="image_debounce">이미지 안정화</string>
+    <string name="memory">램</string>
+    <string name="photo">갤러리</string>
+    <string name="reset">초기화</string>
+    <string name="reverse_nissan_no_prompt_display">프롬프트가 표시되지 않습니다.</string>
+    <string name="reverse_tip">경고! 이 옵션을 수정하면 비디오 신호가 없을 수 있습니다.</string>
+    <string name="reverse_view_mode1">표준 모드</string>
+    <string name="reverse_view_mode2">전체 화면으로보기</string>
+    <string name="reverse_view_mode3">16:9 모드</string>
+    <string name="reversing_ruler_line">역방향 게이지 라인</string>
+    <string name="reversing_ruler_line_settings">눈금자 선 조정 반전</string>
+    <string name="saturation">색상도</string>
+    <string name="save">저장</string>
+    <string name="stop">중지</string>
+    <string name="traffic">교통</string>
+    <string name="ui">UI가 승인되지 않았습니다. 공급업체에 문의하세요.</string>
+    <string name="warning_driving_t">경고! \n 운전 중 동영상 시청 금지</string>
+    <string name="warning_signal_t">비디오 신호 없음</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="arg_res_0x7f11004b" parent="@style/arg_res_0x7f1100b5">
+        <item name="android:windowIsFloating">false</item>
+    </style>
+    <style name="arg_res_0x7f110052" parent="@style/arg_res_0x7f1100b7">
+        <item name="android:windowIsFloating">false</item>
+    </style>
+    <style name="arg_res_0x7f110076" parent="@style/arg_res_0x7f1100b8">
+        <item name="android:windowIsFloating">false</item>
+    </style>
+</resources>

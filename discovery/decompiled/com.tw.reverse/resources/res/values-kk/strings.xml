@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="adjust">Реттеу</string>
+    <string name="app_name">Кері</string>
+    <string name="brightness">Жарықтық</string>
+    <string name="camera_alarm">Қоршаған ортаға назар аударыңыз</string>
+    <string name="camera_alarm_AHD">Қоршаған ортаға назар аударыңыз және AHD HD камерасын пайдалануды ұсыныңыз.</string>
+    <string name="camera_alarm_user">Қолдану ұсынылады &lt;font color=#00FFD92E&gt;жоғары ажыратымдылықтағы AHD&lt;/font&gt;камера&lt;br&gt;енді CCD камерасы үшін</string>
+    <string name="camera_alarm_user_cancel">Болдырмау</string>
+    <string name="camera_alarm_user_ok">ОК</string>
+    <string name="camera_detecting">Анықтау...</string>
+    <string name="camera_frame">Рамка</string>
+    <string name="camera_reset">Ысыру</string>
+    <string name="camera_tip">Кеңес</string>
+    <string name="camera_tip_close">Жабу</string>
+    <string name="camera_tip_open">Ашу</string>
+    <string name="camera_title">Автомобиль камерасы</string>
+    <string name="camera_title_camera">Камера</string>
+    <string name="camera_title_settings">Камера параметрлері</string>
+    <string name="car_saturation">Қанықтыру</string>
+    <string name="contrast">Контраст</string>
+    <string name="image_debounce">Суретті ашу</string>
+    <string name="reset">Ысыру</string>
+    <string name="reverse_tip">Ескерту! Бұл параметрді өзгерту бейне сигналдың болмауына әкелуі мүмкін</string>
+    <string name="reversing_ruler_line">Кері сызықтық сызық</string>
+    <string name="reversing_ruler_line_settings">Кері Сызғыш Желісін Реттеу</string>
+    <string name="saturation">Қанықтыру</string>
+    <string name="save">Сақтау</string>
+    <string name="warning_signal_t">Бейне сигналы жоқ</string>
+</resources>

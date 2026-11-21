@@ -1,0 +1,43 @@
+Manifest-Version: 1.0
+Built-By: Signflinger
+Created-By: Android Gradle 7.2.2
+
+Name: AndroidManifest.xml
+SHA-256-Digest: bdVt8QcshgJmyO2gkIhZPiwf/yneuiWyoGLLUUS1434=
+
+Name: META-INF/com/android/build/gradle/app-metadata.properties
+SHA-256-Digest: 31M81fV6H3eqCmjXdtYpZZV0uNPcqj6FF/WhdpE77Kk=
+
+Name: classes.dex
+SHA-256-Digest: 0uPOA/+eAYXzldgRA87+DyEb95t6E+KqUmjdFn1AR8E=
+
+Name: res/7B.xml
+SHA-256-Digest: MXlAYs8fivVPR/ZEJc302j3cOA+R18Y7xou7tVtmNUA=
+
+Name: res/JU.png
+SHA-256-Digest: pNTACWGTEdm4OQSs/WL+O3+RjDElIrvMatUc3sT9Ht8=
+
+Name: res/R5.xml
+SHA-256-Digest: /rpWhW+P+KYeodWTf41ssPu7R7QHyWC4qdjBKk2smDQ=
+
+Name: res/RX.png
+SHA-256-Digest: pNTACWGTEdm4OQSs/WL+O3+RjDElIrvMatUc3sT9Ht8=
+
+Name: res/Vw.png
+SHA-256-Digest: pNTACWGTEdm4OQSs/WL+O3+RjDElIrvMatUc3sT9Ht8=
+
+Name: res/WR.png
+SHA-256-Digest: pNTACWGTEdm4OQSs/WL+O3+RjDElIrvMatUc3sT9Ht8=
+
+Name: res/YB.webp
+SHA-256-Digest: hGIZ5vcv6abBBMqJGcvuNqEB59L/janaZ7aJpYiPBg0=
+
+Name: res/fM.png
+SHA-256-Digest: pNTACWGTEdm4OQSs/WL+O3+RjDElIrvMatUc3sT9Ht8=
+
+Name: res/fR.png
+SHA-256-Digest: pNTACWGTEdm4OQSs/WL+O3+RjDElIrvMatUc3sT9Ht8=
+
+Name: resources.arsc
+SHA-256-Digest: IaKCct44jceKykK+YXO/Akj6nvAXhC04NMXcaWRqfpY=
+

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arg_res_0x7f030000">
+        <item>hPa</item>
+        <item>inHg</item>
+    </array>
+    <array name="arg_res_0x7f030001">
+        <item>m</item>
+        <item>ft</item>
+    </array>
+    <array name="arg_res_0x7f030002">
+        <item>km/h</item>
+        <item>mph</item>
+    </array>
+    <array name="arg_res_0x7f030003">
+        <item>@color/arg_res_0x7f06003d</item>
+        <item>@color/arg_res_0x7f06003e</item>
+        <item>@color/arg_res_0x7f06003f</item>
+        <item>@color/arg_res_0x7f060040</item>
+        <item>@color/arg_res_0x7f060041</item>
+    </array>
+    <array name="arg_res_0x7f030004">
+        <item>@color/arg_res_0x7f0602ff</item>
+        <item>@color/arg_res_0x7f060300</item>
+        <item>@color/arg_res_0x7f060301</item>
+        <item>@color/arg_res_0x7f060302</item>
+        <item>@color/arg_res_0x7f060303</item>
+    </array>
+    <array name="arg_res_0x7f030005">
+        <item>@color/arg_res_0x7f06030a</item>
+        <item>@color/arg_res_0x7f06030b</item>
+        <item>@color/arg_res_0x7f06030c</item>
+        <item>@color/arg_res_0x7f06030d</item>
+        <item>@color/arg_res_0x7f06030e</item>
+    </array>
+    <array name="arg_res_0x7f030006">
+        <item>@color/arg_res_0x7f06031c</item>
+        <item>@color/arg_res_0x7f06031d</item>
+        <item>@color/arg_res_0x7f06031e</item>
+        <item>@color/arg_res_0x7f06031f</item>
+        <item>@color/arg_res_0x7f060320</item>
+    </array>
+    <array name="arg_res_0x7f030007">
+        <item>0</item>
+        <item>15000</item>
+        <item>30000</item>
+        <item>60000</item>
+        <item>90000</item>
+        <item>120000</item>
+    </array>
+    <array name="arg_res_0x7f030008">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </array>
+    <array name="arg_res_0x7f030009">
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </array>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arg_res_0x7f030002">
+        <item>كم / ساعة</item>
+        <item>ميل في الساعة</item>
+    </array>
+    <array name="arg_res_0x7f030008">
+        <item>الأحد</item>
+        <item>الاثنين</item>
+        <item>يوم الثلاثاء</item>
+        <item>الأربعاء</item>
+        <item>يوم الخميس</item>
+        <item>جمعة</item>
+        <item>السبت</item>
+    </array>
+</resources>

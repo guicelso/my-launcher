@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_container_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.dofun.variety.theme.varietor.HomePagerView
+        android:id="@+id/container_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <com.dofun.overseasvariety.view.DotView
+        android:id="@+id/container_dotView"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</merge>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="arg_res_0x7f1003d3">Il percorso di download APK è anormale!</string>
+    <string name="arg_res_0x7f1003d4">- Aggiorna la versione di rete ~  n Altre funzionalità di aggiornamento, ottimizza l\'esperienza</string>
+    <string name="arg_res_0x7f1003d5">(Versione corrente:%s)</string>
+    <string name="arg_res_0x7f1003d6">Non ricordare sulla schermata home</string>
+    <string name="arg_res_0x7f1003d7">Download del pacchetto di aggiornamento fallito! Per favore riprova.</string>
+    <string name="arg_res_0x7f1003d8">scaricati:</string>
+    <string name="arg_res_0x7f1003d9">Download</string>
+    <string name="arg_res_0x7f1003da">Pacchetto di aggiornamento dell\'installazione non riuscito</string>
+    <string name="arg_res_0x7f1003db">Difficile da caricare…</string>
+    <string name="arg_res_0x7f1003dc">Il server è occupato, riprova più tardi</string>
+    <string name="arg_res_0x7f1003dd">La rete è anormale! Si prega di riprovare</string>
+    <string name="arg_res_0x7f1003de">Per favore controlla la tua rete!</string>
+    <string name="arg_res_0x7f1003df">- Attualmente aggiornato, nessun aggiornamento richiesto!</string>
+    <string name="arg_res_0x7f1003e0">esperienza ora</string>
+    <string name="arg_res_0x7f1003e1">scaricare di nuovo</string>
+    <string name="arg_res_0x7f1003e2">La scheda SD non è disponibile, inserire la scheda SD!</string>
+    <string name="arg_res_0x7f1003e3">%</string>
+    <string name="arg_res_0x7f1003e4">0</string>
+    <string name="arg_res_0x7f1003e5">aggiornare</string>
+    <string name="arg_res_0x7f1003e6">Istruzioni di aggiornamento:</string>
+    <string name="arg_res_0x7f1003e7">edizione</string>
+</resources>

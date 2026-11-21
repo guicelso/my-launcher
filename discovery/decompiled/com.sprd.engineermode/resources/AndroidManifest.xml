@@ -1,0 +1,1053 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:sharedUserId="android.uid.system"
+    android:versionCode="2"
+    android:versionName="2.0"
+    android:compileSdkVersion="29"
+    android:compileSdkVersionCodename="10"
+    package="com.sprd.engineermode"
+    platformBuildVersionCode="29"
+    platformBuildVersionName="10">
+    <uses-sdk
+        android:minSdkVersion="29"
+        android:targetSdkVersion="29"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.MASTER_CLEAR"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.REBOOT"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_BROADCAST_RADIO"/>
+    <application
+        android:label="@string/app_name"
+        android:name="com.sprd.engineermode.EMApplication"
+        android:allowBackup="false"
+        android:extractNativeLibs="true"
+        android:resizeableActivity="false"
+        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+        android:usesNonSdkApi="true">
+        <uses-library
+            android:name="com.broadcom.bt"
+            android:required="false"/>
+        <activity
+            android:theme="@style/AppCompat"
+            android:label="@string/app_name"
+            android:name="com.sprd.engineermode.EngineerModeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/app_name"
+            android:name="com.sprd.engineermode.EngineerModeActivity_2">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/app_name"
+            android:name="com.sprd.engineermode.gcf.GcfActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/app_name"
+            android:name="com.sprd.engineermode.gcf.IotActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/app_name"
+            android:name="com.sprd.engineermode.gcf.OperatorActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/app_name"
+            android:name="com.sprd.engineermode.gcf.AutoTestBySIMActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/app_name"
+            android:name="com.sprd.engineermode.gcf.ManualDeltaNVActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/verinfo"
+            android:name="com.sprd.engineermode.debuglog.VersionInfoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/usage_top5_process"
+            android:name="com.sprd.engineermode.debuglog.UsageTop5ProcessActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/cpu_usage"
+            android:name="com.sprd.engineermode.debuglog.CpuUsageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/cftresult"
+            android:name="com.sprd.engineermode.debuglog.CFTResultActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.SAMPLECODE"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/ai_ip"
+            android:name="com.sprd.engineermode.debuglog.AIIPSettingActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/mipi_log"
+            android:name="com.sprd.engineermode.debuglog.MIPILogSettingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/verinfo"
+            android:name="com.sprd.engineermode.cgversioninfo">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/verinfo"
+            android:name="com.sprd.engineermode.yulongversioninfo">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Wifi Certification"
+            android:name="com.sprd.engineermode.connectivity.wifi.WifiTestActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/phone_information"
+            android:name="com.sprd.engineermode.debuglog.PhoneInfoActivity"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="engineermode.intent.action.PHONE_INFO_SHOW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Bluetooth"
+            android:name="com.sprd.engineermode.debuglog.BluetoothActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/gprsservice"
+            android:name="com.sprd.engineermode.debuglog.GPRSAttachServiceActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/bih_enabled"
+            android:name="com.sprd.engineermode.debuglog.BinEnableSimSeleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/frequency_set"
+            android:name="com.sprd.engineermode.debuglog.TWFrequencyActivity">
+            <intent-filter>
+                <action android:name="com.sprd.engineermode.action.TWFREQUENCY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/bandselect"
+            android:name="com.sprd.engineermode.debuglog.BandModeSetActivity">
+            <intent-filter>
+                <action android:name="com.sprd.engineermode.action.BANDMODESET"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/iot_pdp"
+            android:name="com.sprd.engineermode.debuglog.IotAndPdnActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/at_cgd"
+            android:name="com.sprd.engineermode.debuglog.DdedicateCgdPdpActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/at_cge"
+            android:name="com.sprd.engineermode.debuglog.DdedicateCgePdpActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/at_cgt"
+            android:name="com.sprd.engineermode.debuglog.DdedicateCgtPdpActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/at_cga"
+            android:name="com.sprd.engineermode.debuglog.DdedicateCgaPdpActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Net Info"
+            android:name="com.sprd.engineermode.telephony.NetInfoSimSelectActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.SIMSELECT_NETINFO"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:name="com.sprd.engineermode.telephony.NetInfoSimNetworkTypeActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.NETINFOSIMNETWORKTYPE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:name="com.sprd.engineermode.telephony.netinfo.TdscdmaShowActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.TDSCDMASHOW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:name="com.sprd.engineermode.telephony.netinfo.WcdmaShowActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.WCDMASHOW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:name="com.sprd.engineermode.telephony.netinfo.GsmShowActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.GSMSHOW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:name="com.sprd.engineermode.telephony.netinfo.LteShowActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.LTESHOW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/communitysupport_iot"
+            android:name="com.sprd.engineermode.debuglog.CommunityCapActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/ping_packages"
+            android:name="com.sprd.engineermode.debuglog.PingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/adb_shell"
+            android:name="com.sprd.engineermode.debuglog.AdbShellCMDActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/network_mode"
+            android:name="com.sprd.engineermode.debuglog.NetModeSelectActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.NetModeSelection"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/network_mode"
+            android:name="com.sprd.engineermode.debuglog.NetModeSelectActivity1">
+            <intent-filter>
+                <action android:name="android.engineermode.action.NetModeSelection1"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <receiver android:name="com.sprd.engineermode.debuglog.EMMTBFReceiver">
+            <intent-filter>
+                <action android:name="com.sprd.engineermode.action.MTBF"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="APN Setting"
+            android:name="com.sprd.engineermode.debuglog.SIMSelectForAPNActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.SIMSELECT_APN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Sim Select"
+            android:name="com.sprd.engineermode.telephony.SimSelectHelperActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="GPRS"
+            android:name="com.sprd.engineermode.telephony.GPRSSetActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.GPRSSET"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="GPRS"
+            android:name="com.sprd.engineermode.telephony.SIMSelectActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.SIMSELECT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="NetInfoStatistics"
+            android:name="com.sprd.engineermode.telephony.netinfostatistics.SIMSelectForNetStatiActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.SIMSELECT_NETSTATI"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/AppCompat"
+            android:label="NetInfoDetails"
+            android:name="com.sprd.engineermode.telephony.netinfostatistics.NetinfoStatisticsActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.NETINFOSTATI"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="PS Related"
+            android:name="com.sprd.engineermode.telephony.PSRelatedPrefActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Net Info"
+            android:name="com.sprd.engineermode.telephony.NetInfoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/cat3andCat4"
+            android:name="com.sprd.engineermode.telephony.CategaryActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="CSFB2GSM_DELAY"
+            android:name="com.sprd.engineermode.telephony.Csfb2GsmDelayActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/hspa_setting"
+            android:name="com.sprd.engineermode.telephony.HspaSettingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Lock CDMA 2000 Freq"
+            android:name="com.sprd.engineermode.telephony.LockC2KFreqActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.LOCKC2KFREQUENCY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Lock Freq"
+            android:name="com.sprd.engineermode.telephony.LockFreqActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.LOCKFREQUENCY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Lock Freq"
+            android:name="com.sprd.engineermode.telephony.GLockFrequencyActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.GSMFREQUENCY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Unlock Freq"
+            android:name="com.sprd.engineermode.telephony.UnlockFreqActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Lock Cell"
+            android:name="com.sprd.engineermode.telephony.LockCellActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Unlock Cell"
+            android:name="com.sprd.engineermode.telephony.UnlockCellActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="AOC Settings"
+            android:name="com.sprd.engineermode.telephony.AOCSettingsPrefActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Text Info"
+            android:name="com.sprd.engineermode.telephony.TextInfoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="App Settings"
+            android:name="com.sprd.engineermode.telephony.AppSettingsPrefActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="LTE"
+            android:name="com.sprd.engineermode.telephony.LTEActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.LTEActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="NetModeSetSIMActivity"
+            android:name="com.sprd.engineermode.telephony.NetModeSIMActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.NetModeSIMActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Fast Dormancy"
+            android:name="com.sprd.engineermode.telephony.FDActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.FDActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Diversity"
+            android:name="com.sprd.engineermode.telephony.DiversityPrefActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="RF Max Send Power"
+            android:name="com.sprd.engineermode.hardware.SendPowerPrefActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Vamos"
+            android:name="com.sprd.engineermode.telephony.VamosActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Dialog"
+            android:name="com.sprd.engineermode.DeviceInfoActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden|mnc|mcc">
+            <intent-filter>
+                <action android:name="com.sprd.engineermode.action.DEVICE_INFO"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="NVItemList"
+            android:name="com.sprd.engineermode.telephony.NVItemListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Power Dissipation Setting"
+            android:name="com.sprd.engineermode.debuglog.PDSActivityForZero"/>
+        <activity
+            android:theme="@android:style/Theme.Dialog"
+            android:label="CPU Freq Setting"
+            android:name="com.sprd.engineermode.debuglog.CpuFreqListActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="GSM IQ"
+            android:name="com.sprd.engineermode.debuglog.GSMIQActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/android_utils"
+            android:name="com.sprd.engineermode.debuglog.AndroidUtilsActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="System Settings"
+            android:name="com.sprd.engineermode.debuglog.SystemSettingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="De Sense PLL"
+            android:name="com.sprd.engineermode.hardware.DeSensePLLActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="BT"
+            android:name="com.sprd.engineermode.connectivity.BT.BTActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="BT Non-signaling TEST"
+            android:name="com.sprd.engineermode.connectivity.BT.BTNOSIGNALActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Non Signaling TX"
+            android:name="com.sprd.engineermode.connectivity.BT.BTTXActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Non-signaling RX"
+            android:name="com.sprd.engineermode.connectivity.BT.BTRXActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Non Signaling BLE TX"
+            android:name="com.sprd.engineermode.connectivity.BT.BTBLETXActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Non Signaling BLE RX"
+            android:name="com.sprd.engineermode.connectivity.BT.BTBLERXActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/fm_preference_title"
+            android:name="com.sprd.engineermode.connectivity.fm.FMActivity"
+            android:configChanges="fontScale|layoutDirection|locale"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/fm_preference_title"
+            android:name="com.sprd.engineermode.connectivity.fm.FMRdsBlerActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/fm_noise_scan"
+            android:name="com.sprd.engineermode.connectivity.fm.FMNoiseScanActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/fm_reg_mode"
+            android:name="com.sprd.engineermode.connectivity.fm.FMRegModeActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/fm_tune_mode"
+            android:name="com.sprd.engineermode.connectivity.fm.FmTuneActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/fm_audio_mode"
+            android:name="com.sprd.engineermode.connectivity.fm.FMAudioActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="TX MOD CW"
+            android:name="com.sprd.engineermode.connectivity.BT.TxModeCwActivity"/>
+        <receiver android:name="com.sprd.engineermode.LteBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.engineermode.action.ACTION_LTE_READY"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.sprd.engineermode.EMStartReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="android.provider.Telephony.SECRET_CODE"/>
+                <data
+                    android:scheme="android_secret_code"
+                    android:host="83781"/>
+                <data
+                    android:scheme="android_secret_code"
+                    android:host="83782"/>
+                <data
+                    android:scheme="android_secret_code"
+                    android:host="33284"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SECRET_CODE"/>
+                <data
+                    android:scheme="android_secret_code"
+                    android:host="759"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SECRET_CODE"/>
+                <data
+                    android:scheme="android_secret_code"
+                    android:host="837868"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SECRET_CODE"/>
+                <data
+                    android:scheme="android_secret_code"
+                    android:host="837866"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SECRET_CODE"/>
+                <data
+                    android:scheme="android_secret_code"
+                    android:host="0000"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SECRET_CODE"/>
+                <data
+                    android:scheme="android_secret_code"
+                    android:host="1688"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Wifi"
+            android:name="com.sprd.engineermode.connectivity.wifi.WifiEUTActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Wifi TX"
+            android:name="com.sprd.engineermode.connectivity.wifi.WifiTXActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Wifi RX"
+            android:name="com.sprd.engineermode.connectivity.wifi.WifiRXActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="Wifi REG_WR"
+            android:name="com.sprd.engineermode.connectivity.wifi.WifiREGWRActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:name="com.sprd.engineermode.debuglog.SwitchBaseActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/power_on_info"
+            android:name="com.sprd.engineermode.debuglog.PowerOnInfoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/power_off_info"
+            android:name="com.sprd.engineermode.debuglog.PowerOffInfoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/modem_assert_info"
+            android:name="com.sprd.engineermode.debuglog.ModemAssertInfoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/battery_life_info"
+            android:name="com.sprd.engineermode.debuglog.BatteryLifeInfoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/sprd_power_log"
+            android:name="com.sprd.engineermode.debuglog.PowerLogActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Holo.Light"
+            android:label="@string/precheck"
+            android:name="com.sprd.engineermode.debuglog.PreCheckApkActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden|mnc|mcc">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Holo.Light"
+            android:name="com.sprd.engineermode.debuglog.ViewItemVersionActivity">
+            <intent-filter>
+                <action android:name="com.engineermode.debuglog.itemversion"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/operator_settings"
+            android:name="com.sprd.engineermode.telephony.volte.OperatorSettingsSIM">
+            <intent-filter>
+                <action android:name="com.sprd.engineermode.action.OPERATORSETTINGSSIM"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/ue_settings"
+            android:name="com.sprd.engineermode.telephony.volte.UESettingsActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/temporary_settings"
+            android:name="com.sprd.engineermode.telephony.volte.TemporarySettingsActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/development_settings"
+            android:name="com.sprd.engineermode.telephony.volte.DevelopMentSettingsActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/plmn_white_list"
+            android:name="com.sprd.engineermode.telephony.volte.PlmnSettingsActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/release_white_list"
+            android:name="com.sprd.engineermode.telephony.volte.WhiteListActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/volte_setting"
+            android:name="com.sprd.engineermode.telephony.volte.VolteSettingsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/volte_setting"
+            android:name="com.sprd.engineermode.telephony.volte.IPSecSettingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/antenna_set"
+            android:name="com.sprd.engineermode.hardware.AntennaSettingsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/coulometer_power"
+            android:name="com.sprd.engineermode.hardware.CoulometerPowerTestActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/coulometer_power"
+            android:name="com.sprd.engineermode.hardware.CoulometerPowerResultActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <receiver android:name="com.sprd.engineermode.hardware.CoulometerPowerReceiver"/>
+        <service android:name="com.sprd.engineermode.hardware.CoulometerPowerService">
+            <intent-filter>
+                <action android:name="android.engineermode.action.COULOMETER_SERVICE"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/camera_fps"
+            android:name="com.sprd.engineermode.hardware.CameraFPSActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/pdp_test"
+            android:name="com.sprd.engineermode.telephony.IotAndPdpActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Holo.Light.Dialog"
+            android:label="Info"
+            android:name="com.sprd.engineermode.debuglog.SensorsIDActivity"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="com.sprd.engineermode.dialog"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/sms_center_number"
+            android:name="com.sprd.engineermode.debuglog.SmsCenterNumberActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/launcherdebug"
+            android:name="com.sprd.engineermode.debuglog.LauncherDebugSettingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/thermalsetting"
+            android:name="com.sprd.engineermode.debuglog.ThermalSettingActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/gro_throughput"
+            android:name="com.sprd.engineermode.debuglog.GROActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/frequency_point"
+            android:name="com.sprd.engineermode.debuglog.FrequencyPointActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.FrequencyPointActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="ue_nw cap"
+            android:name="com.sprd.engineermode.telephony.UeNwCapActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.UE_NW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/ue_cap"
+            android:name="com.sprd.engineermode.telephony.UeCapActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.UECAP"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/ue_cap_lte"
+            android:name="com.sprd.engineermode.telephony.UeCapLteActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/ue_cap_wcdma"
+            android:name="com.sprd.engineermode.telephony.UeCapWcdmaActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/ue_cap_cdma_2000"
+            android:name="com.sprd.engineermode.telephony.UeCapC2kActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:name="com.sprd.engineermode.telephony.netinfo.CdmaDoShowActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.CDMADOSHOW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:name="com.sprd.engineermode.telephony.netinfo.Cdma1XShowActivity">
+            <intent-filter>
+                <action android:name="android.engineermode.action.CDMA1XSHOW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/ue_cap_gsm"
+            android:name="com.sprd.engineermode.telephony.UeCapGsmActivity"/>
+        <activity
+            android:theme="@style/EngAppActivityTheme"
+            android:label="@string/ue_cap_volte"
+            android:name="com.sprd.engineermode.telephony.UeCapVolteActivity"/>
+        <receiver android:name="com.sprd.engineermode.debuglog.ModemAssertInfoActivity.ModemAssertReceiver">
+            <intent-filter>
+                <action android:name="com.android.modemassert.MODEM_STAT_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.sprd.engineermode.telephony.NotificationBroadcastReceiver">
+            <intent-filter>
+                <action android:name="notification_cancelled"/>
+                <action android:name="notification_clicked"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:theme="@android:style/Theme.Material.Light.NoActionBar"
+            android:label="@string/imei"
+            android:name="com.sprd.engineermode.debuglog.ImeiActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

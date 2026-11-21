@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arg_res_0x7f030002">
+        <item>ကီလိုမီတာ/နာရီ</item>
+        <item>တစ်နာရီမိုင်</item>
+    </array>
+    <array name="arg_res_0x7f030008">
+        <item>တနင်္ဂနွေ</item>
+        <item>တနင်္လာနေ့</item>
+        <item>အင်္ဂါ</item>
+        <item>ဗုဒ္ဓဟူးနေ့</item>
+        <item>ကြာသပတေးနေ့</item>
+        <item>သောကြာ</item>
+        <item>စနေနေ့</item>
+    </array>
+</resources>

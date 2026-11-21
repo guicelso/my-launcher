@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reverse_view_mode1">Standart Modus</string>
+    <string name="reverse_view_mode2">Vollbildmodus</string>
+    <string name="reverse_view_mode3">16:9-Modus</string>
+</resources>

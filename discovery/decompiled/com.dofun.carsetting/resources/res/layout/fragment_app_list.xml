@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_top_content"/>
+    <LinearLayout
+        android:id="@+id/ll_phone_connect_tip"
+        android:background="@null"
+        style="@style/fragment_linearlayout_style">
+        <TextView
+            android:textSize="@dimen/title_text_size"
+            android:textColor="@color/text_color_title"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/phone_connect"
+            android:maxLines="1"/>
+        <TextView
+            android:textSize="@dimen/title_summary_text_size"
+            android:textColor="@color/gray"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/phone_connect_setting_summary"
+            android:maxLines="1"/>
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_app_list"
+        style="@style/fragment_linearlayout_style"/>
+</LinearLayout>

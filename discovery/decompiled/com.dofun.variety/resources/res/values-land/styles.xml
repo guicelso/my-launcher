@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="arg_res_0x7f110384" parent="@style/arg_res_0x7f1100f6">
+        <item name="arg_res_0x7f0405a8">center</item>
+        <item name="arg_res_0x7f0405b8">fixed</item>
+    </style>
+    <style name="arg_res_0x7f11046c" parent="@style/arg_res_0x7f110376">
+        <item name="android:textAppearance">?attr/arg_res_0x7f0405dc</item>
+        <item name="android:textColor">?attr/arg_res_0x7f040221</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:layout_gravity">0x800033</item>
+        <item name="android:layout_width">-1</item>
+        <item name="android:layout_height">-2</item>
+        <item name="android:maxLines">@integer/arg_res_0x7f0a0037</item>
+    </style>
+    <style name="arg_res_0x7f11046f" parent="@style/arg_res_0x7f11010e">
+        <item name="android:layout_gravity">0x800053</item>
+    </style>
+</resources>

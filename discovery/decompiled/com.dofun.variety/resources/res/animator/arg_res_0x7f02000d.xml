@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:state_enabled="true"
+        android:state_hovered="true">
+        <objectAnimator
+            android:interpolator="?attr/arg_res_0x7f04048e"
+            android:duration="?attr/arg_res_0x7f040484"
+            android:valueTo="@dimen/arg_res_0x7f0700f1"
+            android:valueType="floatType"
+            android:propertyName="translationZ"/>
+    </item>
+    <item
+        android:state_enabled="true"
+        app:state_dragged="true">
+        <objectAnimator
+            android:interpolator="?attr/arg_res_0x7f04048e"
+            android:duration="?attr/arg_res_0x7f040484"
+            android:valueTo="@dimen/arg_res_0x7f0700eb"
+            android:valueType="floatType"
+            android:propertyName="translationZ"/>
+    </item>
+    <item android:state_enabled="true">
+        <objectAnimator
+            android:interpolator="?attr/arg_res_0x7f04048e"
+            android:duration="?attr/arg_res_0x7f04047e"
+            android:valueTo="0dp"
+            android:valueType="floatType"
+            android:propertyName="translationZ"/>
+    </item>
+    <item>
+        <objectAnimator
+            android:duration="0"
+            android:valueTo="0dp"
+            android:valueType="floatType"
+            android:propertyName="translationZ"/>
+    </item>
+</selector>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/pop_root"
+    android:background="@android:color/transparent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+        android:textSize="16px"
+        android:textColor="@android:color/black"
+        android:gravity="center"
+        android:id="@+id/tv_set_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="140px"
+        android:minHeight="42px"
+        android:text="@string/multifunction_set_app"
+        app:bl_corners_radius="12px"
+        app:bl_solid_color="#e6ffffff"
+        app:bl_stroke_color="#48b8b8b8"
+        app:bl_stroke_width="2px"/>
+    <cn.cardoor.variety.base.ui.adapt.AutoTextView
+        android:textSize="16px"
+        android:textColor="@android:color/black"
+        android:gravity="center"
+        android:id="@+id/tv_change_entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="140px"
+        android:minHeight="42px"
+        android:text="@string/multifunction_change_entry"
+        app:bl_corners_radius="12px"
+        app:bl_solid_color="#e6ffffff"
+        app:bl_stroke_color="#48b8b8b8"
+        app:bl_stroke_width="2px"/>
+</LinearLayout>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:sharedUserId="android.uid.system"
+    android:versionCode="30"
+    android:versionName="251230"
+    android:compileSdkVersion="30"
+    android:compileSdkVersionCodename="11"
+    package="com.tw.carinfoservice"
+    platformBuildVersionCode="30"
+    platformBuildVersionName="11">
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="30"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-feature android:name="android.hardware.camera"/>
+    <permission
+        android:name="com.tw.carinfoservice.permission.USE_AIDL"
+        android:protectionLevel="normal"/>
+    <application
+        android:theme="@android:style/Theme.Translucent.NoTitleBar"
+        android:label="@string/app_name"
+        android:icon="@drawable/ic_app_launcher"
+        android:name="com.tw.carinfoservice.activity.MyApplication"
+        android:allowBackup="true"
+        android:supportsRtl="true"
+        android:appComponentFactory="android.support.v4.app.CoreComponentFactory">
+        <activity
+            android:theme="@style/TextAppearance.Compat.Notification.Title"
+            android:name="com.tw.carinfoservice.permission.MainActivity"
+            android:clearTaskOnLaunch="true"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <service
+            android:name="com.tw.carinfoservice.permission.PermissionService"
+            android:exported="true"/>
+        <activity
+            android:label="@string/app_name"
+            android:name="com.tw.carinfoservice.CarActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <receiver
+            android:name="com.tw.carinfoservice.CarReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.tw.carinfoservice.CarService"
+            android:persistent="true"
+            android:exported="true"
+            android:priority="1000"
+            android:stopWithTask="false"
+            android:foregroundServiceType="microphone|location">
+            <intent-filter>
+                <action android:name="com.tw.carinfoservice.CarService.Bind"/>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </service>
+        <activity
+            android:theme="@style/LrrTheme"
+            android:name="com.tw.carinfoservice.lrreverse.LRReverseActivity"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name="com.tw.twcamera.activiy.CameraActivity"/>
+    </application>
+</manifest>

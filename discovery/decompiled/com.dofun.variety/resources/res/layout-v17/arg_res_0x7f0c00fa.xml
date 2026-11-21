@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="@integer/arg_res_0x7f0a0036"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+    <include layout="@layout/arg_res_0x7f0c00fc"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/mtrl_calendar_main_pane"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/mtrl_calendar_frame"
+            android:paddingLeft="@dimen/arg_res_0x7f070269"
+            android:paddingRight="@dimen/arg_res_0x7f070269"
+            android:paddingBottom="@dimen/arg_res_0x7f070268"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingStart="@dimen/arg_res_0x7f070269"
+            android:paddingEnd="@dimen/arg_res_0x7f070269"/>
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/arg_res_0x7f070266"
+            layout="@layout/arg_res_0x7f0c00f9"/>
+    </LinearLayout>
+</LinearLayout>

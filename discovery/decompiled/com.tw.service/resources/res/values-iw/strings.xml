@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apk_noinstall">יישום זה אינו מותקן</string>
+    <string name="app_name">TW</string>
+    <string name="aux">AUX</string>
+    <string name="box">מערכת לא מורשית</string>
+    <string name="brightness">בהירות</string>
+    <string name="bt">טלפון</string>
+    <string name="calibration">קליברציה</string>
+    <string name="camera_title">מצלמת רכב</string>
+    <string name="car_saturation">רוויה</string>
+    <string name="cm">CM</string>
+    <string name="contrast">ניגודיות</string>
+    <string name="cvbs_mode_deinterlace">Deinterlace</string>
+    <string name="cvbs_mode_interlace">Interlace</string>
+    <string name="cvbs_mode_title">מצב CVBS</string>
+    <string name="disc">דיסק</string>
+    <string name="ipod">איפוד</string>
+    <string name="language_ui">שפה זו אינה נתמכת</string>
+    <string name="memory">זיכרון</string>
+    <string name="music">מוזיקה</string>
+    <string name="navi">ניווט</string>
+    <string name="photo">תמונה</string>
+    <string name="radio">רדיו</string>
+    <string name="release">שחרור</string>
+    <string name="reverse_nissan_adjust_park_position">תיקון כיוון חנייה</string>
+    <string name="reverse_nissan_ensure_it_is_safe_before_manoeuvring">נא לשים לב לתנועה מסביבכם</string>
+    <string name="reverse_nissan_no_prompt_display">ללא אזהרה</string>
+    <string name="reverse_nissan_park_assist_cancelled">עוזר חנייה בוטל</string>
+    <string name="reverse_nissan_park_assist_not_available">עוזר חנייה לא זמין</string>
+    <string name="reverse_nissan_press_to_set_parking_position">יש ללחוץ על החיצים לבחור כיוון </string>
+    <string name="reverse_nissan_select_forward_gear">יש לעבור להילוך קדמי</string>
+    <string name="reverse_nissan_space_found_drive_forward">נמצא מקום, נא להתקדם</string>
+    <string name="reverse_nissan_stop_next_to_empty_parking_space">יש לעצור ליד חניה פנויה</string>
+    <string name="reverse_nissan_use_turn_signal_to_change_side">השתמשו בווינקרים לשינוי צד</string>
+    <string name="saturation">רוויה</string>
+    <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="stop">עצור</string>
+    <string name="traffic">תנועה</string>
+    <string name="tv">טלוויזיה</string>
+    <string name="ui">מערכת לא מורשית</string>
+    <string name="ui360">החומרה אינה תומכת בתצוגת 360°</string>
+    <string name="video">וידאו</string>
+    <string name="volume">ווליום</string>
+    <string name="warning_preInstal">המערכת בהגדרה, אל תכבה את החשמל!</string>
+    <string name="warning_reset">קובץ תצורת המערכת השתנה, וחלקם ייכנסו לתוקף לאחר הפעלה מחדש של המחשב!</string>
+</resources>

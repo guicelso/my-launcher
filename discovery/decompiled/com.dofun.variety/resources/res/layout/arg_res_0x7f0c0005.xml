@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/action_mode_close_button"
+    android:paddingLeft="12dp"
+    android:focusable="true"
+    android:clickable="true"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginRight="16dp"
+    android:contentDescription="?attr/arg_res_0x7f040017"
+    app:srcCompat="?attr/arg_res_0x7f040018"
+    style="?attr/arg_res_0x7f040016"/>

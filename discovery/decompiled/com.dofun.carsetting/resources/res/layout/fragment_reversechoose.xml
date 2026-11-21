@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" style="@style/fragment_root_style">
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingRight="@dimen/tw_dp_w32"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/layout_top_content"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/tw_dp_h21">
+            <TextView
+                android:textSize="@dimen/tw_dp_h28"
+                android:textColor="@color/text_color_normal"
+                android:id="@+id/tv_title"
+                android:paddingLeft="@dimen/tw_dp_w8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/reverse_ahd1"
+                android:maxLines="1"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/ll_list"
+                android:background="@drawable/category_bg"
+                android:padding="@dimen/tw_dp_w16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tw_dp_h16">
+                <com.dofun.carsetting.widget.InfoPreference
+                    android:id="@+id/reverse_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:key="reverse_type_360"
+                    app:title="360"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
