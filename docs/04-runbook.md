@@ -110,6 +110,12 @@ O script concede:
 ### 3.5 Voltar ao launcher original
 `tools/rollback.sh`. Pela própria multimídia, também dá para usar Ajustes do Lumia → Sistema → **Voltar ao launcher original**.
 
+### 3.5.1 Chave do carro (ACC) e a espera da TopWay
+Ao tirar a chave, a multimídia **não reinicia**: entra em espera. Antes de dormir, o `TWService` fecha (`forceStopPackage`) todo app que não esteja na lista fixa dele nem em `/sdcard/.Tcfg/sleepKillPackage.cfg`. O Lumia mantém esse arquivo sozinho (spec 016): ele próprio e o app de música padrão.
+- Ver o que a TopWay fechou: `adb shell setprop persist.tw.service.debug 1` e depois `logcat | grep killPackages`.
+- **"Inicialização da aplicação"** (Configurações do carro) = `/data/tw/app_autostart_name`. Se tiver um app, ele abre por cima do painel 5 s depois de ligar a chave. Deixe vazio: quem retoma a música é o Lumia.
+- Os buffers de log da multimídia vêm com 256 KB. Para investigar um ciclo da chave, aumente antes: `adb logcat -G 16M` (vale até o próximo reboot).
+
 ### 3.6 Prints e logs
 - `adb -s $HU_IP:5555 exec-out screencap -p > print.png`. **O print sai girado 90°**, porque a imagem é capturada antes da rotação do firmware. Para ver certo:
   ```sh

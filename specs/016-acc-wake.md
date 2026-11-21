@@ -1,6 +1,6 @@
 # 016 — Desligar e ligar a chave (ACC): voltar ao painel e retomar a música
 
-**Status:** Em andamento · **Depende de:** 004, 006, 010
+**Status:** Implementada · validação parcial no carro · **Depende de:** 004, 006, 010
 
 ## Contexto (medido no carro em 2026-11-21)
 Ao tirar a chave, a multimídia não desliga: entra em espera (`TWService`: `+STANDBY2`/`+SLEEP`). Antes de dormir, a rotina `killPackages` da TopWay faz `forceStopPackage` em todos os apps instalados, exceto:
@@ -28,5 +28,13 @@ O Lumia não está em nenhuma das duas listas. Por isso ele era fechado; ao reli
 - [ ] **A3** (R16.4, R16.5) Depois de um reboot, o card mostra a última faixa; tocar em ▶ retoma sem abrir o app (ou abre o app em último caso).
 - [ ] **A4** Com a música pausada antes de desligar, ela continua pausada ao ligar.
 
+## Configuração da TopWay que interfere
+- **"Inicialização da aplicação"** (Configurações do carro da TopWay) grava `/data/tw/app_autostart_name` (pacote, activity, nome). Ao ligar a chave, o `TWService` abre esse app **em primeiro plano** 5 s depois do ACC_ON (mensagem 65290). Com o YouTube Music nele, a tela do app aparecia por cima do painel mesmo com a música já retomada em segundo plano pelo launcher.
+- Como o launcher passou a retomar a música (R16.6), essa opção deve ficar em **nenhum app** (arquivo vazio). Na multimídia do carro ela foi esvaziada por adb em 2026-11-21; o conteúdo anterior está em `~/lumia-backup/app_autostart_name.bak`.
+
 ## Resultados
-_(preencher após a validação)_
+- **2026-11-21, multimídia (1º ciclo da chave):**
+  - [x] **A1**: voltou direto ao painel. O log da TopWay mostra `mDiskillPackageList.contains(...)` poupando o YouTube Music, e o Lumia não aparece mais entre os apps fechados.
+  - [x] **A2**: "ACC desligado; música tocando: true" → "ACC ligado; voltando ao painel e retomando a música" → "Retomando com.google.android.apps.youtube.music pela sessão ativa". A música voltou sozinha.
+  - Pendência resolvida na fonte: a tela do YouTube Music vinha da "Inicialização da aplicação" da TopWay (ver acima), não do launcher. Opção esvaziada; revalidar no próximo ciclo.
+  - [ ] **A3** e **A4**: a validar.
