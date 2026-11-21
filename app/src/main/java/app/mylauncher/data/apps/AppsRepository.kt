@@ -9,7 +9,6 @@ import android.os.UserHandle
 import android.util.LruCache
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.core.graphics.drawable.toBitmap
 import app.mylauncher.core.FileLog
 import app.mylauncher.data.prefs.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
@@ -88,7 +87,7 @@ class AppsRepository(
         pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0)).toString()
     }.getOrDefault(pkg)
 
-    /** Ícone do app em [sizePx], com cache. Chamar fora da thread principal quando possível. */
+    /** Ícone redondo do app em [sizePx], com cache. Chamar fora da thread principal quando possível. */
     fun icon(pkg: String, sizePx: Int = 112): ImageBitmap? {
         val entry = find(pkg)
         val key = "${entry?.key ?: "$pkg/"}@$sizePx"
@@ -97,12 +96,12 @@ class AppsRepository(
             if (entry != null) {
                 launcherApps.getActivityList(pkg, entry.user)
                     .firstOrNull { it.componentName == entry.component }
-                    ?.getBadgedIcon(0)
+                    ?.getIcon(0)
             } else {
                 context.packageManager.getApplicationIcon(pkg)
             }
         }.getOrNull() ?: return null
-        val bmp = drawable.toBitmap(sizePx, sizePx).asImageBitmap()
+        val bmp = IconRenderer.circular(drawable, sizePx).asImageBitmap()
         iconCache.put(key, bmp)
         return bmp
     }
