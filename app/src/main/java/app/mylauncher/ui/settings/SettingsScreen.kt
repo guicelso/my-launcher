@@ -1,0 +1,302 @@
+package app.mylauncher.ui.settings
+
+import android.content.Intent
+import android.provider.Settings
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import app.mylauncher.AppContainer
+import app.mylauncher.BuildConfig
+import app.mylauncher.core.CrashGuard
+import app.mylauncher.core.FileLog
+import app.mylauncher.core.LogExporter
+import app.mylauncher.data.media.MediaListenerService
+import app.mylauncher.data.prefs.Destination
+import app.mylauncher.data.prefs.LauncherSettings
+import app.mylauncher.data.prefs.TextScale
+import app.mylauncher.data.prefs.ThemePref
+import app.mylauncher.data.vehicle.Signal
+import app.mylauncher.data.vehicle.topway.LinkStatus
+import app.mylauncher.data.vehicle.topway.TwUtilProbe
+import app.mylauncher.nav.NavIntents
+import app.mylauncher.ui.components.AppIcon
+import app.mylauncher.ui.components.PillShape
+import app.mylauncher.ui.components.ScreenPanel
+import app.mylauncher.ui.components.TouchIconButton
+import app.mylauncher.ui.icons.LauncherIcons
+import app.mylauncher.ui.media.MediaSources
+import app.mylauncher.ui.media.PillButton
+import app.mylauncher.ui.theme.LocalLauncherColors
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
+private enum class Section(val label: String) {
+    APPEARANCE("Aparência"),
+    RAIL("Barra lateral"),
+    NAVIGATION("Navegação"),
+    MEDIA("Mídia"),
+    VEHICLE("Veículo"),
+    SYSTEM("Sistema"),
+}
+
+/** Ajustes do launcher (spec 007). Artboard "Ajustes do launcher". */
+@Composable
+fun SettingsScreen(container: AppContainer, onBack: () -> Unit, onOpenDrawer: () -> Unit, modifier: Modifier = Modifier) {
+    val c = LocalLauncherColors.current
+    var section by rememberSaveable { mutableStateOf(Section.APPEARANCE) }
+    val settings by container.settings.settings.collectAsStateWithLifecycle()
+
+    ScreenPanel(modifier) {
+        Row(Modifier.fillMaxSize()) {
+            Column(
+                Modifier.width(340.dp).fillMaxHeight().padding(horizontal = 12.dp, vertical = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 12.dp)) {
+                    TouchIconButton(LauncherIcons.Back, "Voltar", onBack, iconSize = 32.dp)
+                    Text("Ajustes", style = MaterialTheme.typography.headlineMedium, color = c.onSurface)
+                }
+                Section.entries.forEach { s ->
+                    val on = s == section
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(76.dp)
+                            .clip(PillShape)
+                            .background(if (on) c.selectedBg else androidx.compose.ui.graphics.Color.Transparent)
+                            .clickable(role = Role.Tab) { section = s }
+                            .padding(horizontal = 28.dp),
+                        contentAlignment = Alignment.CenterStart,
+                    ) {
+                        Text(s.label, style = MaterialTheme.typography.titleMedium, color = if (on) c.onSelected else c.onSurface)
+                    }
+                }
+            }
+            Box(Modifier.width(1.dp).fillMaxHeight().background(c.outline))
+            Column(
+                Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 36.dp, vertical = 28.dp),
+                verticalArrangement = Arrangement.spacedBy(32.dp),
+            ) {
+                when (section) {
+                    Section.APPEARANCE -> Appearance(container, settings)
+                    Section.RAIL -> RailSection(container, settings, onOpenDrawer)
+                    Section.NAVIGATION -> Navigation(container, settings)
+                    Section.MEDIA -> Media(container, settings)
+                    Section.VEHICLE -> Vehicle(container, settings)
+                    Section.SYSTEM -> SystemSection(container)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun Appearance(container: AppContainer, s: LauncherSettings) {
+    SettingsGroup("Tema", "No automático, o tema segue os faróis do carro (sinal da MCU); sem sinal, o horário.") {
+        ChoicePills(
+            listOf(ThemePref.AUTO to "Automático", ThemePref.DAY to "Dia", ThemePref.NIGHT to "Noite"),
+            s.theme, container.settings::setTheme,
+        )
+    }
+    SettingsGroup("Tamanho do texto") {
+        ChoicePills(listOf(TextScale.NORMAL to "Normal", TextScale.LARGE to "Grande"), s.textScale, container.settings::setTextScale)
+    }
+}
+
+@Composable
+private fun RailSection(container: AppContainer, s: LauncherSettings, onOpenDrawer: () -> Unit) {
+    val apps = container.apps
+    SettingsGroup(
+        "Apps fixados",
+        "Até ${LauncherSettings.MAX_RAIL_APPS} apps fixos na barra lateral; as vagas livres mostram os recentes.",
+    ) {
+        if (s.pinned.isEmpty()) SettingRow("Nenhum app fixado", "A barra mostra os apps usados recentemente")
+        s.pinned.forEach { pkg ->
+            SettingRow(apps.label(pkg)) {
+                TouchIconButton(LauncherIcons.Close, "Desafixar ${apps.label(pkg)}", { container.settings.setPinned(s.pinned - pkg) }, iconSize = 28.dp)
+            }
+        }
+        PillButton("Escolher na gaveta de apps", onClick = onOpenDrawer)
+    }
+}
+
+@Composable
+private fun Navigation(container: AppContainer, s: LauncherSettings) {
+    val apps = container.apps
+    val options = (NavIntents.KNOWN + s.navApp).distinct().filter(apps::isInstalled)
+    SettingsGroup("App de navegação padrão", "Usado pela busca do mapa, pelos destinos e pelo botão \"Abrir no…\".") {
+        if (options.isEmpty()) SettingRow("Nenhum app de navegação instalado", "Instale o Waze, o Google Maps ou o HERE")
+        options.forEach { pkg ->
+            RadioRow(apps.label(pkg), pkg == s.navApp, leading = { AppIcon(apps, pkg, 44.dp) }) { container.settings.setNavApp(pkg) }
+        }
+    }
+    DestinationEditor("Casa", s.home) { container.settings.setHome(it) }
+    DestinationEditor("Trabalho", s.work) { container.settings.setWork(it) }
+}
+
+@Composable
+private fun DestinationEditor(label: String, current: Destination?, onSave: (Destination?) -> Unit) {
+    var text by remember(current) { mutableStateOf(current?.query.orEmpty()) }
+    SettingsGroup(label, "Endereço ou coordenadas \"lat, lon\" (ex.: -23.5505, -46.6333).") {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            TextInput(text, { text = it }, "Endereço de $label", Modifier.weight(1f))
+            PillButton("Salvar") { onSave(text.trim().takeIf { it.isNotEmpty() }?.let { Destination(label, it) }) }
+            if (current != null) PillButton("Remover", primary = false) { text = ""; onSave(null) }
+        }
+    }
+}
+
+@Composable
+private fun Media(container: AppContainer, s: LauncherSettings) {
+    val apps = container.apps
+    val granted by MediaListenerService.connected.collectAsStateWithLifecycle()
+    val options = MediaSources.list(s.musicApp, null, apps::isInstalled)
+    SettingsGroup("App de música padrão", "Aberto pelo card de mídia quando nada está tocando.") {
+        if (options.isEmpty()) SettingRow("Nenhum app de música instalado")
+        options.forEach { pkg ->
+            RadioRow(apps.label(pkg), pkg == s.musicApp, leading = { AppIcon(apps, pkg, 44.dp) }) { container.settings.setMusicApp(pkg) }
+        }
+    }
+    SettingsGroup("Acesso às notificações", "Necessário para ver o que está tocando e as mensagens recebidas.") {
+        SettingRow(if (granted) "Concedido" else "Não concedido", if (granted) null else "Toque para abrir a tela do sistema") {
+            if (!granted) PillButton("Permitir") { container.systemActions.openNotificationAccess() }
+        }
+    }
+}
+
+@Composable
+private fun Vehicle(container: AppContainer, s: LauncherSettings) {
+    val c = LocalLauncherColors.current
+    val vehicle by container.vehicle.collectAsStateWithLifecycle()
+    val car by container.topWay.carLink.status.collectAsStateWithLifecycle()
+    val cmd by container.topWay.commandLink.status.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
+    var probe by remember { mutableStateOf<String?>(null) }
+    val fmt = remember { SimpleDateFormat("HH:mm:ss", Locale("pt", "BR")) }
+
+    SettingsGroup("Preferências") {
+        ToggleRow("Baixar o volume na marcha à ré", s.duckOnReverse, onChange = container.settings::setDuckOnReverse)
+        ToggleRow("Mostrar tensão da bateria", s.showBattery, "Abaixo do relógio, quando a MCU informa", container.settings::setShowBattery)
+        ToggleRow("Simular veículo", s.simulateVehicle, "Para testes sem o carro (toque longo no relógio)", container.settings::setSimulateVehicle)
+    }
+    SettingsGroup("Diagnóstico", "Valor atual de cada sinal, canal de origem e horário do último evento (R6.7).") {
+        LinkRow("CarService (C1)", car)
+        LinkRow("CommandService (C2)", cmd)
+        Signal.entries.forEach { sig ->
+            val info = vehicle.info[sig]
+            SettingRow(
+                sig.label,
+                info?.let { "${it.channel} · ${fmt.format(Date(it.at))}" } ?: "Indisponível",
+            ) {
+                Text(info?.value ?: "—", style = MaterialTheme.typography.titleMedium, color = if (info != null) c.onSurface else c.onSurfaceVariant)
+            }
+        }
+    }
+    SettingsGroup(
+        "Testes de pesquisa",
+        "Executados só ao tocar. S6.1 verifica se a biblioteca da MCU (TWUtil) abre para um app comum; " +
+            "S8.1 pede à MCU para rodar o comando somente leitura `id` como root (spec 008).",
+    ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            PillButton("Spike S6.1 · TWUtil", primary = false) {
+                scope.launch { probe = withContext(Dispatchers.IO) { TwUtilProbe.probeOpen() } }
+            }
+            PillButton("Spike S8.1 · root", primary = false) {
+                scope.launch { probe = withContext(Dispatchers.IO) { TwUtilProbe.probeRootShell(container.context) } }
+            }
+        }
+        probe?.let { SettingRow("Resultado", it) }
+    }
+}
+
+@Composable
+private fun LinkRow(name: String, status: LinkStatus) {
+    val c = LocalLauncherColors.current
+    SettingRow(name, status.detail.ifBlank { null }) {
+        Text(
+            status.state.label,
+            style = MaterialTheme.typography.labelLarge,
+            color = if (status.state == app.mylauncher.data.vehicle.topway.LinkState.CONNECTED) c.success else c.onSurfaceVariant,
+        )
+    }
+}
+
+@Composable
+private fun SystemSection(container: AppContainer) {
+    val c = LocalLauncherColors.current
+    val scope = rememberCoroutineScope()
+    var exportResult by remember { mutableStateOf<String?>(null) }
+    SettingsGroup("Sobre") {
+        SettingRow("Versão", "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})")
+    }
+    SettingsGroup("Logs", "Gera arquivos em Android/data/app.mylauncher/files/logs (use `adb pull`).") {
+        PillButton("Exportar logs", primary = false) {
+            scope.launch {
+                exportResult = withContext(Dispatchers.IO) { LogExporter.export(container.context) }
+                    .fold({ "Exportado para ${it.absolutePath}" }, { "Falhou: ${it.message}" })
+            }
+        }
+        exportResult?.let { SettingRow("Resultado", it) }
+    }
+    SettingsGroup("Recuperação", "Abre a escolha de tela inicial do sistema e o launcher original da multimídia.") {
+        Box(
+            Modifier
+                .height(64.dp)
+                .clip(PillShape)
+                .border(2.dp, c.danger, PillShape)
+                .clickable(role = Role.Button) { restoreStockLauncher(container) }
+                .padding(horizontal = 26.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text("Voltar ao launcher original", style = MaterialTheme.typography.labelLarge, color = c.danger)
+        }
+    }
+}
+
+/** R7.7: como app comum não podemos definir o HOME de outro app; abrimos a escolha do sistema. */
+private fun restoreStockLauncher(container: AppContainer) {
+    val ctx = container.context
+    val opened = runCatching {
+        ctx.startActivity(Intent(Settings.ACTION_HOME_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        true
+    }.getOrDefault(false)
+    if (!opened) {
+        FileLog.w("ACTION_HOME_SETTINGS indisponível; abrindo o launcher original direto")
+        CrashGuard.openFallback(ctx)
+    }
+}

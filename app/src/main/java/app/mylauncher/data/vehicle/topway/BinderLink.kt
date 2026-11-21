@@ -16,7 +16,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-enum class LinkState { DISCONNECTED, CONNECTING, CONNECTED, UNAVAILABLE }
+enum class LinkState(val label: String) {
+    DISCONNECTED("Desconectado"),
+    CONNECTING("Conectando"),
+    CONNECTED("Conectado"),
+    UNAVAILABLE("Indisponível"),
+}
 
 data class LinkStatus(val state: LinkState = LinkState.DISCONNECTED, val detail: String = "", val at: Long = 0)
 

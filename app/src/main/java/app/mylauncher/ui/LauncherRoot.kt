@@ -7,14 +7,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mylauncher.AppContainer
@@ -35,6 +32,7 @@ import app.mylauncher.ui.media.MediaScreen
 import app.mylauncher.ui.media.MediaSources
 import app.mylauncher.data.media.NotificationsSummary
 import app.mylauncher.ui.rail.Rail
+import app.mylauncher.ui.settings.SettingsScreen
 import app.mylauncher.ui.theme.LauncherTheme
 import app.mylauncher.ui.theme.LocalLauncherColors
 import app.mylauncher.ui.theme.ThemeResolver
@@ -121,11 +119,12 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                             onGrantAccess = { container.systemActions.openNotificationAccess() },
                             modifier = Modifier.fillMaxSize(),
                         )
-                        Screen.SETTINGS -> ScreenPanel(Modifier.fillMaxSize()) {
-                            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                                Text("Em construção", style = MaterialTheme.typography.titleLarge, color = c.onSurfaceVariant)
-                            }
-                        }
+                        Screen.SETTINGS -> SettingsScreen(
+                            container = container,
+                            onBack = { navigator.go(Screen.DASHBOARD) },
+                            onOpenDrawer = { navigator.go(Screen.APPS) },
+                            modifier = Modifier.fillMaxSize(),
+                        )
                     }
                 }
             }
