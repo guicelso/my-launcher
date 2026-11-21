@@ -26,8 +26,10 @@ data class LastSession(
     val savedAt: Long = 0,
 ) {
     /**
-     * "Estava tocando" ao desligar a chave (R16.6): tocando, ou pausada há no máximo
-     * [PAUSE_GRACE_MS] antes do ACC desligar (a TopWay pausa a mídia ao entrar em espera).
+     * "Estava tocando" ao desligar a chave (R16.6): tocando, ou pausada no máximo
+     * [PAUSE_GRACE_MS] antes do aviso de ACC desligado. A TopWay manda PAUSE à mídia ~130 ms
+     * DEPOIS do broadcast ACC_OFF (medido no carro); a folga só absorve atraso de entrega, e uma
+     * pausa do usuário segundos antes de tirar a chave continua valendo.
      */
     fun wasPlayingAt(accOffAt: Long): Boolean =
         playing || (pausedAt > 0 && accOffAt - pausedAt in 0..PAUSE_GRACE_MS)
@@ -47,7 +49,7 @@ data class LastSession(
     )
 
     companion object {
-        const val PAUSE_GRACE_MS = 15_000L
+        const val PAUSE_GRACE_MS = 2_000L
     }
 }
 

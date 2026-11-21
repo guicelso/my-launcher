@@ -19,7 +19,7 @@ O Lumia não está em nenhuma das duas listas. Por isso ele era fechado; ao reli
   2. conexão ao `MediaBrowserService` do app com o pedido de retomada (`EXTRA_RECENT`) → `play()`;
   3. tecla `MEDIA_PLAY` direcionada ao app;
   4. se nada disso criar uma sessão em 5 s, abrir o app.
-- **R16.6** Com **Retomar a música ao ligar o carro** ligado (padrão), QUANDO a chave for ligada, o launcher DEVE retomar a música se ela estava tocando ao desligar. A TopWay pausa a mídia ao entrar em espera; uma pausa até 15 s antes do ACC desligar conta como "estava tocando".
+- **R16.6** Com **Retomar a música ao ligar o carro** ligado (padrão), QUANDO a chave for ligada, o launcher DEVE retomar a música se ela estava tocando ao desligar. A TopWay pausa a mídia ~130 ms depois de avisar o ACC_OFF (medido); só uma pausa até 2 s antes do aviso conta como "estava tocando".
 - **R16.7** Os dois ajustes ficam em Ajustes → Mídia.
 
 ## Critérios de aceite
@@ -40,4 +40,5 @@ O Lumia não está em nenhuma das duas listas. Por isso ele era fechado; ao reli
 - **2026-11-21, multimídia (2º ciclo, com a "Inicialização da aplicação" vazia):**
   - [x] **A1/A2** de novo: painel direto e música retomada pela sessão ativa 3 s depois do ACC_ON.
   - [x] A TopWay leu o arquivo vazio (`packageName = null`) e não abriu a tela do app: a música continuou em segundo plano.
-  - [ ] **A3** e **A4**: a validar.
+  - [ ] **A4** falhou (3º ciclo): pausa do usuário 14 s antes do ACC_OFF caiu na folga de 15 s e a música voltou. Medido: a TopWay manda PAUSE 130 ms depois do ACC_OFF, então a folga caiu para 2 s.
+  - [ ] **A3**: a validar (reboot).

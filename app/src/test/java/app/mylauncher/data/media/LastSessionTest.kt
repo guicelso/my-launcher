@@ -11,8 +11,13 @@ class LastSessionTest {
         assertTrue(base.copy(playing = true).wasPlayingAt(accOffAt = 100_000))
     }
 
-    @Test fun `pausa feita pela TopWay logo antes do ACC conta como tocando`() {
-        assertTrue(base.copy(playing = false, pausedAt = 95_000).wasPlayingAt(accOffAt = 100_000))
+    @Test fun `pausa da TopWay chegando junto com o ACC conta como tocando`() {
+        assertTrue(base.copy(playing = false, pausedAt = 99_500).wasPlayingAt(accOffAt = 100_000))
+    }
+
+    @Test fun `pausa do usuario segundos antes de tirar a chave nao retoma`() {
+        // Caso medido no carro: pausa 14 s antes do ACC_OFF.
+        assertFalse(base.copy(playing = false, pausedAt = 86_000).wasPlayingAt(accOffAt = 100_000))
     }
 
     @Test fun `pausa antiga do usuario nao retoma`() {
