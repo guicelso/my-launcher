@@ -1,0 +1,11 @@
+# Dumps do aparelho (contêm IMEI/serial) e binários do fabricante
+discovery/
+# Android/Gradle
+.gradle/
+build/
+local.properties
+*.apk
+*.aab
+.idea/
+*.iml
+.DS_Store
