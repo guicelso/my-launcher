@@ -5,14 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
 /**
- * Telas do launcher (spec 010). DASHBOARD, SPLIT_MEDIA e MAP são modos da área de trabalho
- * (mapa sempre vivo); MEDIA, APPS e SETTINGS abrem por cima dela.
+ * Telas do launcher (spec 010). DASHBOARD, SPLIT_MEDIA, MEDIA e MAP são modos da área de
+ * trabalho (mapa sempre vivo, cards crescem/encolhem); APPS e SETTINGS abrem por cima dela.
  */
 enum class Screen(val overlay: Boolean) {
     DASHBOARD(false),
     SPLIT_MEDIA(false),
     MAP(false),
-    MEDIA(true),
+    MEDIA(false),
     APPS(true),
     SETTINGS(true),
 }
@@ -48,6 +48,10 @@ class Navigator {
 
     /** Voltar: fecha a tela sobreposta; senão, volta ao painel. */
     fun back() {
-        if (overlay != null) overlay = null else workspace = Screen.DASHBOARD
+        when {
+            overlay != null -> overlay = null
+            workspace == Screen.MEDIA -> workspace = Screen.SPLIT_MEDIA
+            else -> workspace = Screen.DASHBOARD
+        }
     }
 }

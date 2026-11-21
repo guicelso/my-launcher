@@ -1,7 +1,15 @@
 package app.mylauncher.ui.media
 
-import android.graphics.Bitmap
+import android.util.LruCache
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.lerp
+import androidx.compose.ui.unit.sp
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -68,24 +76,33 @@ import app.mylauncher.ui.components.TouchIconButton
 import app.mylauncher.ui.components.pressable
 import app.mylauncher.ui.icons.LauncherIcons
 import app.mylauncher.ui.theme.LocalLauncherColors
+import app.mylauncher.ui.workspace.sharedMotion
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+/** Cores já extraídas por faixa: evita recalcular (e piscar em cinza) quando o player é recomposto. */
+private object ArtTintCache {
+    private val cache = LruCache<String, Int>(32)
+    fun get(key: String): Int? = cache.get(key)
+    fun put(key: String, color: Int) { cache.put(key, color) }
+}
+
 /**
  * Cor de fundo do player tirada da capa (R10.10), suavizada sobre a superfície do tema
- * para manter o contraste do texto. Transição de 500 ms.
+ * para manter o contraste do texto. Transição de 500 ms entre faixas.
  */
 @Composable
-fun rememberArtTint(art: Bitmap?): Color {
+fun rememberArtTint(np: NowPlaying?): Color {
     val c = LocalLauncherColors.current
-    val swatch by produceState<Int?>(null, art, c.isNight) {
-        value = art?.let { bmp ->
-            withContext(Dispatchers.Default) {
-                val p = Palette.from(bmp).maximumColorCount(16).generate()
-                if (c.isNight) p.getDarkMutedColor(p.getDarkVibrantColor(p.getDominantColor(0)))
-                else p.getLightMutedColor(p.getLightVibrantColor(p.getDominantColor(0)))
-            }
-        }
+    val key = np?.let { "${it.sourcePackage}|${it.title}|${it.artist}|${c.isNight}" }
+    val swatch by produceState(key?.let(ArtTintCache::get), key) {
+        val art = np?.art ?: return@produceState
+        if (value != null) return@produceState
+        value = withContext(Dispatchers.Default) {
+            val p = Palette.from(art).maximumColorCount(16).generate()
+            if (c.isNight) p.getDarkMutedColor(p.getDarkVibrantColor(p.getDominantColor(0)))
+            else p.getLightMutedColor(p.getLightVibrantColor(p.getDominantColor(0)))
+        }.also { color -> if (key != null) ArtTintCache.put(key, color) }
     }
     val target = swatch?.takeIf { it != 0 }?.let { lerp(c.surface, Color(it), if (c.isNight) 0.55f else 0.45f) } ?: c.surface
     return animateColorAsState(target, tween(500), label = "artTint").value
@@ -109,15 +126,17 @@ fun PlayerPanel(
     onOpenApp: (String) -> Unit,
     onGrantAccess: () -> Unit,
     modifier: Modifier = Modifier,
-    header: @Composable () -> Unit = {},
+    sources: List<String> = emptyList(),
+    onSelectSource: (String) -> Unit = {},
 ) {
     val c = LocalLauncherColors.current
     val np = state.nowPlaying
-    val tint = rememberArtTint(np?.art)
+    val tint = rememberArtTint(np)
     var showQueue by rememberSaveable { mutableStateOf(false) }
     val direction = remember { SkipDirection() }
 
-    Box(modifier.clip(RoundedCornerShape(28.dp)).background(tint)) {
+    val cardShape = RoundedCornerShape(28.dp)
+    Box(modifier.sharedMotion("media-card", container = true, clip = cardShape).clip(cardShape).background(tint)) {
         Column(Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 18.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 if (np != null) {
@@ -132,7 +151,6 @@ fun PlayerPanel(
                 } else {
                     Spacer(Modifier.weight(1f))
                 }
-                header()
                 if (np != null) {
                     TouchIconButton(LauncherIcons.External, "Abrir ${np.sourceLabel}", { onOpenApp(np.sourcePackage) }, iconSize = 28.dp)
                 }
@@ -154,31 +172,42 @@ fun PlayerPanel(
             }
 
             val controls = state.controls
-            val artSize: Dp = if (full) 400.dp else 232.dp
             if (showQueue) {
                 Queue(np, controls, Modifier.weight(1f))
-            } else if (full) {
-                Row(Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(40.dp)) {
-                    AnimatedArt(np, artSize, direction)
-                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(24.dp)) {
-                        AnimatedTitles(np, direction, large = true)
-                        SeekBar(np, controls)
-                        Controls(np, controls, direction, big = true)
+                return@Column
+            }
+            AnimatedVisibility(full && sources.size > 1, enter = fadeIn() + expandVertically(), exit = fadeOut() + shrinkVertically()) {
+                SourceTabs(sources, np.sourcePackage, apps, onSelectSource, Modifier.padding(top = 4.dp))
+            }
+            // Um único layout que se reorganiza conforme a largura do card (spec 010): ao crescer,
+            // a capa e o título aumentam e os botões extras aparecem, quadro a quadro.
+            BoxWithConstraints(Modifier.weight(1f).fillMaxWidth()) {
+                val t = ((maxWidth - COMPACT_WIDTH) / (WIDE_WIDTH - COMPACT_WIDTH)).coerceIn(0f, 1f)
+                val art = lerp(200.dp, 400.dp, t).coerceAtMost(maxHeight - 16.dp)
+                val showExtras = maxWidth > EXTRAS_WIDTH
+                Row(
+                    Modifier.fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(lerp(24.dp, 40.dp, t)),
+                ) {
+                    Box(Modifier.sharedMotion("media-art")) { AnimatedArt(np, art, direction) }
+                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(lerp(12.dp, 24.dp, t))) {
+                        Box(Modifier.sharedMotion("media-titles")) {
+                            AnimatedTitles(np, direction, titleSize = lerp(26.sp, 40.sp, t), subtitleSize = lerp(18.sp, 26.sp, t))
+                        }
+                        Box(Modifier.sharedMotion("media-progress")) { SeekBar(np, controls) }
+                        Controls(np, controls, direction, playSize = lerp(84.dp, 104.dp, t), showExtras = showExtras)
                     }
-                }
-            } else {
-                Column(Modifier.weight(1f), verticalArrangement = Arrangement.SpaceEvenly) {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(24.dp)) {
-                        AnimatedArt(np, artSize, direction)
-                        Box(Modifier.weight(1f)) { AnimatedTitles(np, direction, large = false) }
-                    }
-                    SeekBar(np, controls)
-                    Controls(np, controls, direction, big = false)
                 }
             }
         }
     }
 }
+
+/** Larguras de referência do layout responsivo do player. */
+private val COMPACT_WIDTH = 520.dp
+private val WIDE_WIDTH = 1100.dp
+private val EXTRAS_WIDTH = 680.dp
 
 @Composable
 private fun EmptyPlayer(granted: Boolean, onGrantAccess: () -> Unit, modifier: Modifier) {
@@ -212,7 +241,7 @@ private fun AnimatedArt(np: NowPlaying, size: Dp, direction: SkipDirection) {
 }
 
 @Composable
-private fun AnimatedTitles(np: NowPlaying, direction: SkipDirection, large: Boolean) {
+private fun AnimatedTitles(np: NowPlaying, direction: SkipDirection, titleSize: TextUnit, subtitleSize: TextUnit) {
     val c = LocalLauncherColors.current
     AnimatedContent(
         targetState = np,
@@ -227,12 +256,12 @@ private fun AnimatedTitles(np: NowPlaying, direction: SkipDirection, large: Bool
         Column {
             Text(
                 t.title.ifBlank { "Sem título" },
-                style = if (large) MaterialTheme.typography.displaySmall else MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.headlineSmall.copy(fontSize = titleSize, lineHeight = titleSize * 1.15f),
                 color = c.onSurface, maxLines = 2, overflow = TextOverflow.Ellipsis,
             )
             Text(
                 listOf(t.artist, t.album).filter { it.isNotBlank() }.joinToString(" · "),
-                style = if (large) MaterialTheme.typography.headlineSmall else MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyLarge.copy(fontSize = subtitleSize, lineHeight = subtitleSize * 1.2f),
                 color = c.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(top = 6.dp),
             )
@@ -306,30 +335,36 @@ fun SeekBar(np: NowPlaying, controls: MediaControls?) {
 }
 
 @Composable
-private fun Controls(np: NowPlaying, controls: MediaControls?, direction: SkipDirection, big: Boolean) {
+private fun Controls(np: NowPlaying, controls: MediaControls?, direction: SkipDirection, playSize: Dp, showExtras: Boolean) {
     val c = LocalLauncherColors.current
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-        TouchIconButton(
-            LauncherIcons.Shuffle, "Aleatório", { controls?.toggleShuffle() }, iconSize = 30.dp,
-            enabled = np.shuffle != null, tint = if (np.shuffle == true) c.primary else c.onSurfaceVariant,
-        )
+        AnimatedVisibility(showExtras, enter = fadeIn() + expandHorizontally(), exit = fadeOut() + shrinkHorizontally()) {
+            TouchIconButton(
+                LauncherIcons.Shuffle, "Aleatório", { controls?.toggleShuffle() }, iconSize = 30.dp,
+                enabled = np.shuffle != null, tint = if (np.shuffle == true) c.primary else c.onSurfaceVariant,
+            )
+        }
         TouchIconButton(
             LauncherIcons.Previous, "Faixa anterior",
             { direction.value = -1; controls?.previous() }, iconSize = 40.dp, enabled = np.canSkip,
         )
-        PlayPauseButton(np.playing, size = if (big) 104.dp else 88.dp) { if (np.playing) controls?.pause() else controls?.play() }
+        PlayPauseButton(np.playing, size = playSize, modifier = Modifier.sharedMotion("media-play")) {
+            if (np.playing) controls?.pause() else controls?.play()
+        }
         TouchIconButton(
             LauncherIcons.Next, "Próxima faixa",
             { direction.value = 1; controls?.next() }, iconSize = 40.dp, enabled = np.canSkip,
         )
-        Box(contentAlignment = Alignment.Center) {
-            TouchIconButton(
-                LauncherIcons.Repeat, "Repetir", { controls?.cycleRepeat() }, iconSize = 30.dp,
-                enabled = np.repeat != null,
-                tint = if (np.repeat != null && np.repeat != RepeatMode.OFF) c.primary else c.onSurfaceVariant,
-            )
-            if (np.repeat == RepeatMode.ONE) {
-                Text("1", style = MaterialTheme.typography.labelSmall, color = c.primary, modifier = Modifier.offset(x = 14.dp, y = (-14).dp))
+        AnimatedVisibility(showExtras, enter = fadeIn() + expandHorizontally(), exit = fadeOut() + shrinkHorizontally()) {
+            Box(contentAlignment = Alignment.Center) {
+                TouchIconButton(
+                    LauncherIcons.Repeat, "Repetir", { controls?.cycleRepeat() }, iconSize = 30.dp,
+                    enabled = np.repeat != null,
+                    tint = if (np.repeat != null && np.repeat != RepeatMode.OFF) c.primary else c.onSurfaceVariant,
+                )
+                if (np.repeat == RepeatMode.ONE) {
+                    Text("1", style = MaterialTheme.typography.labelSmall, color = c.primary, modifier = Modifier.offset(x = 14.dp, y = (-14).dp))
+                }
             }
         }
     }
@@ -337,10 +372,10 @@ private fun Controls(np: NowPlaying, controls: MediaControls?, direction: SkipDi
 
 /** Tocar/pausar com troca animada do ícone (R10.13). */
 @Composable
-fun PlayPauseButton(playing: Boolean, size: Dp, onClick: () -> Unit) {
+fun PlayPauseButton(playing: Boolean, size: Dp, modifier: Modifier = Modifier, onClick: () -> Unit) {
     val c = LocalLauncherColors.current
     Box(
-        Modifier
+        modifier
             .size(size)
             .clip(CircleShape)
             .background(c.primary)

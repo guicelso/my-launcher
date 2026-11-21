@@ -35,7 +35,6 @@ import app.mylauncher.ui.debug.DebugDialog
 import app.mylauncher.ui.drawer.AppDrawerScreen
 import app.mylauncher.ui.icons.LauncherIcons
 import app.mylauncher.ui.media.MediaCard
-import app.mylauncher.ui.media.MediaScreen
 import app.mylauncher.ui.media.MediaSources
 import app.mylauncher.ui.media.PlayerPanel
 import app.mylauncher.ui.rail.Rail
@@ -135,14 +134,16 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                             modifier = m,
                         )
                     },
-                    splitPanel = { m ->
+                    playerPanel = { full, m ->
                         PlayerPanel(
                             state = media,
                             apps = apps,
-                            full = false,
-                            onToggleSize = { navigator.go(Screen.MEDIA) },
+                            full = full,
+                            onToggleSize = { navigator.go(if (full) Screen.SPLIT_MEDIA else Screen.MEDIA) },
                             onOpenApp = { apps.launch(it) },
                             onGrantAccess = { container.systemActions.openNotificationAccess() },
+                            sources = MediaSources.list(settings.musicApp, media.nowPlaying?.sourcePackage, apps::isInstalled),
+                            onSelectSource = openApp,
                             modifier = m,
                         )
                     },
@@ -158,16 +159,6 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                     label = "overlay",
                 ) { overlay ->
                     when (overlay) {
-                        Screen.MEDIA -> MediaScreen(
-                            state = media,
-                            sources = MediaSources.list(settings.musicApp, media.nowPlaying?.sourcePackage, apps::isInstalled),
-                            apps = apps,
-                            onSelectSource = openApp,
-                            onOpenApp = { apps.launch(it) },
-                            onGrantAccess = { container.systemActions.openNotificationAccess() },
-                            onCollapse = { navigator.go(Screen.SPLIT_MEDIA) },
-                            modifier = Modifier.fillMaxSize().background(c.background),
-                        )
                         Screen.APPS -> AppDrawerScreen(
                             apps = apps,
                             allApps = allApps,

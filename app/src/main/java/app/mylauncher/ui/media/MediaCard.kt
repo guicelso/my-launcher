@@ -30,6 +30,7 @@ import app.mylauncher.ui.components.pressable
 import app.mylauncher.ui.components.TouchIconButton
 import app.mylauncher.ui.icons.LauncherIcons
 import app.mylauncher.ui.theme.LocalLauncherColors
+import app.mylauncher.ui.workspace.sharedMotion
 
 /** Card de mídia do painel (spec 004, R4.3/R4.7). */
 @Composable
@@ -45,7 +46,7 @@ fun MediaCard(
 ) {
     val c = LocalLauncherColors.current
     val np = state.nowPlaying
-    LauncherCard(modifier) {
+    LauncherCard(modifier.sharedMotion("media-card", container = true, clip = RoundedCornerShape(28.dp))) {
         if (np == null) {
             Column(
                 Modifier.fillMaxSize().padding(24.dp),
@@ -90,8 +91,10 @@ fun MediaCard(
                 )
             }
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Box(Modifier.clip(RoundedCornerShape(16.dp)).pressable(onClickLabel = "Abrir player", onClick = onOpenMedia)) { AlbumArt(np, 112.dp, 16.dp, 44.dp) }
-                Column(Modifier.weight(1f)) {
+                Box(Modifier.sharedMotion("media-art").clip(RoundedCornerShape(16.dp)).pressable(onClickLabel = "Abrir player", onClick = onOpenMedia)) {
+                    AlbumArt(np, 112.dp, 16.dp, 44.dp)
+                }
+                Column(Modifier.weight(1f).sharedMotion("media-titles")) {
                     Text(
                         np.title.ifBlank { "Sem título" }, style = MaterialTheme.typography.headlineSmall,
                         color = c.onSurface, maxLines = 1, overflow = TextOverflow.Ellipsis,
@@ -102,10 +105,12 @@ fun MediaCard(
                     )
                 }
             }
-            ProgressBar(np.fraction(position))
+            Box(Modifier.sharedMotion("media-progress")) { ProgressBar(np.fraction(position)) }
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 TouchIconButton(LauncherIcons.Previous, "Faixa anterior", { controls?.previous() }, enabled = np.canSkip)
-                PlayPauseButton(np.playing, size = 80.dp) { if (np.playing) controls?.pause() else controls?.play() }
+                PlayPauseButton(np.playing, size = 80.dp, modifier = Modifier.sharedMotion("media-play")) {
+                    if (np.playing) controls?.pause() else controls?.play()
+                }
                 TouchIconButton(LauncherIcons.Next, "Próxima faixa", { controls?.next() }, enabled = np.canSkip)
             }
         }

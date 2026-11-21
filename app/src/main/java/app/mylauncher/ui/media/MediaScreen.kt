@@ -28,39 +28,12 @@ import app.mylauncher.ui.components.ScreenPanel
 import app.mylauncher.ui.components.pressable
 import app.mylauncher.ui.theme.LocalLauncherColors
 
-/** Mídia em tela cheia (spec 004 R4.5 + spec 010): abas de fonte + player grande. */
+/** Abas de fonte do player em tela cheia (spec 004 R4.5). */
 @Composable
-fun MediaScreen(
-    state: MediaUiState,
-    sources: List<String>,
-    apps: AppsRepository,
-    onSelectSource: (String) -> Unit,
-    onOpenApp: (String) -> Unit,
-    onGrantAccess: () -> Unit,
-    onCollapse: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    ScreenPanel(modifier) {
-        Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            SourceTabs(sources, state.nowPlaying?.sourcePackage, apps, onSelectSource)
-            PlayerPanel(
-                state = state,
-                apps = apps,
-                full = true,
-                onToggleSize = onCollapse,
-                onOpenApp = onOpenApp,
-                onGrantAccess = onGrantAccess,
-                modifier = Modifier.fillMaxWidth().weight(1f),
-            )
-        }
-    }
-}
-
-@Composable
-private fun SourceTabs(sources: List<String>, current: String?, apps: AppsRepository, onSelect: (String) -> Unit) {
+fun SourceTabs(sources: List<String>, current: String?, apps: AppsRepository, onSelect: (String) -> Unit, modifier: Modifier = Modifier) {
     val c = LocalLauncherColors.current
     Row(
-        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+        modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         sources.forEach { pkg ->
