@@ -68,6 +68,7 @@ object MapStyles {
     const val DAY = "https://tiles.openfreemap.org/styles/liberty"
     const val NIGHT = "https://tiles.openfreemap.org/styles/dark"
     const val CACHE_BYTES = 200L * 1024 * 1024 // R5.7
+    const val MAX_FPS = 30
     val FALLBACK_CENTER = LatLng(-15.78, -47.93) // Brasil, até o primeiro fix
 
     fun configureCache(context: Context) {
@@ -203,12 +204,16 @@ private fun MapViewHost(
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val loadColor = LocalLauncherColors.current.surface2.toArgb()
     val mapView = remember {
-        // TextureView: acompanha o redimensionamento animado da área de trabalho sem faixas
-        // brancas (o SurfaceView padrão não segue o layout durante a animação).
+        // SurfaceView (padrão): o mapa desenha numa camada própria, numa thread separada,
+        // sem forçar o redesenho da interface a cada quadro. Como a superfície tem tamanho fixo
+        // (LocalMapCanvasSize) e só é recortada pelo card, ela nunca é redimensionada.
         val options = MapLibreMapOptions.createFromAttributes(context)
-            .textureMode(true)
             .foregroundLoadColor(loadColor)
-        MapView(context, options).apply { onCreate(null) }
+        MapView(context, options).apply {
+            onCreate(null)
+            // 30 fps bastam para navegação e reduzem pela metade o custo na GPU PowerVR GE8322.
+            setMaximumFps(MapStyles.MAX_FPS)
+        }
     }
     var mapRef by remember { mutableStateOf<MapLibreMap?>(null) }
     val runner = remember(mapView) { MapRunner(mapView) }
