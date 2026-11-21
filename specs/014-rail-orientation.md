@@ -1,6 +1,6 @@
 # 014 — Barra lateral vertical ou horizontal
 
-**Status:** Rascunho · **Depende de:** 002, 010
+**Status:** Implementada (2026-11-21) · testada no emulador · **Depende de:** 002, 010
 
 ## Objetivo
 Permitir escolher entre a barra **vertical à esquerda** (padrão atual) e a **barra horizontal embaixo**, como a *taskbar* do Android Auto em telas mais baixas.

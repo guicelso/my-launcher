@@ -1,6 +1,6 @@
 # 011 — Gestão da gaveta de apps e aparência dos ícones
 
-**Status:** Rascunho · **Depende de:** 003, 009
+**Status:** Implementada (2026-11-21) · testada no emulador · **Depende de:** 003, 009
 
 ## Objetivo
 Organizar a gaveta de apps: reordenar, ocultar e mostrar de novo, desinstalar, e escolher o formato e o pacote de ícones. A segurança ao dirigir vem em primeiro lugar.

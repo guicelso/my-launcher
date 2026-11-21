@@ -10,6 +10,10 @@ Desenvolvimento orientado a especificações (spec-driven): nada é implementado
 | [`docs/00-discovery.md`](docs/00-discovery.md) | Estudo do aparelho: hardware, sistema, acesso adb, apps da TopWay e API da MCU |
 | [`docs/01-architecture.md`](docs/01-architecture.md) | Stack, módulos, abstrações (painel de navegação, fonte de dados do veículo), deploy e segurança |
 | [`docs/02-design.md`](docs/02-design.md) | Linguagem visual, regras de design para direção e lista de telas |
+| [`docs/03-topway-protocol.md`](docs/03-topway-protocol.md) | Protocolo Binder dos serviços da TopWay (MCU/CAN) |
+| [`docs/04-runbook.md`](docs/04-runbook.md) | **Guia de operação:** adb, instalar, recuperar acesso, emulador, estado atual e próximos passos |
+| [`CLAUDE.md`](CLAUDE.md) | Instruções e armadilhas para as próximas sessões do Claude Code |
+| [`design/wireframes/`](design/wireframes/) | Fontes do protótipo de alta fidelidade |
 | [`specs/`](specs/) | Processo spec-driven e uma spec por funcionalidade |
 | [`tools/`](tools/) | Scripts: ambiente de desenvolvimento, coleta de dados do aparelho |
 | `discovery/` | Dumps do aparelho e APKs decompilados (local, fora do controle de versão) |

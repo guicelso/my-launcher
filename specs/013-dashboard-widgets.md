@@ -1,6 +1,6 @@
 # 013 — Widgets configuráveis no painel
 
-**Status:** Rascunho · **Depende de:** 002, 010
+**Status:** Implementada (2026-11-21) · testada no emulador · **Depende de:** 002, 010
 
 ## Objetivo
 Transformar os cards da coluna direita do painel em **widgets trocáveis** (mídia, destinos, clima, veículo, relógio, notificações) e permitir escolher a grade.

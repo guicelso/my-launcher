@@ -1,6 +1,6 @@
 # 012 — Destinos sem digitação
 
-**Status:** Rascunho · **Depende de:** 005, 006
+**Status:** Implementada (2026-11-21) · testada no emulador · **Depende de:** 005, 006
 
 ## Objetivo
 Cadastrar Casa, Trabalho e favoritos sem digitar endereço nos Ajustes, aproveitando o que o carro já sabe: onde ele estaciona.
