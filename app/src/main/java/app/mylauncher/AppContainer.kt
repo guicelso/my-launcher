@@ -2,6 +2,7 @@ package app.mylauncher
 
 import android.content.Context
 import app.mylauncher.data.apps.AppsRepository
+import app.mylauncher.data.location.LocationRepository
 import app.mylauncher.data.media.MediaRepository
 import app.mylauncher.data.media.MessagesRepository
 import app.mylauncher.data.prefs.SettingsRepository
@@ -30,6 +31,7 @@ class AppContainer(val context: Context) {
     val status = StatusRepository(context)
     val systemActions = SystemActions(context)
     val messages = MessagesRepository(appScope, context.packageName)
+    val location = LocationRepository(context)
 
     val fakeVehicle = FakeVehicleSource()
     val topWay = TopWayVehicleSource(context, appScope)
@@ -47,6 +49,7 @@ class AppContainer(val context: Context) {
     fun start() {
         apps.start()
         status.start()
+        location.start()
         topWay.start()
         topWayMedia.start()
         media.setExternalSource(topWayMedia)

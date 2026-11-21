@@ -1,16 +1,18 @@
 package app.mylauncher
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import app.mylauncher.core.FileLog
 import app.mylauncher.nav.NavigationPane
-import app.mylauncher.nav.PlaceholderMapPane
+import app.mylauncher.nav.OwnMapPane
 import app.mylauncher.ui.LauncherRoot
 import app.mylauncher.ui.Navigator
 
@@ -18,7 +20,11 @@ class MainActivity : ComponentActivity() {
 
     private val navigator = Navigator()
     private val container get() = (application as LauncherApp).container
-    private val navPane: NavigationPane by lazy { PlaceholderMapPane() }
+    private val navPane: NavigationPane by lazy { OwnMapPane(container) }
+
+    private val locationPermission = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+        container.location.start()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +39,10 @@ class MainActivity : ComponentActivity() {
         })
 
         setContent { LauncherRoot(container, navigator, navPane) }
+
+        if (!container.location.hasPermission()) {
+            locationPermission.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
