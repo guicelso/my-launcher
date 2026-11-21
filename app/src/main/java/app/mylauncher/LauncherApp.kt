@@ -13,6 +13,6 @@ class LauncherApp : Application() {
         FileLog.init(this)
         CrashGuard.install(this)
         FileLog.i("LauncherApp iniciado (versão ${BuildConfig.VERSION_NAME})")
-        container = AppContainer(this)
+        container = AppContainer(this).also { it.start() }
     }
 }
