@@ -15,6 +15,7 @@ enum class Screen(val overlay: Boolean) {
     MEDIA(false),
     APPS(true),
     SETTINGS(true),
+    NOTIFICATIONS(true),
 }
 
 class Navigator {

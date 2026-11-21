@@ -15,12 +15,15 @@ data class MessageNotification(
     val text: String,
     val postedAt: Long,
     val contentIntent: PendingIntent?,
+    /** Chave da notificação no sistema (para dispensar). */
+    val key: String = "",
+    val isMessage: Boolean = false,
 )
 
 data class NotificationsSummary(
     val count: Int = 0,
     val lastMessage: MessageNotification? = null,
-    /** Até 4 notificações mais recentes (widget Notificações, spec 013). */
+    /** Até 12 notificações mais recentes (Central de notificações; o widget mostra 4). */
     val recent: List<MessageNotification> = emptyList(),
 )
 
@@ -45,7 +48,7 @@ class MessagesRepository(scope: CoroutineScope, private val selfPackage: String)
                     contentIntent = sbn.notification.contentIntent,
                 )
             }
-        val recent = visible.sortedByDescending { it.postTime }.take(4).map { sbn ->
+        val recent = visible.sortedByDescending { it.postTime }.take(MAX_RECENT).map { sbn ->
             val extras = sbn.notification.extras
             MessageNotification(
                 packageName = sbn.packageName,
@@ -53,6 +56,8 @@ class MessagesRepository(scope: CoroutineScope, private val selfPackage: String)
                 text = extras.getCharSequence(Notification.EXTRA_TEXT)?.toString().orEmpty(),
                 postedAt = sbn.postTime,
                 contentIntent = sbn.notification.contentIntent,
+                key = sbn.key,
+                isMessage = isMessage(sbn),
             )
         }
         return NotificationsSummary(visible.size, last, recent)
@@ -62,6 +67,7 @@ class MessagesRepository(scope: CoroutineScope, private val selfPackage: String)
         sbn.notification.category == Notification.CATEGORY_MESSAGE || sbn.packageName in MESSAGING_APPS
 
     companion object {
+        const val MAX_RECENT = 12
         val MESSAGING_APPS = setOf("com.whatsapp", "com.whatsapp.w4b", "org.telegram.messenger", "com.google.android.apps.messaging")
     }
 }

@@ -17,13 +17,20 @@ class MediaListenerService : NotificationListenerService() {
     override fun onListenerConnected() {
         FileLog.i("NotificationListener conectado")
         connected.value = true
+        instance = this
         publish()
     }
 
     override fun onListenerDisconnected() {
         FileLog.w("NotificationListener desconectado")
         connected.value = false
+        instance = null
         _notifications.value = emptyList()
+    }
+
+    override fun onDestroy() {
+        if (instance === this) instance = null
+        super.onDestroy()
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification) = publish()
@@ -37,5 +44,17 @@ class MediaListenerService : NotificationListenerService() {
         val connected = MutableStateFlow(false)
         private val _notifications = MutableStateFlow<List<StatusBarNotification>>(emptyList())
         val notifications: StateFlow<List<StatusBarNotification>> = _notifications.asStateFlow()
+
+        @Volatile private var instance: MediaListenerService? = null
+
+        /** Dispensa uma notificação pela chave (Central de notificações). */
+        fun dismiss(key: String) {
+            runCatching { instance?.cancelNotification(key) }.onFailure { FileLog.w("Falha ao dispensar notificação: ${it.message}") }
+        }
+
+        /** Dispensa todas as notificações que podem ser limpas. */
+        fun dismissAll() {
+            runCatching { instance?.cancelAllNotifications() }.onFailure { FileLog.w("Falha ao limpar notificações: ${it.message}") }
+        }
     }
 }

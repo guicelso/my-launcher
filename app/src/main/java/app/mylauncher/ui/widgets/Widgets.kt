@@ -114,7 +114,7 @@ fun NotificationsWidget(summary: NotificationsSummary, apps: AppsRepository, onO
             if (summary.recent.isEmpty()) {
                 Text("Nenhuma notificação", style = MaterialTheme.typography.bodyLarge, color = c.onSurfaceVariant, modifier = Modifier.padding(8.dp))
             }
-            summary.recent.forEach { n ->
+            summary.recent.take(4).forEach { n ->
                 Row(
                     Modifier
                         .fillMaxWidth()
