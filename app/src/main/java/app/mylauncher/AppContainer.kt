@@ -1,8 +1,10 @@
 package app.mylauncher
 
 import android.content.Context
+import app.mylauncher.core.debug.DebugMediaPlayer
 import app.mylauncher.data.apps.AppsRepository
 import app.mylauncher.data.location.LocationRepository
+import app.mylauncher.data.media.MediaApps
 import app.mylauncher.data.media.MediaRepository
 import app.mylauncher.data.media.MessagesRepository
 import app.mylauncher.data.prefs.SettingsRepository
@@ -43,6 +45,8 @@ class AppContainer(val context: Context) {
         .stateIn(appScope, SharingStarted.Eagerly, VehicleState())
 
     val media = MediaRepository(context, apps, appScope)
+    val mediaApps = MediaApps(context)
+    val debugPlayer = DebugMediaPlayer(context)
     private val topWayMedia = TopWayMediaBridge(context, appScope, vehicle, topWay)
     private val reverseDucker = ReverseDucker(context, appScope, vehicle, settings.settings)
 

@@ -54,12 +54,12 @@ import app.mylauncher.ui.icons.LauncherIcons
 import app.mylauncher.ui.media.MediaSources
 import app.mylauncher.ui.media.PillButton
 import app.mylauncher.ui.theme.LocalLauncherColors
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private enum class Section(val label: String) {
     APPEARANCE("Aparência"),

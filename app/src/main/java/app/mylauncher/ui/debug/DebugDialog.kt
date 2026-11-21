@@ -15,12 +15,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import app.mylauncher.core.debug.DebugMediaPlayer
 import app.mylauncher.data.vehicle.FakeVehicleSource
 import app.mylauncher.data.vehicle.VehicleState
 import app.mylauncher.ui.components.PillShape
@@ -28,13 +33,14 @@ import app.mylauncher.ui.theme.LocalLauncherColors
 
 /**
  * Painel de depuração (toque longo no relógio): simula o veículo (spec 002, R2.11)
- * e força crash para validar o CrashGuard (spec 001, A7).
+ * e a mídia (player simulado), e força crash para validar o CrashGuard (spec 001, A7).
  */
 @Composable
 fun DebugDialog(
     simulate: Boolean,
     vehicle: VehicleState,
     fake: FakeVehicleSource,
+    player: DebugMediaPlayer,
     onSimulate: (Boolean) -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -63,6 +69,11 @@ fun DebugDialog(
                     }
                     DebugButton("Velocidade +20") { fake.setSpeed(((vehicle.speedKmh ?: 0) + 20) % 140) }
                 }
+            }
+            var playerOn by remember { mutableStateOf(player.isRunning) }
+            Row(Modifier.fillMaxWidth().height(76.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text("Simular player de música", style = MaterialTheme.typography.titleMedium, color = c.onSurface, modifier = Modifier.weight(1f))
+                Switch(playerOn, { on -> if (on) player.start() else player.stop(); playerOn = on })
             }
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 DebugButton("Forçar crash") { throw IllegalStateException("Crash forçado pelo painel de depuração") }

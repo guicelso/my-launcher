@@ -31,10 +31,10 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         hideSystemBars()
 
-        // R1.8: o Voltar nunca fecha o launcher; volta ao painel.
+        // R1.8: o Voltar nunca fecha o launcher; fecha a tela por cima ou volta ao painel.
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                navigator.home()
+                navigator.back()
             }
         })
 

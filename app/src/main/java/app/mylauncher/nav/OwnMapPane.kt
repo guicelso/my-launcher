@@ -26,11 +26,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
@@ -55,6 +57,7 @@ import org.maplibre.android.location.OnCameraTrackingChangedListener
 import org.maplibre.android.location.modes.CameraMode
 import org.maplibre.android.location.modes.RenderMode
 import org.maplibre.android.maps.MapLibreMap
+import org.maplibre.android.maps.MapLibreMapOptions
 import org.maplibre.android.maps.MapView
 import org.maplibre.android.maps.Style
 import org.maplibre.android.offline.OfflineManager
@@ -78,7 +81,7 @@ object MapStyles {
 class OwnMapPane(private val container: AppContainer) : NavigationPane {
 
     @Composable
-    override fun Content(mode: PaneMode, modifier: Modifier, onExpand: () -> Unit) {
+    override fun Content(mode: PaneMode, modifier: Modifier, active: Boolean, onExpand: () -> Unit) {
         val c = LocalLauncherColors.current
         val location by container.location.location.collectAsStateWithLifecycle()
         val granted by container.location.granted.collectAsStateWithLifecycle()
@@ -93,6 +96,7 @@ class OwnMapPane(private val container: AppContainer) : NavigationPane {
             MapViewHost(
                 styleUrl = styleUrl,
                 granted = granted,
+                active = active,
                 onMap = { map = it },
                 onTrackingDismissed = { following = false },
             )
@@ -190,35 +194,39 @@ private fun MapLibreMap.recenter(l: Location?) {
 private fun MapViewHost(
     styleUrl: String,
     granted: Boolean,
+    active: Boolean,
     onMap: (MapLibreMap) -> Unit,
     onTrackingDismissed: () -> Unit,
 ) {
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
+    val loadColor = LocalLauncherColors.current.surface2.toArgb()
     val mapView = remember {
-        MapView(context).apply { onCreate(null) }
+        // TextureView: acompanha o redimensionamento animado da área de trabalho sem faixas
+        // brancas (o SurfaceView padrão não segue o layout durante a animação).
+        val options = MapLibreMapOptions.createFromAttributes(context)
+            .textureMode(true)
+            .foregroundLoadColor(loadColor)
+        MapView(context, options).apply { onCreate(null) }
     }
     var mapRef by remember { mutableStateOf<MapLibreMap?>(null) }
+    val runner = remember(mapView) { MapRunner(mapView) }
+    val currentActive by rememberUpdatedState(active)
 
+    // Renderiza só com a activity visível E o mapa sem tela por cima (spec 010, R10.5).
     DisposableEffect(lifecycle, mapView) {
-        val observer = LifecycleEventObserver { _, event ->
-            when (event) {
-                Lifecycle.Event.ON_START -> mapView.onStart()
-                Lifecycle.Event.ON_RESUME -> mapView.onResume()
-                Lifecycle.Event.ON_PAUSE -> mapView.onPause()
-                Lifecycle.Event.ON_STOP -> mapView.onStop()
-                else -> Unit
-            }
+        val observer = LifecycleEventObserver { _, _ ->
+            runner.sync(lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) && currentActive)
         }
         lifecycle.addObserver(observer)
-        if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) mapView.onStart()
-        if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) mapView.onResume()
         onDispose {
             lifecycle.removeObserver(observer)
-            mapView.onPause()
-            mapView.onStop()
+            runner.sync(false)
             mapView.onDestroy()
         }
+    }
+    LaunchedEffect(active) {
+        runner.sync(lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) && active)
     }
 
     LaunchedEffect(mapView) {
@@ -265,6 +273,23 @@ private fun MapViewHost(
     }
 
     AndroidView(factory = { mapView }, modifier = Modifier.fillMaxSize())
+}
+
+/** Liga/desliga a renderização do MapView sem chamadas duplicadas. */
+private class MapRunner(private val mapView: MapView) {
+    private var running = false
+
+    fun sync(shouldRun: Boolean) {
+        if (shouldRun && !running) {
+            mapView.onStart()
+            mapView.onResume()
+            running = true
+        } else if (!shouldRun && running) {
+            mapView.onPause()
+            mapView.onStop()
+            running = false
+        }
+    }
 }
 
 @Composable
