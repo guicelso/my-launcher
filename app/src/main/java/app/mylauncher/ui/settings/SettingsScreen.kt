@@ -329,7 +329,7 @@ private fun Media(container: AppContainer, s: LauncherSettings) {
     val apps = container.apps
     val granted by MediaListenerService.connected.collectAsStateWithLifecycle()
     val options = MediaSources.list(s.musicApp, null, apps::isInstalled)
-    SettingsGroup("App de música padrão", "Aberto pelo card de mídia quando nada está tocando.") {
+    SettingsGroup("App de música padrão", "Retomado pelo card de mídia quando nada está tocando.") {
         if (options.isEmpty()) SettingRow("Nenhum app de música instalado")
         options.forEach { pkg ->
             RadioRow(apps.label(pkg), pkg == s.musicApp, leading = { AppIcon(apps, pkg, 44.dp) }) { container.settings.setMusicApp(pkg) }
@@ -339,6 +339,16 @@ private fun Media(container: AppContainer, s: LauncherSettings) {
         ToggleRow(
             "Abrir apps de mídia em tela dividida", s.splitMedia,
             "Tocar num app de música na barra mostra o player ao lado do mapa", container.settings::setSplitMedia,
+        )
+    }
+    SettingsGroup("Chave do carro", "Ao tirar a chave, a multimídia entra em espera e fecha os apps que não estão na lista da TopWay.") {
+        ToggleRow(
+            "Manter o app de música aberto com a chave desligada", s.keepMusicAlive,
+            "A música continua de onde parou, sem precisar abrir o app de novo", container.settings::setKeepMusicAlive,
+        )
+        ToggleRow(
+            "Retomar a música ao ligar o carro", s.resumeOnWake,
+            "Só se ela estava tocando quando a chave foi desligada", container.settings::setResumeOnWake,
         )
     }
     SettingsGroup("Acesso às notificações", "Necessário para ver o que está tocando e as mensagens recebidas.") {

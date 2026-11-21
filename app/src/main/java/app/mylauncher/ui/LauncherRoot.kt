@@ -101,6 +101,9 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
     val speed = vehicle.speedKmh ?: LocationRepository.speedKmh(location) ?: 0
     val parked = speed <= PARKED_MAX_KMH
 
+    // Chave ligada: volta ao painel (spec 016, R16.3).
+    androidx.compose.runtime.LaunchedEffect(Unit) { container.wake.collect { navigator.home() } }
+
     val hour = Calendar.getInstance().apply { timeInMillis = status.now }.get(Calendar.HOUR_OF_DAY)
     val night = ThemeResolver.isNight(settings.theme, vehicle, hour)
     val apps = container.apps

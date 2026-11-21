@@ -42,6 +42,7 @@ class MediaRepository(
     private val context: Context,
     private val apps: AppsRepository,
     private val scope: CoroutineScope,
+    mediaApps: MediaApps,
 ) {
     private val sessionManager = context.getSystemService(MediaSessionManager::class.java)
     private val listenerComponent = ComponentName(context, MediaListenerService::class.java)
@@ -63,6 +64,23 @@ class MediaRepository(
     private val _state = MutableStateFlow(MediaUiState())
     val state: StateFlow<MediaUiState> = _state.asStateFlow()
 
+    // Última sessão vista (spec 016): mostrada quando não há sessão ativa, com ▶ para retomar.
+    private val store = LastSessionStore(context)
+    private val _lastSession = MutableStateFlow(store.load())
+    /** Última sessão de mídia guardada (sobrevive ao app de música ser fechado). */
+    val lastSession: StateFlow<LastSession?> = _lastSession.asStateFlow()
+    private var lastArt: Bitmap? = store.loadArt()
+    private var lastArtKey: String? = _lastSession.value?.let { it.packageName + "|" + it.title }
+
+    private val resumer = MediaResumer(
+        context = context,
+        scope = scope,
+        mediaApps = mediaApps,
+        activePackages = _activePackages,
+        controlsFor = { pkg -> controllers[pkg]?.let { SessionControls(context, it) } },
+        launchApp = { pkg -> apps.launch(pkg) },
+    )
+
     private val sessionsListener = MediaSessionManager.OnActiveSessionsChangedListener { list ->
         updateControllers(list.orEmpty())
     }
@@ -72,16 +90,20 @@ class MediaRepository(
             MediaListenerService.connected.collect { connected -> if (connected) attach() }
         }
         scope.launch {
-            combine(sessionState, externalState, MediaListenerService.connected) { s, ext, granted -> Triple(s, ext, granted) }
-                .collect { (s, extNow, granted) ->
-                    val chosen = when {
-                        s != null && s.first.playing -> s
-                        extNow != null && extNow.first.playing -> extNow
-                        else -> s ?: extNow
-                    }
-                    _state.value = MediaUiState(chosen?.first, chosen?.second, granted)
+            combine(sessionState, externalState, MediaListenerService.connected, _lastSession) { s, ext, granted, last ->
+                Quad(s, ext, granted, last)
+            }.collect { (s, extNow, granted, last) ->
+                val chosen = when {
+                    s != null && s.first.playing -> s
+                    extNow != null && extNow.first.playing -> extNow
+                    else -> s ?: extNow
                 }
+                // Sem sessão ativa: a última sessão guardada, com ▶ retomando em segundo plano (R16.4).
+                val shown = chosen ?: last?.takeIf { granted }?.let { it.toNowPlaying(lastArt) to ResumeControls(it.packageName) }
+                _state.value = MediaUiState(shown?.first, shown?.second, granted)
+            }
         }
+        scope.launch { sessionState.collect { remember(it?.first) } }
         attach()
     }
 
@@ -94,6 +116,64 @@ class MediaRepository(
         preferredAt = SystemClock.elapsedRealtime()
         recompute()
     }
+
+    /** Retoma a última sessão guardada (▶ do card ou ao ligar a chave, R16.5/R16.6). */
+    fun resumeLast() {
+        _lastSession.value?.let { resumer.resume(it.packageName) }
+    }
+
+    /** Retoma um app de música específico em segundo plano (R16.5). */
+    fun resume(pkg: String) = resumer.resume(pkg)
+
+    /** Atualiza a sessão guardada a partir da sessão ativa exibida. */
+    private fun remember(np: NowPlaying?) {
+        if (np == null || np.title.isBlank()) return
+        val prev = _lastSession.value
+        val now = System.currentTimeMillis()
+        val sameTrack = prev != null && prev.packageName == np.sourcePackage && prev.title == np.title
+        val pausedAt = when {
+            np.playing -> 0L
+            prev?.playing == true && sameTrack -> now
+            sameTrack -> prev?.pausedAt ?: 0L
+            else -> 0L
+        }
+        val next = LastSession(
+            packageName = np.sourcePackage,
+            label = np.sourceLabel,
+            title = np.title,
+            artist = np.artist,
+            album = np.album,
+            durationMs = np.durationMs,
+            positionMs = np.positionAt(SystemClock.elapsedRealtime()),
+            playing = np.playing,
+            pausedAt = pausedAt,
+            savedAt = now,
+        )
+        // Grava só quando algo relevante muda (faixa, tocar/pausar), não a cada recálculo.
+        val changed = prev == null || !sameTrack || prev.playing != next.playing || prev.artist != next.artist
+        if (!changed) return
+        _lastSession.value = next
+        val artKey = next.packageName + "|" + next.title
+        val art = np.art
+        if (artKey != lastArtKey && art != null) {
+            lastArt = art
+            lastArtKey = artKey
+        }
+        scope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            store.save(next)
+            if (art != null && artKey == lastArtKey) store.saveArt(art)
+        }
+    }
+
+    /** Controles da sessão guardada: só ▶, que retoma o app em segundo plano. */
+    private inner class ResumeControls(private val pkg: String) : MediaControls {
+        override fun play() = resumer.resume(pkg)
+        override fun pause() {}
+        override fun next() {}
+        override fun previous() {}
+    }
+
+    private data class Quad<A, B, C, D>(val a: A, val b: B, val c: C, val d: D)
 
     /** Liga a fonte TopWay (spec 006). */
     fun setExternalSource(source: ExternalMediaSource) {

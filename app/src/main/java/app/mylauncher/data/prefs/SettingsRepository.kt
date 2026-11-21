@@ -95,6 +95,10 @@ data class LauncherSettings(
     val driverSide: DriverSide = DriverSide.LEFT,
     val showWeatherInBar: Boolean = false,
     val showExitTile: Boolean = true,
+    /** Spec 016: manter o app de música aberto com a chave desligada (lista da TopWay). */
+    val keepMusicAlive: Boolean = true,
+    /** Spec 016: retomar a música ao ligar a chave, se ela estava tocando ao desligar. */
+    val resumeOnWake: Boolean = true,
 ) {
     /** Destinos para o card e o mapa: Casa, Trabalho e favoritos. */
     val destinations: List<Destination> get() = listOfNotNull(home, work) + favorites
@@ -142,6 +146,8 @@ class SettingsRepository(private val context: Context, private val scope: Corout
         val driverSide = stringPreferencesKey("driver_side")
         val barWeather = booleanPreferencesKey("bar_weather")
         val exitTile = booleanPreferencesKey("exit_tile")
+        val keepMusic = booleanPreferencesKey("keep_music_alive")
+        val resumeWake = booleanPreferencesKey("resume_on_wake")
     }
 
     val settings: StateFlow<LauncherSettings> = context.dataStore.data
@@ -172,6 +178,8 @@ class SettingsRepository(private val context: Context, private val scope: Corout
     fun setDriverSide(v: DriverSide) = put { it[K.driverSide] = v.name }
     fun setShowWeatherInBar(v: Boolean) = put { it[K.barWeather] = v }
     fun setShowExitTile(v: Boolean) = put { it[K.exitTile] = v }
+    fun setKeepMusicAlive(v: Boolean) = put { it[K.keepMusic] = v }
+    fun setResumeOnWake(v: Boolean) = put { it[K.resumeWake] = v }
 
     /** Põe [type] no espaço [slot]; se ele já estava em outro espaço, os dois trocam (R13.2). */
     fun setWidget(slot: Int, type: WidgetType) = put { prefs ->
@@ -259,6 +267,8 @@ class SettingsRepository(private val context: Context, private val scope: Corout
             driverSide = enumOr(this[K.driverSide], d.driverSide),
             showWeatherInBar = this[K.barWeather] ?: d.showWeatherInBar,
             showExitTile = this[K.exitTile] ?: d.showExitTile,
+            keepMusicAlive = this[K.keepMusic] ?: d.keepMusicAlive,
+            resumeOnWake = this[K.resumeWake] ?: d.resumeOnWake,
         )
     }
 

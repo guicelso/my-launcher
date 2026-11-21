@@ -37,6 +37,9 @@ echo "==> Permissões"
 "${ADB[@]}" shell pm grant $PKG android.permission.ACCESS_FINE_LOCATION || true
 "${ADB[@]}" shell pm grant $PKG android.permission.ACCESS_COARSE_LOCATION || true
 "${ADB[@]}" shell pm grant $PKG android.permission.READ_PHONE_STATE || true
+# Spec 016: o launcher mantém /sdcard/.Tcfg/sleepKillPackage.cfg (apps que a TopWay não fecha na espera).
+"${ADB[@]}" shell pm grant $PKG android.permission.READ_EXTERNAL_STORAGE || true
+"${ADB[@]}" shell pm grant $PKG android.permission.WRITE_EXTERNAL_STORAGE || true
 "${ADB[@]}" shell cmd notification allow_listener $PKG/$PKG.data.media.MediaListenerService || true
 
 # Dispensa o aviso de "tela cheia" do Android (modo imersivo do launcher).

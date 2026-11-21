@@ -25,6 +25,17 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import app.mylauncher.core.FileLog
+import app.mylauncher.data.vehicle.topway.SleepKeepList
 
 /** Injeção de dependências manual (docs/01-architecture.md, D8). */
 class AppContainer(val context: Context) {
@@ -48,13 +59,19 @@ class AppContainer(val context: Context) {
     ) { s, fake, real -> if (s.simulateVehicle) fake else real }
         .stateIn(appScope, SharingStarted.Eagerly, VehicleState())
 
-    val media = MediaRepository(context, apps, appScope)
     val mediaApps = MediaApps(context)
+    val media = MediaRepository(context, apps, appScope, mediaApps)
     val debugPlayer = DebugMediaPlayer(context)
     private val topWayMedia = TopWayMediaBridge(context, appScope, vehicle, topWay)
     private val reverseDucker = ReverseDucker(context, appScope, vehicle, settings.settings)
     val destinationRequests = DestinationRequests()
     val placesLearner = PlacesLearner(context, appScope, vehicle, settings.settings) { location.location.value }
+
+    private val _wake = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    /** A chave foi ligada (ACC desligado → ligado): a interface volta ao painel (spec 016, R16.3). */
+    val wake: SharedFlow<Unit> = _wake.asSharedFlow()
+
+    private val accPrefs = context.getSharedPreferences("acc_state", Context.MODE_PRIVATE)
 
     fun start() {
         apps.start()
@@ -67,5 +84,56 @@ class AppContainer(val context: Context) {
         reverseDucker.start()
         placesLearner.start()
         weather.start()
+        keepAliveOnSleep()
+        watchAcc()
+    }
+
+    /**
+     * Põe o launcher (e o app de música padrão, se o ajuste estiver ligado) na lista de apps que a
+     * TopWay não fecha ao entrar em espera (spec 016, R16.1/R16.2).
+     */
+    private fun keepAliveOnSleep() {
+        appScope.launch {
+            settings.settings
+                .map { s -> listOfNotNull(context.packageName, s.musicApp.takeIf { s.keepMusicAlive }) }
+                .distinctUntilChanged()
+                .collect { pkgs -> withContext(Dispatchers.IO) { SleepKeepList.ensure(pkgs) } }
+        }
+    }
+
+    /**
+     * Chave desligada → ligada (spec 016, R16.3/R16.6). O estado do ACC é gravado para valer mesmo
+     * se o processo for recriado durante a espera.
+     */
+    private fun watchAcc() {
+        appScope.launch {
+            vehicle.map { it.accOn }.filterNotNull().distinctUntilChanged().collect { on ->
+                val prev = if (accPrefs.contains(KEY_ACC_ON)) accPrefs.getBoolean(KEY_ACC_ON, true) else null
+                if (prev == true && !on) {
+                    val now = System.currentTimeMillis()
+                    val wasPlaying = media.lastSession.value?.wasPlayingAt(now) == true
+                    FileLog.i("ACC desligado; música tocando: $wasPlaying")
+                    accPrefs.edit().putBoolean(KEY_ACC_ON, false).putBoolean(KEY_RESUME, wasPlaying).apply()
+                } else if (prev == false && on) {
+                    val resume = accPrefs.getBoolean(KEY_RESUME, false) && settings.settings.value.resumeOnWake
+                    FileLog.i("ACC ligado; voltando ao painel" + if (resume) " e retomando a música" else "")
+                    accPrefs.edit().putBoolean(KEY_ACC_ON, true).putBoolean(KEY_RESUME, false).apply()
+                    _wake.tryEmit(Unit)
+                    if (resume) {
+                        // Dá tempo ao áudio da TopWay de voltar da espera antes de tocar.
+                        delay(RESUME_DELAY_MS)
+                        media.resumeLast()
+                    }
+                } else {
+                    accPrefs.edit().putBoolean(KEY_ACC_ON, on).apply()
+                }
+            }
+        }
+    }
+
+    private companion object {
+        const val KEY_ACC_ON = "acc_on"
+        const val KEY_RESUME = "resume_on_wake"
+        const val RESUME_DELAY_MS = 3_000L
     }
 }
