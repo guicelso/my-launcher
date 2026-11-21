@@ -29,6 +29,7 @@ import app.mylauncher.ui.components.PillShape
 import app.mylauncher.ui.components.pressable
 import app.mylauncher.ui.components.TouchIconButton
 import app.mylauncher.ui.icons.LauncherIcons
+import app.mylauncher.ui.theme.Dimens
 import app.mylauncher.ui.theme.LocalLauncherColors
 import app.mylauncher.ui.workspace.sharedMotion
 
@@ -46,7 +47,7 @@ fun MediaCard(
 ) {
     val c = LocalLauncherColors.current
     val np = state.nowPlaying
-    val shape = RoundedCornerShape(28.dp)
+    val shape = RoundedCornerShape(Dimens.cardRadius)
     if (np == null) {
         LauncherCard(modifier.sharedMotion("media-card", container = true, clip = shape)) {
             Column(
@@ -135,11 +136,11 @@ fun PillButton(label: String, primary: Boolean = true, onClick: () -> Unit) {
         Modifier
             .height(64.dp)
             .clip(PillShape)
-            .background(if (primary) c.primary else c.surface2)
+            .background(if (primary) c.primaryContainer else c.surface2)
             .pressable(onClick = onClick)
             .padding(horizontal = 26.dp),
         contentAlignment = Alignment.Center,
     ) {
-        Text(label, style = MaterialTheme.typography.labelLarge, color = if (primary) c.onPrimary else c.onSurface)
+        Text(label, style = MaterialTheme.typography.labelLarge, color = if (primary) c.onPrimaryContainer else c.onSurface)
     }
 }

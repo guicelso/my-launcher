@@ -61,8 +61,8 @@ fun SaveDestinationSheet(
         Column(
             Modifier
                 .width(640.dp)
-                .clip(RoundedCornerShape(28.dp))
-                .background(c.surface)
+                .clip(RoundedCornerShape(24.dp))
+                .background(c.surfaceElevated)
                 .pressable(role = null) { }
                 .padding(28.dp),
             verticalArrangement = Arrangement.spacedBy(18.dp),

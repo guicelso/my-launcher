@@ -60,7 +60,7 @@ fun SettingRow(
             .fillMaxWidth()
             .heightIn(min = Dimens.touch)
             .clip(RowShape)
-            .background(c.surface)
+            .background(c.surfaceRow)
             .then(if (onClick != null) Modifier.clickable(role = Role.Button, onClick = onClick) else Modifier)
             .padding(horizontal = 24.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -80,7 +80,10 @@ fun ToggleRow(title: String, checked: Boolean, subtitle: String? = null, onChang
     SettingRow(title, subtitle, onClick = { onChange(!checked) }) {
         Switch(
             checked, onChange,
-            colors = SwitchDefaults.colors(checkedTrackColor = c.primary, checkedThumbColor = c.onPrimary),
+            colors = SwitchDefaults.colors(
+                checkedTrackColor = c.primary, checkedThumbColor = c.onPrimary,
+                uncheckedTrackColor = c.surface2, uncheckedThumbColor = c.onSurfaceVariant, uncheckedBorderColor = c.onSurfaceVariant,
+            ),
         )
     }
 }
@@ -96,8 +99,8 @@ fun <T> ChoicePills(options: List<Pair<T, String>>, selected: T, onSelect: (T) -
                 Modifier
                     .height(Dimens.touch)
                     .clip(PillShape)
-                    .background(if (on) c.selectedBg else c.surface)
-                    .border(2.dp, if (on) c.primary else c.outline, PillShape)
+                    .background(if (on) c.selectedBg else c.surfaceRow)
+                    .border(2.dp, if (on) c.selectedBg else c.outline, PillShape)
                     .clickable(role = Role.RadioButton) { onSelect(value) }
                     .padding(horizontal = 28.dp),
                 contentAlignment = Alignment.Center,
@@ -117,7 +120,7 @@ fun RadioRow(title: String, selected: Boolean, leading: @Composable () -> Unit =
             .fillMaxWidth()
             .height(Dimens.touch)
             .clip(RowShape)
-            .background(if (selected) c.selectedBg else c.surface)
+            .background(if (selected) c.selectedBg else c.surfaceRow)
             .clickable(role = Role.RadioButton, onClick = onClick)
             .padding(horizontal = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -136,7 +139,7 @@ fun TextInput(value: String, onChange: (String) -> Unit, placeholder: String, mo
         modifier
             .height(64.dp)
             .clip(PillShape)
-            .background(c.surface)
+            .background(c.surfaceRow)
             .border(1.dp, c.outline, PillShape)
             .padding(horizontal = 22.dp),
         contentAlignment = Alignment.CenterStart,

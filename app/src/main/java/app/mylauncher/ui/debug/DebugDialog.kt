@@ -52,7 +52,7 @@ fun DebugDialog(
         Column(
             Modifier
                 .width(560.dp)
-                .clip(RoundedCornerShape(28.dp))
+                .clip(RoundedCornerShape(24.dp))
                 .background(c.surface)
                 .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),

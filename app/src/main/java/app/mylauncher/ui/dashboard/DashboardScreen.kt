@@ -118,7 +118,7 @@ private fun WidgetSlot(
             onDismissRequest = { menuOpen = false },
             properties = PopupProperties(focusable = false),
             shape = RoundedCornerShape(24.dp),
-            containerColor = c.surface,
+            containerColor = c.surfaceElevated,
             shadowElevation = 12.dp,
         ) {
             Text("Trocar widget", style = MaterialTheme.typography.labelLarge, color = c.onSurfaceVariant, modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp))

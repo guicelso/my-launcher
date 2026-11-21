@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -104,13 +106,19 @@ fun LetterIcon(label: String, size: Dp, modifier: Modifier = Modifier) {
 
 val PillShape = RoundedCornerShape(50)
 
-/** Fundo das telas cheias ao lado da barra lateral (cantos esquerdos arredondados). */
+/**
+ * Telas que ocupam a área de conteúdo (gaveta, Ajustes): um card grande, com a mesma margem
+ * dos cards do painel, como o Acesso rápido aos apps do Android Auto.
+ */
 @Composable
 fun ScreenPanel(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
     val c = LocalLauncherColors.current
-    Box(
-        modifier
-            .clip(RoundedCornerShape(topStart = Dimens.cardRadius, bottomStart = Dimens.cardRadius))
-            .background(if (c.isNight) Color(0xFF121316) else Color(0xFFF8F9FA)),
-    ) { content() }
+    Box(modifier.padding(start = 8.dp, top = Dimens.gap, end = Dimens.gap, bottom = Dimens.gap)) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(Dimens.cardRadius))
+                .background(c.surface),
+        ) { content() }
+    }
 }

@@ -160,14 +160,14 @@ class OwnMapPane(private val container: AppContainer) : NavigationPane {
                                 .height(76.dp)
                                 .shadow(8.dp, PillShape)
                                 .clip(PillShape)
-                                .background(c.primary)
+                                .background(c.primaryContainer)
                                 .clickable(role = Role.Button, onClick = openSearch)
                                 .padding(horizontal = 28.dp),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(10.dp),
                         ) {
-                            Text("Abrir no ${apps.label(navApp)}", style = MaterialTheme.typography.titleMedium, color = c.onPrimary)
-                            Icon(LauncherIcons.External, null, Modifier.size(24.dp), tint = c.onPrimary)
+                            Text("Abrir no ${apps.label(navApp)}", style = MaterialTheme.typography.titleMedium, color = c.onPrimaryContainer)
+                            Icon(LauncherIcons.External, null, Modifier.size(24.dp), tint = c.onPrimaryContainer)
                         }
                     }
                 }
@@ -175,7 +175,7 @@ class OwnMapPane(private val container: AppContainer) : NavigationPane {
 
             if (!granted) {
                 Box(
-                    Modifier.align(Alignment.Center).clip(PillShape).background(c.surface).padding(horizontal = 24.dp, vertical = 16.dp),
+                    Modifier.align(Alignment.Center).clip(PillShape).background(c.mapPanel).padding(horizontal = 24.dp, vertical = 16.dp),
                 ) { Text("Localização não autorizada", style = MaterialTheme.typography.titleMedium, color = c.onSurfaceVariant) }
             }
         }
@@ -319,7 +319,7 @@ private fun SearchPill(modifier: Modifier, onClick: () -> Unit) {
         modifier
             .shadow(8.dp, PillShape)
             .clip(PillShape)
-            .background(c.surface)
+            .background(c.mapPanel)
             .clickable(role = Role.Button, onClickLabel = "Buscar destino", onClick = onClick)
             .padding(horizontal = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -336,7 +336,7 @@ private fun SpeedBubble(location: Location?, size: Dp, modifier: Modifier) {
     val c = LocalLauncherColors.current
     val kmh = LocationRepository.speedKmh(location)
     Column(
-        modifier.size(size).shadow(8.dp, CircleShape).clip(CircleShape).background(c.surface),
+        modifier.size(size).shadow(8.dp, CircleShape).clip(CircleShape).background(c.mapPanel),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -356,7 +356,7 @@ private fun MapButton(
     TouchIconButton(
         icon, label, onClick,
         modifier = Modifier.shadow(8.dp, CircleShape),
-        background = c.surface, tint = tint, iconSize = 32.dp,
+        background = c.mapPanel, tint = tint, iconSize = 32.dp,
     )
 }
 
@@ -368,7 +368,7 @@ private fun Chip(label: String, icon: androidx.compose.ui.graphics.vector.ImageV
             .height(56.dp)
             .shadow(8.dp, PillShape)
             .clip(PillShape)
-            .background(c.surface)
+            .background(c.mapPanel)
             .clickable(role = Role.Button, onClick = onClick)
             .padding(horizontal = 22.dp),
         verticalAlignment = Alignment.CenterVertically,

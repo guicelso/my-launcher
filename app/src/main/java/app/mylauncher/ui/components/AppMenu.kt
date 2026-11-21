@@ -60,7 +60,7 @@ fun AppContextMenu(
         offset = offset,
         properties = PopupProperties(focusable = false, dismissOnClickOutside = true),
         shape = RoundedCornerShape(24.dp),
-        containerColor = c.surface,
+        containerColor = c.surfaceElevated,
         shadowElevation = 12.dp,
         modifier = Modifier.widthIn(min = 320.dp),
     ) {

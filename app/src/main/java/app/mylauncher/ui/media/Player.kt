@@ -73,6 +73,7 @@ import app.mylauncher.ui.components.AppIcon
 import app.mylauncher.ui.components.TouchIconButton
 import app.mylauncher.ui.components.pressable
 import app.mylauncher.ui.icons.LauncherIcons
+import app.mylauncher.ui.theme.Dimens
 import app.mylauncher.ui.theme.LocalLauncherColors
 import app.mylauncher.ui.workspace.sharedMotion
 import kotlinx.coroutines.Dispatchers
@@ -133,7 +134,7 @@ fun PlayerPanel(
     var showQueue by rememberSaveable { mutableStateOf(false) }
     val direction = remember { SkipDirection() }
 
-    val cardShape = RoundedCornerShape(28.dp)
+    val cardShape = RoundedCornerShape(Dimens.cardRadius)
     FrostedArtCard(np, cardShape, fallback = tint, modifier = modifier.sharedMotion("media-card", container = true, clip = cardShape)) { _ ->
         val c = LocalLauncherColors.current
         Column(Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 18.dp)) {
@@ -345,7 +346,7 @@ private fun Controls(np: NowPlaying, controls: MediaControls?, direction: SkipDi
             LauncherIcons.Previous, "Faixa anterior",
             { direction.value = -1; controls?.previous() }, iconSize = 40.dp, enabled = np.canSkip,
         )
-        PlayPauseButton(np.playing, size = playSize, modifier = Modifier.sharedMotion("media-play")) {
+        PlayPauseButton(np.playing, size = playSize, modifier = Modifier.sharedMotion("media-play"), square = true) {
             if (np.playing) controls?.pause() else controls?.play()
         }
         TouchIconButton(
@@ -369,13 +370,16 @@ private fun Controls(np: NowPlaying, controls: MediaControls?, direction: SkipDi
 
 /** Tocar/pausar com troca animada do ícone (R10.13). */
 @Composable
-fun PlayPauseButton(playing: Boolean, size: Dp, modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun PlayPauseButton(playing: Boolean, size: Dp, modifier: Modifier = Modifier, square: Boolean = false, onClick: () -> Unit) {
     val c = LocalLauncherColors.current
+    // Android Auto: círculo claro no card do painel; quadrado arredondado no player.
+    val bg = if (square) c.playContainer else c.primaryContainer
+    val fg = if (square) c.onPlayContainer else c.onPrimaryContainer
     Box(
         modifier
-            .size(size)
-            .clip(CircleShape)
-            .background(c.primary)
+            .then(if (square) Modifier.size(width = size * 1.15f, height = size) else Modifier.size(size))
+            .clip(if (square) RoundedCornerShape(size * 0.26f) else CircleShape)
+            .background(bg)
             .pressable(onClickLabel = if (playing) "Pausar" else "Tocar", onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
@@ -384,7 +388,7 @@ fun PlayPauseButton(playing: Boolean, size: Dp, modifier: Modifier = Modifier, o
             transitionSpec = { (fadeIn(tween(160)) + scaleIn(tween(160), 0.6f)).togetherWith(fadeOut(tween(120)) + scaleOut(tween(120), 0.6f)) },
             label = "playPause",
         ) { p ->
-            Icon(if (p) LauncherIcons.Pause else LauncherIcons.Play, if (p) "Pausar" else "Tocar", Modifier.size(size * 0.42f), tint = c.onPrimary)
+            Icon(if (p) LauncherIcons.Pause else LauncherIcons.Play, if (p) "Pausar" else "Tocar", Modifier.size(size * 0.42f), tint = fg)
         }
     }
 }

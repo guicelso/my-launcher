@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
@@ -51,6 +52,7 @@ import app.mylauncher.ui.components.PillShape
 import app.mylauncher.ui.components.ScreenPanel
 import app.mylauncher.ui.components.pressable
 import app.mylauncher.ui.icons.LauncherIcons
+import app.mylauncher.ui.theme.Dimens
 import app.mylauncher.ui.theme.LocalLauncherColors
 
 private const val COLUMNS = 6
@@ -65,7 +67,14 @@ private sealed interface DrawerItem {
         override val label get() = entry.label
     }
 
-    data class Internal(override val label: String, val icon: ImageVector, val action: () -> Unit) : DrawerItem
+    /** Item do próprio launcher; [bg]/[fg] nulos usam as cores do tema. */
+    data class Internal(
+        override val label: String,
+        val icon: ImageVector,
+        val action: () -> Unit,
+        val bg: Color? = null,
+        val fg: Color? = null,
+    ) : DrawerItem
 }
 
 /** Gaveta de apps (spec 003). Artboard "Gaveta de apps". */
@@ -96,11 +105,15 @@ fun AppDrawerScreen(
     }
     val hiddenCount = remember(allApps, settings.hidden) { allApps.count { it.packageName in settings.hidden } }
 
-    val items: List<DrawerItem> = remember(ordered, query, settings.hidden) {
+    val items: List<DrawerItem> = remember(ordered, query, settings.hidden, settings.showExitTile) {
         val filtered = AppsRepository.filter(ordered, query, settings.hidden).map { DrawerItem.App(it) }
         val internal = buildList {
-            add(DrawerItem.Internal("Ajustes do launcher", LauncherIcons.Settings, onOpenSettings))
-            if (allApps.none { it.packageName == STOCK_LAUNCHER }) {
+            // Android Auto: "Sair" vem primeiro e volta ao sistema do carro (aqui, o launcher original).
+            if (settings.showExitTile) {
+                add(DrawerItem.Internal("Sair", LauncherIcons.Car, onOpenStockLauncher, bg = Color(0xFF141618), fg = Color(0xFFE3E3E3)))
+            }
+            add(DrawerItem.Internal("Ajustes do launcher", LauncherIcons.Settings, onOpenSettings, bg = Color(0xFF1A73E8), fg = Color.White))
+            if (!settings.showExitTile && allApps.none { it.packageName == STOCK_LAUNCHER }) {
                 add(DrawerItem.Internal("Launcher original", LauncherIcons.Dashboard, onOpenStockLauncher))
             }
         }.filter { query.isBlank() || AppsRepository.normalize(it.label).contains(AppsRepository.normalize(query)) }
@@ -126,7 +139,7 @@ fun AppDrawerScreen(
                     Modifier
                         .height(64.dp)
                         .clip(PillShape)
-                        .background(if (editing) c.primary else c.surface2)
+                        .background(if (editing) c.primaryContainer else c.surface2)
                         .pressable(enabled = parked || editing) { editing = !editing }
                         .padding(horizontal = 24.dp),
                     contentAlignment = Alignment.Center,
@@ -138,7 +151,7 @@ fun AppDrawerScreen(
                             else -> "Pare o carro para editar"
                         },
                         style = MaterialTheme.typography.labelLarge,
-                        color = if (editing) c.onPrimary else if (parked) c.onSurface else c.onSurfaceVariant,
+                        color = if (editing) c.onPrimaryContainer else if (parked) c.onSurface else c.onSurfaceVariant,
                     )
                 }
             }
@@ -245,11 +258,11 @@ private fun Tile(
     ) {
         Box {
             when (item) {
-                is DrawerItem.App -> AppIcon(apps, item.entry.packageName, 96.dp)
+                is DrawerItem.App -> AppIcon(apps, item.entry.packageName, Dimens.gridIcon)
                 is DrawerItem.Internal -> Box(
-                    Modifier.size(96.dp).clip(CircleShape).background(c.surface2),
+                    Modifier.size(Dimens.gridIcon).clip(CircleShape).background(item.bg ?: c.surface2),
                     contentAlignment = Alignment.Center,
-                ) { Icon(item.icon, null, Modifier.size(44.dp), tint = c.primary) }
+                ) { Icon(item.icon, null, Modifier.size(44.dp), tint = item.fg ?: c.primary) }
             }
             if (editing && item is DrawerItem.App) {
                 Box(
@@ -272,7 +285,7 @@ private fun Tile(
         }
         Text(
             item.label,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.titleMedium,
             color = c.onSurface,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -289,7 +302,7 @@ private fun Tile(
 private fun SearchField(value: String, onChange: (String) -> Unit, modifier: Modifier = Modifier) {
     val c = LocalLauncherColors.current
     Row(
-        modifier.height(64.dp).clip(PillShape).background(c.surface2).padding(horizontal = 22.dp),
+        modifier.height(64.dp).clip(PillShape).background(c.surfaceRow).padding(horizontal = 22.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {

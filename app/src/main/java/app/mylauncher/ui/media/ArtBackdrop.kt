@@ -139,6 +139,11 @@ private fun LauncherColors.onArt() = copy(
     surface2 = Color.White.copy(alpha = 0.14f),
     primary = Color(0xFFF5F6F7),
     onPrimary = Color(0xFF16181B),
+    // Botão tocar do card sobre a capa (ciano claro, como no Android Auto) e do player.
+    primaryContainer = Color(0xFFAEEDFF),
+    onPrimaryContainer = Color(0xFF06343F),
+    playContainer = Color(0xFFCFD6D3),
+    onPlayContainer = Color(0xFF151616),
 )
 
 /**
