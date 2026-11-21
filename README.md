@@ -25,3 +25,19 @@ tools/setup-dev-env.sh      # instala JDK 17, Android SDK e jadx em ~/ (sem sudo
 source tools/env.sh         # exporta JAVA_HOME, ANDROID_HOME, PATH e HU_IP
 adb connect $HU_IP:5555     # multimídia via Wi-Fi (a USB dela é só host)
 ```
+
+## Rodar
+
+| Comando | O que faz |
+|---|---|
+| `tools/emulator.sh --deploy` | Abre o emulador com a tela da multimídia (Android 10, 1280×720, 160 dpi) e instala o launcher |
+| `tools/deploy.sh` | Compila, instala na multimídia (`$HU_IP:5555`), concede permissões e define como tela inicial |
+| `DEVICE=emulator-5554 tools/deploy.sh` | O mesmo, no emulador |
+| `tools/rollback.sh` | Volta ao launcher original da multimídia (DoFun) |
+| `tools/logs.sh` | Acompanha o logcat do launcher |
+| `./gradlew :app:testDebugUnitTest` | Testes de unidade |
+
+**No emulador:**
+- Toque longo no relógio abre o painel de depuração. Ali dá para simular faróis (tema noite/dia), ré e velocidade.
+- A posição do GPS se define pela janela do emulador: `…` → *Location*.
+- Os serviços da TopWay não existem no emulador. O diagnóstico em Ajustes → Veículo mostra "Indisponível", como esperado.

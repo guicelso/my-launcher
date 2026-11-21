@@ -23,13 +23,13 @@ Cada critério de aceite referencia os requisitos que cobre.
 
 | Spec | Título | Status | Depende de |
 |---|---|---|---|
-| [001](001-launcher-base.md) | Launcher base, deploy e recuperação | Rascunho | — |
-| [002](002-dashboard-rail.md) | Painel e barra lateral (noite/dia) | Rascunho | 001 |
-| [003](003-app-drawer.md) | Gaveta de apps e recentes | Rascunho | 001 |
-| [004](004-media.md) | Mídia (card + tela cheia) | Rascunho | 002 |
-| [005](005-own-map.md) | Mapa próprio (MapLibre) | Rascunho | 002 |
-| [006](006-vehicle-integration.md) | Integração com o veículo (TopWay) | Rascunho | 001 |
-| [007](007-settings.md) | Ajustes do launcher | Rascunho | 002, 006 |
-| [008](008-embedded-navigation.md) | Navegação embutida (Waze/Maps no painel) | Pesquisa | 005, 006 |
+| [001](001-launcher-base.md) | Launcher base, deploy e recuperação | Implementada · validar no carro | — |
+| [002](002-dashboard-rail.md) | Painel e barra lateral (noite/dia) | Implementada · validar no carro | 001 |
+| [003](003-app-drawer.md) | Gaveta de apps e recentes | Implementada · validar no carro | 001 |
+| [004](004-media.md) | Mídia (card + tela cheia) | Implementada · validar no carro | 002 |
+| [005](005-own-map.md) | Mapa próprio (MapLibre) | Implementada · validar no carro | 002 |
+| [006](006-vehicle-integration.md) | Integração com o veículo (TopWay) | Implementada · validar no carro | 001 |
+| [007](007-settings.md) | Ajustes do launcher | Implementada · validar no carro | 002, 006 |
+| [008](008-embedded-navigation.md) | Navegação embutida (Waze/Maps no painel) | Pesquisa (ferramentas dos spikes S6.1/S8.1 prontas) | 005, 006 |
 
 A ordem sugerida é 001 → 002 → 003 → 004 → 006 → 005 → 007 → 008. A 006 vem antes do mapa porque o tema automático pelos faróis é central no visual.

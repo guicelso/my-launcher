@@ -11,11 +11,11 @@ Concentrar as preferências do usuário e as ferramentas de diagnóstico e recup
 - **R7.3** **Barra lateral:** apps fixados (mesmo editor da spec 003).
 - **R7.4** **Navegação:** app padrão (Waze / Google Maps / HERE, entre os instalados) e endereços Casa/Trabalho (busca ou coordenadas).
 - **R7.5** **Mídia:** app de música padrão e acesso a notificações, com atalho para conceder se estiver faltando.
-- **R7.6** **Veículo:** baixar o volume na ré (usa `CommandService` só se a 006 aprovar escrita), mostrar a tensão da bateria e a tela de diagnóstico (R6.7).
+- **R7.6** **Veículo:** baixar o volume na ré (via foco de áudio transitório com "duck", sem escrever na MCU), mostrar a tensão da bateria e a tela de diagnóstico (R6.7).
 - **R7.7** **Sistema:**
   - versão;
-  - exportar logs para `/sdcard/mylauncher-logs/`;
-  - **"Voltar ao launcher original"**, que define `com.dofun.variety` como HOME (via `RoleManager`/intent de escolha de HOME) e abre esse launcher.
+  - exportar logs para `/sdcard/Android/data/app.mylauncher/files/logs/` (pasta do app; dispensa permissão de armazenamento);
+  - **"Voltar ao launcher original"**, que abre a escolha de tela inicial do sistema (`ACTION_HOME_SETTINGS`). Um app comum não pode definir o HOME de outro app; se essa tela não existir, abre o DoFun direto. O rollback completo é `tools/rollback.sh`.
 - **R7.8** As preferências DEVEM persistir em DataStore e ser aplicadas sem reiniciar o app.
 
 ## Critérios de aceite

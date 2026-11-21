@@ -13,17 +13,17 @@ Implementar o `TopWayVehicleSource` em camadas, da mais limpa para a mais invasi
 | **C1** | Bind em `com.tw.carinfoservice/.CarService`, com `transact` cru usando o descriptor `com.tw.carinfoservice.CarServiceAidl` | farol, tensão, velocidade, freio de mão |
 | **C2** | Bind em `com.tw.service.xt/.CommandService` (`ITWCommandAidl`) | ré, ACC/sleep, volume, fonte, iluminação (`light_recieve`) |
 | **C3** | Broadcasts `com.unisound.intent.action.ACC_*` | ignição |
-| **C4** | Propriedade `persist.tw.theme.mode` (consultada a cada 5 s apenas se C1 e C2 falharem) | dia/noite |
-| **C5** | `android.tw.john.TWUtil` via reflexão (`0x0204`, `0x9F1C`, `0x0202`, `0x050B`) | todos, se `open()` funcionar para um app comum |
+| **C4** | Propriedade `persist.tw.theme.mode` (consultada a cada 5 s; usada pelo tema só quando não há sinal de farol) | dia/noite |
+| **C5** | `android.tw.john.TWUtil` via reflexão (`0x0204`, `0x9F1C`, `0x0202`, `0x050B`), apenas como teste manual (S6.1) | todos, se `open()` funcionar para um app comum |
 
 ## Requisitos
 - **R6.1** `VehicleState` DEVE conter: `headlightsOn`, `reverse`, `acc`, `speedKmh`, `batteryV`, `handbrake`, `audioSource` e `availability` (por sinal: DISPONÍVEL / INDISPONÍVEL).
-- **R6.2** O `TopWayVehicleSource` DEVE tentar C1 → C2 → C3 → C4 → C5 e combinar o que funcionar. Cada sinal fica com o canal de maior prioridade disponível.
+- **R6.2** O `TopWayVehicleSource` DEVE tentar C1 → C2 → C3 → C4 e combinar o que funcionar. Cada sinal fica com o canal de maior prioridade disponível. O C5 (`TWUtil`) é um teste manual na tela de diagnóstico, porque abrir a MCU tem efeitos colaterais.
 - **R6.3** SE um serviço da TopWay morrer (`binderDied`), ENTÃO a fonte DEVE refazer o bind com backoff (1 s, 2 s, 5 s, máx. 30 s), mantendo o último estado conhecido.
 - **R6.4** Os códigos de transação e descriptors DEVEM ficar isolados em `data/vehicle/topway/Protocol.kt`, com comentário apontando a evidência (arquivo:linha no decompilado).
 - **R6.5** QUANDO `headlightsOn` mudar e a preferência de tema for AUTO, o tema DEVE trocar em ≤ 1 s (ver spec 002).
 - **R6.6** ENQUANTO `reverse` for verdadeiro, o launcher NÃO DEVE abrir nenhuma tela nem tocar som. A câmera da TopWay tem prioridade.
-- **R6.7** Uma tela de diagnóstico (Ajustes → Sistema → Veículo) DEVE mostrar cada sinal, o canal de origem e o horário do último evento.
+- **R6.7** Uma tela de diagnóstico (Ajustes → Veículo → Diagnóstico) DEVE mostrar cada sinal, o canal de origem e o horário do último evento.
 - **R6.8** O launcher NÃO DEVE escrever comandos na MCU (`write`) nesta spec. O escopo é somente leitura.
 
 ## Critérios de aceite
