@@ -153,6 +153,10 @@ private fun RailSection(container: AppContainer, s: LauncherSettings, onOpenDraw
         }
         PillButton("Escolher na gaveta de apps", onClick = onOpenDrawer)
     }
+    SettingsGroup("Botões", "Dica: toque e segure um app na barra para fixar, desafixar ou remover dos recentes.") {
+        ToggleRow("Mostrar notificações (sino)", s.showBell, onChange = container.settings::setShowBell)
+        ToggleRow("Mostrar comando de voz", s.showVoice, onChange = container.settings::setShowVoice)
+    }
 }
 
 @Composable
@@ -191,6 +195,12 @@ private fun Media(container: AppContainer, s: LauncherSettings) {
         options.forEach { pkg ->
             RadioRow(apps.label(pkg), pkg == s.musicApp, leading = { AppIcon(apps, pkg, 44.dp) }) { container.settings.setMusicApp(pkg) }
         }
+    }
+    SettingsGroup("Comportamento") {
+        ToggleRow(
+            "Abrir apps de mídia em tela dividida", s.splitMedia,
+            "Tocar num app de música na barra mostra o player ao lado do mapa", container.settings::setSplitMedia,
+        )
     }
     SettingsGroup("Acesso às notificações", "Necessário para ver o que está tocando e as mensagens recebidas.") {
         SettingRow(if (granted) "Concedido" else "Não concedido", if (granted) null else "Toque para abrir a tela do sistema") {

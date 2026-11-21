@@ -42,6 +42,9 @@ data class LauncherSettings(
     val duckOnReverse: Boolean = true,
     val showBattery: Boolean = true,
     val simulateVehicle: Boolean = false,
+    val showBell: Boolean = true,
+    val showVoice: Boolean = true,
+    val splitMedia: Boolean = true,
 ) {
     companion object {
         const val DEFAULT_NAV_APP = "com.waze"
@@ -69,6 +72,9 @@ class SettingsRepository(private val context: Context, private val scope: Corout
         val duck = booleanPreferencesKey("duck_on_reverse")
         val battery = booleanPreferencesKey("show_battery")
         val simulate = booleanPreferencesKey("simulate_vehicle")
+        val bell = booleanPreferencesKey("show_bell")
+        val voice = booleanPreferencesKey("show_voice")
+        val split = booleanPreferencesKey("split_media")
     }
 
     val settings: StateFlow<LauncherSettings> = context.dataStore.data
@@ -85,6 +91,25 @@ class SettingsRepository(private val context: Context, private val scope: Corout
     fun setDuckOnReverse(v: Boolean) = put { it[K.duck] = v }
     fun setShowBattery(v: Boolean) = put { it[K.battery] = v }
     fun setSimulateVehicle(v: Boolean) = put { it[K.simulate] = v }
+    fun setShowBell(v: Boolean) = put { it[K.bell] = v }
+    fun setShowVoice(v: Boolean) = put { it[K.voice] = v }
+    fun setSplitMedia(v: Boolean) = put { it[K.split] = v }
+
+    /** Remove um app dos recentes (spec 009, R9.1). */
+    fun removeRecent(pkg: String) = put { prefs ->
+        val current = prefs[K.recents]?.split(SEP)?.filter { it.isNotBlank() } ?: emptyList()
+        prefs[K.recents] = (current - pkg).joinToString(SEP)
+    }
+
+    fun pin(pkg: String) = put { prefs ->
+        val current = prefs[K.pinned]?.split(SEP)?.filter { it.isNotBlank() } ?: emptyList()
+        if (pkg !in current && current.size < LauncherSettings.MAX_RAIL_APPS) prefs[K.pinned] = (current + pkg).joinToString(SEP)
+    }
+
+    fun unpin(pkg: String) = put { prefs ->
+        val current = prefs[K.pinned]?.split(SEP)?.filter { it.isNotBlank() } ?: emptyList()
+        prefs[K.pinned] = (current - pkg).joinToString(SEP)
+    }
 
     /** Registra que um app foi aberto pelo launcher (spec 003, R3.5). */
     fun recordLaunch(pkg: String) = put { prefs ->
@@ -111,6 +136,9 @@ class SettingsRepository(private val context: Context, private val scope: Corout
             duckOnReverse = this[K.duck] ?: d.duckOnReverse,
             showBattery = this[K.battery] ?: d.showBattery,
             simulateVehicle = this[K.simulate] ?: d.simulateVehicle,
+            showBell = this[K.bell] ?: d.showBell,
+            showVoice = this[K.voice] ?: d.showVoice,
+            splitMedia = this[K.split] ?: d.splitMedia,
         )
     }
 
