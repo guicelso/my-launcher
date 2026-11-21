@@ -2,6 +2,7 @@ package app.mylauncher.ui.rail
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.contentDescription
@@ -172,6 +176,36 @@ private fun RailButton(icon: androidx.compose.ui.graphics.vector.ImageVector, la
     )
 }
 
+/** Barras de sinal (0–4) + tipo de rede, como na barra de status do Android. */
+@Composable
+private fun SignalIndicator(level: Int?, label: String?) {
+    val c = LocalLauncherColors.current
+    val on = c.onSurfaceVariant
+    val off = c.onSurfaceVariant.copy(alpha = 0.3f)
+    val lvl = level ?: 0
+    Row(
+        verticalAlignment = Alignment.Bottom,
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
+        modifier = Modifier.semantics { contentDescription = "Rede móvel ${label ?: ""}, sinal $lvl de 4" },
+    ) {
+        if (label != null) {
+            Text(label, color = on, fontSize = 10.sp, fontWeight = FontWeight.Bold, lineHeight = 10.sp)
+        }
+        Canvas(Modifier.size(width = 15.dp, height = 13.dp)) {
+            val barW = size.width / 4.6f
+            for (i in 0 until 4) {
+                val h = size.height * (i + 1) / 4f
+                drawRoundRect(
+                    color = if (i < lvl) on else off,
+                    topLeft = Offset(i * barW * 1.2f, size.height - h),
+                    size = Size(barW, h),
+                    cornerRadius = CornerRadius(1.5f, 1.5f),
+                )
+            }
+        }
+    }
+}
+
 @Composable
 private fun Clock(status: StatusState, batteryV: Float?, onLongPress: () -> Unit) {
     val c = LocalLauncherColors.current
@@ -185,7 +219,7 @@ private fun Clock(status: StatusState, batteryV: Float?, onLongPress: () -> Unit
     ) {
         Text(time, color = c.onSurface, fontSize = 24.sp, fontWeight = FontWeight.Medium)
         Row(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.padding(top = 4.dp)) {
-            if (status.cellular) Icon(LauncherIcons.Signal, "Rede móvel", Modifier.size(16.dp), tint = c.onSurfaceVariant)
+            if (status.hasSim || status.cellular) SignalIndicator(status.signalLevel, status.networkLabel)
             if (status.wifi) Icon(LauncherIcons.Wifi, "Wi-Fi", Modifier.size(16.dp), tint = c.onSurfaceVariant)
             if (status.bluetooth) Icon(LauncherIcons.Bluetooth, "Bluetooth", Modifier.size(16.dp), tint = c.onSurfaceVariant)
         }
