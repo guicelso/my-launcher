@@ -1,6 +1,6 @@
-# my-launcher
+# Lumia Launcher
 
-Launcher Android no estilo Android Auto para a multimídia **TopWay TS18** (Android 10) do carro.
+Launcher Android (repositório `my-launcher`, pacote `app.mylauncher`) no estilo Android Auto para a multimídia **TopWay TS18** (Android 10) do carro.
 Desenvolvimento orientado a especificações (spec-driven): nada é implementado sem uma spec aprovada em [`specs/`](specs/).
 
 ## Mapa do repositório
