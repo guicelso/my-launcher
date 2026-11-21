@@ -1,5 +1,26 @@
 package app.mylauncher.ui.dashboard
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.window.PopupProperties
+import app.mylauncher.data.prefs.DashboardLayout
+import app.mylauncher.data.prefs.WidgetType
+import app.mylauncher.ui.components.interceptLongPress
+import app.mylauncher.ui.icons.LauncherIcons
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,19 +60,76 @@ data class Suggestion(
 )
 
 /**
- * Coluna direita do painel (spec 002, R2.6–R2.9): mídia (344 dp) e sugestões.
- * O mapa fica na área de trabalho (spec 010). Artboard "Início · noite/dia".
+ * Coluna direita do painel com widgets trocáveis (spec 013): grade de 1, 2 ou 3 cards. Toque
+ * longo num card (só com o carro parado, [editable]) abre "Trocar widget".
+ * Artboard "Início · noite/dia".
  */
 @Composable
 fun DashboardPanel(
-    suggestions: List<Suggestion>,
-    apps: AppsRepository,
-    mediaCard: @Composable (Modifier) -> Unit,
+    layout: DashboardLayout,
+    widgets: List<WidgetType>,
+    editable: Boolean,
+    onSwap: (slot: Int, type: WidgetType) -> Unit,
+    widget: @Composable (WidgetType, Modifier) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier, verticalArrangement = Arrangement.spacedBy(Dimens.gap)) {
-        mediaCard(Modifier.fillMaxWidth().height(344.dp))
-        SuggestionsCard(suggestions, apps, Modifier.fillMaxWidth().weight(1f))
+    val gap = Dimens.gap
+    @Composable
+    fun slot(index: Int, m: Modifier) = WidgetSlot(widgets[index], editable, { onSwap(index, it) }, widget, m)
+    when (layout) {
+        DashboardLayout.ONE -> Box(modifier) { slot(0, Modifier.fillMaxSize()) }
+        DashboardLayout.TWO -> Column(modifier, verticalArrangement = Arrangement.spacedBy(gap)) {
+            slot(0, Modifier.fillMaxWidth().weight(1.05f))
+            slot(1, Modifier.fillMaxWidth().weight(1f))
+        }
+        DashboardLayout.THREE -> Column(modifier, verticalArrangement = Arrangement.spacedBy(gap)) {
+            slot(0, Modifier.fillMaxWidth().weight(1.05f))
+            Row(Modifier.fillMaxWidth().weight(1f), horizontalArrangement = Arrangement.spacedBy(gap)) {
+                slot(1, Modifier.weight(1f).fillMaxHeight())
+                slot(2, Modifier.weight(1f).fillMaxHeight())
+            }
+        }
+    }
+}
+
+@Composable
+private fun WidgetSlot(
+    type: WidgetType,
+    editable: Boolean,
+    onSwap: (WidgetType) -> Unit,
+    widget: @Composable (WidgetType, Modifier) -> Unit,
+    modifier: Modifier,
+) {
+    val c = LocalLauncherColors.current
+    var menuOpen by remember { mutableStateOf(false) }
+    Box(modifier.interceptLongPress(editable) { menuOpen = true }) {
+        AnimatedContent(
+            targetState = type,
+            transitionSpec = {
+                (fadeIn(tween(220, delayMillis = 60)) + scaleIn(tween(260, delayMillis = 60), initialScale = 0.94f))
+                    .togetherWith(fadeOut(tween(140)) + scaleOut(tween(140), targetScale = 0.97f))
+            },
+            label = "widget",
+        ) { t -> widget(t, Modifier.fillMaxSize()) }
+        BackHandler(enabled = menuOpen) { menuOpen = false }
+        DropdownMenu(
+            expanded = menuOpen,
+            onDismissRequest = { menuOpen = false },
+            properties = PopupProperties(focusable = false),
+            shape = RoundedCornerShape(24.dp),
+            containerColor = c.surface,
+            shadowElevation = 12.dp,
+        ) {
+            Text("Trocar widget", style = MaterialTheme.typography.labelLarge, color = c.onSurfaceVariant, modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp))
+            WidgetType.entries.forEach { option ->
+                DropdownMenuItem(
+                    text = { Text(option.label, style = MaterialTheme.typography.titleMedium, color = c.onSurface) },
+                    trailingIcon = { if (option == type) Icon(LauncherIcons.Check, "Atual", Modifier.size(26.dp), tint = c.primary) },
+                    onClick = { onSwap(option); menuOpen = false },
+                    modifier = Modifier.height(72.dp),
+                )
+            }
+        }
     }
 }
 

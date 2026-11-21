@@ -24,16 +24,27 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.mylauncher.AppContainer
 import app.mylauncher.core.CrashGuard
 import app.mylauncher.data.media.NotificationsSummary
+import app.mylauncher.data.destinations.LearnedPlace
+import app.mylauncher.data.destinations.PlaceKind
+import app.mylauncher.data.destinations.SharedPlace
 import app.mylauncher.data.location.LocationRepository
+import app.mylauncher.data.prefs.Destination
 import app.mylauncher.data.prefs.AppOrder
 import app.mylauncher.data.prefs.LauncherSettings
 import app.mylauncher.data.prefs.Recents
 import app.mylauncher.nav.NavIntents
 import app.mylauncher.nav.NavigationPane
 import app.mylauncher.ui.components.AppMenuActions
+import app.mylauncher.data.prefs.WidgetType
 import app.mylauncher.ui.dashboard.DashboardPanel
+import app.mylauncher.ui.dashboard.SuggestionsCard
+import app.mylauncher.ui.widgets.ClockWidget
+import app.mylauncher.ui.widgets.NotificationsWidget
+import app.mylauncher.ui.widgets.VehicleWidget
+import app.mylauncher.ui.widgets.WeatherWidget
 import app.mylauncher.ui.dashboard.Suggestion
 import app.mylauncher.ui.debug.DebugDialog
+import app.mylauncher.ui.destinations.SaveDestinationSheet
 import app.mylauncher.ui.drawer.AnimatedDrawer
 import app.mylauncher.ui.drawer.AppDrawerScreen
 import app.mylauncher.ui.drawer.DrawerAnchor
@@ -68,6 +79,9 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
     val scope = rememberCoroutineScope()
     val location by container.location.location.collectAsStateWithLifecycle()
     val appsAnchor = remember { DrawerAnchor() }
+    val pendingSave by container.destinationRequests.pending.collectAsStateWithLifecycle()
+    val learned by container.placesLearner.suggestion.collectAsStateWithLifecycle()
+    val weather by container.weather.weather.collectAsStateWithLifecycle()
     // Parado: velocidade da MCU (ou do GPS, se a MCU não informar) até 5 km/h (spec 011, R11.7).
     val speed = vehicle.speedKmh ?: LocationRepository.speedKmh(location) ?: 0
     val parked = speed <= PARKED_MAX_KMH
@@ -102,6 +116,7 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
         val screen = navigator.screen
         val mediaVisible = screen == Screen.SPLIT_MEDIA || screen == Screen.MEDIA
 
+        Box(Modifier.fillMaxSize()) {
         Row(Modifier.fillMaxSize().background(c.background)) {
             Rail(
                 screen = screen,
@@ -133,19 +148,35 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                     onExpandMap = { navigator.go(Screen.MAP) },
                     dashboardPanel = { m ->
                         DashboardPanel(
-                            suggestions = suggestions(container, settings, notifs) { navigator.go(Screen.SETTINGS) },
-                            apps = apps,
-                            mediaCard = { cardModifier ->
-                                MediaCard(
-                                    state = media,
-                                    apps = apps,
-                                    musicApp = settings.musicApp,
-                                    onOpenMedia = { navigator.go(Screen.SPLIT_MEDIA) },
-                                    onOpenApp = openApp,
-                                    onLaunchApp = { apps.launch(it) },
-                                    onGrantAccess = { container.systemActions.openNotificationAccess() },
-                                    modifier = cardModifier,
-                                )
+                            layout = settings.dashboardLayout,
+                            widgets = settings.widgets,
+                            editable = parked,
+                            onSwap = container.settings::setWidget,
+                            widget = { type, wm ->
+                                when (type) {
+                                    WidgetType.MEDIA -> MediaCard(
+                                        state = media,
+                                        apps = apps,
+                                        musicApp = settings.musicApp,
+                                        onOpenMedia = { navigator.go(Screen.SPLIT_MEDIA) },
+                                        onOpenApp = openApp,
+                                        onLaunchApp = { apps.launch(it) },
+                                        onGrantAccess = { container.systemActions.openNotificationAccess() },
+                                        modifier = wm,
+                                    )
+                                    WidgetType.SUGGESTIONS -> SuggestionsCard(
+                                        suggestions(container, settings, notifs, learned, location.takeIf { parked }) { navigator.go(Screen.SETTINGS) },
+                                        apps, wm,
+                                    )
+                                    WidgetType.WEATHER -> WeatherWidget(weather, wm)
+                                    WidgetType.VEHICLE -> VehicleWidget(vehicle, wm)
+                                    WidgetType.CLOCK -> ClockWidget(status.now, wm)
+                                    WidgetType.NOTIFICATIONS -> NotificationsWidget(
+                                        notifs, apps,
+                                        onOpen = { pkg, intent -> runCatching { intent?.send() ?: apps.launch(pkg) }.onFailure { apps.launch(pkg) } },
+                                        modifier = wm,
+                                    )
+                                }
                             },
                             modifier = m,
                         )
@@ -212,6 +243,17 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                 }
             }
         }
+        // "Salvar como…" (spec 012): por cima de tudo, dentro da janela (sem barras do sistema).
+        pendingSave?.let { place ->
+            SaveDestinationSheet(
+                place = place,
+                onSaveHome = { container.settings.setHome(it); container.destinationRequests.dismiss() },
+                onSaveWork = { container.settings.setWork(it); container.destinationRequests.dismiss() },
+                onSaveFavorite = { container.settings.addFavorite(it); container.destinationRequests.dismiss() },
+                onDismiss = { container.destinationRequests.dismiss() },
+            )
+        }
+        }
         if (debugOpen) {
             DebugDialog(
                 simulate = settings.simulateVehicle,
@@ -246,26 +288,51 @@ private fun openApp(container: AppContainer, navigator: Navigator, scope: Corout
     }
 }
 
-/** Card de sugestões (R2.9): destinos salvos e a última mensagem; sem itens, atalho para os Ajustes. */
+/**
+ * Card de sugestões (R2.9 + spec 012): destinos salvos, lugar aprendido, última mensagem e
+ * "Salvar local atual" (só parado). Sem itens, atalho para os Ajustes.
+ */
 private fun suggestions(
     container: AppContainer,
     s: LauncherSettings,
     notifs: NotificationsSummary,
+    learned: LearnedPlace?,
+    parkedAt: android.location.Location?,
     openSettings: () -> Unit,
 ): List<Suggestion> {
     val apps = container.apps
     val navLabel = apps.label(s.navApp)
     val list = mutableListOf<Suggestion>()
-    s.home?.let { d ->
-        list.add(Suggestion("Casa", "Navegar com $navLabel", LauncherIcons.Home) { apps.launchIntent(NavIntents.navigate(s.navApp, d)) })
+    learned?.let { place ->
+        val label = if (place.kind == PlaceKind.HOME) "Casa" else "Trabalho"
+        list.add(
+            Suggestion("Salvar como $label?", "Lugar frequente (${place.visits} paradas) · toque para salvar", LauncherIcons.Pin) {
+                val d = Destination(label, place.query)
+                if (place.kind == PlaceKind.HOME) container.settings.setHome(d) else container.settings.setWork(d)
+            },
+        )
     }
-    s.work?.let { d ->
-        list.add(Suggestion("Trabalho", "Navegar com $navLabel", LauncherIcons.Work) { apps.launchIntent(NavIntents.navigate(s.navApp, d)) })
+    s.destinations.forEach { d ->
+        val icon = when (d.label) {
+            "Casa" -> LauncherIcons.Home
+            "Trabalho" -> LauncherIcons.Work
+            else -> LauncherIcons.Pin
+        }
+        list.add(Suggestion(d.label, "Navegar com $navLabel", icon) { apps.launchIntent(NavIntents.navigate(s.navApp, d)) })
     }
     notifs.lastMessage?.let { m ->
         list.add(
             Suggestion(m.sender.ifBlank { apps.label(m.packageName) }, m.text.ifBlank { "Nova mensagem" }, appPackage = m.packageName) {
                 runCatching { m.contentIntent?.send() }.onFailure { apps.launch(m.packageName) }
+            },
+        )
+    }
+    if (parkedAt != null && list.size < 3) {
+        list.add(
+            Suggestion("Salvar local atual", "Casa, Trabalho ou favorito, sem digitar", LauncherIcons.Locate) {
+                container.destinationRequests.request(
+                    SharedPlace("%.6f,%.6f".format(java.util.Locale.US, parkedAt.latitude, parkedAt.longitude), null),
+                )
             },
         )
     }

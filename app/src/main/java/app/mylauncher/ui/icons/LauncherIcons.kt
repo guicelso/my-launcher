@@ -93,4 +93,19 @@ object LauncherIcons {
     val Car = icon("car", s("M5 17h14v-5l-2-5H7l-2 5z"), s("M5 12h14"), s(circle(8f, 17f, 2f)), s(circle(16f, 17f, 2f)))
     val Pin = icon("pin", s("M12 17v5"), s("M9 3h6l-1 6 4 4H6l4-4z"))
     val Check = icon("check", s("M5 12l5 5L20 7"))
+
+    // Clima (spec 013)
+    val Sun = icon("sun", s(circle(12f, 12f, 4f)), s("M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"))
+    val Cloud = icon("cloud", s("M7 18h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.1 11 3.5 3.5 0 0 0 7 18z"))
+    val CloudSun = icon(
+        "cloudSun",
+        s("M9 19h8a3.5 3.5 0 0 0 .4-6.98A5 5 0 0 0 8 12.3 3.4 3.4 0 0 0 9 19z"),
+        s("M7 3v1.5M2.8 5.8l1 1M1.5 10H3M5.5 9.2a3 3 0 0 1 4.6-2.7"),
+    )
+    val Rain = icon("rain", s("M7 15h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.1 8 3.5 3.5 0 0 0 7 15z"), s("M8 18l-1 3M12 18l-1 3M16 18l-1 3"))
+    val Storm = icon("storm", s("M7 15h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.1 8 3.5 3.5 0 0 0 7 15z"), s("M12 15l-2 4h3l-2 4"))
+    val Fog = icon("fog", s("M4 10h16M3 14h18M5 18h14"), s("M7 6h10"))
+    val Snow = icon("snow", s("M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"))
+    val Speed = icon("speed", s("M4 16a8 8 0 1 1 16 0"), s("M12 16l4-5"))
+    val Reverse = icon("reverse", s("M9 14 4 9l5-5"), s("M4 9h10a6 6 0 0 1 0 12h-3"))
 }

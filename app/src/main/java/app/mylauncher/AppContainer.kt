@@ -11,6 +11,7 @@ import app.mylauncher.data.media.MediaRepository
 import app.mylauncher.data.media.MessagesRepository
 import app.mylauncher.data.prefs.SettingsRepository
 import app.mylauncher.data.status.StatusRepository
+import app.mylauncher.data.weather.WeatherRepository
 import app.mylauncher.data.vehicle.FakeVehicleSource
 import app.mylauncher.data.vehicle.ReverseDucker
 import app.mylauncher.data.vehicle.VehicleState
@@ -36,6 +37,7 @@ class AppContainer(val context: Context) {
     val systemActions = SystemActions(context)
     val messages = MessagesRepository(appScope, context.packageName)
     val location = LocationRepository(context)
+    val weather = WeatherRepository(context, appScope, location.location)
 
     val fakeVehicle = FakeVehicleSource()
     val topWay = TopWayVehicleSource(context, appScope)
@@ -64,5 +66,6 @@ class AppContainer(val context: Context) {
         media.start()
         reverseDucker.start()
         placesLearner.start()
+        weather.start()
     }
 }

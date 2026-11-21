@@ -20,6 +20,8 @@ data class MessageNotification(
 data class NotificationsSummary(
     val count: Int = 0,
     val lastMessage: MessageNotification? = null,
+    /** Até 4 notificações mais recentes (widget Notificações, spec 013). */
+    val recent: List<MessageNotification> = emptyList(),
 )
 
 /** Notificações para o sino da barra lateral e a mensagem do card de sugestões (R2.9). */
@@ -43,7 +45,17 @@ class MessagesRepository(scope: CoroutineScope, private val selfPackage: String)
                     contentIntent = sbn.notification.contentIntent,
                 )
             }
-        return NotificationsSummary(visible.size, last)
+        val recent = visible.sortedByDescending { it.postTime }.take(4).map { sbn ->
+            val extras = sbn.notification.extras
+            MessageNotification(
+                packageName = sbn.packageName,
+                sender = extras.getCharSequence(Notification.EXTRA_TITLE)?.toString().orEmpty(),
+                text = extras.getCharSequence(Notification.EXTRA_TEXT)?.toString().orEmpty(),
+                postedAt = sbn.postTime,
+                contentIntent = sbn.notification.contentIntent,
+            )
+        }
+        return NotificationsSummary(visible.size, last, recent)
     }
 
     private fun isMessage(sbn: StatusBarNotification): Boolean =
