@@ -24,13 +24,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -50,60 +50,62 @@ private val PtBr = Locale("pt", "BR")
 private val CardShape = RoundedCornerShape(Dimens.cardRadius)
 private val TileShape = RoundedCornerShape(18.dp)
 
-/** Céu de fundo por condição e dia/noite (mesma linguagem de vidro do player, spec 010/013). */
-private fun sky(kind: WeatherKind?, isDay: Boolean): Pair<Color, Color> = when (kind) {
-    WeatherKind.CLEAR -> if (isDay) Color(0xFF2F6FB8) to Color(0xFF6FA8DC) else Color(0xFF0B1A33) to Color(0xFF1F3A66)
-    WeatherKind.PARTLY -> if (isDay) Color(0xFF3E6A9C) to Color(0xFF86A9CF) else Color(0xFF111C30) to Color(0xFF2A3A57)
-    WeatherKind.CLOUDY -> if (isDay) Color(0xFF4E5C6B) to Color(0xFF8795A3) else Color(0xFF1A2029) to Color(0xFF353F4C)
-    WeatherKind.FOG -> if (isDay) Color(0xFF5E6974) to Color(0xFF97A1AA) else Color(0xFF1E2329) to Color(0xFF3B424A)
-    WeatherKind.DRIZZLE, WeatherKind.RAIN -> if (isDay) Color(0xFF34495E) to Color(0xFF627A90) else Color(0xFF121A24) to Color(0xFF2A3644)
-    WeatherKind.STORM -> Color(0xFF1D2033) to Color(0xFF3E4262)
-    WeatherKind.SNOW -> if (isDay) Color(0xFF5F7890) to Color(0xFFA9BCCD) else Color(0xFF1B2533) to Color(0xFF3C4C60)
-    null -> Color(0xFF26303A) to Color(0xFF3A4652)
+/**
+ * Tom de cada condição (matiz inspirado na paleta Google/Material). O card não usa a cor pura:
+ * mistura uma fração dela sobre a superfície do tema, para continuar minimal no claro e no escuro.
+ */
+private fun conditionHue(kind: WeatherKind?, isDay: Boolean): Color = when (kind) {
+    WeatherKind.CLEAR -> if (isDay) Color(0xFF4285F4) else Color(0xFF5C6BC0)
+    WeatherKind.PARTLY -> if (isDay) Color(0xFF5E97F6) else Color(0xFF5C6BC0)
+    WeatherKind.CLOUDY -> Color(0xFF90A4AE)
+    WeatherKind.FOG -> Color(0xFFA7B1BA)
+    WeatherKind.DRIZZLE, WeatherKind.RAIN -> Color(0xFF5B87B5)
+    WeatherKind.STORM -> Color(0xFF7E6FB0)
+    WeatherKind.SNOW -> Color(0xFF8AB4F8)
+    null -> Color(0xFF9AA0A6)
 }
 
-/** Conteúdo sobre o vidro: sempre claro (como no player com capa). */
-private val OnGlass = Color(0xFFF5F6F7)
-private val OnGlassVariant = Color(0xFFDCE2E8)
-
 /**
- * Card de clima em vidro fosco: céu em degradê da condição, um ícone grande e esmaecido dando
- * profundidade, película escura embaixo e fio de luz na borda. O texto fica claro.
+ * Card de clima (spec 013): a cor acompanha a condição, mas de forma sutil — um degradê leve
+ * da tonalidade do clima sobre a superfície do tema (claro no modo dia, escuro no modo noite),
+ * um ícone grande bem esmaecido ao fundo e texto nas cores do próprio tema.
  */
 @Composable
 fun WeatherGlassCard(weather: Weather?, modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
     val c = LocalLauncherColors.current
-    val (top, bottom) = sky(weather?.kind, weather?.isDay ?: c.isNight.not())
-    val a by animateColorAsState(top, tween(600), label = "skyTop")
-    val b by animateColorAsState(bottom, tween(600), label = "skyBottom")
+    val hue = conditionHue(weather?.kind, weather?.isDay ?: true)
+    val strengthTop = if (c.isNight) 0.30f else 0.22f
+    val strengthBottom = if (c.isNight) 0.12f else 0.08f
+    val top by animateColorAsState(lerp(c.surface, hue, strengthTop), tween(600), label = "weatherTop")
+    val bottom by animateColorAsState(lerp(c.surface, hue, strengthBottom), tween(600), label = "weatherBottom")
     Box(
         modifier
             .clip(CardShape)
-            .background(Brush.linearGradient(listOf(b, a)))
-            .border(1.dp, Color.White.copy(alpha = 0.10f), CardShape),
+            .background(Brush.verticalGradient(listOf(top, bottom)))
+            .border(1.dp, if (c.isNight) Color.White.copy(alpha = 0.06f) else hue.copy(alpha = 0.12f), CardShape),
     ) {
         if (weather != null) {
             Icon(
                 weatherIcon(weather.kind, weather.isDay), null,
                 Modifier.align(Alignment.TopEnd).offset(x = 36.dp, y = (-28).dp).size(200.dp),
-                tint = Color.White.copy(alpha = 0.10f),
+                tint = hue.copy(alpha = if (c.isNight) 0.14f else 0.12f),
             )
         }
-        Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0f to Color.Transparent, 1f to Color.Black.copy(alpha = 0.35f))))
-        CompositionLocalProvider(
-            LocalLauncherColors provides c.copy(onSurface = OnGlass, onSurfaceVariant = OnGlassVariant, primary = OnGlass, outline = Color.White.copy(alpha = 0.25f)),
-        ) { content() }
+        content()
     }
 }
 
-/** "Ladrilho" de vidro dentro do card (horas, dias, detalhes). */
+/** "Ladrilho" translúcido dentro do card (horas, dias, detalhes), no tom do tema. */
 @Composable
 private fun GlassTile(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+    val c = LocalLauncherColors.current
+    val fill = if (c.isNight) Color.White.copy(alpha = 0.06f) else Color.White.copy(alpha = 0.60f)
+    val line = if (c.isNight) Color.White.copy(alpha = 0.08f) else c.outline.copy(alpha = 0.6f)
     Box(
         modifier
             .clip(TileShape)
-            .background(Color.White.copy(alpha = 0.10f))
-            .border(1.dp, Color.White.copy(alpha = 0.12f), TileShape),
+            .background(fill)
+            .border(1.dp, line, TileShape),
         contentAlignment = Alignment.Center,
     ) { content() }
 }
@@ -121,8 +123,9 @@ private fun Header(weather: Weather) {
 private fun Waiting(modifier: Modifier) {
     WeatherGlassCard(null, modifier) {
         Column(Modifier.fillMaxSize().padding(20.dp), verticalArrangement = Arrangement.Center) {
-            Text("Clima", style = MaterialTheme.typography.labelLarge, color = OnGlassVariant)
-            Text("Aguardando localização e internet", style = MaterialTheme.typography.bodyLarge, color = OnGlass)
+            val c = LocalLauncherColors.current
+            Text("Clima", style = MaterialTheme.typography.labelLarge, color = c.onSurfaceVariant)
+            Text("Aguardando localização e internet", style = MaterialTheme.typography.bodyLarge, color = c.onSurface)
         }
     }
 }
@@ -131,8 +134,8 @@ private fun Waiting(modifier: Modifier) {
 private fun BigNow(weather: Weather, tempSize: Int, iconSize: Dp) {
     val c = LocalLauncherColors.current
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-        Icon(weatherIcon(weather.kind, weather.isDay), weather.description, Modifier.size(iconSize), tint = c.onSurface)
-        Text("${weather.temperature}°", fontSize = tempSize.sp, fontWeight = FontWeight.Light, color = c.onSurface)
+        Icon(weatherIcon(weather.kind, weather.isDay), weather.description, Modifier.size(iconSize), tint = c.primary)
+        Text("${weather.temperature}°", fontSize = tempSize.sp, fontWeight = FontWeight.Normal, color = c.onSurface)
     }
 }
 
@@ -223,7 +226,7 @@ private fun StatTile(icon: ImageVector, label: String, value: String?, modifier:
     val c = LocalLauncherColors.current
     GlassTile(modifier.fillMaxHeight()) {
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.padding(8.dp)) {
-            Icon(icon, null, Modifier.size(26.dp), tint = c.onSurface)
+            Icon(icon, null, Modifier.size(26.dp), tint = c.primary)
             Text(value ?: "—", style = MaterialTheme.typography.titleMedium, color = c.onSurface, maxLines = 1)
             Text(label, style = MaterialTheme.typography.labelSmall, color = c.onSurfaceVariant, maxLines = 1)
         }
@@ -263,7 +266,7 @@ fun WeatherHourlyWidget(weather: Weather?, modifier: Modifier = Modifier) {
                                     if (i == 0) "Agora" else SimpleDateFormat("HH'h'", PtBr).format(Date(h.time)),
                                     style = MaterialTheme.typography.labelMedium, color = c.onSurfaceVariant,
                                 )
-                                Icon(weatherIcon(h.kind, h.isDay), null, Modifier.size(30.dp), tint = c.onSurface)
+                                Icon(weatherIcon(h.kind, h.isDay), null, Modifier.size(30.dp), tint = c.primary)
                                 Text("${h.temperature}°", style = MaterialTheme.typography.titleMedium, color = c.onSurface)
                             }
                         }
@@ -296,7 +299,7 @@ fun WeatherDailyWidget(weather: Weather?, modifier: Modifier = Modifier) {
                             GlassTile(Modifier.weight(1f).fillMaxHeight()) {
                                 Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxHeight().padding(vertical = 8.dp)) {
                                     Text(dayName(i, d.date), style = MaterialTheme.typography.labelMedium, color = c.onSurfaceVariant, maxLines = 1)
-                                    Icon(weatherIcon(d.kind, true), null, Modifier.size(32.dp), tint = c.onSurface)
+                                    Icon(weatherIcon(d.kind, true), null, Modifier.size(32.dp), tint = c.primary)
                                     Text("${d.max}°", style = MaterialTheme.typography.titleMedium, color = c.onSurface)
                                     Text("${d.min}°", style = MaterialTheme.typography.bodyMedium, color = c.onSurfaceVariant)
                                 }
@@ -311,7 +314,7 @@ fun WeatherDailyWidget(weather: Weather?, modifier: Modifier = Modifier) {
                     days.take(rows).forEachIndexed { i, d ->
                         Row(Modifier.fillMaxWidth().height(40.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                             Text(dayName(i, d.date), style = MaterialTheme.typography.bodyLarge, color = c.onSurface, modifier = Modifier.width(78.dp), maxLines = 1)
-                            Icon(weatherIcon(d.kind, true), null, Modifier.size(26.dp), tint = c.onSurface)
+                            Icon(weatherIcon(d.kind, true), null, Modifier.size(26.dp), tint = c.primary)
                             Spacer(Modifier.weight(1f))
                             Text("${d.max}°", style = MaterialTheme.typography.titleMedium, color = c.onSurface)
                             Text("${d.min}°", style = MaterialTheme.typography.bodyMedium, color = c.onSurfaceVariant, textAlign = TextAlign.End, modifier = Modifier.width(36.dp))
@@ -331,13 +334,13 @@ fun ClockWeatherWidget(now: Long, weather: Weather?, modifier: Modifier = Modifi
         BoxWithConstraints(Modifier.fillMaxSize().padding(20.dp), contentAlignment = Alignment.Center) {
             val compact = maxWidth < 300.dp || maxHeight < 260.dp
             Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(if (compact) 6.dp else 10.dp)) {
-                Text(SimpleDateFormat("HH:mm", PtBr).format(Date(now)), fontSize = if (compact) 48.sp else 76.sp, fontWeight = FontWeight.Light, color = c.onSurface)
+                Text(SimpleDateFormat("HH:mm", PtBr).format(Date(now)), fontSize = if (compact) 48.sp else 76.sp, fontWeight = FontWeight.Normal, color = c.onSurface)
                 Text(dateLabel(now), style = MaterialTheme.typography.titleMedium, color = c.onSurfaceVariant, textAlign = TextAlign.Center, maxLines = 1)
                 Box(Modifier.padding(vertical = if (compact) 2.dp else 6.dp).size(width = 48.dp, height = 1.dp).background(c.outline))
                 if (weather != null) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        Icon(weatherIcon(weather.kind, weather.isDay), weather.description, Modifier.size(if (compact) 32.dp else 44.dp), tint = c.onSurface)
-                        Text("${weather.temperature}°", fontSize = if (compact) 28.sp else 36.sp, fontWeight = FontWeight.Light, color = c.onSurface)
+                        Icon(weatherIcon(weather.kind, weather.isDay), weather.description, Modifier.size(if (compact) 32.dp else 44.dp), tint = c.primary)
+                        Text("${weather.temperature}°", fontSize = if (compact) 28.sp else 36.sp, fontWeight = FontWeight.Normal, color = c.onSurface)
                         if (!compact) {
                             Column {
                                 Text(weather.description, style = MaterialTheme.typography.bodyLarge, color = c.onSurface, maxLines = 1)
