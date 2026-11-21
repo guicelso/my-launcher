@@ -46,8 +46,9 @@ fun MediaCard(
 ) {
     val c = LocalLauncherColors.current
     val np = state.nowPlaying
-    LauncherCard(modifier.sharedMotion("media-card", container = true, clip = RoundedCornerShape(28.dp))) {
-        if (np == null) {
+    val shape = RoundedCornerShape(28.dp)
+    if (np == null) {
+        LauncherCard(modifier.sharedMotion("media-card", container = true, clip = shape)) {
             Column(
                 Modifier.fillMaxSize().padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -67,14 +68,15 @@ fun MediaCard(
                     }
                 }
             }
-            return@LauncherCard
         }
-        val controls = state.controls
-        val position = rememberPosition(np)
-        Column(
-            Modifier.fillMaxSize().padding(horizontal = 22.dp, vertical = 18.dp),
-            verticalArrangement = Arrangement.SpaceBetween,
-        ) {
+        return
+    }
+    val controls = state.controls
+    val position = rememberPosition(np)
+    // Capa cobrindo o card, em vidro fosco (estilo Android Auto); título e controles embaixo.
+    FrostedArtCard(np, shape, fallback = c.surface, modifier = modifier.sharedMotion("media-card", container = true, clip = shape)) { hasArt ->
+        val cc = LocalLauncherColors.current
+        Column(Modifier.fillMaxSize().padding(horizontal = 22.dp, vertical = 16.dp)) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Row(
                     Modifier.weight(1f).clip(PillShape).pressable(onClick = onOpenMedia).padding(end = 8.dp),
@@ -82,36 +84,45 @@ fun MediaCard(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     AppIcon(apps, np.sourcePackage, 28.dp)
-                    Text(np.sourceLabel, style = MaterialTheme.typography.labelMedium, color = c.onSurfaceVariant, maxLines = 1)
+                    Text(np.sourceLabel, style = MaterialTheme.typography.labelMedium, color = cc.onSurfaceVariant, maxLines = 1)
                 }
                 // Atalho direto para o app que está tocando.
                 TouchIconButton(
                     LauncherIcons.External, "Abrir ${np.sourceLabel}", { onLaunchApp(np.sourcePackage) },
-                    size = 64.dp, iconSize = 26.dp, tint = c.onSurfaceVariant,
+                    size = 64.dp, iconSize = 26.dp, tint = cc.onSurfaceVariant,
                 )
             }
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Box(Modifier.sharedMotion("media-art").clip(RoundedCornerShape(16.dp)).pressable(onClickLabel = "Abrir player", onClick = onOpenMedia)) {
-                    AlbumArt(np, 112.dp, 16.dp, 44.dp)
+            // Área central tocável: abre o player ao lado do mapa.
+            Row(
+                Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(16.dp))
+                    .pressable(onClickLabel = "Abrir player", onClick = onOpenMedia),
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                if (!hasArt) {
+                    Box(Modifier.sharedMotion("media-art")) { AlbumArt(np, 96.dp, 16.dp, 40.dp) }
                 }
-                Column(Modifier.weight(1f).sharedMotion("media-titles")) {
+                Column(Modifier.weight(1f).sharedMotion("media-titles").padding(bottom = 4.dp)) {
                     Text(
                         np.title.ifBlank { "Sem título" }, style = MaterialTheme.typography.headlineSmall,
-                        color = c.onSurface, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                        color = cc.onSurface, maxLines = 2, overflow = TextOverflow.Ellipsis,
                     )
                     Text(
-                        np.artist, style = MaterialTheme.typography.bodyLarge, color = c.onSurfaceVariant,
-                        maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 6.dp),
+                        np.artist, style = MaterialTheme.typography.bodyLarge, color = cc.onSurfaceVariant,
+                        maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 4.dp),
                     )
                 }
             }
-            Box(Modifier.sharedMotion("media-progress")) { ProgressBar(np.fraction(position)) }
+            Box(Modifier.padding(vertical = 10.dp).sharedMotion("media-progress")) { ProgressBar(np.fraction(position)) }
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                TouchIconButton(LauncherIcons.Previous, "Faixa anterior", { controls?.previous() }, enabled = np.canSkip)
-                PlayPauseButton(np.playing, size = 80.dp, modifier = Modifier.sharedMotion("media-play")) {
+                TouchIconButton(LauncherIcons.Previous, "Faixa anterior", { controls?.previous() }, enabled = np.canSkip, tint = cc.onSurface)
+                PlayPauseButton(np.playing, size = 76.dp, modifier = Modifier.sharedMotion("media-play")) {
                     if (np.playing) controls?.pause() else controls?.play()
                 }
-                TouchIconButton(LauncherIcons.Next, "Próxima faixa", { controls?.next() }, enabled = np.canSkip)
+                TouchIconButton(LauncherIcons.Next, "Próxima faixa", { controls?.next() }, enabled = np.canSkip, tint = cc.onSurface)
             }
         }
     }

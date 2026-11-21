@@ -136,7 +136,8 @@ fun PlayerPanel(
     val direction = remember { SkipDirection() }
 
     val cardShape = RoundedCornerShape(28.dp)
-    Box(modifier.sharedMotion("media-card", container = true, clip = cardShape).clip(cardShape).background(tint)) {
+    FrostedArtCard(np, cardShape, fallback = tint, modifier = modifier.sharedMotion("media-card", container = true, clip = cardShape)) { _ ->
+        val c = LocalLauncherColors.current
         Column(Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 18.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 if (np != null) {
