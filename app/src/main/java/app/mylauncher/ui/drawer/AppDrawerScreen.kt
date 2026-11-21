@@ -3,7 +3,6 @@ package app.mylauncher.ui.drawer
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,6 +46,7 @@ import app.mylauncher.ui.components.AppIcon
 import app.mylauncher.ui.components.AppMenuActions
 import app.mylauncher.ui.components.PillShape
 import app.mylauncher.ui.components.ScreenPanel
+import app.mylauncher.ui.components.pressable
 import app.mylauncher.ui.icons.LauncherIcons
 import app.mylauncher.ui.theme.LocalLauncherColors
 
@@ -190,8 +190,7 @@ private fun Tile(
         modifier
             .fillMaxSize()
             .clip(RoundedCornerShape(24.dp))
-            .combinedClickable(
-                role = Role.Button,
+            .pressable(
                 onClick = onClick,
                 onLongClick = if (item is DrawerItem.App && !editing) ({ menuOpen = true }) else null,
             ),

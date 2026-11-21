@@ -1,8 +1,8 @@
 package app.mylauncher.ui.rail
 
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -43,6 +42,7 @@ import app.mylauncher.ui.components.AppContextMenu
 import app.mylauncher.ui.components.AppIcon
 import app.mylauncher.ui.components.AppMenuActions
 import app.mylauncher.ui.components.TouchIconButton
+import app.mylauncher.ui.components.pressable
 import app.mylauncher.ui.icons.LauncherIcons
 import app.mylauncher.ui.theme.Dimens
 import app.mylauncher.ui.theme.LocalLauncherColors
@@ -62,6 +62,7 @@ fun Rail(
     status: StatusState,
     batteryV: Float?,
     railApps: List<String>,
+    activePackage: String?,
     apps: AppsRepository,
     hasNotifications: Boolean,
     voiceAvailable: Boolean,
@@ -91,7 +92,7 @@ fun Rail(
         RailButton(LauncherIcons.Dashboard, "Painel", screen == Screen.DASHBOARD, onDashboard)
 
         railApps.forEach { pkg ->
-            RailApp(pkg, apps, menu, onLaunchApp)
+            RailApp(pkg, pkg == activePackage, apps, menu, onLaunchApp)
         }
 
         RailButton(LauncherIcons.Apps, "Todos os apps", screen == Screen.APPS, onApps)
@@ -125,18 +126,18 @@ fun Rail(
 }
 
 /** App da barra: toque abre; toque longo abre o menu (spec 009); ponto = fixado (R9.4). */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun RailApp(pkg: String, apps: AppsRepository, menu: AppMenuActions, onLaunchApp: (String) -> Unit) {
+private fun RailApp(pkg: String, active: Boolean, apps: AppsRepository, menu: AppMenuActions, onLaunchApp: (String) -> Unit) {
     val c = LocalLauncherColors.current
     var menuOpen by remember { mutableStateOf(false) }
     val label = apps.label(pkg)
+    val bg by animateColorAsState(if (active) c.activeBg else Color.Transparent, tween(200), label = "railActive")
     Box(
         Modifier
             .size(Dimens.touch)
             .clip(ItemShape)
-            .combinedClickable(
-                role = Role.Button,
+            .background(bg)
+            .pressable(
                 onClickLabel = label,
                 onLongClickLabel = "Opções de $label",
                 onLongClick = { menuOpen = true },
