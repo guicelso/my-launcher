@@ -59,12 +59,14 @@ fun Workspace(
     dashboardPanel: @Composable (Modifier) -> Unit,
     playerPanel: @Composable (full: Boolean, Modifier) -> Unit,
     modifier: Modifier = Modifier,
+    /** Recuo à esquerda: pequeno colado na barra vertical; o espaço padrão nos outros casos. */
+    startInset: Dp = 8.dp,
 ) {
     val mapFull = mode == Screen.MAP
     val mediaFull = mode == Screen.MEDIA
 
     BoxWithConstraints(modifier.fillMaxSize()) {
-        val start = if (mapFull) 0.dp else 8.dp
+        val start = if (mapFull) 0.dp else startInset
         val outerTarget = if (mapFull) 0.dp else Dimens.gap
         val available = maxWidth - start - outerTarget
         val target: Dp = when (mode) {

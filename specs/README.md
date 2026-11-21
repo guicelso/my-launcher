@@ -36,6 +36,7 @@ Cada critério de aceite referencia os requisitos que cobre.
 | [012](012-destinations.md) | Destinos sem digitação (local atual, compartilhar, aprendizado) | Implementada · testada no emulador, validar no carro | 005, 006 |
 | [013](013-dashboard-widgets.md) | Widgets configuráveis no painel (clima, veículo…) e grades | Implementada · testada no emulador, validar no carro | 002, 010 |
 | [014](014-rail-orientation.md) | Barra vertical ou horizontal | Implementada · testada no emulador, validar no carro | 002, 010 |
+| [015](015-android-auto-visual.md) | Visual 1:1 com o Android Auto, Central de notificações e lado do motorista | Implementada · validar no carro | 002, 003, 004, 013, 014 |
 | [008](008-embedded-navigation.md) | Navegação embutida (Waze/Maps no painel) | Pesquisa (ferramentas dos spikes S6.1/S8.1 prontas) | 005, 006 |
 
 A ordem sugerida é 001 → 002 → 003 → 004 → 006 → 005 → 007 → 008. A 006 vem antes do mapa porque o tema automático pelos faróis é central no visual.

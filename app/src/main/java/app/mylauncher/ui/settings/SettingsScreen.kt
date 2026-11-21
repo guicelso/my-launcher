@@ -13,6 +13,7 @@ import app.mylauncher.data.prefs.DashboardLayout
 import app.mylauncher.data.prefs.DrawerAnimation
 import app.mylauncher.data.prefs.IconShape
 import app.mylauncher.data.prefs.RailPosition
+import app.mylauncher.data.prefs.DriverSide
 import app.mylauncher.data.prefs.WidgetType
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -75,7 +76,7 @@ import kotlinx.coroutines.withContext
 enum class SettingsSection(val label: String) {
     APPEARANCE("Aparência"),
     DASHBOARD("Painel"),
-    RAIL("Barra lateral"),
+    RAIL("Barra de navegação"),
     APPS("Apps"),
     NAVIGATION("Navegação"),
     MEDIA("Mídia"),
@@ -178,8 +179,14 @@ private fun Appearance(container: AppContainer, s: LauncherSettings) {
             RadioRow(anim.label, s.drawerAnimation == anim) { container.settings.setDrawerAnimation(anim) }
         }
     }
-    SettingsGroup("Barra", "Vertical à esquerda ou horizontal embaixo, como a taskbar do Android Auto.") {
+    SettingsGroup("Barra", "Vertical na lateral ou horizontal embaixo, como a barra de navegação do Android Auto.") {
         ChoicePills(RailPosition.entries.map { it to it.label }, s.railPosition, container.settings::setRailPosition)
+    }
+    SettingsGroup(
+        "Lado do motorista",
+        "Com o volante à direita, a barra vertical vai para a direita e a horizontal se inverte, deixando os botões perto do motorista.",
+    ) {
+        ChoicePills(DriverSide.entries.map { it to it.label }, s.driverSide, container.settings::setDriverSide)
     }
 }
 
@@ -224,6 +231,9 @@ private fun WidgetPickerRow(title: String, current: WidgetType, onPick: (WidgetT
 @Composable
 private fun AppsSection(container: AppContainer, s: LauncherSettings) {
     val apps by container.apps.apps.collectAsStateWithLifecycle()
+    SettingsGroup("Acesso rápido", "Como no Android Auto, \"Sair\" vem antes dos apps e volta ao launcher original da multimídia.") {
+        ToggleRow("Mostrar \"Sair\" primeiro", s.showExitTile, onChange = container.settings::setShowExitTile)
+    }
     SettingsGroup("Ordem da gaveta", "Na personalizada, use Editar na gaveta e arraste os ícones (só com o carro parado).") {
         ChoicePills(AppOrder.entries.map { it to it.label }, s.appOrder, container.settings::setAppOrder)
         if (s.customOrder.isNotEmpty()) {
@@ -249,7 +259,7 @@ private fun RailSection(container: AppContainer, s: LauncherSettings, onOpenDraw
     val apps = container.apps
     SettingsGroup(
         "Apps fixados",
-        "Até ${LauncherSettings.MAX_RAIL_APPS} apps fixos na barra lateral; as vagas livres mostram os recentes.",
+        "Até ${LauncherSettings.MAX_RAIL_APPS} apps fixos na barra; as vagas livres mostram os recentes.",
     ) {
         if (s.pinned.isEmpty()) SettingRow("Nenhum app fixado", "A barra mostra os apps usados recentemente")
         s.pinned.forEach { pkg ->
@@ -259,9 +269,14 @@ private fun RailSection(container: AppContainer, s: LauncherSettings, onOpenDraw
         }
         PillButton("Escolher na gaveta de apps", onClick = onOpenDrawer)
     }
-    SettingsGroup("Botões", "Dica: toque e segure um app na barra para fixar, desafixar ou remover dos recentes.") {
-        ToggleRow("Mostrar notificações (sino)", s.showBell, onChange = container.settings::setShowBell)
-        ToggleRow("Mostrar comando de voz", s.showVoice, onChange = container.settings::setShowVoice)
+    SettingsGroup("Botões e status", "Dica: toque e segure um app na barra para fixar, desafixar ou remover dos recentes.") {
+        ToggleRow(
+            "Selo de notificações", s.showBell,
+            subtitle = "Mostra quantas notificações há e abre a Central de notificações",
+            onChange = container.settings::setShowBell,
+        )
+        ToggleRow("Comando de voz", s.showVoice, onChange = container.settings::setShowVoice)
+        ToggleRow("Clima na barra", s.showWeatherInBar, subtitle = "Temperatura junto do relógio", onChange = container.settings::setShowWeatherInBar)
     }
 }
 

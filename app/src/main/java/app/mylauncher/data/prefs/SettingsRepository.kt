@@ -49,7 +49,10 @@ enum class WidgetType(val label: String) {
 }
 
 /** Posição da barra (spec 014). */
-enum class RailPosition(val label: String) { LEFT("Vertical (esquerda)"), BOTTOM("Horizontal (embaixo)") }
+enum class RailPosition(val label: String) { LEFT("Vertical (lateral)"), BOTTOM("Horizontal (embaixo)") }
+
+/** Lado do motorista (Android Auto): à direita, a barra vertical vai para a direita e a horizontal se inverte. */
+enum class DriverSide(val label: String) { LEFT("Esquerda"), RIGHT("Direita") }
 
 /** Destino salvo. [query] é um endereço livre ou "lat,lon". */
 data class Destination(val label: String, val query: String) {
@@ -89,6 +92,9 @@ data class LauncherSettings(
     val dashboardLayout: DashboardLayout = DashboardLayout.TWO,
     val widgets: List<WidgetType> = DEFAULT_WIDGETS,
     val railPosition: RailPosition = RailPosition.LEFT,
+    val driverSide: DriverSide = DriverSide.LEFT,
+    val showWeatherInBar: Boolean = false,
+    val showExitTile: Boolean = true,
 ) {
     /** Destinos para o card e o mapa: Casa, Trabalho e favoritos. */
     val destinations: List<Destination> get() = listOfNotNull(home, work) + favorites
@@ -133,6 +139,9 @@ class SettingsRepository(private val context: Context, private val scope: Corout
         val dashLayout = stringPreferencesKey("dashboard_layout")
         val widgets = stringPreferencesKey("widgets")
         val railPos = stringPreferencesKey("rail_position")
+        val driverSide = stringPreferencesKey("driver_side")
+        val barWeather = booleanPreferencesKey("bar_weather")
+        val exitTile = booleanPreferencesKey("exit_tile")
     }
 
     val settings: StateFlow<LauncherSettings> = context.dataStore.data
@@ -160,6 +169,9 @@ class SettingsRepository(private val context: Context, private val scope: Corout
     fun setLearnPlaces(v: Boolean) = put { it[K.learn] = v }
     fun setDashboardLayout(v: DashboardLayout) = put { it[K.dashLayout] = v.name }
     fun setRailPosition(v: RailPosition) = put { it[K.railPos] = v.name }
+    fun setDriverSide(v: DriverSide) = put { it[K.driverSide] = v.name }
+    fun setShowWeatherInBar(v: Boolean) = put { it[K.barWeather] = v }
+    fun setShowExitTile(v: Boolean) = put { it[K.exitTile] = v }
 
     /** Põe [type] no espaço [slot]; se ele já estava em outro espaço, os dois trocam (R13.2). */
     fun setWidget(slot: Int, type: WidgetType) = put { prefs ->
@@ -244,6 +256,9 @@ class SettingsRepository(private val context: Context, private val scope: Corout
             dashboardLayout = enumOr(this[K.dashLayout], d.dashboardLayout),
             widgets = decodeWidgets(this[K.widgets]),
             railPosition = enumOr(this[K.railPos], d.railPosition),
+            driverSide = enumOr(this[K.driverSide], d.driverSide),
+            showWeatherInBar = this[K.barWeather] ?: d.showWeatherInBar,
+            showExitTile = this[K.exitTile] ?: d.showExitTile,
         )
     }
 

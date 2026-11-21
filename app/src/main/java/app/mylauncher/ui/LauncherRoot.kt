@@ -62,6 +62,9 @@ import app.mylauncher.ui.media.MediaCard
 import app.mylauncher.ui.media.MediaSources
 import app.mylauncher.ui.media.PlayerPanel
 import app.mylauncher.data.prefs.RailPosition
+import app.mylauncher.data.prefs.DriverSide
+import app.mylauncher.data.media.MediaListenerService
+import app.mylauncher.ui.notifications.NotificationCenter
 import app.mylauncher.ui.rail.BottomBar
 import app.mylauncher.ui.rail.Rail
 import app.mylauncher.ui.settings.SettingsScreen
@@ -131,11 +134,21 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
         // A área de trabalho fica sempre na mesma posição da árvore (o mapa não é recriado);
         // só a barra muda entre vertical e horizontal, com o recuo correspondente (R14.3).
         val bottom = settings.railPosition == RailPosition.BOTTOM
+        // Motorista à direita: a barra vertical vai para a direita e a horizontal se inverte.
+        val railRight = settings.driverSide == DriverSide.RIGHT
+        val barWeather = weather.takeIf { settings.showWeatherInBar }
+        val onNotifications: () -> Unit = {
+            if (navigator.overlay == Screen.NOTIFICATIONS) navigator.back() else navigator.go(Screen.NOTIFICATIONS)
+        }
         Box(Modifier.fillMaxSize().background(c.background)) {
             Box(
                 Modifier
                     .fillMaxSize()
-                    .padding(start = if (bottom) 0.dp else Dimens.railWidth, bottom = if (bottom) BOTTOM_BAR_HEIGHT else 0.dp),
+                    .padding(
+                        start = if (bottom || railRight) 0.dp else Dimens.railWidth,
+                        end = if (!bottom && railRight) Dimens.railWidth else 0.dp,
+                        bottom = if (bottom) BOTTOM_BAR_HEIGHT else 0.dp,
+                    ),
             ) {
                 // Área de trabalho: mapa sempre vivo + painel lateral animado (spec 010).
                 Workspace(
@@ -143,6 +156,7 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                     active = navigator.overlay == null,
                     navPane = navPane,
                     onExpandMap = { navigator.go(Screen.MAP) },
+                    startInset = if (bottom || railRight) Dimens.gap else 8.dp,
                     dashboardPanel = { m ->
                         DashboardPanel(
                             layout = settings.dashboardLayout,
@@ -244,16 +258,45 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                         Spacer(Modifier)
                     }
                 }
+
+                // Central de notificações (Android Auto): abre pelo selo da barra.
+                AnimatedContent(
+                    targetState = navigator.overlay == Screen.NOTIFICATIONS,
+                    transitionSpec = {
+                        (fadeIn(tween(220)) + scaleIn(tween(220), initialScale = 0.96f))
+                            .togetherWith(fadeOut(tween(160)) + scaleOut(tween(160), targetScale = 0.98f))
+                    },
+                    label = "notifications",
+                ) { open ->
+                    if (open) {
+                        NotificationCenter(
+                            summary = notifs,
+                            apps = apps,
+                            now = status.now,
+                            onBack = { navigator.back() },
+                            onOpen = { pkg, intent ->
+                                runCatching { intent?.send() ?: apps.launch(pkg) }.onFailure { apps.launch(pkg) }
+                            },
+                            onDismiss = { MediaListenerService.dismiss(it) },
+                            onDismissAll = { MediaListenerService.dismissAll() },
+                            onSystemShade = { container.systemActions.expandNotifications() },
+                            modifier = Modifier.fillMaxSize().background(c.background),
+                        )
+                    } else {
+                        Spacer(Modifier)
+                    }
+                }
             }
             if (bottom) {
                 BottomBar(
                     screen = screen,
                     status = status,
                     batteryV = vehicle.batteryV.takeIf { settings.showBattery },
+                    weather = barWeather,
                     railApps = railApps,
                     activePackage = media.nowPlaying?.sourcePackage?.takeIf { mediaVisible },
                     apps = apps,
-                    hasNotifications = notifs.count > 0,
+                    notificationCount = notifs.count,
                     voiceAvailable = container.systemActions.voiceIntent != null,
                     showBell = settings.showBell,
                     showVoice = settings.showVoice,
@@ -262,10 +305,11 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                     // Segundo toque no botão da gaveta volta à área de trabalho.
                     onApps = { if (navigator.overlay == Screen.APPS) navigator.back() else navigator.go(Screen.APPS) },
                     onLaunchApp = openApp,
-                    onNotifications = { container.systemActions.expandNotifications() },
+                    onNotifications = onNotifications,
                     onVoice = { container.systemActions.startVoice() },
                     onClockLongPress = { debugOpen = true },
                     appsAnchor = appsAnchor,
+                    mirrored = railRight,
                     modifier = Modifier.align(Alignment.BottomCenter),
                 )
             } else {
@@ -273,10 +317,11 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                     screen = screen,
                     status = status,
                     batteryV = vehicle.batteryV.takeIf { settings.showBattery },
+                    weather = barWeather,
                     railApps = railApps,
                     activePackage = media.nowPlaying?.sourcePackage?.takeIf { mediaVisible },
                     apps = apps,
-                    hasNotifications = notifs.count > 0,
+                    notificationCount = notifs.count,
                     voiceAvailable = container.systemActions.voiceIntent != null,
                     showBell = settings.showBell,
                     showVoice = settings.showVoice,
@@ -285,11 +330,12 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                     // Segundo toque no botão da gaveta volta à área de trabalho.
                     onApps = { if (navigator.overlay == Screen.APPS) navigator.back() else navigator.go(Screen.APPS) },
                     onLaunchApp = openApp,
-                    onNotifications = { container.systemActions.expandNotifications() },
+                    onNotifications = onNotifications,
                     onVoice = { container.systemActions.startVoice() },
                     onClockLongPress = { debugOpen = true },
                     appsAnchor = appsAnchor,
-                    modifier = Modifier.align(Alignment.CenterStart),
+                    onRight = railRight,
+                    modifier = Modifier.align(if (railRight) Alignment.CenterEnd else Alignment.CenterStart),
                 )
             }
 
