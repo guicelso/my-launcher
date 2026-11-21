@@ -34,6 +34,9 @@ echo "==> Permissões"
 "${ADB[@]}" shell pm grant $PKG android.permission.ACCESS_COARSE_LOCATION || true
 "${ADB[@]}" shell cmd notification allow_listener $PKG/$PKG.data.media.MediaListenerService || true
 
+# Dispensa o aviso de "tela cheia" do Android (modo imersivo do launcher).
+"${ADB[@]}" shell settings put secure immersive_mode_confirmations confirmed || true
+
 echo "==> Definindo como tela inicial"
 "${ADB[@]}" shell cmd package set-home-activity $PKG/.MainActivity
 "${ADB[@]}" shell am start -W -a android.intent.action.MAIN -c android.intent.category.HOME | grep -E "Status|TotalTime|Activity" || true

@@ -61,7 +61,9 @@ fun MediaCard(
                     PillButton("Permitir acesso", onClick = onGrantAccess)
                 } else {
                     Text("Nada tocando", style = MaterialTheme.typography.titleLarge, color = c.onSurfaceVariant)
-                    PillButton("Abrir ${apps.label(musicApp)}") { onOpenApp(musicApp) }
+                    if (apps.isInstalled(musicApp)) {
+                        PillButton("Abrir ${apps.label(musicApp)}") { onOpenApp(musicApp) }
+                    }
                 }
             }
             return@LauncherCard
