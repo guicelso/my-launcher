@@ -30,6 +30,8 @@ Cada critério de aceite referencia os requisitos que cobre.
 | [005](005-own-map.md) | Mapa próprio (MapLibre) | Implementada · validar no carro | 002 |
 | [006](006-vehicle-integration.md) | Integração com o veículo (TopWay) | Implementada · validar no carro | 001 |
 | [007](007-settings.md) | Ajustes do launcher | Implementada · validar no carro | 002, 006 |
+| [009](009-rail-interactions.md) | Interações da barra lateral (menu, fixar, sino) | Aprovada | 002, 003, 007 |
+| [010](010-workspace-split-player.md) | Área de trabalho, tela dividida, animações e player | Aprovada | 002, 004, 005 |
 | [008](008-embedded-navigation.md) | Navegação embutida (Waze/Maps no painel) | Pesquisa (ferramentas dos spikes S6.1/S8.1 prontas) | 005, 006 |
 
 A ordem sugerida é 001 → 002 → 003 → 004 → 006 → 005 → 007 → 008. A 006 vem antes do mapa porque o tema automático pelos faróis é central no visual.
