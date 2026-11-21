@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Painel</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1280px; height: 720px; display: flex; background: {{c.bg}}; color: {{c.text}}; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
+  <dc-import name="Rail" theme="{{theme}}" active="dash" hint-size="104px,720px"></dc-import>
+  <main style="flex: 1; min-width: 0; box-sizing: border-box; padding: 16px 16px 16px 8px; display: grid; grid-template-columns: minmax(0, 1fr) 408px; gap: 16px">
+
+    <section aria-label="Mapa" style="position: relative; border-radius: 28px; overflow: hidden; background: {{c.mapBase}}">
+      <svg viewBox="0 0 900 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%">
+        <rect width="900" height="700" fill="{{c.mapBase}}"></rect>
+        <path d="M0 540 C 180 480, 320 620, 520 570 S 820 480, 900 510 L900 700 L0 700 Z" fill="{{c.water}}"></path>
+        <rect x="575" y="70" width="220" height="150" rx="18" fill="{{c.park}}"></rect>
+        <rect x="80" y="300" width="160" height="110" rx="14" fill="{{c.park}}"></rect>
+        <g stroke="{{c.road}}" stroke-width="9" fill="none" stroke-linecap="round">
+          <path d="M0 140 H900"></path>
+          <path d="M0 255 L900 300"></path>
+          <path d="M0 440 L900 395"></path>
+          <path d="M120 0 L180 700"></path>
+          <path d="M330 0 V700"></path>
+          <path d="M535 0 L495 700"></path>
+          <path d="M710 0 L770 700"></path>
+        </g>
+        <path d="M0 640 C 200 580, 360 390, 450 350 S 700 200, 900 175" stroke="{{c.major}}" stroke-width="22" fill="none" stroke-linecap="round"></path>
+        <path d="M450 350 C 520 318, 590 290, 640 262 S 740 190, 780 120" stroke="{{routeColor}}" stroke-width="12" fill="none" stroke-linecap="round"></path>
+        <circle cx="450" cy="350" r="34" fill="{{c.accent}}" fill-opacity="0.22"></circle>
+        <circle cx="450" cy="350" r="15" fill="{{c.accent}}" stroke="#FFFFFF" stroke-width="4"></circle>
+        <path d="M450 322 L460 338 L450 334 L440 338 Z" fill="#FFFFFF"></path>
+      </svg>
+
+      <sc-if value="{{isOwn}}" hint-placeholder-val="{{true}}">
+        <a href="MapFull.dc.html" style="position: absolute; top: 16px; left: 16px; right: 16px; display: flex; align-items: center; gap: 14px; height: 64px; padding: 0 24px; border-radius: 32px; background: {{c.surface}}; color: {{c.muted}}; text-decoration: none; font-size: 22px; box-shadow: {{c.shadow}}">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          Para onde?
+          <span style="flex: 1"></span>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg>
+        </a>
+        <div style="position: absolute; left: 16px; bottom: 16px; width: 76px; height: 76px; border-radius: 38px; background: {{c.surface}}; box-shadow: {{c.shadow}}; display: flex; flex-direction: column; align-items: center; justify-content: center">
+          <span style="font-size: 28px; font-weight: 700; line-height: 1">48</span>
+          <span style="font-size: 13px; color: {{c.muted}}; margin-top: 2px">km/h</span>
+        </div>
+        <button type="button" aria-label="Centralizar na posição atual" style="position: absolute; right: 16px; bottom: 16px; width: 76px; height: 76px; border: 0; border-radius: 38px; background: {{c.surface}}; color: {{c.accent}}; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: {{c.shadow}}"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg></button>
+      </sc-if>
+
+      <sc-if value="{{isEmbedded}}" hint-placeholder-val="{{false}}">
+        <div style="position: absolute; top: 16px; left: 16px; width: 360px; box-sizing: border-box; padding: 16px 20px; border-radius: 24px; background: #0D652D; color: #FFFFFF; display: flex; gap: 16px; align-items: center; box-shadow: {{c.shadow}}">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21v-7a4 4 0 0 1 4-4h10"></path><path d="M15 6l4 4-4 4"></path></svg>
+          <div>
+            <div style="font-size: 32px; font-weight: 700; line-height: 1.1">300 m</div>
+            <div style="font-size: 20px; opacity: 0.92">[Rua de destino]</div>
+          </div>
+        </div>
+        <div style="position: absolute; top: 16px; right: 16px; height: 36px; padding: 0 14px; border-radius: 18px; background: {{c.surface}}; color: {{c.text}}; border: 1px solid {{c.accent}}; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500">
+          <span style="width: 8px; height: 8px; border-radius: 4px; background: {{c.accent}}"></span>
+          Waze · tela virtual
+        </div>
+        <div style="position: absolute; left: 16px; right: 16px; bottom: 16px; height: 76px; box-sizing: border-box; padding: 0 24px; border-radius: 24px; background: {{c.surface}}; display: flex; align-items: center; gap: 32px; box-shadow: {{c.shadow}}">
+          <div><div style="font-size: 26px; font-weight: 700; color: #188038">12 min</div><div style="font-size: 15px; color: {{c.muted}}">5,4 km · 14:02</div></div>
+          <div style="flex: 1"></div>
+          <button type="button" aria-label="Encerrar navegação" style="width: 56px; height: 56px; border: 0; border-radius: 28px; background: {{c.surface2}}; color: {{c.text}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+        </div>
+      </sc-if>
+    </section>
+
+    <div style="display: flex; flex-direction: column; gap: 16px; min-height: 0">
+      <section aria-label="Tocando agora" style="height: 344px; box-sizing: border-box; padding: 20px 22px; border-radius: 28px; background: {{c.surface}}; display: flex; flex-direction: column; gap: 14px">
+        <a href="Media.dc.html" style="display: flex; align-items: center; gap: 10px; color: {{c.muted}}; text-decoration: none; font-size: 16px; font-weight: 500">
+          <span style="width: 24px; height: 24px; border-radius: 12px; background: #1DB954; color: #04210F; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700">S</span>
+          Spotify
+        </a>
+        <div style="display: flex; gap: 16px; align-items: center">
+          <div style="width: 112px; height: 112px; flex: none; border-radius: 16px; background: {{c.surface2}}; color: {{c.muted}}; display: flex; align-items: center; justify-content: center"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg></div>
+          <div style="min-width: 0">
+            <div style="font-size: 28px; font-weight: 500; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Nome da faixa</div>
+            <div style="font-size: 20px; color: {{c.muted}}; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Artista</div>
+          </div>
+        </div>
+        <div style="height: 4px; border-radius: 2px; background: {{c.line}}"><div style="width: 38%; height: 4px; border-radius: 2px; background: {{c.text}}"></div></div>
+        <div style="display: flex; align-items: center; justify-content: space-between">
+          <button type="button" aria-label="Faixa anterior" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 20 9 12l10-8z" fill="currentColor"></path><path d="M5 19V5"></path></svg></button>
+          <button type="button" aria-label="{{playLabel}}" onClick="{{togglePlay}}" style="width: 96px; height: 76px; border: 0; border-radius: 38px; background: {{c.accent}}; color: {{c.onAccent}}; display: flex; align-items: center; justify-content: center; cursor: pointer">
+            <sc-if value="{{playing}}" hint-placeholder-val="{{true}}"><svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1" fill="currentColor"></rect><rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor"></rect></svg></sc-if>
+            <sc-if value="{{paused}}" hint-placeholder-val="{{false}}"><svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z" fill="currentColor"></path></svg></sc-if>
+          </button>
+          <button type="button" aria-label="Próxima faixa" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4l10 8-10 8z" fill="currentColor"></path><path d="M19 5v14"></path></svg></button>
+        </div>
+      </section>
+
+      <section aria-label="Sugestões" style="flex: 1; min-height: 0; box-sizing: border-box; padding: 8px; border-radius: 28px; background: {{c.surface}}; display: flex; flex-direction: column">
+        <button type="button" style="height: 104px; border: 0; border-radius: 20px; background: transparent; color: {{c.text}}; font: inherit; display: flex; align-items: center; gap: 16px; padding: 0 14px; cursor: pointer; text-align: left">
+          <span style="width: 56px; height: 56px; flex: none; border-radius: 28px; background: {{c.surface2}}; color: {{c.accent}}; display: flex; align-items: center; justify-content: center"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path></svg></span>
+          <span style="min-width: 0"><span style="display: block; font-size: 24px; font-weight: 500">Casa</span><span style="display: block; font-size: 18px; color: {{c.muted}}; margin-top: 2px">Navegar com Waze</span></span>
+        </button>
+        <div style="height: 1px; margin: 0 14px; background: {{c.line}}"></div>
+        <button type="button" style="height: 104px; border: 0; border-radius: 20px; background: transparent; color: {{c.text}}; font: inherit; display: flex; align-items: center; gap: 16px; padding: 0 14px; cursor: pointer; text-align: left">
+          <span style="width: 56px; height: 56px; flex: none; border-radius: 28px; background: {{c.surface2}}; color: {{c.accent}}; display: flex; align-items: center; justify-content: center"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path></svg></span>
+          <span style="min-width: 0"><span style="display: block; font-size: 24px; font-weight: 500">Trabalho</span><span style="display: block; font-size: 18px; color: {{c.muted}}; margin-top: 2px">Navegar com Waze</span></span>
+        </button>
+        <div style="height: 1px; margin: 0 14px; background: {{c.line}}"></div>
+        <button type="button" style="height: 104px; border: 0; border-radius: 20px; background: transparent; color: {{c.text}}; font: inherit; display: flex; align-items: center; gap: 16px; padding: 0 14px; cursor: pointer; text-align: left">
+          <span style="width: 56px; height: 56px; flex: none; border-radius: 28px; background: #25D366; color: #052E16; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700">W</span>
+          <span style="min-width: 0"><span style="display: block; font-size: 24px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">[Contato]</span><span style="display: block; font-size: 18px; color: {{c.muted}}; margin-top: 2px">Nova mensagem · WhatsApp</span></span>
+        </button>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["noite","dia"],"default":"noite"},"mapa":{"editor":"enum","options":["proprio","embutido"],"default":"proprio"},"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { playing: true };
+  }
+  renderVals() {
+    const P = {
+      noite: { bg: '#000000', surface: '#1E1F22', surface2: '#2B2C30', line: '#3A3B40', text: '#E8EAED', muted: '#A9ADB3', accent: '#8AB4F8', onAccent: '#0B1A33', mapBase: '#1B1F24', water: '#0E2233', park: '#1A2B22', road: '#2E353D', major: '#4A5560', route: '#8AB4F8', shadow: '0 4px 16px rgba(0,0,0,0.5)' },
+      dia: { bg: '#E8EAED', surface: '#FFFFFF', surface2: '#F1F3F4', line: '#DADCE0', text: '#202124', muted: '#5F6368', accent: '#1A73E8', onAccent: '#FFFFFF', mapBase: '#F1EFEA', water: '#AAD3F0', park: '#C8E6C1', road: '#FFFFFF', major: '#F6CF65', route: '#1A73E8', shadow: '0 4px 16px rgba(32,33,36,0.18)' }
+    };
+    const theme = this.props.theme === 'dia' ? 'dia' : 'noite';
+    const c = P[theme];
+    const embedded = this.props.mapa === 'embutido';
+    const playing = this.state.playing;
+    return {
+      c,
+      theme,
+      isOwn: !embedded,
+      isEmbedded: embedded,
+      routeColor: embedded ? c.route : 'transparent',
+      playing,
+      paused: !playing,
+      playLabel: playing ? 'Pausar' : 'Tocar',
+      togglePlay: () => this.setState({ playing: !this.state.playing })
+    };
+  }
+}
+</script>
+</body>
+</html>

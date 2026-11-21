@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Mídia</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1280px; height: 720px; display: flex; background: #000000; color: #E8EAED; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
+  <dc-import name="Rail" theme="noite" active="media" hint-size="104px,720px"></dc-import>
+  <main style="flex: 1; min-width: 0; box-sizing: border-box; padding: 16px 32px 24px 24px; display: flex; flex-direction: column; gap: 20px; background: #121316; border-radius: 28px 0 0 28px">
+    <header style="display: flex; align-items: center; gap: 12px">
+      <div role="tablist" aria-label="Fonte de mídia" style="display: flex; gap: 8px; flex: 1">
+        <sc-for list="{{sources}}" as="s" hint-placeholder-count="4">
+          <button type="button" role="tab" aria-selected="{{s.selected}}" onClick="{{s.pick}}" style="height: 56px; border: 0; border-radius: 28px; padding: 0 22px; background: {{s.bg}}; color: {{s.fg}}; font: inherit; font-size: 18px; font-weight: 500; display: flex; align-items: center; gap: 10px; cursor: pointer">
+            <span style="width: 12px; height: 12px; border-radius: 6px; background: {{s.dot}}"></span>{{s.label}}
+          </button>
+        </sc-for>
+      </div>
+      <button type="button" aria-label="Navegar na biblioteca" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #E8EAED; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></button>
+      <button type="button" aria-label="Fila de reprodução" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #E8EAED; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h13M3 12h13M3 18h8"></path><path d="M17 15v6l4-3z" fill="currentColor"></path></svg></button>
+    </header>
+
+    <div style="flex: 1; min-height: 0; display: flex; gap: 40px; align-items: center">
+      <div style="width: 440px; height: 440px; flex: none; border-radius: 24px; background: #2B2C30; color: #A9ADB3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px">
+        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+        <span style="font-size: 16px">Capa do álbum</span>
+      </div>
+      <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+        <div>
+          <div style="font-size: 40px; font-weight: 500; line-height: 1.15">Nome da faixa</div>
+          <div style="font-size: 26px; color: #A9ADB3; margin-top: 10px">Artista · Álbum</div>
+        </div>
+        <div>
+          <div style="height: 6px; border-radius: 3px; background: #3A3B40; position: relative"><div style="width: 38%; height: 6px; border-radius: 3px; background: #E8EAED"></div><div style="position: absolute; left: calc(38% - 9px); top: -6px; width: 18px; height: 18px; border-radius: 9px; background: #E8EAED"></div></div>
+          <div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 18px; color: #A9ADB3"><span>1:24</span><span>3:41</span></div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; max-width: 560px">
+          <button type="button" aria-label="Aleatório" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #A9ADB3; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"></path><path d="M4 20 21 3"></path><path d="M21 16v5h-5"></path><path d="M15 15l6 6"></path><path d="M4 4l5 5"></path></svg></button>
+          <button type="button" aria-label="Faixa anterior" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #E8EAED; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 20 9 12l10-8z" fill="currentColor"></path><path d="M5 19V5"></path></svg></button>
+          <button type="button" aria-label="{{playLabel}}" onClick="{{togglePlay}}" style="width: 112px; height: 96px; border: 0; border-radius: 48px; background: #8AB4F8; color: #0B1A33; display: flex; align-items: center; justify-content: center; cursor: pointer">
+            <sc-if value="{{playing}}" hint-placeholder-val="{{true}}"><svg width="44" height="44" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1" fill="currentColor"></rect><rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor"></rect></svg></sc-if>
+            <sc-if value="{{paused}}" hint-placeholder-val="{{false}}"><svg width="44" height="44" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z" fill="currentColor"></path></svg></sc-if>
+          </button>
+          <button type="button" aria-label="Próxima faixa" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #E8EAED; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4l10 8-10 8z" fill="currentColor"></path><path d="M19 5v14"></path></svg></button>
+          <button type="button" aria-label="Repetir" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #A9ADB3; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4"></path><path d="M3 11V9a3 3 0 0 1 3-3h15"></path><path d="M7 22l-4-4 4-4"></path><path d="M21 13v2a3 3 0 0 1-3 3H3"></path></svg></button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { playing: true, source: 'spotify' };
+  }
+  renderVals() {
+    const list = [
+      { id: 'spotify', label: 'Spotify', dot: '#1DB954' },
+      { id: 'ytm', label: 'YouTube Music', dot: '#FF4E45' },
+      { id: 'radio', label: 'Rádio FM', dot: '#FBBC04' },
+      { id: 'bt', label: 'Bluetooth', dot: '#8AB4F8' }
+    ];
+    const sources = list.map((s) => {
+      const selected = s.id === this.state.source;
+      return {
+        ...s,
+        selected: selected ? 'true' : 'false',
+        bg: selected ? '#E8EAED' : '#2B2C30',
+        fg: selected ? '#202124' : '#E8EAED',
+        pick: () => this.setState({ source: s.id })
+      };
+    });
+    const playing = this.state.playing;
+    return {
+      sources,
+      playing,
+      paused: !playing,
+      playLabel: playing ? 'Pausar' : 'Tocar',
+      togglePlay: () => this.setState({ playing: !this.state.playing })
+    };
+  }
+}
+</script>
+</body>
+</html>

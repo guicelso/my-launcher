@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Ajustes do launcher</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1280px; height: 720px; display: flex; background: #000000; color: #E8EAED; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
+  <dc-import name="Rail" theme="noite" active="none" hint-size="104px,720px"></dc-import>
+  <main style="flex: 1; min-width: 0; display: flex; background: #121316; border-radius: 28px 0 0 28px; overflow: hidden">
+    <nav aria-label="Seções" style="width: 340px; flex: none; box-sizing: border-box; padding: 20px 12px; display: flex; flex-direction: column; gap: 4px; border-right: 1px solid #2B2C30">
+      <div style="display: flex; align-items: center; gap: 8px; margin: 0 0 12px">
+        <a href="AppDrawer.dc.html" aria-label="Voltar" style="width: 76px; height: 76px; border-radius: 38px; color: #E8EAED; display: flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+        <h1 style="margin: 0; font-size: 30px; font-weight: 500">Ajustes</h1>
+      </div>
+      <sc-for list="{{sections}}" as="s" hint-placeholder-count="5">
+        <button type="button" onClick="{{s.pick}}" aria-current="{{s.current}}" style="height: 76px; border: 0; border-radius: 38px; background: {{s.bg}}; color: {{s.fg}}; font: inherit; font-size: 22px; text-align: left; padding: 0 28px; cursor: pointer">{{s.label}}</button>
+      </sc-for>
+    </nav>
+
+    <section style="flex: 1; min-width: 0; box-sizing: border-box; padding: 28px 36px; display: flex; flex-direction: column; gap: 28px">
+      <div>
+        <h2 style="margin: 0 0 6px; font-size: 26px; font-weight: 500">Tema</h2>
+        <p style="margin: 0 0 16px; font-size: 18px; color: #A9ADB3">No automático, o tema segue os faróis do carro (sinal da MCU).</p>
+        <div role="radiogroup" aria-label="Tema" style="display: flex; gap: 12px">
+          <sc-for list="{{themes}}" as="t" hint-placeholder-count="3">
+            <button type="button" role="radio" aria-checked="{{t.checked}}" onClick="{{t.pick}}" style="height: 76px; border: 2px solid {{t.border}}; border-radius: 38px; background: {{t.bg}}; color: {{t.fg}}; font: inherit; font-size: 20px; font-weight: 500; padding: 0 28px; cursor: pointer">{{t.label}}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div>
+        <h2 style="margin: 0 0 16px; font-size: 26px; font-weight: 500">Navegação</h2>
+        <div style="display: flex; align-items: center; height: 76px; border-radius: 20px; background: #1E1F22; padding: 0 24px">
+          <span style="flex: 1; font-size: 22px">App de navegação padrão</span>
+          <span style="font-size: 22px; color: #8AB4F8; font-weight: 500">Waze</span>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#A9ADB3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-left: 8px"><path d="M9 18l6-6-6-6"></path></svg>
+        </div>
+      </div>
+
+      <div>
+        <h2 style="margin: 0 0 16px; font-size: 26px; font-weight: 500">Veículo</h2>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; align-items: center; height: 76px; border-radius: 20px; background: #1E1F22; padding: 0 24px">
+            <span style="flex: 1"><span style="display: block; font-size: 22px">Baixar o volume na marcha à ré</span></span>
+            <button type="button" role="switch" aria-checked="{{duckChecked}}" aria-label="Baixar o volume na marcha à ré" onClick="{{toggleDuck}}" style="width: 72px; height: 40px; border: 0; border-radius: 20px; background: {{duckTrack}}; padding: 4px; display: flex; justify-content: {{duckAlign}}; cursor: pointer"><span style="width: 32px; height: 32px; border-radius: 16px; background: {{duckThumb}}"></span></button>
+          </div>
+          <div style="display: flex; align-items: center; height: 76px; border-radius: 20px; background: #1E1F22; padding: 0 24px">
+            <span style="flex: 1; font-size: 22px">Mostrar tensão da bateria</span>
+            <button type="button" role="switch" aria-checked="true" aria-label="Mostrar tensão da bateria" style="width: 72px; height: 40px; border: 0; border-radius: 20px; background: #8AB4F8; padding: 4px; display: flex; justify-content: flex-end; cursor: pointer"><span style="width: 32px; height: 32px; border-radius: 16px; background: #0B1A33"></span></button>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex: 1"></div>
+      <div style="display: flex; align-items: center; gap: 16px">
+        <button type="button" style="height: 64px; border: 2px solid #F28B82; border-radius: 32px; background: transparent; color: #F28B82; font: inherit; font-size: 20px; font-weight: 500; padding: 0 26px; cursor: pointer">Voltar ao launcher original</button>
+        <span style="font-size: 16px; color: #A9ADB3">Versão 0.1.0</span>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { section: 'aparencia', theme: 'auto', duck: true };
+  }
+  renderVals() {
+    const secs = [
+      ['aparencia', 'Aparência'],
+      ['barra', 'Barra lateral'],
+      ['navegacao', 'Navegação'],
+      ['midia', 'Mídia'],
+      ['veiculo', 'Veículo'],
+      ['sistema', 'Sistema']
+    ];
+    const sections = secs.map(([id, label]) => {
+      const on = id === this.state.section;
+      return { label, current: on ? 'page' : 'false', bg: on ? '#2B3A55' : 'transparent', fg: on ? '#D2E3FC' : '#E8EAED', pick: () => this.setState({ section: id }) };
+    });
+    const opts = [['auto', 'Automático'], ['dia', 'Dia'], ['noite', 'Noite']];
+    const themes = opts.map(([id, label]) => {
+      const on = id === this.state.theme;
+      return { label, checked: on ? 'true' : 'false', bg: on ? '#2B3A55' : 'transparent', fg: on ? '#D2E3FC' : '#E8EAED', border: on ? '#8AB4F8' : '#3A3B40', pick: () => this.setState({ theme: id }) };
+    });
+    const duck = this.state.duck;
+    return {
+      sections,
+      themes,
+      duckChecked: duck ? 'true' : 'false',
+      duckTrack: duck ? '#8AB4F8' : '#3A3B40',
+      duckThumb: duck ? '#0B1A33' : '#A9ADB3',
+      duckAlign: duck ? 'flex-end' : 'flex-start',
+      toggleDuck: () => this.setState({ duck: !this.state.duck })
+    };
+  }
+}
+</script>
+</body>
+</html>

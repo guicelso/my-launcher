@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Barra lateral</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<nav aria-label="Barra lateral" style="width: 104px; height: 720px; box-sizing: border-box; padding: 14px 0 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; background: {{c.rail}}; color: {{c.text}}; font-family: Roboto, system-ui, sans-serif">
+  <div style="height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px">
+    <span style="font-size: 24px; font-weight: 500; letter-spacing: 0.2px">13:06</span>
+    <span style="display: flex; gap: 6px; color: {{c.muted}}">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 20v-3M9 20v-6M14 20v-9M19 20V5"></path></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12.5a10 10 0 0 1 14 0"></path><path d="M8.5 16a5 5 0 0 1 7 0"></path><path d="M12 19.5h.01"></path></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 7 10 10-5 5V2l5 5L7 17"></path></svg>
+    </span>
+  </div>
+
+  <a href="Main.dc.html" aria-label="Painel" style="width: 76px; height: 76px; border-radius: 24px; background: {{b.dash}}; color: {{f.dash}}; display: flex; align-items: center; justify-content: center">
+    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="10" height="18" rx="2.5"></rect><rect x="15" y="3" width="6" height="8" rx="2"></rect><rect x="15" y="13" width="6" height="8" rx="2"></rect></svg>
+  </a>
+
+  <a href="MapFull.dc.html" aria-label="Waze" style="width: 76px; height: 76px; border-radius: 24px; background: {{b.nav}}; display: flex; align-items: center; justify-content: center; text-decoration: none">
+    <span style="width: 56px; height: 56px; border-radius: 28px; background: #3FB8E8; color: #04212E; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700">W</span>
+  </a>
+  <a href="Media.dc.html" aria-label="Spotify" style="width: 76px; height: 76px; border-radius: 24px; background: {{b.media}}; display: flex; align-items: center; justify-content: center; text-decoration: none">
+    <span style="width: 56px; height: 56px; border-radius: 28px; background: #1DB954; color: #04210F; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700">S</span>
+  </a>
+  <button type="button" aria-label="Telefone (app Bluetooth da multimídia)" style="width: 76px; height: 76px; border: 0; padding: 0; border-radius: 24px; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer">
+    <span style="width: 56px; height: 56px; border-radius: 28px; background: #34A853; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"></path></svg>
+    </span>
+  </button>
+
+  <a href="AppDrawer.dc.html" aria-label="Todos os apps" style="width: 76px; height: 76px; border-radius: 24px; background: {{b.apps}}; color: {{f.apps}}; display: flex; align-items: center; justify-content: center">
+    <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="5" r="2.2"></circle><circle cx="12" cy="5" r="2.2"></circle><circle cx="19" cy="5" r="2.2"></circle><circle cx="5" cy="12" r="2.2"></circle><circle cx="12" cy="12" r="2.2"></circle><circle cx="19" cy="12" r="2.2"></circle><circle cx="5" cy="19" r="2.2"></circle><circle cx="12" cy="19" r="2.2"></circle><circle cx="19" cy="19" r="2.2"></circle></svg>
+  </a>
+
+  <div style="flex: 1"></div>
+
+  <button type="button" aria-label="Notificações" style="width: 76px; height: 76px; border: 0; border-radius: 24px; background: transparent; color: {{c.muted}}; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"></path></svg>
+    <span style="position: absolute; top: 20px; right: 22px; width: 10px; height: 10px; border-radius: 5px; background: {{c.accent}}"></span>
+  </button>
+  <button type="button" aria-label="Comando de voz" style="width: 76px; height: 76px; border: 0; border-radius: 24px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; cursor: pointer">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg>
+  </button>
+</nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["noite","dia"],"default":"noite"},"active":{"editor":"enum","options":["dash","nav","media","apps","none"],"default":"dash"},"$preview":{"width":104,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const P = {
+      noite: { rail: '#000000', text: '#E8EAED', muted: '#A9ADB3', accent: '#8AB4F8', activeBg: '#2B2C30' },
+      dia: { rail: '#FFFFFF', text: '#202124', muted: '#5F6368', accent: '#1A73E8', activeBg: '#E8F0FE' }
+    };
+    const c = this.props.theme === 'dia' ? P.dia : P.noite;
+    const active = this.props.active ?? 'dash';
+    const b = {}, f = {};
+    ['dash', 'nav', 'media', 'apps'].forEach((k) => {
+      b[k] = k === active ? c.activeBg : 'transparent';
+      f[k] = k === active ? c.accent : c.muted;
+    });
+    return { c, b, f };
+  }
+}
+</script>
+</body>
+</html>
