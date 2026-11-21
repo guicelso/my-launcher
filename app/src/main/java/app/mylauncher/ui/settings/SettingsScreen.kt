@@ -99,7 +99,7 @@ fun SettingsScreen(
     ScreenPanel(modifier) {
         Row(Modifier.fillMaxSize()) {
             Column(
-                Modifier.width(340.dp).fillMaxHeight().padding(horizontal = 12.dp, vertical = 20.dp),
+                Modifier.width(340.dp).fillMaxHeight().verticalScroll(rememberScrollState()).padding(horizontal = 12.dp, vertical = 20.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 12.dp)) {

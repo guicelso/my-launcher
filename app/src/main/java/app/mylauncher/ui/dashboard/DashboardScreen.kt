@@ -24,6 +24,7 @@ import app.mylauncher.ui.icons.LauncherIcons
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -136,36 +137,44 @@ private fun WidgetSlot(
 @Composable
 fun SuggestionsCard(items: List<Suggestion>, apps: AppsRepository, modifier: Modifier = Modifier) {
     val c = LocalLauncherColors.current
-    LauncherCard(modifier.padding(0.dp)) {
-        Column(Modifier.padding(8.dp)) {
-            items.take(3).forEachIndexed { i, s ->
-                if (i > 0) HorizontalDivider(Modifier.padding(horizontal = 14.dp), color = c.outline)
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(104.dp)
-                        .clip(RoundedCornerShape(20.dp))
-                        .pressable(onClick = s.onClick)
-                        .padding(horizontal = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                ) {
-                    when {
-                        s.appPackage != null -> AppIcon(apps, s.appPackage, 56.dp)
-                        s.icon != null -> Box(
-                            Modifier.size(56.dp).clip(CircleShape).background(c.surface2),
-                            contentAlignment = Alignment.Center,
-                        ) { Icon(s.icon, null, Modifier.size(30.dp), tint = c.primary) }
-                    }
-                    Column(Modifier.weight(1f)) {
-                        Text(
-                            s.title, style = MaterialTheme.typography.titleLarge, color = c.onSurface,
-                            maxLines = 1, overflow = TextOverflow.Ellipsis,
-                        )
-                        Text(
-                            s.subtitle, style = MaterialTheme.typography.bodyMedium, color = c.onSurfaceVariant,
-                            maxLines = 1, overflow = TextOverflow.Ellipsis,
-                        )
+    LauncherCard(modifier) {
+        BoxWithConstraints(Modifier.fillMaxSize()) {
+            // Em cards estreitos (grade de 3), esconde o ícone e deixa o título em 2 linhas.
+            val compact = maxWidth < 300.dp
+            val rows = if (compact) 2 else 3
+            val rowHeight = if (compact) 120.dp else 104.dp
+            Column(Modifier.padding(8.dp)) {
+                items.take(rows).forEachIndexed { i, s ->
+                    if (i > 0) HorizontalDivider(Modifier.padding(horizontal = 14.dp), color = c.outline)
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(rowHeight)
+                            .clip(RoundedCornerShape(20.dp))
+                            .pressable(onClick = s.onClick)
+                            .padding(horizontal = 14.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    ) {
+                        if (!compact) {
+                            when {
+                                s.appPackage != null -> AppIcon(apps, s.appPackage, 56.dp)
+                                s.icon != null -> Box(
+                                    Modifier.size(56.dp).clip(CircleShape).background(c.surface2),
+                                    contentAlignment = Alignment.Center,
+                                ) { Icon(s.icon, null, Modifier.size(30.dp), tint = c.primary) }
+                            }
+                        }
+                        Column(Modifier.weight(1f)) {
+                            Text(
+                                s.title, style = if (compact) MaterialTheme.typography.titleMedium else MaterialTheme.typography.titleLarge,
+                                color = c.onSurface, maxLines = if (compact) 2 else 1, overflow = TextOverflow.Ellipsis,
+                            )
+                            Text(
+                                s.subtitle, style = MaterialTheme.typography.bodyMedium, color = c.onSurfaceVariant,
+                                maxLines = if (compact) 2 else 1, overflow = TextOverflow.Ellipsis,
+                            )
+                        }
                     }
                 }
             }

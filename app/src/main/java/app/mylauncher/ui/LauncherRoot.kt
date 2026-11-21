@@ -343,7 +343,7 @@ private fun suggestions(
     openSettings: () -> Unit,
 ): List<Suggestion> {
     val apps = container.apps
-    val navLabel = apps.label(s.navApp)
+    val navLabel = if (apps.isInstalled(s.navApp)) apps.label(s.navApp) else "o app de navegação"
     val list = mutableListOf<Suggestion>()
     learned?.let { place ->
         val label = if (place.kind == PlaceKind.HOME) "Casa" else "Trabalho"
