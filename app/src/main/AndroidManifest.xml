@@ -24,7 +24,6 @@
             android:exported="true"
             android:launchMode="singleTask"
             android:resizeableActivity="false"
-            android:screenOrientation="landscape"
             android:stateNotNeeded="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
