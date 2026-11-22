@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Tocando agora</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1280px; height: 720px; display: flex; background: #151616; color: #E3E3E3; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
+  <dc-import name="Rail" theme="noite" aberto="apps" badge="" hint-size="96px,720px"></dc-import>
+  <main style="flex: 1; min-width: 0; box-sizing: border-box; padding: 12px 12px 12px 0; display: flex">
+    <section aria-label="Tocando agora" style="flex: 1; min-width: 0; position: relative; border-radius: 24px; background: #262625; overflow: hidden">
+
+      <sc-if value="{{blur}}" hint-placeholder-val="{{true}}">
+        <div aria-hidden="true" style="position: absolute; inset: -80px; filter: blur(60px) saturate(1.15); opacity: 0.9">
+          <svg viewBox="0 0 400 400" width="100%" height="100%" preserveAspectRatio="xMidYMid slice"><rect width="400" height="400" fill="{{art.a}}"></rect><circle cx="250" cy="130" r="120" fill="{{art.b}}"></circle><ellipse cx="110" cy="300" rx="130" ry="90" fill="{{art.c}}"></ellipse></svg>
+        </div>
+        <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(12, 13, 13, 0.62)"></div>
+      </sc-if>
+      <sc-if value="{{tint}}" hint-placeholder-val="{{false}}">
+        <div aria-hidden="true" style="position: absolute; inset: 0; background: {{tintBg}}"></div>
+      </sc-if>
+
+      <div style="position: relative; height: 100%; box-sizing: border-box; padding: 12px 24px 20px 12px; display: flex; flex-direction: column">
+        <header style="height: 88px; flex: none; display: flex; align-items: center; gap: 14px">
+          <sc-if value="{{nav}}" hint-placeholder-val="{{true}}">
+            <a href="MxBrowse.dc.html" aria-label="Voltar à navegação" style="width: 76px; height: 76px; border-radius: 38px; color: #E3E3E3; display: flex; align-items: center; justify-content: center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></a>
+          </sc-if>
+          <sc-if value="{{noNav}}" hint-placeholder-val="{{false}}"><span style="width: 12px"></span></sc-if>
+          <a href="MxSources.dc.html" aria-label="Trocar app de mídia ({{app.name}})" style="height: 64px; padding: 0 16px 0 8px; border-radius: 32px; display: flex; align-items: center; gap: 12px; color: #E3E3E3; text-decoration: none; background: rgba(255,255,255,0.08)">
+            <span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 22px; background: {{app.color}}; color: {{app.on}}; display: flex; align-items: center; justify-content: center">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 12h2M8 8v8M12 5v14M16 9v6M20 11v2"></path></svg>
+            </span>
+            <span style="font-size: 24px">{{app.name}}</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"></path></svg>
+          </a>
+          <span style="flex: 1"></span>
+          <sc-if value="{{nav}}" hint-placeholder-val="{{true}}">
+            <a href="MxSearch.dc.html" aria-label="Buscar" style="width: 76px; height: 76px; border-radius: 38px; color: #E3E3E3; display: flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m20 20-4.8-4.8"></path></svg></a>
+          </sc-if>
+          <sc-if value="{{noNav}}" hint-placeholder-val="{{false}}">
+            <a href="Main.dc.html" style="height: 64px; padding: 0 26px 0 20px; border: 2px solid #8E918F; border-radius: 32px; color: #E3E3E3; display: flex; align-items: center; gap: 10px; font-size: 22px; text-decoration: none"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path></svg>Abrir o app</a>
+          </sc-if>
+          <sc-if value="{{hasQueue}}" hint-placeholder-val="{{true}}">
+            <a href="MxQueue.dc.html" style="height: 64px; padding: 0 26px 0 20px; border-radius: 32px; background: rgba(255,255,255,0.12); color: #E3E3E3; display: flex; align-items: center; gap: 10px; font-size: 22px; text-decoration: none"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h12M3 12h12M3 18h7"></path><path d="M19 7v9"></path><circle cx="17" cy="17" r="2.2"></circle></svg>Fila</a>
+          </sc-if>
+        </header>
+
+        <sc-if value="{{noNav}}" hint-placeholder-val="{{false}}">
+          <div role="status" style="align-self: flex-start; margin: 0 0 0 100px; height: 48px; padding: 0 20px; border-radius: 24px; background: rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px; font-size: 20px; color: #E3E3E3">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6M12 7.5v.5"></path></svg>
+            Navegação e busca indisponíveis neste app. Os controles funcionam normalmente.
+          </div>
+        </sc-if>
+
+        <div style="flex: 1; min-height: 0; display: flex; align-items: center; gap: 48px; padding-left: 64px; opacity: {{metaOpacity}}">
+          <span aria-hidden="true" style="width: 300px; height: 300px; flex: none; border-radius: 24px; overflow: hidden; box-shadow: 0 12px 32px rgba(0,0,0,0.45)">
+            <svg viewBox="0 0 400 400" width="300" height="300"><rect width="400" height="400" fill="{{art.a}}"></rect><circle cx="250" cy="130" r="120" fill="{{art.b}}"></circle><ellipse cx="110" cy="300" rx="130" ry="90" fill="{{art.c}}"></ellipse><rect x="60" y="60" width="70" height="70" rx="35" fill="{{art.d}}"></rect></svg>
+          </span>
+          <div style="flex: 1; min-width: 0; padding-right: 40px">
+            <div style="font-size: 40px; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden">{{meta.title}}</div>
+            <a href="MxAlbum.dc.html" style="margin-top: 10px; display: inline-flex; align-items: center; gap: 6px; font-size: 28px; color: #D6D9D7; text-decoration: none">{{meta.subtitle}}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></a>
+            <div style="margin-top: 12px; display: flex; align-items: center; gap: 12px; font-size: 22px; color: #B8BBB9">
+              <sc-if value="{{meta.explicit}}" hint-placeholder-val="{{true}}"><span aria-label="Explícito" style="width: 26px; height: 26px; border-radius: 5px; background: #C4C7C5; color: #151616; font-size: 17px; font-weight: 700; display: flex; align-items: center; justify-content: center">E</span></sc-if>
+              <sc-if value="{{meta.downloaded}}" hint-placeholder-val="{{true}}"><svg aria-label="Baixado" role="img" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg></sc-if>
+              <sc-if value="{{meta.format}}" hint-placeholder-val="{{true}}"><span style="height: 30px; padding: 0 12px; border: 1.5px solid #8E918F; border-radius: 8px; display: flex; align-items: center; font-size: 18px; font-weight: 500; letter-spacing: 0.4px">ÁUDIO ESPACIAL</span></sc-if>
+              <sc-if value="{{meta.live}}" hint-placeholder-val="{{false}}"><span style="height: 32px; padding: 0 14px; border-radius: 16px; background: #F2B8B5; color: #601410; display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 700; letter-spacing: 0.6px"><span style="width: 10px; height: 10px; border-radius: 5px; background: #601410"></span>AO VIVO</span></sc-if>
+              <span>{{meta.extra}}</span>
+            </div>
+
+            <sc-if value="{{meta.hasProgress}}" hint-placeholder-val="{{true}}">
+              <div style="margin-top: 28px; max-width: 640px">
+                <div role="slider" aria-label="Posição" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{meta.pct}}" tabindex="0" style="height: 40px; position: relative; display: flex; align-items: center">
+                  <svg width="640" height="28" viewBox="0 0 640 28" aria-hidden="true" style="position: absolute; left: 0; top: 6px"><path d="{{wave}}" fill="none" stroke="{{app.color}}" stroke-width="5" stroke-linecap="round"></path><path d="{{rest}}" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="5" stroke-linecap="round"></path></svg>
+                  <span style="position: absolute; left: {{thumbX}}px; top: 2px; width: 8px; height: 36px; border-radius: 4px; background: #FFFFFF"></span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 22px; color: #B8BBB9; margin-top: 6px"><span>{{meta.elapsed}}</span><span>{{meta.remaining}}</span></div>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+
+        <sc-if value="{{open}}" hint-placeholder-val="{{false}}">
+          <div role="group" aria-label="Ações secundárias" style="align-self: center; display: flex; gap: 24px; padding: 8px 20px; margin-bottom: 12px; border-radius: 48px; background: rgba(255,255,255,0.1)">
+            <sc-for list="{{secondary}}" as="s" hint-placeholder-count="4">
+              <button type="button" aria-label="{{s.label}}" aria-pressed="{{s.pressed}}" style="width: 88px; height: 88px; border: 0; border-radius: 44px; background: {{s.bg}}; color: {{s.fg}}; display: flex; align-items: center; justify-content: center; cursor: pointer">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{s.icon}}"></path></svg>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <div role="group" aria-label="Controles" style="flex: none; align-self: center; width: 820px; display: flex; align-items: center; justify-content: space-between">
+          <sc-for list="{{left}}" as="b" hint-placeholder-count="2">
+            <button type="button" aria-label="{{b.label}}" style="position: relative; width: 96px; height: 96px; border: 0; border-radius: 48px; background: transparent; color: {{b.fg}}; display: flex; align-items: center; justify-content: center; cursor: pointer; font: inherit; font-size: 24px; font-weight: 700">
+              <sc-if value="{{b.isText}}" hint-placeholder-val="{{false}}"><span style="height: 44px; padding: 0 10px; border: 2.5px solid currentColor; border-radius: 12px; display: flex; align-items: center">{{b.text}}</span></sc-if>
+              <sc-if value="{{b.isIcon}}" hint-placeholder-val="{{true}}"><svg width="44" height="44" viewBox="0 0 24 24" fill="{{b.fill}}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{b.icon}}"></path></svg></sc-if>
+              <sc-if value="{{b.hasNum}}" hint-placeholder-val="{{false}}"><span style="position: absolute; font-size: 13px; font-weight: 700; margin-top: 4px">{{b.num}}</span></sc-if>
+            </button>
+          </sc-for>
+          <button type="button" aria-label="{{playLabel}}" onClick="{{togglePlay}}" style="width: 136px; height: 112px; border: 0; border-radius: {{playRadius}}; background: #CFD6D3; color: #151616; display: flex; align-items: center; justify-content: center; cursor: pointer">
+            <sc-if value="{{loading}}" hint-placeholder-val="{{false}}"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9" opacity="0.25"></circle><path d="M12 3a9 9 0 0 1 9 9"></path></svg></sc-if>
+            <sc-if value="{{showPause}}" hint-placeholder-val="{{true}}"><svg width="52" height="52" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.2" fill="currentColor"></rect><rect x="14" y="5" width="4" height="14" rx="1.2" fill="currentColor"></rect></svg></sc-if>
+            <sc-if value="{{showPlay}}" hint-placeholder-val="{{false}}"><svg width="52" height="52" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"></path></svg></sc-if>
+          </button>
+          <sc-for list="{{right}}" as="b" hint-placeholder-count="2">
+            <button type="button" aria-label="{{b.label}}" aria-expanded="{{b.expanded}}" onClick="{{b.click}}" style="width: 96px; height: 96px; border: 0; border-radius: 48px; background: {{b.bg}}; color: {{b.fg}}; display: flex; align-items: center; justify-content: center; cursor: pointer; font: inherit; font-size: 24px; font-weight: 700">
+              <sc-if value="{{b.isText}}" hint-placeholder-val="{{false}}"><span style="height: 44px; padding: 0 10px; border: 2.5px solid currentColor; border-radius: 12px; display: flex; align-items: center">{{b.text}}</span></sc-if>
+              <sc-if value="{{b.isIcon}}" hint-placeholder-val="{{true}}"><svg width="44" height="44" viewBox="0 0 24 24" fill="{{b.fill}}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{b.icon}}"></path></svg></sc-if>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"tipo":{"editor":"enum","options":["musica","podcast","radio"],"default":"musica","tsType":"conteúdo: música, podcast ou rádio ao vivo"},"acoes":{"editor":"boolean","default":false,"tsType":"Mais aberto (ações secundárias)"},"estado":{"editor":"enum","options":["tocando","pausado","carregando"],"default":"tocando"},"navegacao":{"editor":"boolean","default":true,"tsType":"desligado = modo só player (app recusou a navegação)"},"fundo":{"editor":"enum","options":["capa","cor","liso"],"default":"capa","tsType":"capa desfocada (2026), cor da capa (spec 010) ou liso"},"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { playing: null, more: null };
+  }
+  renderVals() {
+    const tipo = this.props.tipo ?? 'musica';
+    const I = {
+      heart: 'M12 20.5s-8.5-5.2-8.5-11A4.8 4.8 0 0 1 12 6.6a4.8 4.8 0 0 1 8.5 2.9c0 5.8-8.5 11-8.5 11z',
+      prev: 'M6 5v14M19 5.5v13L9.5 12z',
+      next: 'M18 5v14M5 5.5v13l9.5-6.5z',
+      more: 'M12 5h.01M12 12h.01M12 19h.01',
+      back15: 'M4 12a8 8 0 1 0 2.5-5.8M4 4v4h4',
+      fwd30: 'M20 12a8 8 0 1 1-2.5-5.8M20 4v4h-4',
+      star: 'm12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z',
+      shuffle: 'M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5',
+      repeat: 'M17 2l4 4-4 4M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4M21 13v2a3 3 0 0 1-3 3H3',
+      radio: 'M4 9h16v11H4zM7 9l9-5M8 15h.01M16 13v4',
+      plus: 'M12 4v16M4 12h16',
+      check: 'M4 12.5 9 17.5 20 6.5',
+      download: 'M12 4v11M7 10l5 5 5-5M5 20h14',
+      timer: 'M12 8v5l3 2M9 2h6M12 22a8 8 0 1 0 0-16 8 8 0 0 0 0 16z',
+      list: 'M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01'
+    };
+    const open = this.state.more ?? !!this.props.acoes;
+    const icon = (label, icon, extra) => ({ label, icon, isIcon: true, isText: false, hasNum: false, fill: 'none', fg: '#E3E3E3', bg: 'transparent', expanded: 'false', click: null, ...extra });
+    const text = (label, t) => ({ label, text: t, isText: true, isIcon: false, hasNum: false, fg: '#E3E3E3', bg: 'transparent', expanded: 'false', click: null });
+    const moreBtn = icon('Mais ações', I.more, { expanded: open ? 'true' : 'false', bg: open ? 'rgba(255,255,255,0.16)' : 'transparent', click: () => this.setState({ more: !open }) });
+    const sec = (label, icon, on) => ({ label, icon, pressed: on ? 'true' : 'false', bg: on ? '#E3E3E3' : 'transparent', fg: on ? '#151616' : '#E3E3E3' });
+    const T = {
+      musica: {
+        app: { name: 'Sonora', color: '#F6B26B', on: '#3A2300' },
+        art: { a: '#1D5C63', b: '#F6B26B', c: '#E98A7B', d: '#FCE4C4' },
+        meta: { title: 'Estrada de terra ao entardecer', subtitle: 'Banda Fictícia', extra: 'Horizonte · 2026', explicit: true, downloaded: true, format: true, live: false, hasProgress: true, pct: 42, elapsed: '1:34', remaining: '−2:11' },
+        left: [icon('Curtir', I.heart)],
+        leftSkip: icon('Faixa anterior', I.prev, { fill: 'currentColor' }),
+        rightSkip: icon('Próxima faixa', I.next, { fill: 'currentColor' }),
+        right5: moreBtn,
+        secondary: [sec('Aleatório', I.shuffle, true), sec('Repetir', I.repeat, false), sec('Rádio da faixa', I.radio, false), sec('Adicionar à playlist', I.plus, false)],
+        queue: true
+      },
+      podcast: {
+        app: { name: 'Ondas Pod', color: '#A8C7FA', on: '#062E6F' },
+        art: { a: '#3A2E5C', b: '#A8C7FA', c: '#F28B82', d: '#FDE293' },
+        meta: { title: 'Ep. 214 — Como fazer viagens longas sem cansaço', subtitle: 'Conversa de Estrada', extra: '30 jul · 52 min', explicit: false, downloaded: true, format: false, live: false, hasProgress: true, pct: 35, elapsed: '18:20', remaining: '−33:40' },
+        left: [text('Velocidade 1,5 vez', '1,5×')],
+        leftSkip: icon('Voltar 15 segundos', I.back15, { hasNum: true, num: '15' }),
+        rightSkip: icon('Avançar 30 segundos', I.fwd30, { hasNum: true, num: '30' }),
+        right5: moreBtn,
+        secondary: [sec('Marcar como ouvido', I.check, false), sec('Baixar episódio', I.download, true), sec('Desligar em 30 min', I.timer, false), sec('Favoritar', I.star, false)],
+        queue: true
+      },
+      radio: {
+        app: { name: 'Rádio FM', color: '#81C995', on: '#0D3B1E' },
+        art: { a: '#0F3D2A', b: '#81C995', c: '#FDD663', d: '#E6F4EA' },
+        meta: { title: 'Rádio Litoral 98,5', subtitle: 'Fim de tarde — Duo Litoral', extra: 'FM · sinal forte', explicit: false, downloaded: false, format: false, live: true, hasProgress: false, pct: 0, elapsed: '', remaining: '' },
+        left: [icon('Favoritar estação', I.star, { fill: 'currentColor' })],
+        leftSkip: icon('Estação anterior', I.prev, { fill: 'currentColor' }),
+        rightSkip: icon('Próxima estação', I.next, { fill: 'currentColor' }),
+        right5: icon('Lista de estações', I.list),
+        secondary: [],
+        queue: false
+      }
+    };
+    const t = T[tipo] ?? T.musica;
+    const estado = this.props.estado ?? 'tocando';
+    const playing = this.state.playing ?? (estado !== 'pausado');
+    const loading = estado === 'carregando' && this.state.playing === null;
+    const fundo = this.props.fundo ?? 'capa';
+    const nav = this.props.navegacao ?? true;
+    const W = 640, p = t.meta.pct / 100, x = Math.round(W * p);
+    let wave = 'M3 14';
+    for (let i = 3; i <= x - 3; i += 4) wave += ' L' + i + ' ' + (14 + 5 * Math.sin(i / 7)).toFixed(1);
+    const showOpen = open && t.secondary.length > 0;
+    return {
+      app: t.app, art: t.art, meta: t.meta,
+      blur: fundo === 'capa', tint: fundo === 'cor', tintBg: t.art.a,
+      nav, noNav: !nav, hasQueue: t.queue,
+      left: [...t.left, t.leftSkip],
+      right: [t.rightSkip, t.right5],
+      secondary: t.secondary,
+      open: showOpen,
+      metaOpacity: showOpen ? 0.35 : 1,
+      wave, rest: 'M' + (x + 10) + ' 14 L637 14', thumbX: x - 4,
+      loading, showPause: !loading && playing, showPlay: !loading && !playing,
+      playLabel: loading ? 'Carregando' : (playing ? 'Pausar' : 'Tocar'),
+      playRadius: playing ? '28px' : '56px',
+      togglePlay: () => this.setState({ playing: !playing })
+    };
+  }
+}
+</script>
+</body>
+</html>

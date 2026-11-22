@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Trocar app de mídia</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1280px; height: 720px; display: flex; background: #151616; color: #E3E3E3; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
+  <dc-import name="Rail" theme="noite" aberto="apps" badge="" hint-size="96px,720px"></dc-import>
+  <main style="flex: 1; min-width: 0; box-sizing: border-box; padding: 12px 12px 12px 0; display: flex">
+    <section aria-label="Trocar app de mídia" style="flex: 1; min-width: 0; box-sizing: border-box; padding: 12px 28px 20px 12px; border-radius: 24px; background: #262625; display: flex; flex-direction: column; overflow: hidden">
+      <header style="height: 88px; flex: none; display: flex; align-items: center; gap: 12px">
+        <a href="MxBrowse.dc.html" aria-label="Fechar" style="width: 76px; height: 76px; border-radius: 38px; color: #E3E3E3; display: flex; align-items: center; justify-content: center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+        <h1 style="flex: 1; margin: 0; font-size: 30px; font-weight: 400">Mídia</h1>
+      </header>
+
+      <div style="flex: 1; min-height: 0; overflow-y: auto; padding-left: 88px">
+        <a href="MxPlayer.dc.html" style="height: 128px; display: flex; align-items: center; gap: 22px; padding: 0 24px 0 16px; border-radius: 24px; background: #1D3C3F; color: #E3E3E3; text-decoration: none">
+          <span aria-hidden="true" style="width: 96px; height: 96px; flex: none; border-radius: 16px; overflow: hidden"><svg viewBox="0 0 400 400" width="96" height="96"><rect width="400" height="400" fill="#1D5C63"></rect><circle cx="250" cy="130" r="120" fill="#F6B26B"></circle><ellipse cx="110" cy="300" rx="130" ry="90" fill="#E98A7B"></ellipse></svg></span>
+          <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+            <span style="display: flex; align-items: center; gap: 8px; font-size: 18px; color: #F6B26B; font-weight: 500; letter-spacing: 0.4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="#F6B26B" aria-hidden="true"><rect x="3" y="10" width="4" height="10" rx="1"></rect><rect x="10" y="4" width="4" height="16" rx="1"></rect><rect x="17" y="13" width="4" height="7" rx="1"></rect></svg>TOCANDO AGORA · SONORA</span>
+            <span style="font-size: 28px">Estrada de terra ao entardecer</span>
+            <span style="font-size: 21px; color: #C4C7C5">Banda Fictícia</span>
+          </span>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg>
+        </a>
+
+        <h2 style="margin: 20px 0 8px; font-size: 22px; font-weight: 500; color: #C4C7C5">Apps de mídia</h2>
+        <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px">
+          <sc-for list="{{apps}}" as="a" hint-placeholder-count="6">
+            <a href="{{a.href}}" style="height: 168px; border-radius: 20px; background: {{a.bg}}; color: #E3E3E3; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; position: relative">
+              <span aria-hidden="true" style="width: 72px; height: 72px; border-radius: 36px; background: {{a.color}}; color: {{a.on}}; display: flex; align-items: center; justify-content: center"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="{{a.icon}}"></path></svg></span>
+              <span style="font-size: 21px">{{a.name}}</span>
+              <span style="font-size: 17px; color: {{a.stateColor}}">{{a.state}}</span>
+            </a>
+          </sc-for>
+        </div>
+
+        <h2 style="margin: 20px 0 8px; font-size: 22px; font-weight: 500; color: #C4C7C5">Fontes da multimídia</h2>
+        <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px">
+          <sc-for list="{{sources}}" as="s" hint-placeholder-count="4">
+            <a href="{{s.href}}" style="height: 112px; border-radius: 20px; background: #333534; color: #E3E3E3; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{s.icon}}"></path></svg>
+              <span style="font-size: 20px">{{s.name}}</span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const wave = 'M4 12h2M8 8v8M12 5v14M16 9v6M20 11v2';
+    const A = [
+      ['Sonora', '#F6B26B', '#3A2300', wave, 'Tocando', '#F6B26B', 'MxPlayer.dc.html', true],
+      ['Ondas Pod', '#A8C7FA', '#062E6F', 'M12 3a4 4 0 0 1 4 4v4a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4zM5 11a7 7 0 0 0 14 0M12 18v3', 'Pausado', '#A8ABAE', 'MxBrowsePodcasts.dc.html'],
+      ['Voz de Livro', '#F28B82', '#5C1A15', 'M4 5h7a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4zM20 5h-7v13h7z', 'Entrar', '#F2B8B5', 'MxStateLogin.dc.html'],
+      ['Trilha', '#C58AF9', '#3A0D63', 'M9 18V6l10-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0z', 'Só controles', '#A8ABAE', 'MxPlayerOnly.dc.html'],
+      ['Rádio Web', '#81C995', '#0D3B1E', 'M4 9h16v11H4zM7 9l9-5M8 15h.01M16 13v4', '', '#A8ABAE', 'MxPlayerRadio.dc.html'],
+      ['Notícias em 10', '#FDD663', '#3D2E00', 'M4 5h13v14H6a2 2 0 0 1-2-2zM17 9h3v8a2 2 0 0 1-2 2M8 9h5M8 13h5', '', '#A8ABAE', 'MxBrowse.dc.html']
+    ];
+    const apps = A.map(([name, color, on, icon, state, stateColor, href, active]) => ({ name, color, on, icon, state: state || ' ', stateColor, href, bg: active ? '#3A3A33' : '#333534' }));
+    const sources = [
+      ['Rádio FM/AM', 'M4 9h16v11H4zM7 9l9-5M8 15h.01M16 13v4', 'MxPlayerRadio.dc.html'],
+      ['Bluetooth', 'm7 7 10 10-5 4V3l5 4L7 17', 'MxPlayerOnly.dc.html'],
+      ['USB', 'M12 3v14M9 6l3-3 3 3M7 11v3l5 3 5-3v-3M12 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4z', 'MxBrowse.dc.html'],
+      ['AUX', 'M9 3v6a3 3 0 0 0 6 0V3M12 12v9', 'MxPlayerOnly.dc.html']
+    ].map(([name, icon, href]) => ({ name, icon, href }));
+    return { apps, sources };
+  }
+}
+</script>
+</body>
+</html>

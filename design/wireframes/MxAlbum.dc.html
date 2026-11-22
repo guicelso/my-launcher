@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Álbum</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1280px; height: 720px; display: flex; background: #151616; color: #E3E3E3; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
+  <dc-import name="Rail" theme="noite" aberto="apps" badge="" hint-size="96px,720px"></dc-import>
+  <main style="flex: 1; min-width: 0; box-sizing: border-box; padding: 12px 12px 12px 0; display: flex">
+    <section aria-label="Álbum Horizonte" style="flex: 1; min-width: 0; position: relative; box-sizing: border-box; padding: 12px 20px 12px 12px; border-radius: 24px; background: #262625; display: flex; flex-direction: column; overflow: hidden">
+
+      <header style="height: 88px; flex: none; display: flex; align-items: center; gap: 12px">
+        <a href="MxBrowse.dc.html" aria-label="Voltar" style="width: 76px; height: 76px; border-radius: 38px; color: #E3E3E3; display: flex; align-items: center; justify-content: center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H5M11 18l-6-6 6-6"></path></svg></a>
+        <h1 style="flex: 1; margin: 0; font-size: 30px; font-weight: 400">Horizonte</h1>
+        <a href="MxSearch.dc.html" aria-label="Buscar" style="width: 76px; height: 76px; border-radius: 38px; color: #E3E3E3; display: flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m20 20-4.8-4.8"></path></svg></a>
+      </header>
+
+      <div style="flex: 1; min-height: 0; display: flex; gap: 36px; padding-left: 24px">
+        <div style="width: 300px; flex: none; display: flex; flex-direction: column; gap: 12px; padding-top: 4px">
+          <span aria-hidden="true" style="width: 240px; height: 240px; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.4)">
+            <svg viewBox="0 0 400 400" width="240" height="240"><rect width="400" height="400" fill="#1D5C63"></rect><circle cx="250" cy="130" r="120" fill="#F6B26B"></circle><ellipse cx="110" cy="300" rx="130" ry="90" fill="#E98A7B"></ellipse><rect x="60" y="60" width="70" height="70" rx="35" fill="#FCE4C4"></rect></svg>
+          </span>
+          <div>
+            <div style="font-size: 28px">Horizonte</div>
+            <a href="MxAlbum.dc.html" style="display: inline-flex; align-items: center; gap: 4px; font-size: 22px; color: #C4C7C5; text-decoration: none; margin-top: 2px">Banda Fictícia<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></a>
+            <div style="font-size: 20px; color: #A8ABAE; margin-top: 4px">2026 · 9 músicas · 34 min</div>
+          </div>
+        </div>
+
+        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+          <div role="toolbar" aria-label="Ações do álbum" style="flex: none; display: flex; gap: 12px; padding-bottom: 12px">
+            <a href="MxPlayer.dc.html" style="height: 64px; padding: 0 28px 0 22px; border-radius: 32px; background: #CFD6D3; color: #151616; display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 500; text-decoration: none"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"></path></svg>Aleatório</a>
+            <button type="button" aria-pressed="true" style="height: 64px; padding: 0 26px 0 20px; border: 0; border-radius: 32px; background: rgba(255,255,255,0.12); color: #E3E3E3; font: inherit; font-size: 22px; display: flex; align-items: center; gap: 10px; cursor: pointer"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Baixado</button>
+            <button type="button" style="height: 64px; padding: 0 26px 0 20px; border: 0; border-radius: 32px; background: rgba(255,255,255,0.12); color: #E3E3E3; font: inherit; font-size: 22px; display: flex; align-items: center; gap: 10px; cursor: pointer"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11A4.8 4.8 0 0 1 12 6.6a4.8 4.8 0 0 1 8.5 2.9c0 5.8-8.5 11-8.5 11z"></path></svg>Salvar</button>
+            <button type="button" aria-label="Mais ações do álbum" style="width: 64px; height: 64px; border: 0; border-radius: 32px; background: rgba(255,255,255,0.12); color: #E3E3E3; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="19" r="2"></circle></svg></button>
+          </div>
+          <ol style="flex: 1; min-height: 0; overflow-y: auto; margin: 0; padding: 0; list-style: none">
+            <sc-for list="{{tracks}}" as="t" hint-placeholder-count="6">
+              <li style="height: 88px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #3C3E3D">
+                <a href="MxPlayer.dc.html" style="flex: 1; min-width: 0; height: 100%; display: flex; align-items: center; gap: 20px; color: {{t.color}}; text-decoration: none; padding-left: 8px">
+                  <span style="width: 36px; flex: none; text-align: center; font-size: 22px; color: {{t.numColor}}">
+                    <sc-if value="{{t.playing}}" hint-placeholder-val="{{false}}"><svg aria-label="Tocando agora" role="img" width="28" height="28" viewBox="0 0 24 24" fill="#F6B26B"><rect x="3" y="10" width="4" height="10" rx="1"></rect><rect x="10" y="4" width="4" height="16" rx="1"></rect><rect x="17" y="13" width="4" height="7" rx="1"></rect></svg></sc-if>
+                    <sc-if value="{{t.notPlaying}}" hint-placeholder-val="{{true}}">{{t.n}}</sc-if>
+                  </span>
+                  <span style="flex: 1; min-width: 0; display: flex; flex-direction: column">
+                    <span style="font-size: 25px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{t.title}}</span>
+                    <span style="display: flex; align-items: center; gap: 8px; font-size: 20px; color: #A8ABAE">
+                      <sc-if value="{{t.explicit}}" hint-placeholder-val="{{false}}"><span aria-label="Explícito" style="width: 22px; height: 22px; border-radius: 4px; background: #A8ABAE; color: #262625; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center">E</span></sc-if>
+                      <sc-if value="{{t.saved}}" hint-placeholder-val="{{true}}"><svg aria-label="Baixado" role="img" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg></sc-if>
+                      Banda Fictícia · {{t.time}}
+                    </span>
+                  </span>
+                </a>
+                <button type="button" aria-label="Ações de {{t.title}}" style="width: 76px; height: 76px; flex: none; border: 0; border-radius: 38px; background: transparent; color: #C4C7C5; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="19" r="2"></circle></svg></button>
+              </li>
+            </sc-for>
+          </ol>
+        </div>
+      </div>
+
+      <div style="flex: none; position: relative; height: 104px; margin-top: 8px; border-radius: 20px; background: #343635; display: flex; align-items: center; gap: 12px; padding: 0 16px 0 12px; overflow: hidden">
+        <span aria-hidden="true" style="position: absolute; left: 0; top: 0; height: 4px; width: 100%; background: #464A4D"><span style="display: block; width: 42%; height: 4px; background: #F6B26B"></span></span>
+        <a href="MxPlayer.dc.html" aria-label="Abrir tocando agora" style="flex: 1; min-width: 0; height: 100%; display: flex; align-items: center; gap: 18px; color: #E3E3E3; text-decoration: none">
+          <span aria-hidden="true" style="width: 72px; height: 72px; flex: none; border-radius: 12px; overflow: hidden; background: #1D5C63; position: relative"><span style="position: absolute; right: -10px; top: -8px; width: 50px; height: 50px; border-radius: 25px; background: #F6B26B"></span></span>
+          <span style="min-width: 0; display: flex; flex-direction: column"><span style="font-size: 24px">Estrada de terra ao entardecer</span><span style="font-size: 20px; color: #A8ABAE">Banda Fictícia</span></span>
+        </a>
+        <button type="button" aria-label="Faixa anterior" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #E3E3E3; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M6 5v14M19 5.5v13L9.5 12z"></path></svg></button>
+        <button type="button" aria-label="Pausar" style="width: 88px; height: 76px; border: 0; border-radius: 20px; background: #CFD6D3; color: #151616; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"></rect><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"></rect></svg></button>
+        <button type="button" aria-label="Próxima faixa" style="width: 76px; height: 76px; border: 0; border-radius: 38px; background: transparent; color: #E3E3E3; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M18 5v14M5 5.5v13l9.5-6.5z"></path></svg></button>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const list = [
+      ['Abertura', '0:58', false], ['Estrada de terra ao entardecer', '3:45', true], ['Posto 24 horas', '3:12', false], ['Serra acima', '4:01', true],
+      ['Retrovisor', '2:49', false], ['Chuva na pista', '3:30', false], ['Destino final', '4:22', false]
+    ];
+    const tracks = list.map(([title, time, explicit], i) => ({
+      n: i + 1, title, time, explicit, saved: true,
+      playing: i === 1, notPlaying: i !== 1,
+      color: i === 1 ? '#F6B26B' : '#E3E3E3', numColor: '#A8ABAE'
+    }));
+    return { tracks };
+  }
+}
+</script>
+</body>
+</html>

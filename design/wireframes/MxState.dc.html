@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Estados do app de mídia</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1280px; height: 720px; display: flex; background: #151616; color: #E3E3E3; font-family: Roboto, system-ui, sans-serif; overflow: hidden">
+  <dc-import name="Rail" theme="noite" aberto="apps" badge="" hint-size="96px,720px"></dc-import>
+  <main style="flex: 1; min-width: 0; box-sizing: border-box; padding: 12px 12px 12px 0; display: flex">
+    <section aria-label="{{app.name}}" style="flex: 1; min-width: 0; box-sizing: border-box; padding: 12px 20px 16px 12px; border-radius: 24px; background: #262625; display: flex; flex-direction: column; overflow: hidden">
+      <header style="height: 88px; flex: none; display: flex; align-items: center; gap: 10px">
+        <a href="MxSources.dc.html" aria-label="Trocar app de mídia ({{app.name}})" style="height: 64px; padding: 0 14px 0 8px; border-radius: 32px; display: flex; align-items: center; gap: 10px; color: #E3E3E3; text-decoration: none; background: rgba(255,255,255,0.08)">
+          <span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 22px; background: {{app.color}}; color: {{app.on}}; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="{{app.icon}}"></path></svg></span>
+          <span style="font-size: 24px">{{app.name}}</span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"></path></svg>
+        </a>
+        <sc-if value="{{loading}}" hint-placeholder-val="{{true}}">
+          <div aria-hidden="true" style="display: flex; gap: 10px; margin-left: 12px"><span style="width: 130px; height: 48px; border-radius: 24px; background: #343635"></span><span style="width: 150px; height: 48px; border-radius: 24px; background: #2F3130"></span><span style="width: 130px; height: 48px; border-radius: 24px; background: #2F3130"></span></div>
+        </sc-if>
+      </header>
+
+      <sc-if value="{{loading}}" hint-placeholder-val="{{true}}">
+        <div role="status" aria-label="Carregando" style="flex: 1; min-height: 0; position: relative; padding: 8px 0 0 88px">
+          <span aria-hidden="true" style="display: block; width: 260px; height: 28px; border-radius: 8px; background: #343635; margin: 14px 0 20px"></span>
+          <div aria-hidden="true" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px">
+            <sc-for list="{{skel}}" as="k" hint-placeholder-count="5">
+              <span style="display: flex; flex-direction: column; gap: 10px"><span style="aspect-ratio: 1; border-radius: 16px; background: #313332"></span><span style="height: 20px; width: 80%; border-radius: 6px; background: #343635"></span><span style="height: 16px; width: 55%; border-radius: 6px; background: #2F3130"></span></span>
+            </sc-for>
+          </div>
+          <span aria-hidden="true" style="display: block; width: 220px; height: 28px; border-radius: 8px; background: #343635; margin: 28px 0 0"></span>
+          <div style="position: absolute; left: 50%; top: 46%; transform: translate(-30%, -50%); height: 64px; padding: 0 26px 0 18px; border-radius: 32px; background: #3A3C3B; display: flex; align-items: center; gap: 14px; font-size: 22px; box-shadow: 0 8px 24px rgba(0,0,0,0.4)">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#F6B26B" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9" opacity="0.25"></circle><path d="M12 3a9 9 0 0 1 9 9"></path></svg>Carregando
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{message}}" hint-placeholder-val="{{false}}">
+        <div style="flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 0 112px 40px; text-align: center">
+          <span aria-hidden="true" style="width: 112px; height: 112px; border-radius: 56px; background: #343635; color: {{app.color}}; display: flex; align-items: center; justify-content: center"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="{{m.icon}}"></path></svg></span>
+          <h1 style="margin: 0; font-size: 34px; font-weight: 400; max-width: 760px">{{m.title}}</h1>
+          <p style="margin: 0; font-size: 24px; color: #C4C7C5; max-width: 720px; line-height: 1.35">{{m.body}}</p>
+          <div style="display: flex; gap: 16px; margin-top: 12px">
+            <sc-if value="{{primaryOn}}" hint-placeholder-val="{{true}}">
+              <a href="{{m.href}}" style="height: 76px; padding: 0 40px; border-radius: 38px; background: #CFD6D3; color: #151616; display: flex; align-items: center; font-size: 24px; font-weight: 500; text-decoration: none">{{m.primary}}</a>
+            </sc-if>
+            <sc-if value="{{primaryOff}}" hint-placeholder-val="{{false}}">
+              <button type="button" disabled style="height: 76px; padding: 0 40px; border: 0; border-radius: 38px; background: #3A3C3B; color: #8E918F; display: flex; align-items: center; gap: 12px; font: inherit; font-size: 24px; font-weight: 500"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>{{m.primary}}</button>
+            </sc-if>
+            <a href="{{m.href2}}" style="height: 76px; padding: 0 36px; border: 2px solid #8E918F; border-radius: 38px; color: #E3E3E3; display: flex; align-items: center; font-size: 24px; text-decoration: none">{{m.secondary}}</a>
+          </div>
+          <sc-if value="{{primaryOff}}" hint-placeholder-val="{{false}}"><span style="font-size: 20px; color: #A8ABAE">Disponível com o carro parado</span></sc-if>
+        </div>
+      </sc-if>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"estado":{"editor":"enum","options":["carregando","login","offline"],"default":"carregando"},"movimento":{"editor":"boolean","default":false,"tsType":"carro andando: ação de login desabilitada"},"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const estado = this.props.estado ?? 'carregando';
+    const wave = 'M4 12h2M8 8v8M12 5v14M16 9v6M20 11v2';
+    const apps = {
+      carregando: { name: 'Sonora', color: '#F6B26B', on: '#3A2300', icon: wave },
+      login: { name: 'Voz de Livro', color: '#F28B82', on: '#5C1A15', icon: 'M4 5h7a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4zM20 5h-7v13h7z' },
+      offline: { name: 'Ondas Pod', color: '#A8C7FA', on: '#062E6F', icon: 'M12 3a4 4 0 0 1 4 4v4a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4zM5 11a7 7 0 0 0 14 0M12 18v3' }
+    };
+    const M = {
+      login: { icon: 'M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM5 21a7 7 0 0 1 14 0', title: 'Entre na sua conta Voz de Livro', body: 'Para ouvir seus audiolivros, entre na sua conta. A tela de login abre aqui na multimídia.', primary: 'Entrar', href: 'MxBrowse.dc.html', secondary: 'Trocar de app', href2: 'MxSources.dc.html' },
+      offline: { icon: 'M3 3l18 18M8.5 8.6A5 5 0 0 0 6 18h11M17.9 12.1A4 4 0 0 1 19.6 17M10.6 6.2A6 6 0 0 1 17.5 10', title: 'Sem conexão com a internet', body: 'Os 12 episódios baixados continuam disponíveis.', primary: 'Ver baixados', href: 'MxBrowsePodcasts.dc.html', secondary: 'Tentar de novo', href2: 'MxBrowse.dc.html' }
+    };
+    const loading = estado === 'carregando';
+    const driving = !!this.props.movimento;
+    const lockable = estado === 'login';
+    return {
+      app: apps[estado] ?? apps.carregando,
+      loading, message: !loading,
+      m: M[estado] ?? M.login,
+      primaryOn: !(lockable && driving), primaryOff: lockable && driving,
+      skel: [1, 2, 3, 4, 5]
+    };
+  }
+}
+</script>
+</body>
+</html>

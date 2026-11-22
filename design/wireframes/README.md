@@ -23,5 +23,6 @@ equivalentes às imagens de cada página e notas que separam o que vem do doc
 | Apps de mensagens | `MessageHun`, `MessageCenter`, `VoiceReply` |
 | Personalizações do launcher | `Settings`, `HomeWidgets`, `WidgetPicker`, `SaveDestination` |
 | Pilhas de widgets | `StackHome` (props `theme`, `menu`), `StackMenu`, `StackEdit` (prop `tela`), `StackAdd`, `StackStates`, `StackSwipe`, `StackCard` (componente: `widgets`, `start`, `peek`, `hint`, `focus`, `touch`, `demo`) |
+| Mídia e streaming (estudo) | `MxPlayer` (props `tipo`, `acoes`, `estado`, `navegacao`, `fundo`), `MxPlayerPodcast`, `MxPlayerRadio`, `MxPlayerMore`, `MxPlayerOnly`, `MxBrowse` (props `aba`, `movimento`), `MxBrowseExplore`, `MxBrowsePodcasts`, `MxBrowseDriving`, `MxAlbum`, `MxQueue`, `MxSources`, `MxSearch` (prop `modo`), `MxSearchDriving`, `MxState` (props `estado`, `movimento`), `MxStateLogin`, `MxStateOffline`, `MxHome` (prop `estado`), `MxHomeSuggest`, `MxSplit` |
 
-Os arquivos são a referência visual das specs 002–017. Ao mudar o design, atualize aqui e no canvas.
+Os arquivos são a referência visual das specs 002–018 (a página de mídia acompanha o estudo `docs/05-media-android-auto.md`). Ao mudar o design, atualize aqui e no canvas.
