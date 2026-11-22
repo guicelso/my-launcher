@@ -71,5 +71,16 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+
+        <!-- App de mídia simulado (spec 018), só para testes: o painel de depuração liga e desliga. -->
+        <service
+            android:name=".core.debug.DebugMediaBrowserService"
+            android:enabled="false"
+            android:exported="true"
+            android:label="Sonora">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>

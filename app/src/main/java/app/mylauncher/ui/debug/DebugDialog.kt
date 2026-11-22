@@ -83,7 +83,12 @@ fun DebugDialog(
                 Switch(playerOn, { on -> if (on) player.start() else player.stop(); playerOn = on })
             }
             if (playerOn) {
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) { DebugButton("Tocar/pausar") { player.togglePlay() } }
+                // App de mídia simulado (spec 018): "Sonora (simulado)" no seletor de mídia.
+                var login by remember { mutableStateOf(player.isLoginRequired) }
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    DebugButton("Tocar/pausar") { player.togglePlay() }
+                    DebugButton(if (login) "Concluir login" else "Exigir login") { login = !login; player.setLoginRequired(login) }
+                }
             }
             var weatherKind by remember { mutableStateOf(weather.simulatedKind) }
             var weatherDay by remember { mutableStateOf(weather.simulatedDay) }
