@@ -2,6 +2,7 @@ package app.mylauncher.nav.embedded;
 
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
+import android.os.IBinder;
 import android.os.SystemClock;
 import android.view.InputDevice;
 import android.view.InputEvent;
@@ -11,6 +12,7 @@ import android.view.MotionEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 
@@ -26,7 +28,9 @@ import java.nio.charset.StandardCharsets;
  * conecta de volta nesse socket e faz só o que um app comum não pode:
  *  - abrir o app de navegação NAQUELE display ({@code am start --display});
  *  - injetar os toques do card no display ({@code InputManager.injectInputEvent} + {@code setDisplayId});
- *  - (opcional) devolver ao card as telas do app que "fugirem" para o display principal.
+ *  - devolver ao card as telas do app que "fugirem" para o display principal, mandar para o display
+ *    principal as telas de outros apps que caírem no card e reabrir o app se ele sumir (R8.6, R8.9);
+ *  - devolver o foco do sistema ao display principal depois de cada toque (R8.8).
  *
  * Protocolo (linhas de texto, UTF-8, terminadas em \n), vindas do app:
  *  LAUNCH &lt;pkg&gt;                      abre a activity principal do pkg no display
@@ -44,7 +48,11 @@ public final class NavHelper {
     private static volatile Method injectMethod;
     private static volatile Method setDisplayIdMethod;
     private static volatile EscapeWatcher watcher;
+    private static final FocusKeeper focusKeeper = new FocusKeeper();
     private static OutputStream out;
+    /** Último app/URI aberto no display: o vigia reabre com eles se o app sumir (R8.9). */
+    private static volatile String lastPkg;
+    private static volatile String lastUri;
 
     public static void main(String[] args) {
         if (args.length < 2) {
@@ -57,6 +65,7 @@ public final class NavHelper {
         try {
             initReflection();
             lockRotation();
+            focusKeeper.start();
             runLoop(socketName);
         } catch (Throwable t) {
             log("fatal: " + t);
@@ -102,7 +111,7 @@ public final class NavHelper {
                 return true;
             }
             case "TOUCH":
-                injectTouch(rest);
+                focusKeeper.onTouch(injectTouch(rest));
                 return true;
             case "KEY":
                 injectKey(Integer.parseInt(rest.trim()));
@@ -138,6 +147,8 @@ public final class NavHelper {
     // ---- Abrir o app no display -------------------------------------------------------------
 
     private static void launch(String pkg, String uri) {
+        lastPkg = pkg;
+        lastUri = uri;
         // Se o app já tem uma tarefa no display principal (aberto antes, fora do card), traz essa
         // tarefa para o card em vez de abrir uma segunda: o `am start --display` reaproveitaria a
         // tarefa antiga NO display 0 (visto no carro: "top resumed state loss timeout").
@@ -169,7 +180,8 @@ public final class NavHelper {
 
     // ---- Injeção de toque ------------------------------------------------------------------
 
-    private static void injectTouch(String rest) throws Exception {
+    /** @return a ação do evento (ACTION_DOWN, ACTION_UP…), para o [FocusKeeper]. */
+    private static int injectTouch(String rest) throws Exception {
         String[] t = rest.trim().split("\\s+");
         long downTime = Long.parseLong(t[0]);
         long evTime = Long.parseLong(t[1]);
@@ -195,6 +207,7 @@ public final class NavHelper {
                 0, 0, 1f, 1f, 0, 0, InputDevice.SOURCE_TOUCHSCREEN, 0);
         inject(ev);
         ev.recycle();
+        return action & MotionEvent.ACTION_MASK;
     }
 
     private static void injectKey(int keyCode) throws Exception {
@@ -233,13 +246,20 @@ public final class NavHelper {
     }
 
     /**
-     * Devolve ao card as tarefas do app de navegação que caírem no display 0 (spec 008, R8.6).
-     * Sonda a cada 500 ms por {@link Stacks} (reflexão, sem criar processos) e move só stacks cujas
-     * tarefas sejam do {@code pkg}. A versão anterior lia o `dumpsys` e chegou a mover o YouTube Music.
+     * Vigia do display do card, a cada 500 ms, por {@link Stacks} (reflexão, sem criar processos):
+     *  - devolve ao card as tarefas do app de navegação que caírem no display 0 (R8.6). Move só stacks
+     *    cujas tarefas sejam do {@code pkg}: a versão que lia o `dumpsys` chegou a mover o YouTube Music;
+     *  - manda para o display 0 as tarefas de **outros** apps que caírem no card (R8.8). Ex.: os
+     *    Recentes da Interface do sistema abertos com o foco no card; de lá, o "Home" deles não tem
+     *    onde abrir a HOME e a Interface do sistema travava ("Cannot launch home on display N");
+     *  - reabre o app se ele sumir do card com a tela ligada (R8.9). Ex.: a TopWay faz
+     *    {@code forceStopPackage} nos apps ao tirar a chave, e o card ficava preto ao religar.
      */
     private static final class EscapeWatcher extends Thread {
         private final String pkg;
         private volatile boolean running = true;
+        private int missing;
+        private long lastRelaunch;
 
         EscapeWatcher(String pkg) {
             super("nav-escape-watcher");
@@ -255,11 +275,134 @@ public final class NavHelper {
                     Thread.sleep(500);
                     int n = Stacks.moveAll(pkg, displayId);
                     if (n > 0) log("fuga devolvida: " + n + " stack(s) de " + pkg + " -> display " + displayId);
+                    int e = Stacks.evictForeign(pkg, displayId);
+                    if (e > 0) log(e + " stack(s) de outro app tirada(s) do card -> display 0");
+                    checkAlive();
                 } catch (InterruptedException e) {
                     return;
                 } catch (Throwable t) {
                     log("watcher erro: " + t);
                 }
+            }
+        }
+
+        /** Reabre o app se ele não aparecer no card por ~2 s seguidos com a tela ligada. */
+        private void checkAlive() {
+            int present = Stacks.countOnDisplay(pkg, displayId);
+            if (present != 0 || !System2.isInteractive()) { missing = 0; return; }
+            if (++missing < 4) return;
+            long now = SystemClock.uptimeMillis();
+            if (now - lastRelaunch < RELAUNCH_MIN_INTERVAL_MS) return;
+            lastRelaunch = now;
+            missing = 0;
+            String p = lastPkg != null ? lastPkg : pkg;
+            log("app sumiu do card; reabrindo " + p);
+            launch(p, lastUri);
+        }
+    }
+
+    private static final long RELAUNCH_MIN_INTERVAL_MS = 10_000;
+
+    /**
+     * Devolve o foco do sistema ao display principal depois de um toque no card (R8.8).
+     *
+     * No Android 10 há um único display com foco, e ele vai para onde foi o último toque: o toque
+     * injetado no card põe o display virtual no topo ({@code mTopFocusedDisplayId}). Daí em diante as
+     * teclas Home/Recentes da barra do Android agem no card: os Recentes abriam DENTRO do card e o
+     * "Home" deles derrubava a Interface do sistema (medido no carro, 2026-11-22).
+     *
+     * Depois de {@link #RETURN_MS} sem toque, se o foco ainda estiver no card e o teclado não estiver
+     * aberto (digitação no app embutido precisa do foco lá), põe em foco a stack visível do topo do
+     * display 0 ({@code setFocusedStack}: ~13 ms, não reordena nem manda intent ao launcher).
+     */
+    private static final class FocusKeeper extends Thread {
+        private static final long RETURN_MS = 1200;
+        private static final long IME_RECHECK_MS = 1500;
+        private long returnAt; // uptime; 0 = nada agendado
+        private boolean pressed;
+
+        FocusKeeper() {
+            super("nav-focus-keeper");
+            setDaemon(true);
+        }
+
+        synchronized void onTouch(int action) {
+            if (action == MotionEvent.ACTION_DOWN) {
+                pressed = true;
+                returnAt = 0;
+            } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
+                pressed = false;
+                returnAt = SystemClock.uptimeMillis() + RETURN_MS;
+                notifyAll();
+            }
+        }
+
+        @Override public void run() {
+            while (true) {
+                try {
+                    synchronized (this) {
+                        while (returnAt == 0 || pressed) wait();
+                        long d = returnAt - SystemClock.uptimeMillis();
+                        if (d > 0) { wait(d); continue; }
+                        returnAt = 0;
+                    }
+                    if (System2.imeVisible()) {
+                        synchronized (this) { if (returnAt == 0 && !pressed) returnAt = SystemClock.uptimeMillis() + IME_RECHECK_MS; }
+                        continue;
+                    }
+                    if (Stacks.focusedDisplay() == displayId && Stacks.focusMainDisplay()) {
+                        log("foco devolvido ao display 0");
+                    }
+                } catch (InterruptedException e) {
+                    return;
+                } catch (Throwable t) {
+                    log("focus erro: " + t);
+                }
+            }
+        }
+    }
+
+    /** Serviços do sistema por reflexão (estado da tela e do teclado). */
+    private static final class System2 {
+        private static Object power, imm;
+        private static Method isInteractive, imeHeight;
+        private static boolean powerFailed, immFailed;
+
+        private static Object service(String name, String stub) throws Exception {
+            IBinder b = (IBinder) Class.forName("android.os.ServiceManager")
+                    .getMethod("getService", String.class).invoke(null, name);
+            return Class.forName(stub).getMethod("asInterface", IBinder.class).invoke(null, b);
+        }
+
+        /** Tela ligada? Na dúvida, true. */
+        static synchronized boolean isInteractive() {
+            if (powerFailed) return true;
+            try {
+                if (power == null) {
+                    power = service("power", "android.os.IPowerManager$Stub");
+                    isInteractive = power.getClass().getMethod("isInteractive");
+                }
+                return (Boolean) isInteractive.invoke(power);
+            } catch (Throwable t) {
+                powerFailed = true;
+                log("isInteractive indisponível: " + t);
+                return true;
+            }
+        }
+
+        /** Teclado na tela? Na dúvida, false. */
+        static synchronized boolean imeVisible() {
+            if (immFailed) return false;
+            try {
+                if (imm == null) {
+                    imm = service("input_method", "com.android.internal.view.IInputMethodManager$Stub");
+                    imeHeight = imm.getClass().getMethod("getInputMethodWindowVisibleHeight");
+                }
+                return (Integer) imeHeight.invoke(imm) > 0;
+            } catch (Throwable t) {
+                immFailed = true;
+                log("estado do teclado indisponível: " + t);
+                return false;
             }
         }
     }
@@ -273,38 +416,126 @@ public final class NavHelper {
         private static Object atm;
         private static Method getAll;
         private static Method moveToDisplay;
+        private static Method getFocused;
+        private static Method setFocused;
         private static boolean reflectionFailed;
 
         /** Move para {@code target} toda stack do display 0 que tenha tarefa do {@code pkg}. @return quantas moveu. */
         static synchronized int moveAll(String pkg, int target) {
             if (!reflectionFailed) {
                 try {
-                    return moveAllReflection(pkg, target);
+                    return moveMatching(pkg, 0, target, true);
                 } catch (Throwable t) {
-                    reflectionFailed = true;
-                    log("Stacks: reflexão falhou (" + t + "), usando am stack list");
+                    if (!onReflectionError("moveAll", t)) return 0;
                 }
             }
             return moveAllShell(pkg, target);
         }
 
-        private static int moveAllReflection(String pkg, int target) throws Exception {
-            if (atm == null) {
-                Class<?> atmCls = Class.forName("android.app.ActivityTaskManager");
-                atm = atmCls.getMethod("getService").invoke(null);
-                getAll = atm.getClass().getMethod("getAllStackInfos");
-                moveToDisplay = atm.getClass().getMethod("moveStackToDisplay", int.class, int.class);
+        /** Manda para o display 0 toda stack do {@code display} que NÃO seja do {@code pkg}. */
+        static synchronized int evictForeign(String pkg, int display) {
+            if (reflectionFailed) return 0;
+            try {
+                return moveMatching(pkg, display, 0, false);
+            } catch (Throwable t) {
+                onReflectionError("evictForeign", t);
+                return 0;
             }
-            java.util.List<?> infos = (java.util.List<?>) getAll.invoke(atm);
+        }
+
+        /** Quantas stacks do {@code pkg} há no {@code display}; -1 se não der para saber. */
+        static synchronized int countOnDisplay(String pkg, int display) {
+            if (reflectionFailed) return -1;
+            try {
+                int n = 0;
+                for (Object info : stackInfos()) {
+                    if (displayOf(info) == display && hasPkg(namesOf(info), pkg)) n++;
+                }
+                return n;
+            } catch (Throwable t) {
+                onReflectionError("countOnDisplay", t);
+                return -1;
+            }
+        }
+
+        /** Display da stack com foco (o "top focused display"); -1 se não der para saber. */
+        static synchronized int focusedDisplay() {
+            if (reflectionFailed) return -1;
+            try {
+                ensureAtm();
+                Object info = getFocused.invoke(atm);
+                return info == null ? -1 : displayOf(info);
+            } catch (Throwable t) {
+                onReflectionError("focusedDisplay", t);
+                return -1;
+            }
+        }
+
+        /** Põe em foco a stack visível do topo do display 0. @return true se conseguiu. */
+        static synchronized boolean focusMainDisplay() {
+            if (reflectionFailed) return false;
+            try {
+                for (Object info : stackInfos()) { // do topo para baixo
+                    if (displayOf(info) != 0 || !info.getClass().getField("visible").getBoolean(info)) continue;
+                    setFocused.invoke(atm, info.getClass().getField("stackId").getInt(info));
+                    return true;
+                }
+            } catch (Throwable t) {
+                onReflectionError("focusMainDisplay", t);
+            }
+            return false;
+        }
+
+        /**
+         * Erro numa chamada por reflexão. Só desiste da reflexão se a API não existir; uma exceção
+         * lançada pelo sistema (ex.: stack que sumiu no meio da consulta) vale só para esta chamada.
+         * Antes, qualquer erro desligava a reflexão para sempre (visto no carro às 18:23).
+         * @return true se a reflexão foi desligada.
+         */
+        private static boolean onReflectionError(String what, Throwable t) {
+            if (t instanceof InvocationTargetException) {
+                log("Stacks." + what + ": " + ((InvocationTargetException) t).getTargetException());
+                return false;
+            }
+            reflectionFailed = true;
+            log("Stacks: reflexão falhou em " + what + " (" + t + "), usando am stack list");
+            return true;
+        }
+
+        private static void ensureAtm() throws Exception {
+            if (atm != null) return;
+            Class<?> atmCls = Class.forName("android.app.ActivityTaskManager");
+            Object a = atmCls.getMethod("getService").invoke(null);
+            Class<?> c = a.getClass();
+            getAll = c.getMethod("getAllStackInfos");
+            moveToDisplay = c.getMethod("moveStackToDisplay", int.class, int.class);
+            getFocused = c.getMethod("getFocusedStackInfo");
+            setFocused = c.getMethod("setFocusedStack", int.class);
+            atm = a;
+        }
+
+        private static java.util.List<?> stackInfos() throws Exception {
+            ensureAtm();
+            return (java.util.List<?>) getAll.invoke(atm);
+        }
+
+        private static int displayOf(Object info) throws Exception {
+            return info.getClass().getField("displayId").getInt(info);
+        }
+
+        private static String[] namesOf(Object info) throws Exception {
+            return (String[]) info.getClass().getField("taskNames").get(info);
+        }
+
+        /** Move do display {@code from} para {@code to} as stacks que são ({@code ofPkg}) ou não são do {@code pkg}. */
+        private static int moveMatching(String pkg, int from, int to, boolean ofPkg) throws Exception {
             int moved = 0;
-            for (Object info : infos) {
-                Class<?> c = info.getClass();
-                int stackId = c.getField("stackId").getInt(info);
-                int disp = c.getField("displayId").getInt(info);
-                if (disp != 0) continue;
-                String[] names = (String[]) c.getField("taskNames").get(info);
-                if (!hasPkg(names, pkg)) continue;
-                moveToDisplay.invoke(atm, stackId, target);
+            for (Object info : stackInfos()) {
+                if (displayOf(info) != from) continue;
+                String[] names = namesOf(info);
+                if (names == null || names.length == 0) continue;
+                if (hasPkg(names, pkg) != ofPkg) continue;
+                moveToDisplay.invoke(atm, info.getClass().getField("stackId").getInt(info), to);
                 moved++;
             }
             return moved;
