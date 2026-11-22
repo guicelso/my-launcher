@@ -89,7 +89,6 @@ class MediaRepository(
         scope.launch {
             MediaListenerService.connected.collect { connected -> if (connected) attach() }
         }
-        ensureListenerBound()
         scope.launch {
             combine(sessionState, externalState, MediaListenerService.connected, _lastSession) { s, ext, connected, last ->
                 // Concedido ≠ conectado: no boot o listener demora a conectar (ver ensureListenerBound);
@@ -118,22 +117,6 @@ class MediaRepository(
         preferred = pkg
         preferredAt = SystemClock.elapsedRealtime()
         recompute()
-    }
-
-    /**
-     * Com o acesso concedido mas o listener desconectado (boot da multimídia), pede a reconexão
-     * até ela acontecer, com intervalo crescente (até ~2 min).
-     */
-    private fun ensureListenerBound() {
-        scope.launch {
-            var wait = 2_000L
-            repeat(8) {
-                kotlinx.coroutines.delay(wait)
-                if (MediaListenerService.connected.value) return@launch
-                if (MediaListenerService.isGranted(context)) MediaListenerService.requestRebind(context)
-                wait = (wait * 2).coerceAtMost(30_000L)
-            }
-        }
     }
 
     /** Retoma a última sessão guardada (▶ do card ou ao ligar a chave, R16.5/R16.6). */

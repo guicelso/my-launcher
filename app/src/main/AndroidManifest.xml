@@ -59,8 +59,11 @@
             </intent-filter>
         </activity>
 
+        <!-- directBootAware: no boot, o NotificationManager tenta conectar o listener antes do
+             desbloqueio do usuário; sem isso a tentativa falha ("not found") e não é repetida (spec 016). -->
         <service
             android:name=".data.media.MediaListenerService"
+            android:directBootAware="true"
             android:exported="true"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
