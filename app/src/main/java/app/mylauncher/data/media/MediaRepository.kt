@@ -151,19 +151,23 @@ class MediaRepository(
             pausedAt = pausedAt,
             savedAt = now,
         )
-        // Grava só quando algo relevante muda (faixa, tocar/pausar), não a cada recálculo.
-        val changed = prev == null || !sameTrack || prev.playing != next.playing || prev.artist != next.artist
-        if (!changed) return
-        _lastSession.value = next
         val artKey = next.packageName + "|" + next.title
         val art = np.art
-        if (artKey != lastArtKey && art != null) {
-            lastArt = art
-            lastArtKey = artKey
+        // A capa costuma chegar depois do título: troca de faixa sem capa limpa a anterior, e a
+        // chegada da capa da faixa atual também conta como mudança.
+        val artChanged = when {
+            art != null && artKey != lastArtKey -> { lastArt = art; lastArtKey = artKey; true }
+            art == null && !sameTrack -> { lastArt = null; lastArtKey = null; true }
+            else -> false
         }
+        // Grava só quando algo relevante muda (faixa, capa, tocar/pausar), não a cada recálculo.
+        val changed = prev == null || !sameTrack || prev.playing != next.playing || prev.artist != next.artist || artChanged
+        if (!changed) return
+        _lastSession.value = next
+        val artToSave = lastArt
         scope.launch(kotlinx.coroutines.Dispatchers.IO) {
             store.save(next)
-            if (art != null && artKey == lastArtKey) store.saveArt(art)
+            if (artChanged) store.saveArt(artToSave)
         }
     }
 
