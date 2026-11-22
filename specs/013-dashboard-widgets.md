@@ -13,6 +13,7 @@ Transformar os cards da coluna direita do painel em **widgets trocáveis** (míd
   - **3 cards** (mídia + 2 pequenos).
 - **Para trocar um widget:** toque longo no card → "Trocar widget" → catálogo com prévia. Também em Ajustes → Painel. A troca usa a mesma animação de "card crescendo" da spec 010.
 - **Só com o carro parado** (mesma regra da spec 011).
+- **Cores do clima** (revisto em 2026-11-22, a pedido do usuário: "mais fortes e vivas, boas nos dois temas"): cada condição tem um degradê de dois tons (ex.: céu limpo azul → ciano; chuva azul → verde-azulado; tempestade roxo → anil; neblina cinza → areia), misturado sobre a superfície do tema (42%/24% no claro, 52%/30% no escuro), e ícones na cor de destaque da condição (versão escura no tema claro, clara no escuro). O texto segue as cores do tema. Antes era um tom único e bem sutil (22%/8%).
 
 ## Widgets
 | Widget | Fonte de dados |

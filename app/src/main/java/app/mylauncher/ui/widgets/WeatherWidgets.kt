@@ -51,44 +51,64 @@ private val CardShape = RoundedCornerShape(Dimens.cardRadius)
 private val TileShape = RoundedCornerShape(18.dp)
 
 /**
- * Tom de cada condição (matiz inspirado na paleta Google/Material). O card não usa a cor pura:
- * mistura uma fração dela sobre a superfície do tema, para continuar minimal no claro e no escuro.
+ * Paleta de cada condição: [top]/[bottom] formam o degradê do card (misturados sobre a superfície
+ * do tema) e [accentDay]/[accentNight] colorem os ícones (versão escura para o tema claro, clara
+ * para o escuro, para manter contraste nos dois).
  */
-private fun conditionHue(kind: WeatherKind?, isDay: Boolean): Color = when (kind) {
-    WeatherKind.CLEAR -> if (isDay) Color(0xFF4285F4) else Color(0xFF5C6BC0)
-    WeatherKind.PARTLY -> if (isDay) Color(0xFF5E97F6) else Color(0xFF5C6BC0)
-    WeatherKind.CLOUDY -> Color(0xFF90A4AE)
-    WeatherKind.FOG -> Color(0xFFA7B1BA)
-    WeatherKind.DRIZZLE, WeatherKind.RAIN -> Color(0xFF5B87B5)
-    WeatherKind.STORM -> Color(0xFF7E6FB0)
-    WeatherKind.SNOW -> Color(0xFF8AB4F8)
-    null -> Color(0xFF9AA0A6)
+private class WeatherPalette(val top: Color, val bottom: Color, val accentDay: Color, val accentNight: Color)
+
+private fun palette(kind: WeatherKind?, isDay: Boolean): WeatherPalette = when (kind) {
+    WeatherKind.CLEAR -> if (isDay) {
+        WeatherPalette(Color(0xFF1E88E5), Color(0xFF4FC3F7), Color(0xFFF57C00), Color(0xFFFFCA28))
+    } else {
+        WeatherPalette(Color(0xFF3949AB), Color(0xFF7E57C2), Color(0xFF5E35B1), Color(0xFFD1C4E9))
+    }
+    WeatherKind.PARTLY -> if (isDay) {
+        WeatherPalette(Color(0xFF42A5F5), Color(0xFFFFB74D), Color(0xFFEF6C00), Color(0xFFFFCC80))
+    } else {
+        WeatherPalette(Color(0xFF3F51B5), Color(0xFF607D8B), Color(0xFF5E35B1), Color(0xFFC5CAE9))
+    }
+    WeatherKind.CLOUDY -> WeatherPalette(Color(0xFF607D8B), Color(0xFF90A4AE), Color(0xFF455A64), Color(0xFFCFD8DC))
+    WeatherKind.FOG -> WeatherPalette(Color(0xFF78909C), Color(0xFFBCAAA4), Color(0xFF5D4037), Color(0xFFD7CCC8))
+    WeatherKind.DRIZZLE, WeatherKind.RAIN ->
+        WeatherPalette(Color(0xFF1565C0), Color(0xFF26A69A), Color(0xFF1565C0), Color(0xFF80DEEA))
+    WeatherKind.STORM -> WeatherPalette(Color(0xFF5E35B1), Color(0xFF283593), Color(0xFFF9A825), Color(0xFFFFE082))
+    WeatherKind.SNOW -> WeatherPalette(Color(0xFF29B6F6), Color(0xFFB3E5FC), Color(0xFF0277BD), Color(0xFFB3E5FC))
+    null -> WeatherPalette(Color(0xFF78909C), Color(0xFF90A4AE), Color(0xFF546E7A), Color(0xFFCFD8DC))
+}
+
+/** Cor de destaque do ícone de uma condição, já ajustada ao tema atual. */
+@Composable
+private fun weatherAccent(kind: WeatherKind?, isDay: Boolean): Color {
+    val p = palette(kind, isDay)
+    return if (LocalLauncherColors.current.isNight) p.accentNight else p.accentDay
 }
 
 /**
- * Card de clima (spec 013): a cor acompanha a condição, mas de forma sutil — um degradê leve
- * da tonalidade do clima sobre a superfície do tema (claro no modo dia, escuro no modo noite),
- * um ícone grande bem esmaecido ao fundo e texto nas cores do próprio tema.
+ * Card de clima (spec 013): degradê vivo de dois tons da condição sobre a superfície do tema
+ * (bem colorido, mas ainda claro no modo dia e escuro no modo noite, para o texto do tema ler
+ * bem), um ícone grande colorido ao fundo e ícones com a cor de destaque da condição.
  */
 @Composable
 fun WeatherGlassCard(weather: Weather?, modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
     val c = LocalLauncherColors.current
-    val hue = conditionHue(weather?.kind, weather?.isDay ?: true)
-    val strengthTop = if (c.isNight) 0.30f else 0.22f
-    val strengthBottom = if (c.isNight) 0.12f else 0.08f
-    val top by animateColorAsState(lerp(c.surface, hue, strengthTop), tween(600), label = "weatherTop")
-    val bottom by animateColorAsState(lerp(c.surface, hue, strengthBottom), tween(600), label = "weatherBottom")
+    val p = palette(weather?.kind, weather?.isDay ?: true)
+    val strengthTop = if (c.isNight) 0.52f else 0.42f
+    val strengthBottom = if (c.isNight) 0.30f else 0.24f
+    val top by animateColorAsState(lerp(c.surface, p.top, strengthTop), tween(600), label = "weatherTop")
+    val bottom by animateColorAsState(lerp(c.surface, p.bottom, strengthBottom), tween(600), label = "weatherBottom")
+    val accent = if (c.isNight) p.accentNight else p.accentDay
     Box(
         modifier
             .clip(CardShape)
-            .background(Brush.verticalGradient(listOf(top, bottom)))
-            .border(1.dp, if (c.isNight) Color.White.copy(alpha = 0.06f) else hue.copy(alpha = 0.12f), CardShape),
+            .background(Brush.linearGradient(listOf(top, bottom)))
+            .border(1.dp, if (c.isNight) Color.White.copy(alpha = 0.08f) else p.top.copy(alpha = 0.22f), CardShape),
     ) {
         if (weather != null) {
             Icon(
                 weatherIcon(weather.kind, weather.isDay), null,
                 Modifier.align(Alignment.TopEnd).offset(x = 36.dp, y = (-28).dp).size(200.dp),
-                tint = hue.copy(alpha = if (c.isNight) 0.14f else 0.12f),
+                tint = accent.copy(alpha = if (c.isNight) 0.22f else 0.20f),
             )
         }
         content()
@@ -134,7 +154,7 @@ private fun Waiting(modifier: Modifier) {
 private fun BigNow(weather: Weather, tempSize: Int, iconSize: Dp) {
     val c = LocalLauncherColors.current
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-        Icon(weatherIcon(weather.kind, weather.isDay), weather.description, Modifier.size(iconSize), tint = c.primary)
+        Icon(weatherIcon(weather.kind, weather.isDay), weather.description, Modifier.size(iconSize), tint = weatherAccent(weather.kind, weather.isDay))
         Text("${weather.temperature}°", fontSize = tempSize.sp, fontWeight = FontWeight.Normal, color = c.onSurface)
     }
 }
@@ -266,7 +286,7 @@ fun WeatherHourlyWidget(weather: Weather?, modifier: Modifier = Modifier) {
                                     if (i == 0) "Agora" else SimpleDateFormat("HH'h'", PtBr).format(Date(h.time)),
                                     style = MaterialTheme.typography.labelMedium, color = c.onSurfaceVariant,
                                 )
-                                Icon(weatherIcon(h.kind, h.isDay), null, Modifier.size(30.dp), tint = c.primary)
+                                Icon(weatherIcon(h.kind, h.isDay), null, Modifier.size(30.dp), tint = weatherAccent(h.kind, h.isDay))
                                 Text("${h.temperature}°", style = MaterialTheme.typography.titleMedium, color = c.onSurface)
                             }
                         }
@@ -299,7 +319,7 @@ fun WeatherDailyWidget(weather: Weather?, modifier: Modifier = Modifier) {
                             GlassTile(Modifier.weight(1f).fillMaxHeight()) {
                                 Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxHeight().padding(vertical = 8.dp)) {
                                     Text(dayName(i, d.date), style = MaterialTheme.typography.labelMedium, color = c.onSurfaceVariant, maxLines = 1)
-                                    Icon(weatherIcon(d.kind, true), null, Modifier.size(32.dp), tint = c.primary)
+                                    Icon(weatherIcon(d.kind, true), null, Modifier.size(32.dp), tint = weatherAccent(d.kind, true))
                                     Text("${d.max}°", style = MaterialTheme.typography.titleMedium, color = c.onSurface)
                                     Text("${d.min}°", style = MaterialTheme.typography.bodyMedium, color = c.onSurfaceVariant)
                                 }
@@ -314,7 +334,7 @@ fun WeatherDailyWidget(weather: Weather?, modifier: Modifier = Modifier) {
                     days.take(rows).forEachIndexed { i, d ->
                         Row(Modifier.fillMaxWidth().height(40.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                             Text(dayName(i, d.date), style = MaterialTheme.typography.bodyLarge, color = c.onSurface, modifier = Modifier.width(78.dp), maxLines = 1)
-                            Icon(weatherIcon(d.kind, true), null, Modifier.size(26.dp), tint = c.primary)
+                            Icon(weatherIcon(d.kind, true), null, Modifier.size(26.dp), tint = weatherAccent(d.kind, true))
                             Spacer(Modifier.weight(1f))
                             Text("${d.max}°", style = MaterialTheme.typography.titleMedium, color = c.onSurface)
                             Text("${d.min}°", style = MaterialTheme.typography.bodyMedium, color = c.onSurfaceVariant, textAlign = TextAlign.End, modifier = Modifier.width(36.dp))
@@ -339,7 +359,7 @@ fun ClockWeatherWidget(now: Long, weather: Weather?, modifier: Modifier = Modifi
                 Box(Modifier.padding(vertical = if (compact) 2.dp else 6.dp).size(width = 48.dp, height = 1.dp).background(c.outline))
                 if (weather != null) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        Icon(weatherIcon(weather.kind, weather.isDay), weather.description, Modifier.size(if (compact) 32.dp else 44.dp), tint = c.primary)
+                        Icon(weatherIcon(weather.kind, weather.isDay), weather.description, Modifier.size(if (compact) 32.dp else 44.dp), tint = weatherAccent(weather.kind, weather.isDay))
                         Text("${weather.temperature}°", fontSize = if (compact) 28.sp else 36.sp, fontWeight = FontWeight.Normal, color = c.onSurface)
                         if (!compact) {
                             Column {
