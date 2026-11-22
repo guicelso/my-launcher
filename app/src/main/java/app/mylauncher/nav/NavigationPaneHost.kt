@@ -21,7 +21,7 @@ class NavigationPaneHost(container: AppContainer) : NavigationPane {
     private val settings = container.settings
     private val own = OwnMapPane(container)
     private val controller = EmbeddedNavController(container.context)
-    private val embedded = EmbeddedAppPane(controller)
+    private val embedded = EmbeddedAppPane(controller, container.wake)
 
     @Composable
     override fun Content(mode: PaneMode, modifier: Modifier, active: Boolean, onExpand: () -> Unit) {
