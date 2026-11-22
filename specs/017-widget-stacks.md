@@ -35,7 +35,7 @@ Fontes: [Samsung: widgets em celulares Galaxy](https://www.samsung.com/us/suppor
 - **R17.6** A tela *Editar pilha* DEVE mostrar os widgets lado a lado, na ordem, com prévia, botão de remover, setas para mover e o card **+** enquanto houver menos de 7; a chave *Sugestões inteligentes* (padrão: ligada, vale para todas as pilhas); e *Desfazer pilha*, que deixa só o widget principal. A pilha nunca fica vazia.
 - **R17.7** ENQUANTO *Sugestões inteligentes* estiver ligada, QUANDO acontecer um destes eventos, a pilha que tem o widget correspondente DEVE ir até ele e mostrar um selo por 5 s:
   - a música começa a tocar → Mídia;
-  - a tensão da bateria fica abaixo de 11,8 V → Veículo;
+  - a tensão da bateria fica abaixo de 11,8 V por 30 s (a queda da partida não conta) → Veículo;
   - chega uma notificação de mensagem → Notificações (ou Mensagens);
   - a chave é ligada → widget principal.
 - **R17.8** SE o motorista deslizar uma pilha, ENTÃO ela NÃO DEVE receber sugestões até o próximo evento de outro tipo.

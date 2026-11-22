@@ -29,12 +29,6 @@ class RecentsTest {
         assertNull(Destination("Casa", "Rua X, 10").latLon)
     }
 
-    @Test fun `widget repetido troca de lugar`() {
-        val w = listOf(WidgetType.MEDIA, WidgetType.SUGGESTIONS, WidgetType.WEATHER)
-        assertEquals(listOf(WidgetType.WEATHER, WidgetType.SUGGESTIONS, WidgetType.MEDIA), Widgets.assign(w, 0, WidgetType.WEATHER))
-        assertEquals(listOf(WidgetType.MEDIA, WidgetType.VEHICLE, WidgetType.WEATHER), Widgets.assign(w, 1, WidgetType.VEHICLE))
-    }
-
     @Test fun `widgets normalizados sem repeticao`() {
         assertEquals(3, Widgets.normalize(listOf(WidgetType.MEDIA, WidgetType.MEDIA)).distinct().size)
     }

@@ -73,14 +73,28 @@ import app.mylauncher.ui.theme.LauncherTheme
 import app.mylauncher.ui.theme.LocalLauncherColors
 import app.mylauncher.ui.theme.ThemeResolver
 import app.mylauncher.ui.workspace.Workspace
+import app.mylauncher.ui.dashboard.StackEditRequest
+import app.mylauncher.ui.dashboard.StackEditor
+import app.mylauncher.ui.dashboard.StackEvent
+import app.mylauncher.ui.dashboard.stackNames
 import java.util.Calendar
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 
 /** Velocidade máxima considerada "parado" para edições (bloqueio de distração). */
 const val PARKED_MAX_KMH = 5
+
+/** Bateria fraca para as sugestões das pilhas (spec 017, R17.7). */
+private const val LOW_BATTERY_V = 11.8f
+private const val LOW_BATTERY_HOLD_MS = 30_000L
 
 @Composable
 fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: NavigationPane) {
@@ -103,6 +117,33 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
 
     // Chave ligada: volta ao painel (spec 016, R16.3).
     androidx.compose.runtime.LaunchedEffect(Unit) { container.wake.collect { navigator.home() } }
+
+    // Pilhas de widgets (spec 017): eventos que trazem o widget certo para a frente (R17.7).
+    val stackEvents = remember { MutableSharedFlow<StackEvent>(extraBufferCapacity = 8) }
+    var stackEdit by remember { mutableStateOf<StackEditRequest?>(null) }
+    // Editar pilha só com o carro parado (R17.5).
+    androidx.compose.runtime.LaunchedEffect(parked) { if (!parked) stackEdit = null }
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        launch { container.wake.collect { stackEvents.emit(StackEvent.Wake) } }
+        launch {
+            container.media.state.map { it.nowPlaying?.playing == true }.distinctUntilChanged().drop(1)
+                .collect { if (it) stackEvents.emit(StackEvent.Suggest(WidgetType.MEDIA, "Música tocando")) }
+        }
+        launch {
+            // 30 s abaixo do limite: a queda de tensão da partida não conta.
+            container.vehicle.map { v -> v.batteryV?.let { it < LOW_BATTERY_V } == true }.distinctUntilChanged()
+                .collectLatest { low ->
+                    if (low) {
+                        delay(LOW_BATTERY_HOLD_MS)
+                        stackEvents.emit(StackEvent.Suggest(WidgetType.VEHICLE, "Bateria fraca"))
+                    }
+                }
+        }
+        launch {
+            container.messages.summary.map { s -> s.recent.firstOrNull { it.isMessage }?.key }.distinctUntilChanged().drop(1)
+                .collect { if (it != null) stackEvents.emit(StackEvent.Suggest(WidgetType.NOTIFICATIONS, "Mensagem nova")) }
+        }
+    }
 
     val hour = Calendar.getInstance().apply { timeInMillis = status.now }.get(Calendar.HOUR_OF_DAY)
     val night = ThemeResolver.isNight(settings.theme, vehicle, hour)
@@ -143,6 +184,37 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
         val onNotifications: () -> Unit = {
             if (navigator.overlay == Screen.NOTIFICATIONS) navigator.back() else navigator.go(Screen.NOTIFICATIONS)
         }
+        // Desenha um widget do catálogo; usado nas pilhas do painel e nas prévias do editor (spec 017).
+        val renderWidget: @Composable (WidgetType, Modifier) -> Unit = { type, wm ->
+            when (type) {
+                WidgetType.MEDIA -> MediaCard(
+                    state = media,
+                    apps = apps,
+                    musicApp = settings.musicApp,
+                    onOpenMedia = { navigator.go(Screen.SPLIT_MEDIA) },
+                    onOpenApp = openApp,
+                    onLaunchApp = { apps.launch(it) },
+                    onGrantAccess = { container.systemActions.openNotificationAccess() },
+                    modifier = wm,
+                )
+                WidgetType.SUGGESTIONS -> SuggestionsCard(
+                    suggestions(container, settings, notifs, learned, location.takeIf { parked }) { navigator.go(Screen.SETTINGS) },
+                    apps, wm,
+                )
+                WidgetType.WEATHER -> WeatherNowWidget(weather, wm)
+                WidgetType.WEATHER_DETAILED -> WeatherDetailedWidget(weather, wm)
+                WidgetType.WEATHER_HOURLY -> WeatherHourlyWidget(weather, wm)
+                WidgetType.WEATHER_DAILY -> WeatherDailyWidget(weather, wm)
+                WidgetType.VEHICLE -> VehicleWidget(vehicle, wm)
+                WidgetType.CLOCK -> ClockWidget(status.now, wm)
+                WidgetType.CLOCK_WEATHER -> ClockWeatherWidget(status.now, weather, wm)
+                WidgetType.NOTIFICATIONS -> NotificationsWidget(
+                    notifs, apps,
+                    onOpen = { pkg, intent -> runCatching { intent?.send() ?: apps.launch(pkg) }.onFailure { apps.launch(pkg) } },
+                    modifier = wm,
+                )
+            }
+        }
         Box(Modifier.fillMaxSize().background(c.background)) {
             Box(
                 Modifier
@@ -163,39 +235,13 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                     dashboardPanel = { m ->
                         DashboardPanel(
                             layout = settings.dashboardLayout,
-                            widgets = settings.widgets,
-                            editable = parked,
-                            onSwap = container.settings::setWidget,
-                            widget = { type, wm ->
-                                when (type) {
-                                    WidgetType.MEDIA -> MediaCard(
-                                        state = media,
-                                        apps = apps,
-                                        musicApp = settings.musicApp,
-                                        onOpenMedia = { navigator.go(Screen.SPLIT_MEDIA) },
-                                        onOpenApp = openApp,
-                                        onLaunchApp = { apps.launch(it) },
-                                        onGrantAccess = { container.systemActions.openNotificationAccess() },
-                                        modifier = wm,
-                                    )
-                                    WidgetType.SUGGESTIONS -> SuggestionsCard(
-                                        suggestions(container, settings, notifs, learned, location.takeIf { parked }) { navigator.go(Screen.SETTINGS) },
-                                        apps, wm,
-                                    )
-                                    WidgetType.WEATHER -> WeatherNowWidget(weather, wm)
-                                    WidgetType.WEATHER_DETAILED -> WeatherDetailedWidget(weather, wm)
-                                    WidgetType.WEATHER_HOURLY -> WeatherHourlyWidget(weather, wm)
-                                    WidgetType.WEATHER_DAILY -> WeatherDailyWidget(weather, wm)
-                                    WidgetType.VEHICLE -> VehicleWidget(vehicle, wm)
-                                    WidgetType.CLOCK -> ClockWidget(status.now, wm)
-                                    WidgetType.CLOCK_WEATHER -> ClockWeatherWidget(status.now, weather, wm)
-                                    WidgetType.NOTIFICATIONS -> NotificationsWidget(
-                                        notifs, apps,
-                                        onOpen = { pkg, intent -> runCatching { intent?.send() ?: apps.launch(pkg) }.onFailure { apps.launch(pkg) } },
-                                        modifier = wm,
-                                    )
-                                }
-                            },
+                            stacks = settings.stacks,
+                            parked = parked,
+                            smart = settings.smartStacks,
+                            events = stackEvents,
+                            onEditStacks = container.settings::editStacks,
+                            onOpenEditor = { stackEdit = it },
+                            widget = renderWidget,
                             modifier = m,
                         )
                     },
@@ -251,6 +297,7 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                     if (open) {
                         SettingsScreen(
                             container = container,
+                            onEditStack = { stackEdit = StackEditRequest(it) },
                             onBack = { navigator.back() },
                             onOpenDrawer = { navigator.go(Screen.APPS) },
                             modifier = Modifier.fillMaxSize().background(c.background),
@@ -288,6 +335,21 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                     } else {
                         Spacer(Modifier)
                     }
+                }
+
+                // Editar pilha (spec 017): por cima do painel ou dos Ajustes.
+                stackEdit?.let { req ->
+                    StackEditor(
+                        stacks = settings.stacks,
+                        request = req,
+                        names = stackNames(settings.dashboardLayout),
+                        visible = settings.dashboardLayout.slots,
+                        smart = settings.smartStacks,
+                        onEdit = container.settings::editStacks,
+                        onSmart = container.settings::setSmartStacks,
+                        onClose = { stackEdit = null },
+                        preview = renderWidget,
+                    )
                 }
             }
             if (bottom) {

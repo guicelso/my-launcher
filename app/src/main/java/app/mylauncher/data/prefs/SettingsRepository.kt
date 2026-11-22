@@ -90,7 +90,10 @@ data class LauncherSettings(
     val favorites: List<Destination> = emptyList(),
     val learnPlaces: Boolean = false,
     val dashboardLayout: DashboardLayout = DashboardLayout.TWO,
-    val widgets: List<WidgetType> = DEFAULT_WIDGETS,
+    /** Spec 017: cada espaço do painel é uma pilha de 1 a 7 widgets (o primeiro é o principal). */
+    val stacks: List<List<WidgetType>> = WidgetStacks.DEFAULT,
+    /** Spec 017, R17.7: a pilha vai sozinha até o widget certo quando algo acontece. */
+    val smartStacks: Boolean = true,
     val railPosition: RailPosition = RailPosition.LEFT,
     val driverSide: DriverSide = DriverSide.LEFT,
     val showWeatherInBar: Boolean = false,
@@ -142,6 +145,8 @@ class SettingsRepository(private val context: Context, private val scope: Corout
         val learn = booleanPreferencesKey("learn_places")
         val dashLayout = stringPreferencesKey("dashboard_layout")
         val widgets = stringPreferencesKey("widgets")
+        val stacks = stringPreferencesKey("widget_stacks")
+        val smartStacks = booleanPreferencesKey("smart_stacks")
         val railPos = stringPreferencesKey("rail_position")
         val driverSide = stringPreferencesKey("driver_side")
         val barWeather = booleanPreferencesKey("bar_weather")
@@ -181,10 +186,12 @@ class SettingsRepository(private val context: Context, private val scope: Corout
     fun setKeepMusicAlive(v: Boolean) = put { it[K.keepMusic] = v }
     fun setResumeOnWake(v: Boolean) = put { it[K.resumeWake] = v }
 
-    /** Põe [type] no espaço [slot]; se ele já estava em outro espaço, os dois trocam (R13.2). */
-    fun setWidget(slot: Int, type: WidgetType) = put { prefs ->
-        val current = decodeWidgets(prefs[K.widgets])
-        prefs[K.widgets] = Widgets.assign(current, slot, type).joinToString(SEP) { it.name }
+    fun setSmartStacks(v: Boolean) = put { it[K.smartStacks] = v }
+
+    /** Aplica [change] às pilhas do painel (spec 017); o resultado é normalizado e persistido. */
+    fun editStacks(change: (List<List<WidgetType>>) -> List<List<WidgetType>>) = put { prefs ->
+        val current = decodeStacks(prefs[K.stacks], prefs[K.widgets])
+        prefs[K.stacks] = WidgetStacks.encode(WidgetStacks.normalize(change(current)))
     }
 
     /** Oculta da gaveta (spec 011, R11.1). */
@@ -262,7 +269,8 @@ class SettingsRepository(private val context: Context, private val scope: Corout
             favorites = decodeList(this[K.favorites]),
             learnPlaces = this[K.learn] ?: d.learnPlaces,
             dashboardLayout = enumOr(this[K.dashLayout], d.dashboardLayout),
-            widgets = decodeWidgets(this[K.widgets]),
+            stacks = decodeStacks(this[K.stacks], this[K.widgets]),
+            smartStacks = this[K.smartStacks] ?: d.smartStacks,
             railPosition = enumOr(this[K.railPos], d.railPosition),
             driverSide = enumOr(this[K.driverSide], d.driverSide),
             showWeatherInBar = this[K.barWeather] ?: d.showWeatherInBar,
@@ -282,6 +290,11 @@ class SettingsRepository(private val context: Context, private val scope: Corout
         val parsed = s?.split(SEP)?.mapNotNull { runCatching { WidgetType.valueOf(it) }.getOrNull() } ?: emptyList()
         return Widgets.normalize(parsed)
     }
+
+    /** Pilhas salvas; sem elas, migra a configuração da spec 013 (um widget por espaço, R17.1). */
+    private fun decodeStacks(stacks: String?, legacy: String?): List<List<WidgetType>> =
+        if (stacks != null) WidgetStacks.decode(stacks)
+        else WidgetStacks.normalize(decodeWidgets(legacy).map { listOf(it) })
 
     private fun encode(d: Destination) = d.label + FIELD + d.query
     private fun decode(s: String): Destination? = s.split(FIELD, limit = 2).takeIf { it.size == 2 }
@@ -317,22 +330,91 @@ object Recents {
         .take(LauncherSettings.MAX_RAIL_APPS)
 }
 
-/** Regras dos widgets do painel (testáveis). */
+/** Configuração antiga da spec 013 (um widget por espaço), lida só para migrar (R17.1). */
 object Widgets {
     /** Garante 3 espaços sem repetição, completando com os padrões. */
     fun normalize(list: List<WidgetType>): List<WidgetType> {
         val distinct = list.distinct().take(3)
         return (distinct + LauncherSettings.DEFAULT_WIDGETS + WidgetType.entries).distinct().take(3)
     }
+}
 
-    fun assign(current: List<WidgetType>, slot: Int, type: WidgetType): List<WidgetType> {
-        val list = normalize(current).toMutableList()
-        val existing = list.indexOf(type)
-        val previous = list[slot]
-        list[slot] = type
-        if (existing >= 0 && existing != slot) list[existing] = previous
-        return list
+/**
+ * Regras das pilhas de widgets (spec 017), puras e testáveis. Sempre [SLOTS] pilhas, cada uma com
+ * 1 a [MAX] widgets, e um widget nunca aparece em duas pilhas (mantém a R13.2).
+ */
+object WidgetStacks {
+    const val SLOTS = 3
+    const val MAX = 7
+    private const val STACK_SEP = "|"
+    private const val ITEM_SEP = ","
+    val DEFAULT: List<List<WidgetType>> = LauncherSettings.DEFAULT_WIDGETS.map { listOf(it) }
+
+    fun normalize(stacks: List<List<WidgetType>>): List<List<WidgetType>> {
+        val seen = mutableSetOf<WidgetType>()
+        val out = (0 until SLOTS).map { i ->
+            val kept = stacks.getOrNull(i).orEmpty().distinct().filter { it !in seen }.take(MAX)
+            seen += kept
+            kept
+        }.toMutableList()
+        // Pilha que ficou vazia recebe um widget livre, começando pelos padrões.
+        for (i in out.indices) if (out[i].isEmpty()) {
+            val free = (LauncherSettings.DEFAULT_WIDGETS + WidgetType.entries).first { it !in seen }
+            seen += free
+            out[i] = listOf(free)
+        }
+        return out
     }
+
+    /** Em que pilha [type] está, ou null. */
+    fun slotOf(stacks: List<List<WidgetType>>, type: WidgetType): Int? =
+        stacks.indexOfFirst { type in it }.takeIf { it >= 0 }
+
+    /** Põe [type] no fim da pilha [slot], tirando de onde estava (R17.6). Pilha cheia: nada muda. */
+    fun add(stacks: List<List<WidgetType>>, slot: Int, type: WidgetType): List<List<WidgetType>> {
+        val target = stacks.getOrNull(slot) ?: return stacks
+        if (type in target || target.size >= MAX) return stacks
+        return normalize(stacks.mapIndexed { i, s -> if (i == slot) s + type else s - type })
+    }
+
+    /** Tira [type] da pilha [slot]; a pilha nunca fica vazia. */
+    fun remove(stacks: List<List<WidgetType>>, slot: Int, type: WidgetType): List<List<WidgetType>> {
+        val target = stacks.getOrNull(slot) ?: return stacks
+        if (target.size <= 1 || type !in target) return stacks
+        return stacks.mapIndexed { i, s -> if (i == slot) s - type else s }
+    }
+
+    /** Move o widget da posição [from] para [to] dentro da pilha [slot]. */
+    fun move(stacks: List<List<WidgetType>>, slot: Int, from: Int, to: Int): List<List<WidgetType>> {
+        val target = stacks.getOrNull(slot)?.toMutableList() ?: return stacks
+        if (from !in target.indices || to !in target.indices || from == to) return stacks
+        target.add(to, target.removeAt(from))
+        return stacks.mapIndexed { i, s -> if (i == slot) target else s }
+    }
+
+    /**
+     * Troca o widget da posição [index] da pilha [slot] por [type]. Se [type] já estava em outro
+     * lugar, os dois trocam de lugar (mesma regra da R13.2).
+     */
+    fun replace(stacks: List<List<WidgetType>>, slot: Int, index: Int, type: WidgetType): List<List<WidgetType>> {
+        val old = stacks.getOrNull(slot)?.getOrNull(index) ?: return stacks
+        if (old == type) return stacks
+        return stacks.map { s -> s.map { t -> if (t == type) old else t } }
+            .mapIndexed { i, s -> if (i == slot) s.toMutableList().also { it[index] = type } else s }
+    }
+
+    /** Desfaz a pilha: fica só o widget principal (R17.6). */
+    fun unstack(stacks: List<List<WidgetType>>, slot: Int): List<List<WidgetType>> =
+        stacks.mapIndexed { i, s -> if (i == slot) s.take(1) else s }
+
+    fun encode(stacks: List<List<WidgetType>>): String =
+        stacks.joinToString(STACK_SEP) { s -> s.joinToString(ITEM_SEP) { it.name } }
+
+    fun decode(s: String): List<List<WidgetType>> = normalize(
+        s.split(STACK_SEP).map { part ->
+            part.split(ITEM_SEP).mapNotNull { name -> runCatching { WidgetType.valueOf(name) }.getOrNull() }
+        },
+    )
 }
 
 /** Ordem dos apps na gaveta (spec 011, R11.3/R11.4). */

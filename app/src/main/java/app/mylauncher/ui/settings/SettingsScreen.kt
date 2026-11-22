@@ -4,17 +4,15 @@ import android.content.Intent
 import android.provider.Settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
-import androidx.compose.ui.window.PopupProperties
 import app.mylauncher.data.prefs.AppOrder
 import app.mylauncher.data.prefs.DashboardLayout
 import app.mylauncher.data.prefs.DrawerAnimation
 import app.mylauncher.data.prefs.IconShape
 import app.mylauncher.data.prefs.RailPosition
 import app.mylauncher.data.prefs.DriverSide
-import app.mylauncher.data.prefs.WidgetType
+import app.mylauncher.data.prefs.WidgetStacks
+import app.mylauncher.ui.dashboard.stackNames
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -92,6 +90,8 @@ fun SettingsScreen(
     onOpenDrawer: () -> Unit,
     modifier: Modifier = Modifier,
     initialSection: SettingsSection = SettingsSection.APPEARANCE,
+    /** Abre o editor da pilha [slot] por cima dos Ajustes (spec 017). */
+    onEditStack: (slot: Int) -> Unit = {},
 ) {
     val c = LocalLauncherColors.current
     var section by rememberSaveable(initialSection) { mutableStateOf(initialSection) }
@@ -134,7 +134,7 @@ fun SettingsScreen(
             ) {
                 when (section) {
                     SettingsSection.APPEARANCE -> Appearance(container, settings)
-                    SettingsSection.DASHBOARD -> DashboardSection(container, settings)
+                    SettingsSection.DASHBOARD -> DashboardSection(container, settings, onEditStack)
                     SettingsSection.RAIL -> RailSection(container, settings, onOpenDrawer)
                     SettingsSection.APPS -> AppsSection(container, settings)
                     SettingsSection.NAVIGATION -> Navigation(container, settings)
@@ -191,40 +191,23 @@ private fun Appearance(container: AppContainer, s: LauncherSettings) {
 }
 
 @Composable
-private fun DashboardSection(container: AppContainer, s: LauncherSettings) {
-    SettingsGroup("Grade", "Quantos cards ficam ao lado do mapa. Dica: toque e segure um card no painel (parado) para trocá-lo.") {
+private fun DashboardSection(container: AppContainer, s: LauncherSettings, onEditStack: (Int) -> Unit) {
+    val c = LocalLauncherColors.current
+    SettingsGroup("Grade", "Quantos cards ficam ao lado do mapa. Dica: toque e segure um card no painel (parado) para editar a pilha.") {
         ChoicePills(DashboardLayout.entries.map { it to it.label }, s.dashboardLayout, container.settings::setDashboardLayout)
     }
-    SettingsGroup("Widgets") {
+    SettingsGroup("Pilhas de widgets", "Cada card é uma pilha: deslize nele para trocar o widget. Até ${WidgetStacks.MAX} widgets por pilha.") {
+        val names = stackNames(s.dashboardLayout)
         (0 until s.dashboardLayout.slots).forEach { slot ->
-            WidgetPickerRow("Card ${slot + 1}", s.widgets[slot]) { container.settings.setWidget(slot, it) }
-        }
-    }
-}
-
-@Composable
-private fun WidgetPickerRow(title: String, current: WidgetType, onPick: (WidgetType) -> Unit) {
-    val c = LocalLauncherColors.current
-    var open by remember { mutableStateOf(false) }
-    Box {
-        SettingRow(title, current.label, onClick = { open = true }) {
-            Icon(LauncherIcons.Chevron, null, Modifier.size(28.dp), tint = c.onSurfaceVariant)
-        }
-        DropdownMenu(
-            expanded = open,
-            onDismissRequest = { open = false },
-            properties = PopupProperties(focusable = false),
-            containerColor = c.surface,
-        ) {
-            WidgetType.entries.forEach { type ->
-                DropdownMenuItem(
-                    text = { Text(type.label, style = MaterialTheme.typography.titleMedium, color = c.onSurface) },
-                    trailingIcon = { if (type == current) Icon(LauncherIcons.Check, null, Modifier.size(24.dp), tint = c.primary) },
-                    onClick = { onPick(type); open = false },
-                    modifier = Modifier.height(68.dp),
-                )
+            SettingRow(names[slot], s.stacks[slot].joinToString(" · ") { it.label }, onClick = { onEditStack(slot) }) {
+                Icon(LauncherIcons.Chevron, null, Modifier.size(28.dp), tint = c.onSurfaceVariant)
             }
         }
+        ToggleRow(
+            "Sugestões inteligentes", s.smartStacks,
+            subtitle = "A pilha mostra sozinha o widget certo quando algo acontece (música, bateria fraca, mensagem). Nunca gira por tempo.",
+            onChange = container.settings::setSmartStacks,
+        )
     }
 }
 

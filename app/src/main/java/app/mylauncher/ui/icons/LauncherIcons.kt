@@ -94,6 +94,13 @@ object LauncherIcons {
     val Pin = icon("pin", s("M12 17v5"), s("M9 3h6l-1 6 4 4H6l4-4z"))
     val Check = icon("check", s("M5 12l5 5L20 7"))
 
+    // Pilhas de widgets (spec 017)
+    val Layers = icon("layers", s("M12 3 2 8l10 5 10-5z"), s("M2 13l10 5 10-5"), s("M2 17.5l10 5 10-5"))
+    val Swap = icon("swap", s("M4 8h13l-3-3"), s("M20 16H7l3 3"))
+    val Sparkle = icon("sparkle", f("M12 2l1.9 6.1L20 10l-6.1 1.9L12 18l-1.9-6.1L4 10l6.1-1.9z"), f("M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"))
+    val Clock = icon("clock", s(circle(12f, 12f, 9f)), s("M12 7v5l3 2"))
+    val RemoveCircle = icon("remove-circle", s(circle(12f, 12f, 9f)), s("M8 12h8"))
+
     // Clima (spec 013)
     val Sun = icon("sun", s(circle(12f, 12f, 4f)), s("M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"))
     val Cloud = icon("cloud", s("M7 18h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.1 11 3.5 3.5 0 0 0 7 18z"))
