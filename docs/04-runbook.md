@@ -1,7 +1,7 @@
 # 04 — Guia de operação (runbook)
 
 Tudo o que é preciso para retomar o trabalho numa nova sessão: ambiente, conexão com a multimídia, instalação, depuração e o estado atual do projeto.
-Atualizado em **2026-11-21**.
+Atualizado em **2026-11-22**.
 
 ---
 
@@ -47,7 +47,7 @@ Detalhes técnicos em [`00-discovery.md`](00-discovery.md). O essencial:
 | SoC / GPU | Unisoc UIS8581A (sp9863a) / PowerVR GE8322 (fraca: cuidado com desempenho) |
 | Tela | 1280×720, 160 dpi (1 dp = 1 px) |
 | Rotação | Feita por software (`ro.sf.swrotation=90`). **Nunca** force `screenOrientation` no manifesto |
-| Root | Não tem. SELinux permissivo, bootloader desbloqueado, chave de plataforma própria da TopWay |
+| Root | Sem `su`, mas há root pela porta dos fundos do fabricante (`cmd_services`/`@cmd_skt`, spec 008), usada pelo Lumia via `RootShell`. SELinux permissivo, bootloader desbloqueado, chave de plataforma própria da TopWay |
 | Launcher original | `com.dofun.variety/com.dofun.overseasvariety.Launcher` (nunca desinstalar) |
 | IP | `192.168.10.136` na rede atual. Se mudar, veja em Configurações → Wi-Fi → rede → detalhes e ajuste `HU_IP` |
 
@@ -118,11 +118,11 @@ Ao tirar a chave, a multimídia **não reinicia**: entra em espera. Antes de dor
 - Os buffers de log da multimídia vêm com 256 KB. Para investigar um ciclo da chave, aumente antes: `adb logcat -G 16M` (vale até o próximo reboot).
 
 ### 3.6 Prints e logs
-- `adb -s $HU_IP:5555 exec-out screencap -p > print.png`. **O print sai girado 90°**, porque a imagem é capturada antes da rotação do firmware. Para ver certo:
+- `adb -s $HU_IP:5555 exec-out screencap -p > print.png`. **O print sai girado 90° e esticado** (a tela real é paisagem 1280×720, igual ao emulador). Para ver certo, gire e reescale:
   ```sh
-  ffmpeg -i print.png -vf transpose=1 print_ok.png
+  python3 -c "from PIL import Image; Image.open('print.png').transpose(Image.ROTATE_270).resize((1280,720)).save('print_ok.png')"
   ```
-  Há um ffmpeg disponível via `pip install imageio-ffmpeg` numa venv.
+  Coordenadas para `input tap` são as da tela real (1280×720, paisagem).
 - Logs ao vivo: `tools/logs.sh`.
 - Logs exportados pelo app: Ajustes → Sistema → Exportar logs → `adb pull /sdcard/Android/data/app.mylauncher/files/logs/`.
 - Fluidez: `adb shell dumpsys gfxinfo app.mylauncher reset`, use o app e depois `dumpsys gfxinfo app.mylauncher`.
@@ -162,6 +162,7 @@ Ao tirar a chave, a multimídia **não reinicia**: entra em espera. Antes de dor
 | Ícones | Formato redondo / quadrado arredondado / original; pacotes de ícones ADW/Nova | 011 |
 | Mídia | MediaSessions (Spotify, YT Music…) + TopWay (rádio, música, BT); card com capa em vidro fosco; player dividido com o mapa e em tela cheia (o card cresce no lugar); progresso arrastável; fila; botão para abrir o app | 004/010 |
 | Mapa | MapLibre + OpenFreeMap (claro/escuro), GPS, busca e destinos abrem Waze/Maps/HERE; toque longo no mapa salva o ponto | 005/012 |
+| Mapa embutido | Google Maps/Waze/HERE **dentro do card** (display virtual + auxiliar root), toque, tela cheia sem reiniciar, modo de condução (free drive), tamanho da interface ajustável; sem root cai no mapa próprio | 008 |
 | Veículo | Faróis, ré, ACC, velocidade, bateria, freio de mão via `CarService`/`CommandService` da TopWay; abaixa o volume na ré; diagnóstico | 006 |
 | Destinos | Casa, Trabalho e favoritos sem digitar: "Salvar local atual", toque longo no mapa, compartilhar do Maps/Waze/WhatsApp; aprendizado opcional de lugares frequentes (só local) | 012 |
 | Widgets | Grade de 1/2/3 cards; toque longo (parado) troca o widget: Mídia, Sugestões, Clima agora, Clima detalhado, Clima por hora, Previsão da semana, Data/hora/clima, Relógio, Veículo, Notificações. Clima via Open-Meteo (sem chave) | 013 |
@@ -175,6 +176,13 @@ Ao tirar a chave, a multimídia **não reinicia**: entra em espera. Antes de dor
   - o SurfaceView foi testado e ficou menos fluido.
 - Progresso da música atualiza **uma vez por segundo**, sem animação contínua: a animação mantinha a interface redesenhando sem parar.
 - Desfoque da capa feito na CPU: `Modifier.blur` só existe a partir do Android 12.
+- **Mapa embutido (spec 008):** `TextureView` (o `SurfaceView` piscava ao redimensionar); o display só muda de tamanho no início (ao crescer) ou no fim (ao encolher) da transição, nunca a cada quadro.
+
+### Root (spec 008)
+- `RootShell` liga o daemon com `setprop persist.sys.cmdservice.enable disable` → `enable` e conversa pelo socket abstrato `@cmd_skt`. O daemon sai sozinho ~2 s depois de ocioso.
+- Particularidades medidas (detalhes na spec 008, "Resultados"): o primeiro comando da linha é engolido (usamos `/dev/null; ` na frente); o comando é lido em blocos de 256 bytes (comandos longos vão por script na pasta do app); segurar o socket ~400 ms e não ler a resposta; processos destacados precisam sair do cgroup do serviço (`echo 0 > /acct/cgroup.procs`) e fechar os fds 3–9.
+- Ver se o auxiliar está vivo: `adb shell ps -A | grep NavHelper`. Log dele: `/data/user/0/app.mylauncher/cache/navhelper.log` (dono root) e as linhas `NavHelper>` no `tools/logs.sh`.
+- Botão de teste: Ajustes → Veículo → Testes de pesquisa → "Testar root (app)".
 
 ---
 
@@ -183,13 +191,15 @@ Ao tirar a chave, a multimídia **não reinicia**: entra em espera. Antes de dor
 Para validar no carro:
 - [ ] Diagnóstico (Ajustes → Veículo): ré, ACC, velocidade e freio de mão chegando da MCU (spec 006).
 - [ ] Clima real com GPS e 4G na multimídia (spec 013).
-- [ ] Spike **S6.1** (TWUtil) no botão de Ajustes → Veículo. O **S8.1** já rodou: reprovado (spec 008).
+- [ ] Spike **S6.1** (TWUtil) no botão de Ajustes → Veículo. O **S8.1** já rodou e o root foi confirmado por outra via (spec 008).
+- [ ] Limpar temporários de teste no carro (o carro desligou antes): `adb shell rm -f /data/local/tmp/{rc.dex,ff.dex,c.txt,ff_a,ff_b}`.
+- [ ] Spec 008: A3 (matar o auxiliar → mapa próprio), A4 (fala do Maps abaixa a música), A6 (fluidez com o Maps no card); toque que às vezes se perde depois de uma pausa.
 - [ ] Gaveta: reordenar e ocultar no carro; pacote de ícones real (instalar um pela Play Store).
 - [ ] Compartilhar um local do Google Maps/Waze **instalados na multimídia** para o Lumia ("Salvar no Lumia").
 - [ ] Deep link de favoritos do Waze (`waze://?favorite=home`); hoje usamos coordenadas ou endereço.
 
 Para desenvolver:
-- **Spec 008:** navegação embutida. Pesquisa concluída; próximo passo é a PoC com auxiliar como uid shell (ver a spec).
+- **Spec 008:** tema do free drive do Maps (o "Esquema de cores" da navegação decide pelo horário, não pelo sistema: fixar "Noite" ou automatizar pela preferência do Maps); abaixar a mídia nas falas (R8.4); testar Waze e HERE embutidos.
 - Integrar `feat/launcher-v1` à `main` quando o uso no carro estiver estável.
 - Atualizar o protótipo em `design/wireframes/` com as telas novas (widgets, barra horizontal, player em vidro).
 
@@ -207,10 +217,12 @@ app/src/main/java/app/mylauncher/
 │   ├── location/      LocationRepository (GPS)
 │   ├── media/         MediaRepository, MediaListenerService, MessagesRepository, MediaApps
 │   ├── prefs/         SettingsRepository (DataStore) + regras puras (Recents, Widgets, AppOrdering)
+│   ├── root/          RootShell (root via cmd_services), SystemNightMode
 │   ├── status/        StatusRepository (relógio, Wi-Fi, BT, sinal/4G)
 │   ├── vehicle/       VehicleState, Fake, ReverseDucker, topway/ (Protocol, BinderLink, TopWayVehicleSource, TopWayMediaBridge, TwUtilProbe)
 │   └── weather/       WeatherRepository (Open-Meteo, simulação)
-├── nav/         NavigationPane, OwnMapPane (MapLibre), NavIntents
+├── nav/         NavigationPane, NavigationPaneHost, OwnMapPane (MapLibre), NavIntents,
+│                embedded/ (EmbeddedAppPane, EmbeddedNavController, NavHelper — auxiliar root)
 └── ui/          LauncherRoot, Navigator, workspace/ (área de trabalho + elementos compartilhados),
                  rail/ (barra vertical e horizontal), dashboard/, drawer/ (gaveta, edição, animações),
                  media/ (card, player, vidro fosco), widgets/, destinations/, settings/, theme/, icons/, components/

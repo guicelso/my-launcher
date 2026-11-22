@@ -1,6 +1,6 @@
 # 008 — Navegação embutida (Waze/Maps no painel)
 
-**Status:** Pesquisa concluída · prova de conceito proposta (aguardando aprovação) · **Depende de:** 005, 006 · **Design:** artboard "Início · navegação embutida"
+**Status:** v1 implementada e funcionando no carro (Google Maps no card, com root) · pendentes: A3, A4, A6, tema do free drive · **Depende de:** 005, 006 · **Design:** artboard "Início · navegação embutida"
 
 ## Objetivo
 Rodar o app de navegação (Google Maps ou Waze) **dentro** do card de mapa do painel, como faz o Android Auto, e trocar o `OwnMapPane` pelo `EmbeddedAppPane`.
@@ -54,7 +54,23 @@ O firmware tem uma **porta dos fundos de root do próprio fabricante** que é al
 | **Root (`cmd_services`)** | **Disponível** (ver "Root: como conseguimos"). Permite auxiliar/display como uid system, acabando com as fugas. Preferir este ao Magisk. |
 | **Root total (S8.3, Magisk)** | Só se quisermos virar priv-app de verdade. Alto risco; bloqueado pelas regras do projeto: só com firmware completo e aprovação explícita. |
 
-## Técnica revisada
+## Implementação v1 (2026-11-22)
+O caminho escolhido foi o **root do `cmd_services`** (não o adb local): o próprio Lumia sobe o auxiliar como root.
+
+| Peça | O que faz |
+|---|---|
+| `data/root/RootShell` | Liga o `cmd_services` (`setprop persist.sys.cmdservice.enable disable→enable`, funciona do app pelo SELinux permissivo) e manda comandos ao `@cmd_skt`. Contorna as particularidades do daemon (ver Resultados). |
+| `nav/embedded/NavHelper` (Java puro) | Roda como root via `CLASSPATH=<apk> app_process /system/bin …NavHelper <socket> <display>`, conecta de volta no `LocalServerSocket` do app. Abre o app no display (`am start --display`), injeta toques (`InputManager.injectInputEvent` + `setDisplayId`), trava a rotação do display e vigia as fugas (`IActivityTaskManager.getAllStackInfos`/`moveStackToDisplay` por reflexão, a cada 500 ms; reserva `am stack list`). Sai sozinho quando o app fecha o socket. |
+| `nav/embedded/EmbeddedNavController` | Cria e redimensiona o `VirtualDisplay` (`PUBLIC | OWN_CONTENT_ONLY | PRESENTATION`), repassa toques, densidade configurável. |
+| `nav/embedded/EmbeddedAppPane` | `TextureView` no card. O display tem o tamanho **visível** do card; nas transições o card **revela**: ao crescer, o display já vai ao tamanho final (`LocalMapTargetSize`); ao encolher, ajusta quando o card assenta (250 ms). Sem root ou se o auxiliar não conectar em 6 s, cai para o mapa próprio (R8.1). |
+| `nav/NavigationPaneHost` | Escolhe mapa próprio ou embutido pelo ajuste. |
+| `data/root/SystemNightMode` | O firmware trava o modo noturno do Android em "sim"; o Lumia o ajusta (`cmd uimode night`) conforme o tema dele (faróis), para os apps que seguem o sistema. |
+
+**Ajustes (Navegação → Mapa do painel):** fonte do mapa (Lumia, Google Maps, Waze, HERE embutidos), "Abrir em modo de condução" (Google Maps: `google.navigation:/?free=1&mode=d&entry=fnls`, não documentada) e "Tamanho da interface do mapa" (densidade do display: 160/136/120 dpi, padrão 136).
+
+**Segurança:** enquanto o daemon está ligado, o `@cmd_skt` é root irrestrito para qualquer app do aparelho. O daemon sai sozinho ~2 s depois de ocioso; o Lumia só o liga quando precisa. R8.5 (aceitar só o uid do launcher) fica parcialmente atendido: o auxiliar só conecta no socket abstrato com nome aleatório criado pelo Lumia.
+
+## Técnica revisada (pesquisa, antes do root)
 Um **auxiliar como uid shell** (`app_process`, mesmo modelo do servidor do scrcpy, Apache-2.0) faz só o que o launcher não pode fazer. O resto fica no launcher.
 
 1. **O Lumia cria o display** (`PUBLIC | OWN_CONTENT_ONLY`), do tamanho do card.
@@ -83,10 +99,10 @@ Um **auxiliar como uid shell** (`app_process`, mesmo modelo do servidor do scrcp
 
 ## Critérios de aceite
 - [x] **A1** Spikes S8.1 e S8.2 avaliados (S8.1: **root confirmado** via `cmd_services`/`@cmd_skt`; S8.2 adb local é a alternativa de execução do auxiliar).
-- [ ] **A2** Prova de conceito: o Maps aparece dentro do card e responde a toques (auxiliar iniciado pelo adb do notebook).
+- [x] **A2** O Maps aparece dentro do card e responde a toques (auxiliar iniciado pelo próprio Lumia, como root).
 - [ ] **A3** (R8.1) Ao matar o auxiliar, o card volta ao mapa próprio em ≤ 2 s.
 - [ ] **A4** (R8.4) Navegando com música tocando, a fala do Maps abaixa a música.
-- [ ] **A5** (R8.3) Card → tela cheia → card sem o Maps reiniciar.
+- [x] **A5** (R8.3) Card → tela cheia → card sem o Maps reiniciar (mesmo PID).
 - [ ] **A6** `dumpsys gfxinfo` do Lumia com ≤ 10% de quadros lentos durante 60 s com o Maps navegando no card.
 
 ## Plano da prova de conceito (proposta)
@@ -113,3 +129,20 @@ Um **auxiliar como uid shell** (`app_process`, mesmo modelo do servidor do scrcp
 - Maps renderiza normalmente em display secundário, com GPS e conta, ao lado do Lumia.
 - Recursos de multi-display presentes no firmware.
 - **Root confirmado** via `cmd_services`/`@cmd_skt` (comando rodou como `root:system`). Daemon religado e desligado ao fim; aparelho no estado original.
+
+**2026-11-22 (tarde), v1 no carro:**
+- **Bug do auxiliar que não subia — causas reais** (o daemon `cmd_services`, medido no carro com um cliente próprio):
+  1. Ele roda `popen()` com a **linha inteira**, prefixo incluído: `sh -c [lumia][tid]<cmd␤> 2>&1`. O shell lê `[lumia][tid]<palavra` como redirecionamento e **descarta o primeiro comando**. Era isso (não as aspas) que fazia comandos "sumirem". Solução: um primeiro comando descartável (`/dev/null; `). Aspas simples funcionam.
+  2. Ele lê o comando em **blocos de 256 bytes** e roda cada bloco como comando separado: o caminho do APK cortava a linha ao meio. Solução: o app grava um script na própria pasta interna e manda só `sh <arquivo>`.
+  3. Fechar o socket logo após escrever faz ele rodar um comando **vazio**; é preciso segurar ~400 ms. Ler a resposta prendia a thread do app por dezenas de segundos (o daemon só fecha ao fim do comando, e fechar um `LocalSocket` de outra thread não desbloqueia o `read`). Solução: escrever, esperar 400 ms, fechar, sem ler. Subida do auxiliar: de ~37 s para ~1,5 s.
+  4. O `stop cmd_services` (o `disable` antes de cada uso) **mata todo o cgroup** `cpuacct:/uid_0/pid_<daemon>`; `setsid` não escapa. Solução: o shell vai para o cgroup raiz antes (`echo 0 > /acct/cgroup.procs`).
+  5. O filho herdava o socket de escuta do daemon (fd 3): enquanto vivesse, o daemon não subia mais ("Address already in use"). Solução: fechar os fds 3–9 ao destacar.
+- **A2 e A5 aprovados:** Maps no card, arrastar funciona, tela cheia e volta sem reiniciar o Maps.
+- **Fugas (R8.6):** a primeira vigia lia o `dumpsys` e moveu a tarefa do **YouTube Music** para o card. Trocada pela consulta por reflexão às stacks, filtrando pelo pacote. Ao abrir, a tarefa antiga do Maps no display 0 é trazida para o card (senão o `am start --display` reaproveitava a tarefa no display 0).
+- **Retrato no modo dividido:** com o card em retrato (552×696), o sistema girava o display e o Maps aparecia encolhido com faixas pretas. Resolvido travando a rotação do display (`wm set-fix-to-user-rotation -d N enabled` + `wm set-user-rotation lock -d N 0`).
+- **Piscada card ⇄ tela cheia:** vinha do `SurfaceView` recriando buffers e de reatribuir a mesma surface ao display. Trocado por `TextureView` e só redimensiona quando o tamanho muda.
+- **Free drive:** a URI `google.navigation:/?free=1&mode=d&entry=fnls` abre o modo de condução sem destino (seta, mapa inclinado), como no Android Auto.
+- **Densidade:** 136 dpi deixa a interface do Maps ~15% menor e o campo "Definir destino" cabe numa linha no card; muda na hora, sem reiniciar o Maps.
+- **Tema:** o modo noturno do Android vinha travado em "sim" (`mNightModeLocked`); o `shell` não muda, o root muda. O Lumia agora o sincroniza com os faróis, e o tema do app Maps acompanha. **Pendente:** o free drive usa o "Esquema de cores" da navegação do Maps, que no "Automático" desta versão decide pelo horário do sol, não pelo sistema.
+- **Prints:** a tela do carro é paisagem 1280×720; o `screencap` sai girado **e esticado** (ver runbook §3.6).
+- **Pendente:** A3 (matar o auxiliar → mapa próprio em ≤ 2 s), A4 (fala do Maps abaixa a música), A6 (gfxinfo); o primeiro toque depois de uma pausa às vezes se perde (talvez troca de foco de display).

@@ -16,7 +16,7 @@ Launcher Android no estilo Android Auto para a multimídia **TopWay TS18 (Androi
 - **Instalar sempre a release** (`tools/deploy.sh`). A versão de depuração é lenta demais na GPU da multimídia.
 
 ## Armadilhas conhecidas
-- O `adb screencap` da multimídia sai **girado 90°**. Gire o print antes de avaliar o layout e **nunca** fixe `screenOrientation` no manifesto.
+- O `adb screencap` da multimídia sai **girado 90° e esticado** (a tela é paisagem 1280×720). Gire e reescale o print (runbook §3.6) antes de avaliar o layout e **nunca** fixe `screenOrientation` no manifesto.
 - O adb só funciona por **Wi-Fi** (`192.168.10.136:5555`). Se aparecer `unauthorized` ou a porta estiver fechada, siga o runbook (EngineerMode + `adb_keys`).
 - Mapa: TextureView de tamanho fixo e 30 fps. Não redimensionar o `MapView` durante animações.
 - Popups e diálogos: use `PopupProperties(focusable = false)` ou overlays dentro da janela. Diálogos com foco mostram as barras do sistema.
