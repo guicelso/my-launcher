@@ -38,7 +38,7 @@ Cada critério de aceite referencia os requisitos que cobre.
 | [014](014-rail-orientation.md) | Barra vertical ou horizontal | Implementada · testada no emulador, validar no carro | 002, 010 |
 | [015](015-android-auto-visual.md) | Visual 1:1 com o Android Auto, Central de notificações e lado do motorista | Implementada · validar no carro | 002, 003, 004, 013, 014 |
 | [016](016-acc-wake.md) | Desligar e ligar a chave: voltar ao painel e retomar a música | Implementada · validação parcial no carro | 004, 006, 010 |
-| [017](017-widget-stacks.md) | Pilhas de widgets (deslizar para trocar, estilo One UI) | Rascunho | 006, 011, 013, 016 |
+| [017](017-widget-stacks.md) | Pilhas de widgets (deslizar para trocar, estilo One UI) | Aprovada · em andamento | 006, 011, 013, 016 |
 | [008](008-embedded-navigation.md) | Navegação embutida (Waze/Maps no painel) | Pesquisa (ferramentas dos spikes S6.1/S8.1 prontas) | 005, 006 |
 
 A ordem sugerida é 001 → 002 → 003 → 004 → 006 → 005 → 007 → 008. A 006 vem antes do mapa porque o tema automático pelos faróis é central no visual.

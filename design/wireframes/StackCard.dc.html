@@ -121,10 +121,12 @@
   </sc-if>
 
   <sc-if value="{{showDots}}" hint-placeholder-val="{{true}}">
-    <div aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: 10px; z-index: 2; display: flex; justify-content: center; gap: 6px; pointer-events: none">
-      <sc-for list="{{dots}}" as="d" hint-placeholder-count="3">
-        <span style="width: {{d.w}}px; height: 6px; border-radius: 3px; background: {{d.bg}}; transition: width 200ms ease-out"></span>
-      </sc-for>
+    <div aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: 8px; z-index: 2; display: flex; justify-content: center; pointer-events: none; opacity: {{dotsOp}}; transition: opacity 220ms ease-out">
+      <span style="display: flex; gap: 6px; padding: 6px 8px; border-radius: 9px; background: rgba(0,0,0,0.32)">
+        <sc-for list="{{dots}}" as="d" hint-placeholder-count="3">
+          <span style="width: {{d.w}}px; height: 6px; border-radius: 3px; background: {{d.bg}}; transition: width 200ms ease-out"></span>
+        </sc-for>
+      </span>
     </div>
   </sc-if>
 
@@ -154,6 +156,7 @@ class Component extends DCLogic {
     this.stopped = true;
     clearTimeout(this.timer);
     clearTimeout(this.demoT);
+    clearTimeout(this.dotsT);
     cancelAnimationFrame(this.raf);
   }
   runDemo(k) {
@@ -173,8 +176,8 @@ class Component extends DCLogic {
         if (this.stopped) return;
         this.setState({ touchOn: false });
         if (s.commit) this.go(this.state.idx + (s.to < 0 ? 1 : -1));
-        else this.setState({ drag: 0, dragging: false });
-        this.demoT = setTimeout(() => this.runDemo(k + 1), 1500);
+        else { this.setState({ drag: 0, dragging: false }); this.showDots(); }
+        this.demoT = setTimeout(() => this.runDemo(k + 1), 2200);
       }, 160);
     };
     this.raf = requestAnimationFrame(anim);
@@ -187,7 +190,13 @@ class Component extends DCLogic {
     if (n < 2) { this.setState({ drag: 0, dragging: false }); return; }
     const idx = ((next % n) + n) % n;
     this.setState({ idx, drag: 0, dragging: false });
+    this.showDots();
     if (this.props.onChange) this.props.onChange(idx);
+  }
+  showDots(hold) {
+    clearTimeout(this.dotsT);
+    if (!this.state.touching) this.setState({ touching: true });
+    if (!hold) this.dotsT = setTimeout(() => this.setState({ touching: false }), 1500);
   }
   rel(i, idx, n, drag) {
     let r = (((i - idx) % n) + n) % n;
@@ -223,7 +232,8 @@ class Component extends DCLogic {
     });
     const names = { midia: 'Mídia', clima: 'Clima agora', hora: 'Clima por hora', veiculo: 'Veículo', destinos: 'Destinos', relogio: 'Relógio', notificacoes: 'Notificações' };
     const onArt = ids[idx] === 'midia';
-    const dots = ids.map((_, i) => ({ w: i === idx ? 18 : 6, bg: i === idx ? (onArt ? '#FFFFFF' : c.dotOn) : (onArt ? 'rgba(255,255,255,0.5)' : c.dotOff) }));
+    const dots = ids.map((_, i) => ({ w: i === idx ? 18 : 6, bg: i === idx ? '#FFFFFF' : 'rgba(255,255,255,0.55)' }));
+    const dotsOn = this.state.touching || this.state.dragging || peek !== 0;
     const I = {
       sun: 'M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',
       cloud: 'M7 18h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.4 1.6A3.3 3.3 0 0 0 7 18z',
@@ -235,6 +245,7 @@ class Component extends DCLogic {
       c, items, dots, hours, hint,
       hasHint: hint.length > 0,
       showDots: ids.length > 1,
+      dotsOp: dotsOn ? 1 : 0,
       focus: !!this.props.focus,
       touchOn: !!this.state.touchOn || (!!this.props.touch && peek !== 0),
       touchLeft: this.state.touchOn ? (this.touchBase ?? 72) + drag : (peek < 0 ? 72 : 28) + peek,
@@ -250,6 +261,7 @@ class Component extends DCLogic {
         this.w = e.currentTarget.getBoundingClientRect().width || 1;
         this.moved = false;
         clearTimeout(this.timer);
+        if (ids.length > 1) this.showDots(true);
         this.timer = setTimeout(() => {
           if (this.moved || this.sx === null) return;
           this.sx = null;
@@ -275,7 +287,7 @@ class Component extends DCLogic {
         const d = this.state.drag;
         const fling = Date.now() - this.t0 < 250 && Math.abs(d) > 6;
         if (this.state.dragging && (Math.abs(d) > 20 || fling)) this.go(idx + (d < 0 ? 1 : -1));
-        else this.setState({ drag: 0, dragging: false });
+        else { this.setState({ drag: 0, dragging: false }); if (ids.length > 1) this.showDots(); }
       },
       cancel: () => {
         clearTimeout(this.timer);
@@ -283,7 +295,7 @@ class Component extends DCLogic {
         this.sx = null;
         const d = this.state.drag;
         if (this.state.dragging && Math.abs(d) > 20) this.go(idx + (d < 0 ? 1 : -1));
-        else this.setState({ drag: 0, dragging: false });
+        else { this.setState({ drag: 0, dragging: false }); if (ids.length > 1) this.showDots(); }
       }
     };
   }

@@ -1,6 +1,6 @@
 # 017 — Pilhas de widgets (deslizar para trocar)
 
-**Status:** Rascunho (2026-11-21) · **Depende de:** 006, 011, 013, 016 · **Design:** página "Pilhas de widgets" do canvas (`design/wireframes/Stack*.dc.html`)
+**Status:** Aprovada (2026-11-21) · em andamento · **Depende de:** 006, 011, 013, 016 · **Design:** página "Pilhas de widgets" do canvas (`design/wireframes/Stack*.dc.html`)
 
 ## Objetivo
 Cada espaço da coluna direita do painel passa a ser uma **pilha**: vários widgets dividem o mesmo lugar e o motorista desliza o card para os lados para trocar entre eles. A ideia vem das pilhas de widgets da One UI (Samsung), adaptada ao carro.
@@ -19,7 +19,7 @@ Fontes: [Samsung: widgets em celulares Galaxy](https://www.samsung.com/us/suppor
 ## Decisões de UX para o carro
 - **Toda pilha é um espaço da spec 013.** Um espaço com um widget só continua igual ao de hoje, sem pontos. Não existe "criar pilha": basta adicionar um segundo widget ao espaço.
 - **Deslizar não briga com nada:** o painel não tem páginas e o mapa fica em outro card. A rolagem é **circular** (depois do último volta ao primeiro), para trocar sempre na mesma direção.
-- **Indicador:** pontos de 6 dp na base do card; o ativo vira um traço de 18 dp. Sobre a capa do álbum os pontos ficam brancos.
+- **Indicador só quando mexe:** pontos de 6 dp na base do card (o ativo vira um traço de 18 dp), numa pílula escura translúcida para ler sobre qualquer widget. Eles **aparecem ao tocar ou arrastar** a pilha (e quando uma sugestão troca o widget) e somem 1,5 s depois. Em repouso o card fica limpo (decisão do dono do projeto).
 - **Principal:** o primeiro widget da pilha é o principal e aparece quando a chave é ligada (spec 016). Durante o uso a pilha fica onde o motorista deixou.
 - **Sugestões inteligentes por evento, nunca por tempo.** Um card que muda sozinho enquanto se dirige distrai, e foi isso que a Samsung tirou. A pilha só pula para um widget quando algo acontece (lista em R17.7), mostra um selo por 5 s e para de sugerir até o próximo evento se o motorista deslizar.
 - **Deslizar vale sempre; editar só com o carro parado** (mesma regra da spec 011).
@@ -29,13 +29,13 @@ Fontes: [Samsung: widgets em celulares Galaxy](https://www.samsung.com/us/suppor
 ## Requisitos
 - **R17.1** Cada espaço do painel DEVE guardar uma lista ordenada de 1 a 7 widgets do catálogo da spec 013. A configuração é persistida. SE vier uma configuração antiga (um widget por espaço), ENTÃO ela vira uma pilha de um widget.
 - **R17.2** QUANDO o motorista desliza horizontalmente sobre uma pilha com 2 ou mais widgets, o widget DEVE seguir o dedo e o vizinho entrar pela borda. Ao soltar depois de 20% da largura, ou com um gesto rápido, a pilha vai para o vizinho; senão volta. A rolagem é circular.
-- **R17.3** ENQUANTO a pilha tiver 2 ou mais widgets, o card DEVE mostrar os pontos indicadores (quantidade e posição).
+- **R17.3** QUANDO o motorista tocar ou arrastar uma pilha com 2 ou mais widgets, ou uma sugestão trocar o widget, o card DEVE mostrar os pontos indicadores (quantidade e posição). Eles DEVEM sumir 1,5 s depois do fim do toque ou da troca. Em repouso, os pontos NÃO aparecem.
 - **R17.4** QUANDO a pilha estiver com o foco das teclas do volante, esquerda e direita DEVEM trocar o widget.
 - **R17.5** QUANDO o motorista der um toque longo numa pilha com o carro parado, o launcher DEVE abrir o menu da pilha: *Editar pilha*, *Adicionar widget à pilha*, *Trocar este widget* (catálogo da spec 013) e *Remover <widget> da pilha*. SE o carro estiver andando, ENTÃO o toque longo mostra o aviso "Disponível só com o carro parado" (como na spec 011).
-- **R17.6** A tela *Editar pilha* DEVE mostrar os widgets lado a lado, na ordem, com prévia, botão de remover, setas para mover e o card **+** enquanto houver menos de 7; a chave *Sugestões inteligentes* (padrão: ligada); e *Desfazer pilha*, que deixa só o widget principal. A pilha nunca fica vazia.
+- **R17.6** A tela *Editar pilha* DEVE mostrar os widgets lado a lado, na ordem, com prévia, botão de remover, setas para mover e o card **+** enquanto houver menos de 7; a chave *Sugestões inteligentes* (padrão: ligada, vale para todas as pilhas); e *Desfazer pilha*, que deixa só o widget principal. A pilha nunca fica vazia.
 - **R17.7** ENQUANTO *Sugestões inteligentes* estiver ligada, QUANDO acontecer um destes eventos, a pilha que tem o widget correspondente DEVE ir até ele e mostrar um selo por 5 s:
   - a música começa a tocar → Mídia;
-  - a tensão da bateria fica abaixo do limite da spec 006 → Veículo;
+  - a tensão da bateria fica abaixo de 11,8 V → Veículo;
   - chega uma notificação de mensagem → Notificações (ou Mensagens);
   - a chave é ligada → widget principal.
 - **R17.8** SE o motorista deslizar uma pilha, ENTÃO ela NÃO DEVE receber sugestões até o próximo evento de outro tipo.
@@ -44,7 +44,7 @@ Fontes: [Samsung: widgets em celulares Galaxy](https://www.samsung.com/us/suppor
 
 ## Critérios de aceite
 - [ ] **A1** (R17.1) Depois de atualizar o app, o painel mostra os mesmos widgets de antes, sem pontos.
-- [ ] **A2** (R17.2, R17.3) Numa pilha Mídia + Clima + Veículo, deslizar para a esquerda três vezes passa por todos e volta para Mídia; os pontos acompanham.
+- [ ] **A2** (R17.2, R17.3) Numa pilha Mídia + Clima + Veículo, deslizar para a esquerda três vezes passa por todos e volta para Mídia; os pontos aparecem ao tocar, acompanham a troca e somem logo depois.
 - [ ] **A3** (R17.2) Arrastar menos de 20% e soltar devolve o mesmo widget.
 - [ ] **A4** (R17.4) Com o foco na pilha, as teclas do volante trocam o widget.
 - [ ] **A5** (R17.5, R17.6) Parado: toque longo → *Adicionar widget à pilha* → Relógio aparece no fim da pilha; reiniciar o launcher mantém a pilha.
