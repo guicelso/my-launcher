@@ -66,4 +66,20 @@ Fontes: [Samsung: widgets em celulares Galaxy](https://www.samsung.com/us/suppor
 6. Teste no emulador e depois no carro; registrar aqui em "Resultados".
 
 ## Resultados
-_(preencher após a validação)_
+
+### Emulador (2026-11-21)
+- **A1** ✅ A configuração antiga virou pilhas de um widget, sem pontos.
+- **A2** ✅ Deslizar troca e dá a volta (Clima → Mídia); os pontos aparecem ao tocar e somem 1,5 s depois.
+- **A3** ✅ Arrasto de 12% volta; de 29% troca. O pager do Compose usava 50% por padrão; ajustado para 20%.
+- **A4** ⏳ Teclas do volante: implementado, testar no carro.
+- **A5** ✅ Adicionar pelo menu e pelo catálogo; a pilha continua igual depois de fechar o app à força.
+- **A6** ✅ Mover pelas setas troca o principal. A volta ao principal com a chave ligada fica para o carro.
+- **A7** ✅ A 20 km/h, o toque longo mostra "Disponível só com o carro parado" e não abre o menu.
+- **A8** ✅ Música tocando puxa a pilha para Mídia com selo; depois de deslizar, tocar de novo não puxa (R17.8). Bateria a 11,4 V traz o Veículo depois de 30 s.
+- **Correção:** com 2 widgets, o pager compunha o mesmo card dos dois lados. Com a mesma chave de elemento compartilhado, ele era desenhado fora da pilha, por cima do mapa. Agora só a página assentada usa o movimento compartilhado.
+- Painel de depuração ganhou "Tocar/pausar" e "Bateria fraca/normal" para estes testes.
+
+### Multimídia (2026-11-21)
+- Release instalada. **A1** ✅ o painel abriu com os mesmos widgets de antes.
+- **Atenção:** a barra mostrava 11,8 V com o carro parado, exatamente o limite. Se a tensão em repouso ficar logo abaixo disso, a sugestão "Bateria fraca" pode aparecer sem necessidade. Avaliar se o limite deve baixar (ex.: 11,5 V) ou valer só com o motor ligado.
+- Pendentes no carro: A2–A9 com navegação ativa.
