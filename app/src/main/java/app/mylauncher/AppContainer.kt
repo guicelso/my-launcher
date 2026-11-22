@@ -90,8 +90,9 @@ class AppContainer(val context: Context) {
     }
 
     /**
-     * Põe o launcher (e o app de música padrão, se o ajuste estiver ligado) na lista de apps que a
-     * TopWay não fecha ao entrar em espera (spec 016, R16.1/R16.2).
+     * Põe o launcher, o app de música padrão (se o ajuste estiver ligado) e o app de navegação
+     * embutido no card na lista de apps que a TopWay não fecha ao entrar em espera (spec 016,
+     * R16.1/R16.2; spec 008, R8.9: fechado, o Maps deixava o card preto ao religar a chave).
      */
     private fun keepAliveOnSleep() {
         // Gerenciamento de energia da Unisoc: "não otimizar" o launcher, senão o sistema nega a
@@ -99,7 +100,13 @@ class AppContainer(val context: Context) {
         appScope.launch(Dispatchers.IO) { UnisocPowerConfig.ensureNoOptimize(context.packageName) }
         appScope.launch {
             settings.settings
-                .map { s -> listOfNotNull(context.packageName, s.musicApp.takeIf { s.keepMusicAlive }) }
+                .map { s ->
+                    listOfNotNull(
+                        context.packageName,
+                        s.musicApp.takeIf { s.keepMusicAlive },
+                        s.mapSource.pkg.takeIf { s.mapSource.isEmbedded },
+                    )
+                }
                 .distinctUntilChanged()
                 .collect { pkgs -> withContext(Dispatchers.IO) { SleepKeepList.ensure(pkgs) } }
         }

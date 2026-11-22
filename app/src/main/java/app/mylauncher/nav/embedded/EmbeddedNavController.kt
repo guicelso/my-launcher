@@ -44,12 +44,20 @@ class EmbeddedNavController(private val context: Context) {
     private var sizeH = 0
 
     private val starting = AtomicBoolean(false)
+    /** Muda a cada conexão do auxiliar: a queda de uma conexão antiga (ou parada de propósito) não conta. */
+    @Volatile private var helperGen = 0
+    @Volatile private var lastPong = 0L
+    /** O que abrir no display ao (re)iniciar o auxiliar. */
+    @Volatile private var launchLine: String? = null
     @Volatile var currentPkg: String? = null
         private set
     @Volatile var displayId: Int = -1
         private set
 
-    /** Callback quando o auxiliar fica indisponível (caiu, sem root): o painel deve mostrar o mapa próprio. */
+    /**
+     * Callback (em thread de fundo) quando o auxiliar cai. O painel tenta [restartHelper] e, se não
+     * der, mostra o mapa próprio (R8.1).
+     */
     var onUnavailable: (() -> Unit)? = null
 
     val isRunning: Boolean get() = virtualDisplay != null && helper != null
@@ -67,13 +75,11 @@ class EmbeddedNavController(private val context: Context) {
             // funcionou (prova fim-a-fim). Senão, caímos para o mapa próprio (R8.1).
             currentPkg = pkg
             createDisplay(surface, widthPx, heightPx)
-            val name = SOCKET_PREFIX + System.nanoTime().toString(36)
-            if (!openSocketAndHelper(name)) {
+            launchLine = if (startUri != null) "OPEN $pkg $startUri" else "LAUNCH $pkg"
+            if (!connectHelper()) {
                 stop()
                 return false
             }
-            send(if (startUri != null) "OPEN $pkg $startUri" else "LAUNCH $pkg")
-            send("WATCH $pkg on")
             FileLog.i("EmbeddedNav: iniciado pkg=$pkg display=$displayId")
             return true
         } catch (t: Throwable) {
@@ -95,6 +101,61 @@ class EmbeddedNavController(private val context: Context) {
         sizeW = w
         sizeH = h
         displayId = vd.display.displayId
+    }
+
+    /** Sobe um auxiliar novo para o display atual e manda abrir o app nele. */
+    private fun connectHelper(): Boolean {
+        val pkg = currentPkg ?: return false
+        if (!openSocketAndHelper(SOCKET_PREFIX + System.nanoTime().toString(36))) return false
+        launchLine?.let { send(it) }
+        send("WATCH $pkg on")
+        return true
+    }
+
+    /**
+     * Reinicia só o auxiliar, mantendo o display (R8.1). Recriar o display faria o sistema mandar as
+     * tarefas dele para a tela principal: o Maps apareceria por cima do painel até voltar ao card.
+     * Fora da main thread. @return true se o auxiliar novo conectou.
+     */
+    fun restartHelper(): Boolean {
+        if (virtualDisplay == null) return false
+        if (!starting.compareAndSet(false, true)) return isRunning
+        try {
+            FileLog.i("EmbeddedNav: reiniciando o auxiliar (display $displayId)")
+            closeHelper()
+            return connectHelper().also { FileLog.i("EmbeddedNav: auxiliar reiniciado = $it") }
+        } catch (t: Throwable) {
+            FileLog.w("EmbeddedNav.restartHelper falhou: ${t.javaClass.simpleName}: ${t.message}")
+            return false
+        } finally {
+            starting.set(false)
+        }
+    }
+
+    /**
+     * Confere se o auxiliar responde (R8.9). Ele pode ter morrido durante a espera da chave sem o
+     * socket avisar (visto no carro: o Lumia só percebeu 35 s depois, num toque). Fora da main thread.
+     */
+    fun ping(timeoutMs: Long = PING_TIMEOUT_MS): Boolean {
+        if (!isRunning) return false
+        val before = lastPong
+        send("PING")
+        val end = System.currentTimeMillis() + timeoutMs
+        while (System.currentTimeMillis() < end) {
+            if (lastPong != before) return true
+            Thread.sleep(50)
+        }
+        FileLog.w("EmbeddedNav: auxiliar não respondeu ao PING em ${timeoutMs}ms")
+        return false
+    }
+
+    private fun closeHelper() {
+        helperGen++ // a queda desta conexão não é mais "inesperada"
+        runCatching { helper?.close() }
+        runCatching { serverSocket?.close() }
+        helper = null
+        helperOut = null
+        serverSocket = null
     }
 
     private fun openSocketAndHelper(name: String): Boolean {
@@ -132,16 +193,18 @@ class EmbeddedNavController(private val context: Context) {
 
     /** Loop de leitura das respostas/logs do auxiliar, em thread própria. */
     private fun listen(sock: LocalSocket) {
+        val gen = ++helperGen
         Thread({
             runCatching {
                 val reader = BufferedReader(InputStreamReader(sock.inputStream, StandardCharsets.UTF_8))
                 var line: String?
                 while (reader.readLine().also { line = it } != null) {
-                    FileLog.i("NavHelper> $line")
+                    if (line == "PONG") lastPong = System.nanoTime() else FileLog.i("NavHelper> $line")
                 }
             }
-            FileLog.w("EmbeddedNav: auxiliar desconectou")
-            if (virtualDisplay != null) onUnavailable?.invoke()
+            val unexpected = gen == helperGen && virtualDisplay != null
+            FileLog.w("EmbeddedNav: auxiliar desconectou" + if (unexpected) " (inesperado)" else "")
+            if (unexpected) onUnavailable?.invoke()
         }, "embedded-nav-listen").start()
     }
 
@@ -218,14 +281,11 @@ class EmbeddedNavController(private val context: Context) {
 
     fun stop() {
         runCatching { send("STOP") }
-        runCatching { helper?.close() }
-        runCatching { serverSocket?.close() }
+        closeHelper()
+        launchLine = null
         runCatching { virtualDisplay?.release() }
         runCatching { dummySurface?.release() }
         runCatching { dummyTexture?.release() }
-        helper = null
-        helperOut = null
-        serverSocket = null
         virtualDisplay = null
         dummySurface = null
         dummyTexture = null
@@ -237,5 +297,6 @@ class EmbeddedNavController(private val context: Context) {
     private companion object {
         const val SOCKET_PREFIX = "lumia_nav_"
         const val HELPER_TIMEOUT_MS = 6000L
+        const val PING_TIMEOUT_MS = 1500L
     }
 }
