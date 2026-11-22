@@ -150,6 +150,9 @@ object LauncherIcons {
     val Backspace = icon("backspace", s("M21 5H9l-6 7 6 7h12z"), s("M12 9l6 6M18 9l-6 6"))
     val ShiftKey = icon("shift", s("M12 4 4 12h4v8h8v-8h4z"))
     val CarMoving = icon("car-moving", s("M5 17h14l-1.5-6h-11zM7 17v2M17 17v2M8 11l1.5-4h5L16 11"), strokeWidth = 2.2f)
+    val ThumbUp = icon("thumb-up", s("M7 10v11H3V10zM7 10l4-8a2.5 2.5 0 0 1 2.5 2.5V8h5.6a2 2 0 0 1 2 2.3l-1.4 8.4A2.5 2.5 0 0 1 17.2 21H7"))
+    val ThumbUpFilled = icon("thumb-up-filled", f("M2 10h4v11H2zM8 10l4-8a2.5 2.5 0 0 1 2.5 2.5V8h4.6a2 2 0 0 1 2 2.3l-1.4 8.4A2.5 2.5 0 0 1 17.2 21H8z"))
+    val ThumbDown = icon("thumb-down", s("M17 14V3h4v11zM17 14l-4 8a2.5 2.5 0 0 1-2.5-2.5V16H4.9a2 2 0 0 1-2-2.3l1.4-8.4A2.5 2.5 0 0 1 6.8 3H17"))
     val Library = icon("library", s("M5 4v16M10 4v16M15 5l4 15"), strokeWidth = 2.2f)
     val Reverse = icon("reverse", s("M9 14 4 9l5-5"), s("M4 9h10a6 6 0 0 1 0 12h-3"))
 }

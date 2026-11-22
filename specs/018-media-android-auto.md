@@ -1,6 +1,6 @@
 # 018 — Mídia e streaming no padrão do Android Auto
 
-**Status:** Proposta (estudo concluído, aguardando aprovação) · **Depende de:** 004, 006, 010, 015, 016 · **Estudo:** [`docs/05-media-android-auto.md`](../docs/05-media-android-auto.md) · **Design:** página "Mídia e streaming (estudo)" do canvas
+**Status:** Aprovada (2026-11-22) · em implementação · **Depende de:** 004, 006, 010, 015, 016 · **Estudo:** [`docs/05-media-android-auto.md`](../docs/05-media-android-auto.md) · **Design:** página "Mídia e streaming (estudo)" do canvas
 
 ## Objetivo
 Ter no Lumia os mesmos recursos e a mesma UX de mídia do Android Auto:
@@ -53,7 +53,7 @@ O Lumia faz o papel do host do Android Auto: o app de mídia fornece os dados e 
 - **R18.22** Sem texto rolando sozinho e sem animação contínua; alvos ≥ 76 dp; contraste ≥ 4,5:1; tema escuro à noite.
 
 ## Critérios de aceite
-- [ ] **A1** (R18.2) Para Spotify, YouTube Music, Deezer, um app de podcast e um de rádio: registrar se aceitam o browse do Lumia; os que recusam abrem em modo só player.
+- [x] **A1** (R18.2) Para Spotify, YouTube Music, Deezer, um app de podcast e um de rádio: registrar se aceitam o browse do Lumia; os que recusam abrem em modo só player.
 - [ ] **A2** (R18.5–R18.7) Num app que aceita: abas, grupos e indicadores iguais aos do Android Auto no celular.
 - [ ] **A3** (R18.13) Num app de podcast: ±15/30 s ocupam as posições de anterior/próxima e a velocidade aparece como ação.
 - [ ] **A4** (R18.16) A fila mostra miniaturas, o item atual destacado e tocar num item troca a faixa.
@@ -61,4 +61,10 @@ O Lumia faz o papel do host do Android Auto: o app de mídia fornece os dados e 
 - [ ] **A6** (R18.21) Com a velocidade simulada > 0: teclado bloqueado e lista cortada em 21 itens com o aviso.
 
 ## Resultados
-_(preencher após a implementação)_
+**2026-11-22, emulador (app simulado "Sonora" do painel de depuração):** todas as telas conferidas com os wireframes: card do painel, player dividido, tocando agora (música, podcast com ±15/30 s e velocidade, Mais), fila, navegação nas 4 abas (grade com grupos, lista com A–Z, podcasts com progresso e novos, categorias), álbum com ações, busca com teclado, busca e lista em movimento, seletor, login (parado e em movimento) e "Entrar" executando a ação do app.
+
+**2026-11-22, multimídia (A1):**
+- **Spotify, YouTube Music e Google Notícias recusam a navegação do Lumia** (`No root for client app.mylauncher`; Notícias: "Caller is not allowed"). Todos caem no modo só player, que funciona: controles, fila, ações do app (Spotify: aleatório + 3 em Mais; YouTube Music: gostei/não gostei, aleatório, repetir) e "Abrir o app".
+- A cor de destaque vem do app (verde no Spotify, vermelho no YouTube Music).
+- O seletor listava apps com serviço de mídia que não são de carro (APKPure, Prime Video…); agora só os de carro, como o Android Auto. As fontes da TopWay (Rádio, Bluetooth, USB) aparecem.
+- Causas e alternativas para liberar navegação e busca: [`docs/06-media-browse-access.md`](../docs/06-media-browse-access.md).

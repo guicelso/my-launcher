@@ -64,7 +64,10 @@ class MediaLibrary(private val context: Context) {
                 pkg.startsWith("com.tw.") -> false
                 // O serviço simulado do Lumia só é encontrado quando o painel de depuração o liga.
                 pkg == self -> true
-                else -> pm.getLaunchIntentForPackage(pkg) != null || isCarMediaApp(pkg)
+                // Como no Android Auto: só apps de mídia para carros (`<uses name="media"/>`), além
+                // dos que estão tocando, do app de música padrão e dos conhecidos.
+                pkg in extra || pkg in MediaApps.KNOWN -> pm.getLaunchIntentForPackage(pkg) != null || isCarMediaApp(pkg)
+                else -> isCarMediaApp(pkg)
             }
         }
         return all.sortedWith(compareBy<String>({ !isCarMediaApp(it) && it !in MediaApps.KNOWN }, { label(it).lowercase() }))

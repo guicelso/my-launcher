@@ -515,8 +515,12 @@ fun glyphFor(a: MediaAction): ActionGlyph? {
     return when {
         a.builtin == app.mylauncher.data.media.BuiltinAction.SHUFFLE || "shuffle" in t || "aleat" in t -> ActionGlyph.Vector(LauncherIcons.Shuffle)
         a.builtin != null || "repeat" in t || "repet" in t -> ActionGlyph.Vector(LauncherIcons.Repeat)
+        "não gostei" in t || "nao gostei" in t || "dislike" in t || "thumbs down" in t -> ActionGlyph.Vector(LauncherIcons.ThumbDown)
+        ("remover" in t || "remove" in t) && ("gostei" in t || "like" in t) -> ActionGlyph.Vector(LauncherIcons.ThumbUpFilled, filled = true)
+        "gostei" in t || "thumbs up" in t -> ActionGlyph.Vector(LauncherIcons.ThumbUp)
         "curtid" in t || "liked" in t -> ActionGlyph.Vector(LauncherIcons.HeartFilled, filled = true)
-        "curtir" in t || "like" in t || "heart" in t || "gostei" in t -> ActionGlyph.Vector(LauncherIcons.Heart)
+        "coleção" in t || "colecao" in t || "biblioteca" in t -> ActionGlyph.Vector(LauncherIcons.Heart)
+        "curtir" in t || "like" in t || "heart" in t -> ActionGlyph.Vector(LauncherIcons.Heart)
         "favorit" in t && "estação" in t -> ActionGlyph.Vector(LauncherIcons.StarFilled, filled = true)
         "favorit" in t || "star" in t -> ActionGlyph.Vector(LauncherIcons.Star)
         "15" in t && ("voltar" in t || "back" in t || "rewind" in t || "replay" in t) -> ActionGlyph.Vector(LauncherIcons.Replay15)
