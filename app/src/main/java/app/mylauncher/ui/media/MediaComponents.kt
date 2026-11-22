@@ -45,34 +45,4 @@ fun rememberPosition(np: NowPlaying): Long {
     return np.positionAt(now)
 }
 
-@Composable
-fun AlbumArt(np: NowPlaying?, size: Dp, radius: Dp, iconSize: Dp) {
-    val c = LocalLauncherColors.current
-    val bitmap = remember(np?.art) { np?.art?.asImageBitmap() }
-    Box(
-        Modifier.size(size).clip(RoundedCornerShape(radius)).background(c.surface2),
-        contentAlignment = Alignment.Center,
-    ) {
-        if (bitmap != null) {
-            Image(bitmap, contentDescription = "Capa", contentScale = ContentScale.Crop, modifier = Modifier.size(size))
-        } else {
-            Icon(LauncherIcons.Music, null, Modifier.size(iconSize), tint = c.onSurfaceVariant)
-        }
-    }
-}
-
-@Composable
-fun ProgressBar(fraction: Float, height: Dp = 4.dp, modifier: Modifier = Modifier) {
-    val c = LocalLauncherColors.current
-    Box(modifier.fillMaxWidth().height(height).clip(RoundedCornerShape(height)).background(c.outline)) {
-        Box(
-            Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(fraction.coerceIn(0f, 1f))
-                .clip(RoundedCornerShape(height))
-                .background(c.onSurface),
-        )
-    }
-}
-
 fun NowPlaying.fraction(position: Long): Float = if (durationMs > 0) position.toFloat() / durationMs else 0f

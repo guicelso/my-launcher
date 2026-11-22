@@ -3,6 +3,7 @@ package app.mylauncher.ui
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import app.mylauncher.ui.media.MediaNav
 
 /**
  * Telas do launcher (spec 010). DASHBOARD, SPLIT_MEDIA, MEDIA e MAP são modos da área de
@@ -19,6 +20,9 @@ enum class Screen(val overlay: Boolean) {
 }
 
 class Navigator {
+    /** Páginas da mídia em tela cheia (spec 018). */
+    val media = MediaNav()
+
     /** Modo atual da área de trabalho. */
     var workspace by mutableStateOf(Screen.DASHBOARD)
         private set
@@ -60,6 +64,7 @@ class Navigator {
     fun back() {
         when {
             overlay != null -> overlay = null
+            workspace == Screen.MEDIA && media.back() -> Unit
             workspace == Screen.MEDIA -> workspace = Screen.SPLIT_MEDIA
             else -> workspace = Screen.DASHBOARD
         }

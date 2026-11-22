@@ -60,8 +60,9 @@ import app.mylauncher.ui.drawer.AppDrawerScreen
 import app.mylauncher.ui.drawer.DrawerAnchor
 import app.mylauncher.ui.icons.LauncherIcons
 import app.mylauncher.ui.media.MediaCard
-import app.mylauncher.ui.media.MediaSources
-import app.mylauncher.ui.media.PlayerPanel
+import app.mylauncher.ui.media.MediaHost
+import app.mylauncher.ui.media.MediaHostCallbacks
+import app.mylauncher.ui.media.MediaPage
 import app.mylauncher.data.prefs.RailPosition
 import app.mylauncher.data.prefs.DriverSide
 import app.mylauncher.data.media.MediaListenerService
@@ -106,6 +107,12 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
     val status by container.status.state.collectAsStateWithLifecycle()
     val allApps by container.apps.apps.collectAsStateWithLifecycle()
     val media by container.media.state.collectAsStateWithLifecycle()
+    val activeMedia by container.media.activePackages.collectAsStateWithLifecycle()
+    // Sugestões do app de música para o card quando nada toca (spec 018, R18.19).
+    val nothingPlaying = media.nowPlaying == null
+    val mediaSuggestions by androidx.compose.runtime.produceState(emptyList<app.mylauncher.data.media.browse.BrowseItem>(), settings.musicApp, nothingPlaying) {
+        value = if (nothingPlaying) runCatching { container.mediaLibrary.suggestions(settings.musicApp) }.getOrDefault(emptyList()) else emptyList()
+    }
     val notifs by container.messages.summary.collectAsStateWithLifecycle()
     var debugOpen by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -196,9 +203,16 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                     state = media,
                     apps = apps,
                     musicApp = settings.musicApp,
+                    label = container.mediaLibrary::label,
+                    suggestions = mediaSuggestions,
                     onOpenMedia = { navigator.go(Screen.SPLIT_MEDIA) },
+                    onOpenSources = { navigator.media.reset(MediaPage.Sources); navigator.go(Screen.MEDIA) },
                     onOpenApp = openApp,
-                    onLaunchApp = { apps.launch(it) },
+                    onPlaySuggestion = { item ->
+                        container.media.prefer(settings.musicApp)
+                        scope.launch { container.mediaLibrary.playSuggestion(settings.musicApp, item) }
+                        navigator.go(Screen.SPLIT_MEDIA)
+                    },
                     onGrantAccess = { container.systemActions.openNotificationAccess() },
                     modifier = wm,
                 )
@@ -252,15 +266,27 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                         )
                     },
                     playerPanel = { full, m ->
-                        PlayerPanel(
-                            state = media,
-                            apps = apps,
+                        MediaHost(
                             full = full,
-                            onToggleSize = { navigator.go(if (full) Screen.SPLIT_MEDIA else Screen.MEDIA) },
-                            onOpenApp = { apps.launch(it) },
-                            onGrantAccess = { container.systemActions.openNotificationAccess() },
-                            sources = MediaSources.list(settings.musicApp, media.nowPlaying?.sourcePackage, apps::isInstalled),
-                            onSelectSource = openApp,
+                            state = media,
+                            nav = navigator.media,
+                            apps = apps,
+                            library = container.mediaLibrary,
+                            musicApp = settings.musicApp,
+                            driving = !parked,
+                            activePackages = activeMedia,
+                            cb = MediaHostCallbacks(
+                                onExpand = { navigator.go(Screen.MEDIA) },
+                                onCollapse = { navigator.go(Screen.SPLIT_MEDIA) },
+                                onLaunchApp = { apps.launch(it) },
+                                onPickApp = { pkg ->
+                                    container.settings.recordLaunch(pkg)
+                                    container.media.prefer(pkg)
+                                    if (pkg !in container.media.activePackages.value) container.mediaApps.sendPlay(pkg)
+                                },
+                                onPrefer = { container.media.prefer(it) },
+                                onGrantAccess = { container.systemActions.openNotificationAccess() },
+                            ),
                             modifier = m,
                         )
                     },
@@ -447,6 +473,7 @@ private fun openApp(container: AppContainer, navigator: Navigator, scope: Corout
     }
     container.settings.recordLaunch(pkg)
     container.media.prefer(pkg)
+    navigator.media.app = pkg
     if (!navigator.screen.let { it == Screen.MEDIA }) navigator.go(Screen.SPLIT_MEDIA)
     if (pkg in container.media.activePackages.value) return
     mediaApps.sendPlay(pkg)

@@ -42,16 +42,27 @@ object FrostedArt {
 
     fun cached(key: String): ImageBitmap? = cache.get(key)
 
-    fun render(key: String, src: Bitmap): ImageBitmap = cache.get(key) ?: run {
-        val small = Bitmap.createScaledBitmap(squareCrop(trimDarkBars(src)), SIZE, SIZE, true)
-        val px = IntArray(SIZE * SIZE)
-        small.getPixels(px, 0, SIZE, 0, 0, SIZE, SIZE)
-        repeat(2) { boxBlur(px, SIZE, SIZE, RADIUS) }
-        val out = Bitmap.createBitmap(px, SIZE, SIZE, Bitmap.Config.ARGB_8888).asImageBitmap()
+    fun render(key: String, src: Bitmap): ImageBitmap = cache.get(key) ?: blurred(src, SIZE, RADIUS, 2).also { cache.put(key, it) }
+
+    /**
+     * Desfoque forte (fundo de capa do player de 2026, spec 018): a capa vira manchas de cor,
+     * como o `blur(60px)` dos wireframes. Reduzir para 40 px já faz quase todo o trabalho.
+     */
+    fun renderStrong(key: String, src: Bitmap): ImageBitmap = cache.get("s|$key") ?: blurred(src, STRONG_SIZE, 3, 3).also { cache.put("s|$key", it) }
+
+    fun cachedStrong(key: String): ImageBitmap? = cache.get("s|$key")
+
+    private fun blurred(src: Bitmap, size: Int, radius: Int, passes: Int): ImageBitmap {
+        val small = Bitmap.createScaledBitmap(squareCrop(trimDarkBars(src)), size, size, true)
+        val px = IntArray(size * size)
+        small.getPixels(px, 0, size, 0, 0, size, size)
+        repeat(passes) { boxBlur(px, size, size, radius) }
+        val out = Bitmap.createBitmap(px, size, size, Bitmap.Config.ARGB_8888).asImageBitmap()
         if (small !== src) small.recycle()
-        cache.put(key, out)
-        out
+        return out
     }
+
+    private const val STRONG_SIZE = 40
 
     /**
      * Remove faixas pretas (miniaturas 16:9 de vídeos, como no YouTube Music) comparando o
@@ -115,91 +126,6 @@ object FrostedArt {
                 g += ((inC shr 8) and 0xFF) - ((outC shr 8) and 0xFF)
                 b += (inC and 0xFF) - (outC and 0xFF)
             }
-        }
-    }
-}
-
-/**
- * Chave do fundo: inclui a identidade da capa, porque ela costuma chegar depois do título e pode
- * mudar sem que título/artista mudem. Sem capa, não há fundo (null).
- */
-private fun artKey(np: NowPlaying): String? {
-    val art = np.art ?: return null
-    return "${np.sourcePackage}|${np.title}|${np.artist}|${System.identityHashCode(art)}|${art.generationId}"
-}
-
-@Composable
-private fun rememberFrostedArt(np: NowPlaying?): ImageBitmap? {
-    val key = np?.let(::artKey)
-    // produceState mantém o valor da chave anterior ao trocar de chave: o fundo é sempre o da
-    // chave atual (cache ou recém-renderizado), nunca o que sobrou da faixa anterior.
-    val bmp by produceState(key?.let(FrostedArt::cached), key) {
-        val art = np?.art
-        if (key == null || art == null) {
-            value = null
-            return@produceState
-        }
-        value = FrostedArt.cached(key) ?: withContext(Dispatchers.Default) { FrostedArt.render(key, art) }
-    }
-    return bmp
-}
-
-/** Cores do conteúdo sobre a capa: sempre claras, sobre película escura. */
-private fun LauncherColors.onArt() = copy(
-    onSurface = Color(0xFFF5F6F7),
-    onSurfaceVariant = Color(0xFFD7DADD),
-    outline = Color.White.copy(alpha = 0.28f),
-    surface2 = Color.White.copy(alpha = 0.14f),
-    primary = Color(0xFFF5F6F7),
-    onPrimary = Color(0xFF16181B),
-    // Botão tocar do card sobre a capa (ciano claro, como no Android Auto) e do player.
-    primaryContainer = Color(0xFFAEEDFF),
-    onPrimaryContainer = Color(0xFF06343F),
-    playContainer = Color(0xFFCFD6D3),
-    onPlayContainer = Color(0xFF151616),
-)
-
-/**
- * Fundo de vidro fosco com a capa (estilo Android Auto): capa desfocada cobrindo o card,
- * película escura em degradê para legibilidade e um fio de luz na borda. Sem capa, usa [fallback].
- */
-@Composable
-fun FrostedArtCard(
-    np: NowPlaying?,
-    shape: Shape,
-    fallback: Color,
-    modifier: Modifier = Modifier,
-    content: @Composable BoxScope.(hasArt: Boolean) -> Unit,
-) {
-    val c = LocalLauncherColors.current
-    val frosted = rememberFrostedArt(np)
-    Box(modifier.clip(shape).background(fallback)) {
-        Crossfade(frosted, animationSpec = tween(500), label = "frostedArt") { img ->
-            if (img != null) {
-                Box(Modifier.fillMaxSize()) {
-                    Image(
-                        img, contentDescription = null, contentScale = ContentScale.Crop,
-                        filterQuality = FilterQuality.High, modifier = Modifier.fillMaxSize(),
-                    )
-                    Box(
-                        Modifier
-                            .fillMaxSize()
-                            .background(
-                                Brush.verticalGradient(
-                                    0f to Color.Black.copy(alpha = 0.22f),
-                                    0.45f to Color.Black.copy(alpha = 0.42f),
-                                    1f to Color.Black.copy(alpha = 0.74f),
-                                ),
-                            ),
-                    )
-                }
-            }
-        }
-        if (frosted != null) {
-            Box(Modifier.fillMaxSize().border(1.dp, Color.White.copy(alpha = 0.10f), shape))
-        }
-        CompositionLocalProvider(LocalLauncherColors provides if (frosted != null) c.onArt() else c) {
-            content(frosted != null)
         }
     }
 }
