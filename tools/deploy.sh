@@ -40,6 +40,9 @@ echo "==> Permissões"
 # Spec 016: o launcher mantém /sdcard/.Tcfg/sleepKillPackage.cfg (apps que a TopWay não fecha na espera).
 "${ADB[@]}" shell pm grant $PKG android.permission.READ_EXTERNAL_STORAGE || true
 "${ADB[@]}" shell pm grant $PKG android.permission.WRITE_EXTERNAL_STORAGE || true
+# Spec 016: energia Unisoc "não otimizar" (auto-início, início por outro app, limpeza na tela bloqueada);
+# sem isso o sistema nega a conexão do listener de notificações no boot. O app também garante isso ao iniciar.
+for t in 4 5 6; do "${ADB[@]}" shell service call power_ex 30 s16 $PKG i32 $t i32 2 >/dev/null 2>&1 || true; done
 "${ADB[@]}" shell cmd notification allow_listener $PKG/$PKG.data.media.MediaListenerService || true
 
 # Dispensa o aviso de "tela cheia" do Android (modo imersivo do launcher).

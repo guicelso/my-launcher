@@ -36,6 +36,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import app.mylauncher.core.FileLog
 import app.mylauncher.data.vehicle.topway.SleepKeepList
+import app.mylauncher.data.vehicle.topway.UnisocPowerConfig
 
 /** Injeção de dependências manual (docs/01-architecture.md, D8). */
 class AppContainer(val context: Context) {
@@ -93,6 +94,9 @@ class AppContainer(val context: Context) {
      * TopWay não fecha ao entrar em espera (spec 016, R16.1/R16.2).
      */
     private fun keepAliveOnSleep() {
+        // Gerenciamento de energia da Unisoc: "não otimizar" o launcher, senão o sistema nega a
+        // conexão do listener de notificações no boot (spec 016).
+        appScope.launch(Dispatchers.IO) { UnisocPowerConfig.ensureNoOptimize(context.packageName) }
         appScope.launch {
             settings.settings
                 .map { s -> listOfNotNull(context.packageName, s.musicApp.takeIf { s.keepMusicAlive }) }

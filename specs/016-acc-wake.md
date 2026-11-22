@@ -21,6 +21,7 @@ O Lumia não está em nenhuma das duas listas. Por isso ele era fechado; ao reli
   4. se nada disso criar uma sessão em 5 s, abrir o app.
 - **R16.6** Com **Retomar a música ao ligar o carro** ligado (padrão), QUANDO a chave for ligada, o launcher DEVE retomar a música se ela estava tocando ao desligar. A TopWay pausa a mídia ~130 ms depois de avisar o ACC_OFF (medido); só uma pausa até 2 s antes do aviso conta como "estava tocando".
 - **R16.7** Os dois ajustes ficam em Ajustes → Mídia.
+- **R16.8** O acesso às notificações DEVE estar conectado logo após o boot. Medido: o NotificationManager tenta conectar o listener (1) com o usuário ainda bloqueado e (2) no desbloqueio; a 1ª falhava por o listener não ser `directBootAware`, e a 2ª era negada pelo gerenciamento de energia da Unisoc (`PowerController.judgeAppLaunchAllowed`), que tinha o launcher em "otimizar" para auto-início. Depois disso o sistema não tenta de novo, e o card pedia a permissão (concedida). O listener passa a ser `directBootAware` (o app adia a inicialização até o desbloqueio) e o launcher garante "não otimizar" (tipos 4, 5 e 6) pelo `power_ex` ao iniciar.
 
 ## Critérios de aceite
 - [ ] **A1** (R16.1, R16.3) Desligar e ligar a chave volta direto ao painel do Lumia, sem a tela de apps recentes.
@@ -42,3 +43,4 @@ O Lumia não está em nenhuma das duas listas. Por isso ele era fechado; ao reli
   - [x] A TopWay leu o arquivo vazio (`packageName = null`) e não abriu a tela do app: a música continuou em segundo plano.
   - [ ] **A4** falhou (3º ciclo): pausa do usuário 14 s antes do ACC_OFF caiu na folga de 15 s e a música voltou. Medido: a TopWay manda PAUSE 130 ms depois do ACC_OFF, então a folga caiu para 2 s.
   - [ ] **A3**: a validar (reboot).
+- **2026-11-21, reboots:** o card pedia "Permitir acesso" depois do boot (ver R16.8). Com o listener `directBootAware` e "não otimizar" na energia Unisoc, o listener conectou na 1ª tentativa do boot (21:14:34) e a configuração persistiu.

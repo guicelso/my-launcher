@@ -114,6 +114,7 @@ O script concede:
 Ao tirar a chave, a multimídia **não reinicia**: entra em espera. Antes de dormir, o `TWService` fecha (`forceStopPackage`) todo app que não esteja na lista fixa dele nem em `/sdcard/.Tcfg/sleepKillPackage.cfg`. O Lumia mantém esse arquivo sozinho (spec 016): ele próprio e o app de música padrão.
 - Ver o que a TopWay fechou: `adb shell setprop persist.tw.service.debug 1` e depois `logcat | grep killPackages`.
 - **"Inicialização da aplicação"** (Configurações do carro) = `/data/tw/app_autostart_name`. Se tiver um app, ele abre por cima do painel 5 s depois de ligar a chave. Deixe vazio: quem retoma a música é o Lumia.
+- **Energia Unisoc** (`power_ex`): o Lumia precisa de "não otimizar" (2) nos tipos 4 (auto-início), 5 (início por outro app) e 6 (limpeza na tela bloqueada); senão o sistema nega a conexão do listener de notificações no boot e o card pede a permissão. Conferir: `adb shell service call power_ex 28 s16 app.mylauncher i32 5` (deve terminar em `00000002`). O app e o `deploy.sh` aplicam isso sozinhos.
 - Os buffers de log da multimídia vêm com 256 KB. Para investigar um ciclo da chave, aumente antes: `adb logcat -G 16M` (vale até o próximo reboot).
 
 ### 3.6 Prints e logs
