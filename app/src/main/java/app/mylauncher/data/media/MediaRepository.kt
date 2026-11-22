@@ -248,6 +248,32 @@ class MediaRepository(
             ?: md?.getBitmap(MediaMetadata.METADATA_KEY_ART)
             ?: md?.getBitmap(MediaMetadata.METADATA_KEY_DISPLAY_ICON)
         val actions = ps?.actions ?: 0L
+        val shuffle = compat?.shuffleMode?.takeIf { it != PlaybackStateCompat.SHUFFLE_MODE_INVALID }
+            ?.let { it != PlaybackStateCompat.SHUFFLE_MODE_NONE }
+        val repeat = compat?.repeatMode?.let {
+            when (it) {
+                PlaybackStateCompat.REPEAT_MODE_ONE -> RepeatMode.ONE
+                PlaybackStateCompat.REPEAT_MODE_ALL, PlaybackStateCompat.REPEAT_MODE_GROUP -> RepeatMode.ALL
+                PlaybackStateCompat.REPEAT_MODE_NONE -> RepeatMode.OFF
+                else -> null
+            }
+        }
+        val sessionExtras = runCatching { extras }.getOrNull()
+        fun reserved(key: String) = sessionExtras?.getBoolean(key) == true || ps?.extras?.getBoolean(key) == true
+        val custom = ps?.customActions.orEmpty().map {
+            MediaAction(id = it.action, label = it.name?.toString().orEmpty(), iconRes = it.icon, pkg = packageName, extras = it.extras)
+        }
+        val error = if (ps?.state == PlaybackState.STATE_ERROR) {
+            val e = ps.extras ?: compat?.playbackState?.extras
+            MediaError(
+                code = compat?.playbackState?.errorCode ?: 0,
+                message = ps.errorMessage?.toString().orEmpty(),
+                resolutionLabel = e?.getString(MediaKeys.ERROR_RESOLUTION_LABEL),
+                resolutionIntent = runCatching { e?.getParcelable<android.app.PendingIntent>(MediaKeys.ERROR_RESOLUTION_INTENT) }.getOrNull(),
+            )
+        } else {
+            null
+        }
         return NowPlaying(
             sourcePackage = packageName,
             sourceLabel = apps.label(packageName),
@@ -257,26 +283,40 @@ class MediaRepository(
                 ?: md?.getString(MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE).orEmpty(),
             album = md?.getString(MediaMetadata.METADATA_KEY_ALBUM).orEmpty(),
             art = art,
-            durationMs = md?.getLong(MediaMetadata.METADATA_KEY_DURATION) ?: 0L,
+            durationMs = md?.getLong(MediaMetadata.METADATA_KEY_DURATION)?.coerceAtLeast(0) ?: 0L,
             positionMs = ps?.position ?: 0L,
             positionUpdatedAt = ps?.lastPositionUpdateTime ?: 0L,
             speed = ps?.playbackSpeed?.takeIf { it > 0f } ?: 1f,
             playing = ps?.state == PlaybackState.STATE_PLAYING,
             canSkip = actions and (PlaybackState.ACTION_SKIP_TO_NEXT or PlaybackState.ACTION_SKIP_TO_PREVIOUS) != 0L,
             canSeek = actions and PlaybackState.ACTION_SEEK_TO != 0L,
-            shuffle = compat?.shuffleMode?.let { it != PlaybackStateCompat.SHUFFLE_MODE_NONE && it != PlaybackStateCompat.SHUFFLE_MODE_INVALID },
-            repeat = compat?.repeatMode?.let {
-                when (it) {
-                    PlaybackStateCompat.REPEAT_MODE_ONE -> RepeatMode.ONE
-                    PlaybackStateCompat.REPEAT_MODE_ALL, PlaybackStateCompat.REPEAT_MODE_GROUP -> RepeatMode.ALL
-                    PlaybackStateCompat.REPEAT_MODE_NONE -> RepeatMode.OFF
-                    else -> null
-                }
+            shuffle = shuffle,
+            repeat = repeat,
+            queue = queue.orEmpty().take(MAX_QUEUE).map {
+                QueueItem(
+                    it.queueId, it.description.title?.toString().orEmpty(), it.description.subtitle?.toString().orEmpty(),
+                    art = it.description.iconBitmap, artUri = it.description.iconUri,
+                )
             },
-            queue = queue.orEmpty().take(50).map {
-                QueueItem(it.queueId, it.description.title?.toString().orEmpty(), it.description.subtitle?.toString().orEmpty())
-            },
+            mediaId = md?.getString(MediaMetadata.METADATA_KEY_MEDIA_ID),
+            canPrevious = actions and PlaybackState.ACTION_SKIP_TO_PREVIOUS != 0L,
+            canNext = actions and PlaybackState.ACTION_SKIP_TO_NEXT != 0L,
+            reservePrevious = reserved(MediaKeys.RESERVE_PREVIOUS),
+            reserveNext = reserved(MediaKeys.RESERVE_NEXT),
+            buffering = ps?.state == PlaybackState.STATE_BUFFERING || ps?.state == PlaybackState.STATE_CONNECTING,
+            customActions = MediaActionsMerger.merge(custom, shuffle, repeat, packageName),
+            explicit = md?.getLong(MediaKeys.IS_EXPLICIT) == 1L,
+            downloaded = md?.getLong(MediaKeys.DOWNLOAD_STATUS) == 2L,
+            subtitleLinkId = md?.getString(MediaKeys.SUBTITLE_LINK),
+            queueTitle = queueTitle?.toString().orEmpty(),
+            activeQueueId = ps?.activeQueueItemId ?: -1,
+            error = error,
+            sessionActivity = sessionActivity,
         )
+    }
+
+    private companion object {
+        const val MAX_QUEUE = 100
     }
 }
 
@@ -293,6 +333,16 @@ private class SessionControls(context: Context, private val controller: MediaCon
     override fun previous() = t.skipToPrevious()
     override fun seekTo(ms: Long) = t.seekTo(ms)
     override fun playQueueItem(id: Long) = t.skipToQueueItem(id)
+    override fun playFromMediaId(id: String, extras: android.os.Bundle?) = t.playFromMediaId(id, extras)
+    override fun playFromSearch(query: String) = t.playFromSearch(query, android.os.Bundle())
+
+    override fun customAction(action: MediaAction) {
+        when (action.builtin) {
+            BuiltinAction.SHUFFLE -> toggleShuffle()
+            BuiltinAction.REPEAT, BuiltinAction.REPEAT_ONE -> cycleRepeat()
+            null -> t.sendCustomAction(action.id, action.extras)
+        }
+    }
 
     override fun toggleShuffle() {
         val c = compat ?: return

@@ -63,6 +63,8 @@ class AppContainer(val context: Context) {
     val mediaApps = MediaApps(context)
     val media = MediaRepository(context, apps, appScope, mediaApps)
     val debugPlayer = DebugMediaPlayer(context)
+    /** Navegação nos apps de mídia, como o host do Android Auto (spec 018). */
+    val mediaLibrary = app.mylauncher.data.media.browse.MediaLibrary(context)
     private val topWayMedia = TopWayMediaBridge(context, appScope, vehicle, topWay)
     private val reverseDucker = ReverseDucker(context, appScope, vehicle, settings.settings)
     val destinationRequests = DestinationRequests()
