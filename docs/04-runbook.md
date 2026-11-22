@@ -183,13 +183,13 @@ Ao tirar a chave, a multimídia **não reinicia**: entra em espera. Antes de dor
 Para validar no carro:
 - [ ] Diagnóstico (Ajustes → Veículo): ré, ACC, velocidade e freio de mão chegando da MCU (spec 006).
 - [ ] Clima real com GPS e 4G na multimídia (spec 013).
-- [ ] Spikes **S6.1** (TWUtil) e **S8.1** (root via `0x9F1A`) nos botões de Ajustes → Veículo (spec 008).
+- [ ] Spike **S6.1** (TWUtil) no botão de Ajustes → Veículo. O **S8.1** já rodou: reprovado (spec 008).
 - [ ] Gaveta: reordenar e ocultar no carro; pacote de ícones real (instalar um pela Play Store).
 - [ ] Compartilhar um local do Google Maps/Waze **instalados na multimídia** para o Lumia ("Salvar no Lumia").
 - [ ] Deep link de favoritos do Waze (`waze://?favorite=home`); hoje usamos coordenadas ou endereço.
 
 Para desenvolver:
-- **Spec 008:** navegação embutida (Waze/Maps dentro do card), começando pelos spikes S8.1/S8.2.
+- **Spec 008:** navegação embutida. Pesquisa concluída; próximo passo é a PoC com auxiliar como uid shell (ver a spec).
 - Integrar `feat/launcher-v1` à `main` quando o uso no carro estiver estável.
 - Atualizar o protótipo em `design/wireframes/` com as telas novas (widgets, barra horizontal, player em vidro).
 

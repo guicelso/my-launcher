@@ -83,7 +83,7 @@ Detalhes e caminhos de evidência estão nos fontes decompilados (caminhos relat
 | `0x0201` | Teclas (1 vol+, 2 vol−, 16 home, 18 back, 19 próxima, 20 play). Teclas do volante: provavelmente aqui (hipótese) |
 | `0x0301` | Fonte de áudio (1 rádio, 3 música, 8 BT, 9 vídeo) |
 | `0x050B` | Velocidade (0,01 km/h) e RPM · `0x050C` tensão da bateria |
-| `0x9F1A` | **Executa um comando de shell como root** (`com.dofun.carsetting/.../f/v.java:141-149`) |
+| `0x9F1A` | **Executa um comando de shell como root** (`com.dofun.carsetting/.../f/v.java:141-149`). Testado em 2026-11-22: a partir de um app comum o comando é aceito, mas não roda (o executor `cmd_services` fica desligado). Ver spec 008. |
 
 > ⚠️ `0x9F1A` é, na prática, uma porta dos fundos de root deixada pelo fabricante. Se um app comum conseguir usá-la, ela pode substituir o Magisk na spec 008. Tratar como pesquisa e nunca expor por rede.
 

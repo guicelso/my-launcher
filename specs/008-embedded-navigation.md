@@ -1,44 +1,94 @@
 # 008 — Navegação embutida (Waze/Maps no painel)
 
-**Status:** Pesquisa · **Depende de:** 005, 006 · **Design:** artboard "Início · navegação embutida"
+**Status:** Pesquisa concluída · prova de conceito proposta (aguardando aprovação) · **Depende de:** 005, 006 · **Design:** artboard "Início · navegação embutida"
 
 ## Objetivo
-Rodar o app de navegação (Waze ou Google Maps) **dentro** do card de mapa do painel, como faz o Android Auto, e trocar o `OwnMapPane` pelo `EmbeddedAppPane`.
+Rodar o app de navegação (Google Maps ou Waze) **dentro** do card de mapa do painel, como faz o Android Auto, e trocar o `OwnMapPane` pelo `EmbeddedAppPane`.
 
-## Técnica
-Um **processo auxiliar privilegiado** faz o trabalho que um app comum não pode fazer:
-1. Cria um `VirtualDisplay` cuja `Surface` é a do `SurfaceView` do nosso card, recebida via Binder (sem cópia).
-2. Abre o Waze nesse display (`ActivityOptions.setLaunchDisplayId`, ou `am start --display <id>`).
-3. Repassa os toques do card para o display com `InputManager.injectInputEvent` + `setDisplayId`.
-4. Ao trocar o card para tela cheia, redimensiona o display (`VirtualDisplay.resize`).
+## O que a pesquisa mostrou (2026-11-22)
 
-A referência de implementação é o **scrcpy** (Apache-2.0), cuja opção `--new-display` faz exatamente isso no Android 10 ou superior, rodando como uid `shell`.
+### Testado na multimídia
+| Teste | Resultado |
+|---|---|
+| `pm list features` | Tem `activities_on_secondary_displays` e `picture_in_picture`. `ro.config.low_ram` vazio (não é aparelho de pouca RAM). |
+| Maps em display secundário (`overlay_display_devices=800x600/160` + `am start --display 1`) | **Funciona.** O Maps 26.46 desenhou completo no display 1 (GPS, tema escuro, conta), com o Lumia ativo no display 0 ao mesmo tempo. O firmware respeita `--display`. |
+| `allowEmbedded` no manifesto | Maps: só na `GhostActivity` do Android Auto, **não** na `MapsActivity`. Waze 5.27: nenhuma. Ambos `resizeableActivity=true`. |
+| **Spike S8.1** (`TWUtil.write(0x9F1A, …)` a partir do Lumia) | **Reprovado.** A chamada não dá erro, mas o comando não roda. O executor root do firmware é o serviço `cmd_services` do init, que fica desligado (`persist.sys.cmdservice.enable=disable`). Um app comum não tem root por esse caminho. |
+| Apps instalados | Maps, Waze, HERE, **ZLink** (receptor CarPlay/Android Auto da zjinnova) e um *stub* do Android Auto. |
 
-## Como obter o processo privilegiado (spikes, em ordem de custo)
+### O que o código do Android 10 permite (AOSP `android10-release`)
+- **Criar o display:** qualquer app cria um `VirtualDisplay` com `PUBLIC | OWN_CONTENT_ONLY` sem permissão (`DisplayManagerService.createVirtualDisplay`).
+- **Abrir outro app nele:** um app comum **não consegue**. `ActivityStackSupervisor.isCallerAllowedToLaunchOnDisplay` exige `INTERNAL_SYSTEM_WINDOW` ou `allowEmbedded` + `ACTIVITY_EMBEDDING`. O uid **shell** tem `INTERNAL_SYSTEM_WINDOW`, `ACTIVITY_EMBEDDING`, `INJECT_EVENTS` e `MANAGE_ACTIVITY_STACKS`, então um auxiliar rodando como shell consegue.
+- **Limitação estrutural ("fugas"):** quando o Maps abre **outra tela própria** (permissão, ajustes, alguns fluxos de busca), quem pede é o uid do Maps. Como o display não pertence ao uid system e a activity não tem `allowEmbedded`, o sistema joga essa tela para o display principal. Só um display do uid system (root) evita isso no Android 10. Projetos parecidos contornam com um auxiliar que vigia as tarefas e as devolve ao display do card (`moveStackToDisplay`).
+- **Ciclo de vida:** um `VirtualDisplay` sem `Surface` é tratado como desligado e põe o Maps para dormir. Se o processo dono morrer, o display é destruído. Trocar por uma `Surface` reserva em vez de `null` quando o card some.
+- **Teclado:** aparece no display principal (não no card), a não ser com `force_desktop_mode_on_external_displays`.
+- **Desempenho:** a GPU compõe o display virtual com uma passada GLES extra (a HWC não costuma tratar displays virtuais). O caminho estilo `ActivityView` (abaixo) evita essa passada.
 
-| Spike | Caminho | Risco | Persistência no boot |
-|---|---|---|---|
-| **S8.1** | `TWUtil.write(0x9F1A, 1, 0, "<cmd>")`, que executa um comando como root (`docs/00-discovery.md` §4.2). Se funcionar a partir de um app comum, iniciamos o auxiliar com `app_process` como root. | Baixo (não grava partições) | O launcher dispara a cada boot |
-| **S8.2** | adb local: o launcher conecta em `127.0.0.1:5555` com a própria chave RSA (autorizada uma vez) e roda o auxiliar como uid `shell` | Baixo | Depende do adb persistir (pendência da spec 001) |
-| **S8.3** | Root com **Magisk**: precisa do `boot.img` do firmware oficial TS18 e de um meio de gravação sem USB. S8.1 pode servir como esse meio (`dd` como root). Com isso, o launcher vira priv-app via módulo Magisk. | **Alto**: um boot mal gravado deixa a multimídia sem ligar. Exige firmware completo como plano de socorro e aprovação explícita. | Total |
+### Alternativas avaliadas
+| Alternativa | Veredito |
+|---|---|
+| **Car App Library** (ser o "host" do Maps/Waze) | Inviável: o host precisa ser privilegiado ou estar na lista de assinaturas do `HostValidator`, e o Maps no Android Auto nem usa essa biblioteca. |
+| **Maps SDK / Navigation SDK** dentro do Lumia | Proibido pelos termos da Google Maps Platform: "No Use in Embedded Vehicle Systems". |
+| **Janela livre (freeform)** sobre o card | Possível com reflexão (`setLaunchWindowingMode` é oculta), mas tem barra de título e o painel pode cobrir a janela ao ser tocado. Plano B. |
+| **Picture-in-picture** | Sem controle de posição/tamanho por app comum e sem interação real com o mapa. Descartado. |
+| **Receptor Android Auto** (ZLink ou Headunit Revived, AGPL) | É o Android Auto de verdade, mas depende do celular e não fica dentro do nosso painel sem o mesmo truque de display. Fica como opção separada. |
+| **Root (S8.3, Magisk)** | Única forma de ter display do uid system (sem fugas). Continua bloqueado pelas regras do projeto: só com firmware completo e aprovação explícita. |
 
-## Requisitos (para quando a pesquisa concluir)
-- **R8.1** O `EmbeddedAppPane` DEVE implementar `NavigationPane` e ser selecionável nos ajustes. SE o auxiliar não estiver disponível, ENTÃO o launcher DEVE cair automaticamente para o `OwnMapPane`.
+## Técnica revisada
+Um **auxiliar como uid shell** (`app_process`, mesmo modelo do servidor do scrcpy, Apache-2.0) faz só o que o launcher não pode fazer. O resto fica no launcher.
+
+1. **O Lumia cria o display** (`PUBLIC | OWN_CONTENT_ONLY`), do tamanho do card.
+   - *PoC:* a `Surface` vem de um `SurfaceView`/`TextureView` do card (simples, com uma passada GLES extra).
+   - *Depois:* estilo `ActivityView` (Android 10): display sem `Surface` enxertado na árvore de camadas do card com `IWindowSession.reparentDisplayContent()`. O WindowManager cria uma janela-portal e **os toques chegam nativos**, sem injeção. Exige API oculta (liberar com `settings put global hidden_api_policy 1` pelo adb, ou com uma biblioteca de bypass).
+2. **O auxiliar abre o Maps/Waze** no display com `ActivityOptions.setLaunchDisplayId`.
+3. **Toques** (só na PoC com `Surface`): o card repassa os eventos ao auxiliar, que injeta com `InputEvent.setDisplayId` + `InputManager.injectInputEvent`.
+4. **Tela cheia:** `VirtualDisplay.resize()` no mesmo display. Nunca mover a tarefa para o display 0, que reinicia a activity.
+5. **Fugas:** o auxiliar escuta as tarefas (`TaskStackListener`) e devolve ao display do card as telas do app de navegação que caírem no display 0.
+6. **Mapa próprio pausado** enquanto o app embutido estiver visível (uma só renderização pesada na GPU).
+
+### Como iniciar o auxiliar
+| Caminho | Situação |
+|---|---|
+| **adb do notebook** (`adb shell app_process …`) | Bom para a PoC. O processo sobrevive à espera da chave (ACC), porque o `TWService` só fecha pacotes; morre no boot a frio. |
+| **S8.2 — adb local** (o Lumia conecta em `127.0.0.1:5555` com a própria chave RSA, por exemplo com a biblioteca `dadb`) | Caminho de produção. Exige cadastrar a chave do Lumia em `adb_keys` uma vez (mesmo método do runbook §3.3). Risco: o adbd às vezes não volta depois do boot a frio (runbook §3.2); nesse caso o card cai no mapa próprio (R8.1). |
+
+## Requisitos
+- **R8.1** O `EmbeddedAppPane` DEVE implementar `NavigationPane` e ser selecionável nos ajustes (Maps ou Waze). SE o auxiliar não estiver disponível, ENTÃO o launcher DEVE cair automaticamente para o `OwnMapPane`.
 - **R8.2** O app embutido DEVE receber toques e gestos (arrastar e pinça) com latência ≤ 50 ms.
 - **R8.3** QUANDO o usuário abrir o mapa em tela cheia, o mesmo display DEVE ser redimensionado, sem reiniciar o app de navegação.
-- **R8.4** O áudio das instruções do Waze DEVE continuar funcionando, com a mídia abaixando o volume durante as falas.
+- **R8.4** O áudio das instruções DEVE continuar funcionando, com a mídia abaixando o volume durante as falas.
 - **R8.5** O auxiliar DEVE aceitar comandos **apenas** do uid do launcher (verificação de `Binder.getCallingUid`), nunca pela rede.
+- **R8.6** QUANDO uma tela do app de navegação cair no display principal, o auxiliar DEVE devolvê-la ao display do card em ≤ 1 s.
+- **R8.7** ENQUANTO o app embutido estiver visível, o `OwnMapPane` DEVE ficar pausado.
 
 ## Critérios de aceite
-- [ ] **A1** Spikes S8.1 e S8.2 executados, com resultados registrados abaixo.
-- [ ] **A2** Prova de conceito: o Waze aparece dentro do card e responde a toques.
+- [x] **A1** Spikes S8.1 e S8.2 avaliados, com resultados registrados acima (S8.1 reprovado; S8.2 é o caminho de produção).
+- [ ] **A2** Prova de conceito: o Maps aparece dentro do card e responde a toques (auxiliar iniciado pelo adb do notebook).
 - [ ] **A3** (R8.1) Ao matar o auxiliar, o card volta ao mapa próprio em ≤ 2 s.
-- [ ] **A4** (R8.4) Navegando com música tocando, a fala do Waze abaixa a música.
+- [ ] **A4** (R8.4) Navegando com música tocando, a fala do Maps abaixa a música.
+- [ ] **A5** (R8.3) Card → tela cheia → card sem o Maps reiniciar.
+- [ ] **A6** `dumpsys gfxinfo` do Lumia com ≤ 10% de quadros lentos durante 60 s com o Maps navegando no card.
+
+## Plano da prova de conceito (proposta)
+1. Auxiliar mínimo em `helper/` (módulo Java puro, empacotado como dex), iniciado por `tools/nav-helper.sh` via adb do notebook. Binder entregue ao Lumia por broadcast.
+2. `EmbeddedAppPane` com `SurfaceView` do tamanho fixo da área de trabalho (mesma regra do mapa atual: nunca redimensionar durante animação), display virtual e repasse de toques.
+3. Medir no carro: fluidez, latência do toque, fugas (busca, permissões), áudio, ciclo da chave.
+4. Se a PoC passar: trocar para o caminho `ActivityView` e implementar o S8.2.
 
 ## Riscos
-- O Waze/Maps pode se recusar a renderizar ou a tocar áudio em um display secundário. Isso é testado na prova de conceito.
-- Lentidão: dois apps desenhando ao mesmo tempo na GPU PowerVR GE8322.
+- **Fugas** de telas do Maps/Waze para o display principal (limitação do Android 10 sem root; mitigada pelo R8.6).
+- **GPU:** dois apps desenhando ao mesmo tempo na PowerVR GE8322 (mitigado pelo R8.7 e, depois, pelo caminho `ActivityView`).
+- **adb depois do boot a frio:** se não voltar, o card fica no mapa próprio até reativar o adb.
 - **O S8.3 só é executado com o firmware completo em mãos e com aprovação explícita do dono.**
 
+## Fontes
+- scrcpy `--new-display` (Android 10+): `server/.../video/NewDisplayCapture.java`, `Device.startApp`, PRs #5370 e #5838.
+- AOSP `android10-release`: `DisplayManagerService.createVirtualDisplay`, `ActivityStackSupervisor.isCallerAllowedToLaunchOnDisplay`, `ActivityView.java`, `VirtualDisplayAdapter.java`, `packages/Shell/AndroidManifest.xml`.
+- Projetos parecidos (unidade K706, Android 10): open-car-project PR #88, discussão #48 do Dashwheel.
+- Termos da Google Maps Platform (§ "No Use in Embedded Vehicle Systems").
+
 ## Resultados
-_(preencher após a validação)_
+**2026-11-22, na multimídia (via adb):**
+- S8.1 reprovado (comando aceito, nada executado).
+- Maps renderiza normalmente em display secundário, com GPS e conta, ao lado do Lumia.
+- Recursos de multi-display presentes no firmware.
