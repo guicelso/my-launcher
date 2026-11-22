@@ -24,3 +24,9 @@ interface NavigationPane {
  * desempenho na GPU PowerVR GE8322).
  */
 val LocalMapCanvasSize = compositionLocalOf<DpSize?> { null }
+
+/**
+ * Tamanho **final** do card do mapa no modo atual (sem animação). Permite ao app embutido
+ * (spec 008) preparar o display no tamanho de destino já no começo da transição.
+ */
+val LocalMapTargetSize = compositionLocalOf<DpSize?> { null }

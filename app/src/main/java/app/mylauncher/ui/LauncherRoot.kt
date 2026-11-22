@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -79,6 +80,8 @@ import app.mylauncher.ui.dashboard.StackEvent
 import app.mylauncher.ui.dashboard.stackNames
 import java.util.Calendar
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -147,6 +150,8 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
 
     val hour = Calendar.getInstance().apply { timeInMillis = status.now }.get(Calendar.HOUR_OF_DAY)
     val night = ThemeResolver.isNight(settings.theme, vehicle, hour)
+    // O sistema acompanha o tema do Lumia, para os apps que seguem o sistema (Maps embutido, spec 008).
+    LaunchedEffect(night) { withContext(Dispatchers.IO) { app.mylauncher.data.root.SystemNightMode.apply(night) } }
     val apps = container.apps
     val openApp: (String) -> Unit = { pkg -> openApp(container, navigator, scope, settings, pkg) }
 
@@ -230,7 +235,8 @@ fun LauncherRoot(container: AppContainer, navigator: Navigator, navPane: Navigat
                     mode = navigator.workspace,
                     active = navigator.overlay == null,
                     navPane = navPane,
-                    onExpandMap = { navigator.go(Screen.MAP) },
+                    // Alterna: no card abre a tela cheia; na tela cheia volta ao painel.
+                    onExpandMap = { if (navigator.workspace == Screen.MAP) navigator.back() else navigator.go(Screen.MAP) },
                     startInset = if (bottom || railRight) Dimens.gap else 8.dp,
                     dashboardPanel = { m ->
                         DashboardPanel(

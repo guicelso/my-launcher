@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import app.mylauncher.core.FileLog
 import app.mylauncher.nav.NavigationPane
-import app.mylauncher.nav.OwnMapPane
+import app.mylauncher.nav.NavigationPaneHost
 import app.mylauncher.ui.LauncherRoot
 import app.mylauncher.ui.Navigator
 
@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
 
     private val navigator = Navigator()
     private val container get() = (application as LauncherApp).container
-    private val navPane: NavigationPane by lazy { OwnMapPane(container) }
+    private val navPane: NavigationPane by lazy { NavigationPaneHost(container) }
 
     private val locationPermission = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
         container.location.start()

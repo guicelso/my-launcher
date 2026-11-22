@@ -54,6 +54,33 @@ enum class RailPosition(val label: String) { LEFT("Vertical (lateral)"), BOTTOM(
 /** Lado do motorista (Android Auto): à direita, a barra vertical vai para a direita e a horizontal se inverte. */
 enum class DriverSide(val label: String) { LEFT("Esquerda"), RIGHT("Direita") }
 
+/**
+ * Fonte do mapa no painel (spec 008). [LUMIA] é o nosso mapa próprio (MapLibre, spec 005);
+ * as demais embutem o app de navegação dentro do card (precisa de root). [pkg] é o pacote
+ * do app embutido, ou `null` para o mapa próprio. [startUri], se houver, é aberta no lugar da
+ * tela inicial do app.
+ */
+enum class MapSource(val label: String, val pkg: String?, val startUri: String? = null) {
+    LUMIA("Mapa do Lumia", null),
+    // Modo de condução sem destino (seta de navegação, mapa inclinado, sem painéis), como no
+    // Android Auto. URI não documentada pelo Google: testada no carro em 2026-11-22 (spec 008).
+    GOOGLE_MAPS("Google Maps (embutido)", "com.google.android.apps.maps", "google.navigation:/?free=1&mode=d&entry=fnls"),
+    WAZE("Waze (embutido)", "com.waze"),
+    HERE("HERE WeGo (embutido)", "com.here.app.maps");
+
+    val isEmbedded: Boolean get() = pkg != null
+}
+
+/**
+ * Densidade do display do app embutido (spec 008): menor = interface do app (textos, botões)
+ * menor e mais mapa visível no card. O Lumia roda a 160 dpi.
+ */
+enum class MapUiScale(val label: String, val dpi: Int) {
+    NORMAL("Normal", 160),
+    COMPACT("Compacto", 136),
+    SMALL("Mínimo", 120),
+}
+
 /** Destino salvo. [query] é um endereço livre ou "lat,lon". */
 data class Destination(val label: String, val query: String) {
     val latLon: Pair<Double, Double>?
@@ -70,6 +97,10 @@ data class LauncherSettings(
     val theme: ThemePref = ThemePref.AUTO,
     val textScale: TextScale = TextScale.NORMAL,
     val navApp: String = DEFAULT_NAV_APP,
+    val mapSource: MapSource = MapSource.LUMIA,
+    /** Abrir o app embutido no modo de condução sem destino (seta, mapa inclinado), se ele tiver. */
+    val mapFreeDrive: Boolean = true,
+    val mapUiScale: MapUiScale = MapUiScale.COMPACT,
     val musicApp: String = DEFAULT_MUSIC_APP,
     val home: Destination? = null,
     val work: Destination? = null,
@@ -124,6 +155,9 @@ class SettingsRepository(private val context: Context, private val scope: Corout
         val theme = stringPreferencesKey("theme")
         val textScale = stringPreferencesKey("text_scale")
         val navApp = stringPreferencesKey("nav_app")
+        val mapSource = stringPreferencesKey("map_source")
+        val mapFreeDrive = booleanPreferencesKey("map_free_drive")
+        val mapUiScale = stringPreferencesKey("map_ui_scale")
         val musicApp = stringPreferencesKey("music_app")
         val home = stringPreferencesKey("home")
         val work = stringPreferencesKey("work")
@@ -162,6 +196,9 @@ class SettingsRepository(private val context: Context, private val scope: Corout
     fun setTheme(v: ThemePref) = put { it[K.theme] = v.name }
     fun setTextScale(v: TextScale) = put { it[K.textScale] = v.name }
     fun setNavApp(pkg: String) = put { it[K.navApp] = pkg }
+    fun setMapSource(v: MapSource) = put { it[K.mapSource] = v.name }
+    fun setMapFreeDrive(v: Boolean) = put { it[K.mapFreeDrive] = v }
+    fun setMapUiScale(v: MapUiScale) = put { it[K.mapUiScale] = v.name }
     fun setMusicApp(pkg: String) = put { it[K.musicApp] = pkg }
     fun setHome(d: Destination?) = put { if (d == null) it.remove(K.home) else it[K.home] = encode(d) }
     fun setWork(d: Destination?) = put { if (d == null) it.remove(K.work) else it[K.work] = encode(d) }
@@ -249,6 +286,9 @@ class SettingsRepository(private val context: Context, private val scope: Corout
             theme = this[K.theme]?.let { runCatching { ThemePref.valueOf(it) }.getOrNull() } ?: d.theme,
             textScale = this[K.textScale]?.let { runCatching { TextScale.valueOf(it) }.getOrNull() } ?: d.textScale,
             navApp = this[K.navApp] ?: d.navApp,
+            mapSource = enumOr(this[K.mapSource], d.mapSource),
+            mapFreeDrive = this[K.mapFreeDrive] ?: d.mapFreeDrive,
+            mapUiScale = enumOr(this[K.mapUiScale], d.mapUiScale),
             musicApp = this[K.musicApp] ?: d.musicApp,
             home = this[K.home]?.let(::decode),
             work = this[K.work]?.let(::decode),

@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import app.mylauncher.nav.LocalMapCanvasSize
+import app.mylauncher.nav.LocalMapTargetSize
 import app.mylauncher.nav.NavigationPane
 import app.mylauncher.nav.PaneMode
 import app.mylauncher.ui.Screen
@@ -81,8 +82,15 @@ fun Workspace(
         val endRadius by animateDpAsState(if (mapFull) 0.dp else Dimens.cardRadius, panelSpring(), label = "radius")
 
         val mapCanvas = DpSize(maxWidth, maxHeight)
+        // Tamanho final do card do mapa neste modo (o mesmo cálculo do layout abaixo, sem animação).
+        val gapTarget = if (mapFull || mediaFull) 0.dp else Dimens.gap
+        val mapTarget = DpSize(maxWidth - start - outerTarget - gapTarget - target, maxHeight - outerTarget * 2)
         SharedTransitionLayout {
-            CompositionLocalProvider(LocalSharedScope provides this, LocalMapCanvasSize provides mapCanvas) {
+            CompositionLocalProvider(
+                LocalSharedScope provides this,
+                LocalMapCanvasSize provides mapCanvas,
+                LocalMapTargetSize provides mapTarget,
+            ) {
                 Row(Modifier.fillMaxSize().padding(start = start, top = outer, end = outer, bottom = outer)) {
                     Box(
                         Modifier

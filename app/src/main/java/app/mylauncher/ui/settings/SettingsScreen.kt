@@ -11,6 +11,8 @@ import app.mylauncher.data.prefs.DrawerAnimation
 import app.mylauncher.data.prefs.IconShape
 import app.mylauncher.data.prefs.RailPosition
 import app.mylauncher.data.prefs.DriverSide
+import app.mylauncher.data.prefs.MapSource
+import app.mylauncher.data.prefs.MapUiScale
 import app.mylauncher.data.prefs.WidgetStacks
 import app.mylauncher.ui.dashboard.stackNames
 import androidx.compose.foundation.border
@@ -266,6 +268,30 @@ private fun RailSection(container: AppContainer, s: LauncherSettings, onOpenDraw
 @Composable
 private fun Navigation(container: AppContainer, s: LauncherSettings) {
     val apps = container.apps
+    SettingsGroup(
+        "Mapa do painel",
+        "O mapa do Lumia é leve e sempre funciona. Embutir o Google Maps, o Waze ou o HERE mostra o app de verdade dentro do card (como o Android Auto) — precisa de root (TopWay). Sem root, volta ao mapa do Lumia.",
+    ) {
+        RadioRow(MapSource.LUMIA.label, s.mapSource == MapSource.LUMIA) { container.settings.setMapSource(MapSource.LUMIA) }
+        MapSource.entries.filter { it.isEmbedded && it.pkg != null && apps.isInstalled(it.pkg!!) }.forEach { src ->
+            RadioRow(src.label, s.mapSource == src, leading = { AppIcon(apps, src.pkg!!, 44.dp) }) {
+                container.settings.setMapSource(src)
+            }
+        }
+        if (s.mapSource.startUri != null) {
+            ToggleRow(
+                "Abrir em modo de condução",
+                s.mapFreeDrive,
+                "Mostra a seta de navegação e o mapa inclinado, sem destino, como no Android Auto. Desligado, abre a tela inicial do app.",
+            ) { container.settings.setMapFreeDrive(it) }
+        }
+        if (s.mapSource.isEmbedded) {
+            SettingRow("Tamanho da interface do mapa", "Textos e botões do app dentro do card. Menor mostra mais mapa.")
+            MapUiScale.entries.forEach { sc ->
+                RadioRow(sc.label, s.mapUiScale == sc) { container.settings.setMapUiScale(sc) }
+            }
+        }
+    }
     val options = (NavIntents.KNOWN + s.navApp).distinct().filter(apps::isInstalled)
     SettingsGroup("App de navegação padrão", "Usado pela busca do mapa, pelos destinos e pelo botão \"Abrir no…\".") {
         if (options.isEmpty()) SettingRow("Nenhum app de navegação instalado", "Instale o Waze, o Google Maps ou o HERE")
@@ -388,6 +414,16 @@ private fun Vehicle(container: AppContainer, s: LauncherSettings) {
             }
             PillButton("Spike S8.1 · root", primary = false) {
                 scope.launch { probe = withContext(Dispatchers.IO) { TwUtilProbe.probeRootShell(container.context) } }
+            }
+            // Testa o caminho de produção (spec 008): o app liga o cmd_services e roda um comando root.
+            PillButton("Testar root (app)", primary = false) {
+                scope.launch {
+                    probe = withContext(Dispatchers.IO) {
+                        val root = app.mylauncher.data.root.RootShell
+                        if (root.isAvailable(forceRecheck = true)) "Root disponível: ${root.exec("id") ?: "sem saída"}"
+                        else "Root indisponível"
+                    }
+                }
             }
         }
         probe?.let { SettingRow("Resultado", it) }
