@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Editar pilha</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="position: relative; width: 1280px; height: 720px; overflow: hidden; font-family: Roboto, system-ui, sans-serif; color: {{c.text}}">
+  <dc-import name="StackHome" theme="{{theme}}" hint-size="1280px,720px"></dc-import>
+  <a href="StackHome.dc.html" aria-label="Fechar" style="position: absolute; inset: 0; background: rgba(0,0,0,0.6)"></a>
+
+  <section role="dialog" aria-label="{{title}}" style="position: absolute; top: 12px; right: 12px; bottom: 12px; left: 108px; box-sizing: border-box; padding: 16px 24px 22px 28px; border-radius: 24px; background: {{c.sheet}}; box-shadow: 0 8px 24px rgba(0,0,0,0.6); display: flex; flex-direction: column; gap: 18px">
+    <header style="display: flex; align-items: center; gap: 12px">
+      <sc-if value="{{adding}}" hint-placeholder-val="{{false}}">
+        <button type="button" aria-label="Voltar" onClick="{{back}}" style="width: 76px; height: 76px; flex: none; border: 0; border-radius: 38px; background: transparent; color: {{c.text}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg></button>
+      </sc-if>
+      <div style="flex: 1; min-width: 0">
+        <div style="font-size: 28px; font-weight: 400">{{title}}</div>
+        <div style="font-size: 19px; color: {{c.muted}}; margin-top: 2px">{{subtitle}}</div>
+      </div>
+      <a href="StackHome.dc.html" style="height: 64px; flex: none; padding: 0 30px; border-radius: 32px; background: {{c.primary}}; color: {{c.onPrimary}}; text-decoration: none; font-size: 22px; font-weight: 500; display: flex; align-items: center">Concluído</a>
+    </header>
+
+    <sc-if value="{{editing}}" hint-placeholder-val="{{true}}">
+      <div role="list" aria-label="Widgets da pilha, na ordem" style="flex: none; display: flex; gap: 16px; overflow-x: auto; padding-bottom: 4px">
+        <sc-for list="{{tiles}}" as="t" hint-placeholder-count="3">
+          <div role="listitem" style="width: 232px; flex: none; display: flex; flex-direction: column; gap: 10px">
+            <div style="position: relative; width: 232px; height: 254px; border-radius: 24px; box-shadow: {{t.ring}}">
+              <div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none">
+                <dc-import name="StackCard" theme="{{theme}}" widgets="{{t.id}}" hint-size="232px,254px"></dc-import>
+              </div>
+              <button type="button" aria-label="Remover {{t.name}} da pilha" onClick="{{t.remove}}" style="position: absolute; top: -10px; left: -10px; width: 56px; height: 56px; border: 0; padding: 0; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer">
+                <span style="width: 40px; height: 40px; border-radius: 20px; background: {{c.danger}}; color: {{c.onDanger}}; box-shadow: 0 2px 6px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"></path></svg></span>
+              </button>
+              <sc-if value="{{t.first}}" hint-placeholder-val="{{false}}">
+                <span style="position: absolute; top: 12px; right: 12px; height: 30px; padding: 0 12px; border-radius: 15px; background: {{c.chip}}; color: {{c.onChip}}; font-size: 16px; font-weight: 500; display: flex; align-items: center">Principal</span>
+              </sc-if>
+            </div>
+            <div style="display: flex; align-items: center; gap: 4px">
+              <button type="button" aria-label="Mover {{t.name}} para a esquerda" onClick="{{t.left}}" disabled="{{t.isFirst}}" style="width: 64px; height: 64px; flex: none; border: 0; border-radius: 32px; background: {{c.pill}}; color: {{c.text}}; opacity: {{t.leftOp}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+              <span style="flex: 1; min-width: 0; text-align: center; font-size: 20px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{t.name}}</span>
+              <button type="button" aria-label="Mover {{t.name}} para a direita" onClick="{{t.right}}" disabled="{{t.isLast}}" style="width: 64px; height: 64px; flex: none; border: 0; border-radius: 32px; background: {{c.pill}}; color: {{c.text}}; opacity: {{t.rightOp}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+            </div>
+          </div>
+        </sc-for>
+        <sc-if value="{{canAdd}}" hint-placeholder-val="{{true}}">
+          <button type="button" onClick="{{openAdd}}" style="width: 232px; height: 254px; flex: none; box-sizing: border-box; border: 3px dashed {{c.dash}}; border-radius: 24px; background: transparent; color: {{c.accent}}; font: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; cursor: pointer">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+            <span style="font-size: 21px; font-weight: 500">Adicionar widget</span>
+          </button>
+        </sc-if>
+      </div>
+
+      <div style="flex: 1; min-height: 0"></div>
+
+      <div style="display: flex; align-items: center; gap: 20px; padding-top: 14px; border-top: 1px solid {{c.line}}">
+        <button type="button" role="switch" aria-checked="{{smartChecked}}" onClick="{{toggleSmart}}" style="flex: 1; min-width: 0; min-height: 84px; border: 0; border-radius: 20px; background: transparent; color: {{c.text}}; font: inherit; display: flex; align-items: center; gap: 20px; padding: 0 8px; cursor: pointer; text-align: left">
+          <span style="flex: 1; min-width: 0">
+            <span style="display: block; font-size: 22px; font-weight: 500">Sugestões inteligentes</span>
+            <span style="display: block; font-size: 18px; color: {{c.muted}}; margin-top: 4px">A pilha mostra sozinha o widget certo: mídia quando a música começa, veículo com bateria fraca, clima ao ligar o carro. Nunca gira por tempo.</span>
+          </span>
+          <span aria-hidden="true" style="position: relative; width: 64px; height: 36px; flex: none; box-sizing: border-box; border-radius: 18px; background: {{switchTrack}}; border: 2px solid {{switchBorder}}">
+            <span style="position: absolute; top: 50%; left: {{switchKnobX}}px; width: {{switchKnob}}px; height: {{switchKnob}}px; margin-top: {{switchKnobOff}}px; border-radius: 14px; background: {{switchKnobBg}}; transition: left 160ms ease-out"></span>
+          </span>
+        </button>
+        <button type="button" style="height: 64px; flex: none; padding: 0 22px; border: 0; border-radius: 32px; background: transparent; color: {{c.danger}}; font: inherit; font-size: 20px; font-weight: 500; cursor: pointer">Desfazer pilha</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{adding}}" hint-placeholder-val="{{false}}">
+      <div role="list" aria-label="Widgets disponíveis" style="flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 176px; gap: 12px">
+        <sc-for list="{{catalog}}" as="w" hint-placeholder-count="7">
+          <button type="button" role="listitem" onClick="{{w.add}}" disabled="{{w.disabled}}" style="border: 0; border-radius: 20px; background: {{c.tile}}; color: {{c.text}}; opacity: {{w.op}}; font: inherit; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; text-align: left; cursor: pointer">
+            <span style="display: flex; align-items: center; gap: 12px; color: {{w.tint}}">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{w.icon}}"></path></svg>
+              <span style="font-size: 26px; color: {{c.text}}">{{w.sample}}</span>
+            </span>
+            <span><span style="display: block; font-size: 20px; font-weight: 500">{{w.name}}</span><span style="display: block; font-size: 16px; color: {{w.statusColor}}; margin-top: 2px">{{w.status}}</span></span>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["noite","dia"],"default":"noite"},"tela":{"editor":"enum","options":["editar","adicionar"],"default":"editar"},"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: ['midia', 'clima', 'veiculo'],
+      other: ['destinos', 'hora', 'relogio', 'notificacoes'],
+      smart: true,
+      tela: props.tela === 'adicionar' ? 'adicionar' : 'editar'
+    };
+  }
+  renderVals() {
+    const P = {
+      noite: { sheet: '#292A2A', tile: '#1F2020', pill: '#3C3E3D', text: '#E3E3E3', muted: '#A8ABAE', line: '#3C3E3D', dash: '#5F6368', accent: '#A8C7FA', primary: '#A8C7FA', onPrimary: '#062E6F', danger: '#F2B8B5', onDanger: '#601410', chip: '#004A77', onChip: '#C2E7FF' },
+      dia: { sheet: '#FFFFFF', tile: '#F1F3F4', pill: '#E8EAED', text: '#1F1F1F', muted: '#5F6368', line: '#E0E2E6', dash: '#9AA0A6', accent: '#0B57D0', primary: '#0B57D0', onPrimary: '#FFFFFF', danger: '#B3261E', onDanger: '#FFFFFF', chip: '#D3E3FD', onChip: '#041E49' }
+    };
+    const theme = this.props.theme === 'dia' ? 'dia' : 'noite';
+    const c = P[theme];
+    const MAX = 7;
+    const I = {
+      midia: 'M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM21 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z',
+      clima: 'M7 18h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.4 1.6A3.3 3.3 0 0 0 7 18z',
+      hora: 'M4 20V10M10 20V4M16 20v-7M22 20H2',
+      veiculo: 'M5 17h14v-5l-2-5H7l-2 5zM5 12h14M7.5 14.5h.01M16.5 14.5h.01',
+      destinos: 'M12 21.5s-7-6.2-7-11.5a7 7 0 0 1 14 0c0 5.3-7 11.5-7 11.5zM12 12.6a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2z',
+      relogio: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2',
+      notificacoes: 'M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0'
+    };
+    const meta = {
+      midia: ['Mídia', '#1ED760', '♪'], clima: ['Clima agora', '#FDD663', '24°'], hora: ['Clima por hora', '#FDD663', '24° → 19°'],
+      veiculo: ['Veículo', '#81C995', '12,6 V'], destinos: ['Destinos', '#8AB4F8', '12 min'], relogio: ['Relógio', c.text, '12:45'], notificacoes: ['Notificações', '#83EA8F', '4']
+    };
+    const s = this.state;
+    const list = s.list;
+    const move = (i, d) => {
+      const j = i + d;
+      if (j < 0 || j >= list.length) return;
+      const next = list.slice();
+      const tmp = next[i]; next[i] = next[j]; next[j] = tmp;
+      this.setState({ list: next });
+    };
+    const tiles = list.map((id, i) => ({
+      id,
+      name: meta[id][0],
+      first: i === 0,
+      isFirst: i === 0,
+      isLast: i === list.length - 1,
+      leftOp: i === 0 ? 0.35 : 1,
+      rightOp: i === list.length - 1 ? 0.35 : 1,
+      ring: i === 0 ? '0 0 0 3px ' + c.accent : 'none',
+      left: () => move(i, -1),
+      right: () => move(i, 1),
+      remove: () => { if (list.length > 1) this.setState({ list: list.filter((x) => x !== id) }); }
+    }));
+    const catalog = Object.keys(meta).map((id) => {
+      const here = list.includes(id);
+      const there = s.other.includes(id);
+      return {
+        name: meta[id][0], tint: meta[id][1], sample: meta[id][2], icon: I[id],
+        status: here ? 'Já está nesta pilha' : there ? 'Na pilha de baixo · tocar move para cá' : 'Disponível',
+        statusColor: there ? '#FDD663' : c.muted,
+        disabled: here,
+        op: here ? 0.45 : 1,
+        add: () => {
+          if (here || list.length >= MAX) return;
+          this.setState({ list: list.concat([id]), other: s.other.filter((x) => x !== id), tela: 'editar' });
+        }
+      };
+    });
+    const adding = s.tela === 'adicionar';
+    const on = s.smart;
+    return {
+      c, theme, tiles, catalog,
+      editing: !adding,
+      adding,
+      canAdd: list.length < MAX,
+      title: adding ? 'Adicionar à pilha de cima' : 'Editar pilha',
+      subtitle: adding ? 'Cada widget fica em uma pilha só. Os da outra pilha mudam de lugar.' : 'Pilha de cima · ' + list.length + ' de ' + MAX + ' widgets · o principal aparece ao ligar o carro',
+      openAdd: () => this.setState({ tela: 'adicionar' }),
+      back: () => this.setState({ tela: 'editar' }),
+      smartChecked: on ? 'true' : 'false',
+      toggleSmart: () => this.setState({ smart: !on }),
+      switchTrack: on ? c.primary : 'transparent',
+      switchBorder: on ? c.primary : c.muted,
+      switchKnob: on ? 24 : 16,
+      switchKnobOff: on ? -12 : -8,
+      switchKnobX: on ? 32 : 8,
+      switchKnobBg: on ? c.onPrimary : c.muted
+    };
+  }
+}
+</script>
+</body>
+</html>

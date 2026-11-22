@@ -22,5 +22,6 @@ equivalentes às imagens de cada página e notas que separam o que vem do doc
 | Apps de música | `MediaBrowse` (props `formato`, `tela`), `MediaBrowseGrid`, `Media`, `MediaActions`, `MediaQueue` |
 | Apps de mensagens | `MessageHun`, `MessageCenter`, `VoiceReply` |
 | Personalizações do launcher | `Settings`, `HomeWidgets`, `WidgetPicker`, `SaveDestination` |
+| Pilhas de widgets | `StackHome` (props `theme`, `menu`), `StackMenu`, `StackEdit` (prop `tela`), `StackAdd`, `StackStates`, `StackCard` (componente: `widgets`, `start`, `peek`, `hint`, `focus`) |
 
-Os arquivos são a referência visual das specs 002–014. Ao mudar o design, atualize aqui e no canvas.
+Os arquivos são a referência visual das specs 002–017. Ao mudar o design, atualize aqui e no canvas.

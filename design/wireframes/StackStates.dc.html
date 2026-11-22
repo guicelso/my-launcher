@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Estados da pilha</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1280px; height: 720px; box-sizing: border-box; padding: 56px 48px 40px; background: #151616; color: #E3E3E3; font-family: Roboto, system-ui, sans-serif; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; align-content: start">
+  <figure style="margin: 0; display: flex; flex-direction: column; gap: 18px">
+    <div style="height: 380px"><dc-import name="StackCard" theme="noite" widgets="midia,clima,veiculo" start="0" hint-size="100%,380px"></dc-import></div>
+    <figcaption>
+      <div style="font-size: 22px; font-weight: 500">1 · Repouso</div>
+      <div style="font-size: 18px; color: #A8ABAE; margin-top: 6px; line-height: 1.4">Os pontos mostram quantos widgets a pilha tem e qual está na tela. Pilha com um widget só não mostra pontos.</div>
+    </figcaption>
+  </figure>
+
+  <figure style="margin: 0; display: flex; flex-direction: column; gap: 18px">
+    <div style="height: 380px"><dc-import name="StackCard" theme="noite" widgets="midia,clima,veiculo" start="0" peek="-38" hint-size="100%,380px"></dc-import></div>
+    <figcaption>
+      <div style="font-size: 22px; font-weight: 500">2 · Arrastando</div>
+      <div style="font-size: 18px; color: #A8ABAE; margin-top: 6px; line-height: 1.4">O widget segue o dedo e o próximo entra pela borda. Solta depois de 20% da largura ou com um gesto rápido; senão volta.</div>
+    </figcaption>
+  </figure>
+
+  <figure style="margin: 0; display: flex; flex-direction: column; gap: 18px">
+    <div style="height: 380px"><dc-import name="StackCard" theme="noite" widgets="destinos,hora,relogio,veiculo" start="3" hint="Bateria fraca" hint-size="100%,380px"></dc-import></div>
+    <figcaption>
+      <div style="font-size: 22px; font-weight: 500">3 · Sugestão inteligente</div>
+      <div style="font-size: 18px; color: #A8ABAE; margin-top: 6px; line-height: 1.4">Um evento do carro traz o widget certo para a frente, com um selo por 5 s. Deslizar devolve o controle ao motorista.</div>
+    </figcaption>
+  </figure>
+
+  <figure style="margin: 0; display: flex; flex-direction: column; gap: 18px">
+    <div style="height: 380px"><dc-import name="StackCard" theme="noite" widgets="destinos,hora,relogio" start="1" focus="{{true}}" hint-size="100%,380px"></dc-import></div>
+    <figcaption>
+      <div style="font-size: 22px; font-weight: 500">4 · Teclas do volante</div>
+      <div style="font-size: 18px; color: #A8ABAE; margin-top: 6px; line-height: 1.4">Com o foco na pilha, esquerda e direita trocam o widget; OK abre o app do widget. O anel de foco segue o padrão do painel.</div>
+    </figcaption>
+  </figure>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

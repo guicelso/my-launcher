@@ -9,7 +9,8 @@
 {"id":"entrada","name":"Métodos de entrada"},
 {"id":"musica","name":"Apps de música"},
 {"id":"mensagens","name":"Apps de mensagens"},
-{"id":"launcher","name":"Personalizações do launcher"}
+{"id":"launcher","name":"Personalizações do launcher"},
+{"id":"pilhas","name":"Pilhas de widgets"}
 ],
 "boards":{
 "Main.dc.html":{"x":0,"y":0,"w":1280,"h":720,"title":"Painel · barra vertical (padrão)","page":"visao","is_interactive":true},
@@ -53,9 +54,16 @@
 "Settings.dc.html":{"x":0,"y":0,"w":1280,"h":720,"title":"Ajustes do launcher","page":"launcher","is_interactive":true},
 "HomeWidgets.dc.html":{"x":1360,"y":0,"w":1280,"h":720,"title":"Painel · 3 cards (widgets)","page":"launcher","is_interactive":true},
 "WidgetPicker.dc.html":{"x":2720,"y":0,"w":1280,"h":720,"title":"Trocar widget","page":"launcher","is_interactive":true},
-"SaveDestination.dc.html":{"x":0,"y":840,"w":1280,"h":720,"title":"Salvar destino sem digitar","page":"launcher","is_interactive":true}
+"SaveDestination.dc.html":{"x":0,"y":840,"w":1280,"h":720,"title":"Salvar destino sem digitar","page":"launcher","is_interactive":true},
+
+"StackHome.dc.html":{"x":0,"y":0,"w":1280,"h":720,"title":"Painel com 2 pilhas · deslize no card (toque longo abre o menu)","page":"pilhas","is_interactive":true},
+"StackMenu.dc.html":{"x":1360,"y":0,"w":1280,"h":720,"title":"Toque longo numa pilha","page":"pilhas","is_interactive":true},
+"StackEdit.dc.html":{"x":2720,"y":0,"w":1280,"h":720,"title":"Editar pilha","page":"pilhas","is_interactive":true},
+"StackAdd.dc.html":{"x":0,"y":840,"w":1280,"h":720,"title":"Adicionar widget à pilha","page":"pilhas","is_interactive":true},
+"StackStates.dc.html":{"x":1360,"y":840,"w":1280,"h":720,"title":"Estados da pilha","page":"pilhas","is_interactive":true},
+"StackCard.dc.html":{"x":2720,"y":840,"w":408,"h":448,"title":"Pilha (componente)","page":"pilhas","is_interactive":true}
 },
-"order":["Main.dc.html","HomeHorizontal.dc.html","HomeDay.dc.html","Rail.dc.html","Taskbar.dc.html","TaskbarRHD.dc.html","RailMenu.dc.html","HomeMessage.dc.html","HomeMusic.dc.html","MapFull.dc.html","MediaSplit.dc.html","MapCard.dc.html","AppDrawer.dc.html","AppDrawerEdit.dc.html","Hun.dc.html","HunCall.dc.html","HunNav.dc.html","HunReminder.dc.html","NotificationCenter.dc.html","StatusBar.dc.html","InputMethods.dc.html","MediaBrowse.dc.html","MediaBrowseGrid.dc.html","Media.dc.html","MediaActions.dc.html","MediaQueue.dc.html","MessageHun.dc.html","MessageCenter.dc.html","VoiceReply.dc.html","Settings.dc.html","HomeWidgets.dc.html","WidgetPicker.dc.html","SaveDestination.dc.html"],
+"order":["Main.dc.html","HomeHorizontal.dc.html","HomeDay.dc.html","Rail.dc.html","Taskbar.dc.html","TaskbarRHD.dc.html","RailMenu.dc.html","HomeMessage.dc.html","HomeMusic.dc.html","MapFull.dc.html","MediaSplit.dc.html","MapCard.dc.html","AppDrawer.dc.html","AppDrawerEdit.dc.html","Hun.dc.html","HunCall.dc.html","HunNav.dc.html","HunReminder.dc.html","NotificationCenter.dc.html","StatusBar.dc.html","InputMethods.dc.html","MediaBrowse.dc.html","MediaBrowseGrid.dc.html","Media.dc.html","MediaActions.dc.html","MediaQueue.dc.html","MessageHun.dc.html","MessageCenter.dc.html","VoiceReply.dc.html","Settings.dc.html","HomeWidgets.dc.html","WidgetPicker.dc.html","SaveDestination.dc.html","StackHome.dc.html","StackMenu.dc.html","StackEdit.dc.html","StackAdd.dc.html","StackStates.dc.html","StackCard.dc.html"],
 "notes":{
 "t_visao":{"x":0,"y":-300,"text":"Visão geral da interface do sistema","kind":"title1","maxW":4000,"page":"visao"},
 "s_visao1":{"x":0,"y":800,"w":600,"page":"visao","fill":"blue","text":"Anatomia (doc oficial)\n1 Acesso rápido aos apps (grade) · 2 Assistente digital → aqui é o Comando de voz · 3 Área de conteúdo · 4 Dock de apps (fixados + recentes) · 5 Barra de navegação · 6 Selo da Central de notificações · 7 Elementos de status.\nA barra fica sempre visível; em tela larga ela vai para a lateral, do lado do motorista."},
@@ -93,6 +101,10 @@
 
 "t_launcher":{"x":0,"y":-300,"text":"Personalizações do launcher","kind":"title1","maxW":4000,"page":"launcher"},
 "s_launcher1":{"x":1360,"y":840,"w":600,"page":"launcher","fill":"green","text":"Opções novas inspiradas no doc\n• Lado do motorista (inverte a barra).\n• Clima na barra.\n• Mostrar \"Sair\" e apps sugeridos na grade.\n• Estilo do card de mídia (capa em tela cheia ou compacto).\n• Seção Notificações."},
-"s_launcher2":{"x":2040,"y":840,"w":600,"page":"launcher","fill":"green","text":"Mantidas\nTema, texto, formato e pacote de ícones, animação da gaveta, barra vertical/horizontal, apps fixados, layout e widgets do painel, ordem e apps ocultos, destinos, tela dividida, ré, bateria, diagnóstico e voltar ao launcher original."}
+"s_launcher2":{"x":2040,"y":840,"w":600,"page":"launcher","fill":"green","text":"Mantidas\nTema, texto, formato e pacote de ícones, animação da gaveta, barra vertical/horizontal, apps fixados, layout e widgets do painel, ordem e apps ocultos, destinos, tela dividida, ré, bateria, diagnóstico e voltar ao launcher original."},
+
+"t_pilhas":{"x":0,"y":-300,"text":"Pilhas de widgets","kind":"title1","maxW":4000,"page":"pilhas"},
+"s_pilhas1":{"x":3208,"y":840,"w":560,"page":"pilhas","fill":"blue","text":"Referência: One UI (Samsung)\n• Toque longo num widget → Criar pilha; vários widgets dividem o mesmo espaço.\n• Deslizar para os lados troca o widget.\n• Toque longo na pilha → Editar pilha: lista na horizontal, sinal de menos para remover, card + para adicionar, chave \"Girar widgets automaticamente\".\n• Até 7 widgets; todos assumem o tamanho da pilha.\n• Remover tudo desfaz a pilha.\n• A rotação por tempo saiu na One UI 6.1.1; ficou a ideia de mostrar primeiro a informação mais relevante.\n• Queixa conhecida: o deslizar da pilha briga com o deslizar entre telas iniciais."},
+"s_pilhas2":{"x":3848,"y":840,"w":560,"page":"pilhas","fill":"green","text":"Nosso launcher\n• Cada espaço da coluna direita é uma pilha (1 a 7 widgets). Espaço com 1 widget = card de hoje, sem pontos.\n• O painel não tem páginas, então o deslizar não briga com nada. A rolagem circula (do último volta ao primeiro).\n• Pontos de 6 dp na base; o ativo vira um traço de 18 dp.\n• Teclas do volante: esquerda/direita trocam com o foco na pilha.\n• Sugestões inteligentes por evento (música começou, bateria fraca, ligar o carro), nunca por tempo. Deslizar desliga a sugestão até o próximo evento.\n• Editar só com o carro parado; deslizar vale sempre.\n• Um widget fica em uma pilha só (regra R13.2)."}
 },
 "designSystems":[]}
