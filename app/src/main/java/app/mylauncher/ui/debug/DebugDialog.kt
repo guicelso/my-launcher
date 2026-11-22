@@ -72,11 +72,18 @@ fun DebugDialog(
                     }
                     DebugButton("Velocidade +20") { fake.setSpeed(((vehicle.speedKmh ?: 0) + 20) % 140) }
                 }
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    val low = (vehicle.batteryV ?: 12.3f) < 11.8f
+                    DebugButton(if (low) "Bateria normal (12,3 V)" else "Bateria fraca (11,4 V)") { fake.setBattery(if (low) 12.3f else 11.4f) }
+                }
             }
             var playerOn by remember { mutableStateOf(player.isRunning) }
             Row(Modifier.fillMaxWidth().height(76.dp), verticalAlignment = Alignment.CenterVertically) {
                 Text("Simular player de música", style = MaterialTheme.typography.titleMedium, color = c.onSurface, modifier = Modifier.weight(1f))
                 Switch(playerOn, { on -> if (on) player.start() else player.stop(); playerOn = on })
+            }
+            if (playerOn) {
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) { DebugButton("Tocar/pausar") { player.togglePlay() } }
             }
             var weatherKind by remember { mutableStateOf(weather.simulatedKind) }
             var weatherDay by remember { mutableStateOf(weather.simulatedDay) }

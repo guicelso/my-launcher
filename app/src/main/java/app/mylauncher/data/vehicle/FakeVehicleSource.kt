@@ -21,6 +21,7 @@ class FakeVehicleSource : VehicleSource {
     fun setHeadlights(on: Boolean) = _state.update { it.copy(headlightsOn = on).withInfo() }
     fun setReverse(on: Boolean) = _state.update { it.copy(reverse = on).withInfo() }
     fun setSpeed(kmh: Int) = _state.update { it.copy(speedKmh = kmh).withInfo() }
+    fun setBattery(volts: Float) = _state.update { it.copy(batteryV = volts).withInfo() }
 
     private fun VehicleState.withInfo(): VehicleState {
         val now = System.currentTimeMillis()

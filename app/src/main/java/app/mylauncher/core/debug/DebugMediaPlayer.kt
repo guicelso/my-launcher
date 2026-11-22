@@ -59,6 +59,12 @@ class DebugMediaPlayer(private val context: Context) {
         FileLog.i("Player simulado iniciado")
     }
 
+    /** Tocar/pausar pelo painel de depuração (testa as sugestões das pilhas, spec 017). */
+    fun togglePlay() {
+        if (session == null) return
+        if (playing) callback.onPause() else callback.onPlay()
+    }
+
     fun stop() {
         session?.run {
             isActive = false
