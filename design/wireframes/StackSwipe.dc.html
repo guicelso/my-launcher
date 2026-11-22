@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Transição ao arrastar</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1280px; height: 720px; box-sizing: border-box; padding: 40px 48px; background: #151616; color: #E3E3E3; font-family: Roboto, system-ui, sans-serif; display: flex; gap: 48px">
+  <section aria-label="Animação ao vivo" style="width: 408px; flex: none; display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 500"><span style="width: 10px; height: 10px; border-radius: 5px; background: #F28B82"></span>Ao vivo · repete sozinho</div>
+    <div style="position: relative; height: 448px; flex: none">
+      <dc-import name="StackCard" theme="noite" widgets="midia,clima,veiculo" start="0" demo="{{true}}" hint-size="408px,448px"></dc-import>
+    </div>
+    <div style="font-size: 17px; color: #A8ABAE; line-height: 1.45">Sequência: arrasta e troca duas vezes, arrasto curto que volta, arrasta para o outro lado. Durante o arrasto o card segue o dedo 1:1; ao soltar, assenta em 300 ms com a curva padrão do Material 3.</div>
+  </section>
+
+  <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+    <section aria-label="Trocar de widget" style="display: flex; flex-direction: column; gap: 10px">
+      <div style="font-size: 22px; font-weight: 500">Trocar: passou de 20% da largura</div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+        <figure style="margin: 0; display: flex; flex-direction: column; gap: 10px">
+          <div style="position: relative; height: 210px"><dc-import name="StackCard" theme="noite" widgets="clima,hora,destinos" start="0" peek="-22" touch="{{true}}" hint-size="100%,210px"></dc-import></div>
+          <figcaption style="font-size: 17px; color: #A8ABAE; line-height: 1.4"><b style="color: #E3E3E3; font-weight: 500">1 ·</b> O dedo arrasta e o próximo widget aparece pela borda.</figcaption>
+        </figure>
+        <figure style="margin: 0; display: flex; flex-direction: column; gap: 10px">
+          <div style="position: relative; height: 210px"><dc-import name="StackCard" theme="noite" widgets="clima,hora,destinos" start="0" peek="-62" touch="{{true}}" hint-size="100%,210px"></dc-import></div>
+          <figcaption style="font-size: 17px; color: #A8ABAE; line-height: 1.4"><b style="color: #E3E3E3; font-weight: 500">2 ·</b> Passou de 20%: ao soltar, a troca se completa.</figcaption>
+        </figure>
+        <figure style="margin: 0; display: flex; flex-direction: column; gap: 10px">
+          <div style="position: relative; height: 210px"><dc-import name="StackCard" theme="noite" widgets="clima,hora,destinos" start="1" hint-size="100%,210px"></dc-import></div>
+          <figcaption style="font-size: 17px; color: #A8ABAE; line-height: 1.4"><b style="color: #E3E3E3; font-weight: 500">3 ·</b> Assentado em 300 ms; o traço dos pontos anda junto.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section aria-label="Voltar e circular" style="display: flex; flex-direction: column; gap: 10px">
+      <div style="font-size: 22px; font-weight: 500">Voltar e circular</div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+        <figure style="margin: 0; display: flex; flex-direction: column; gap: 10px">
+          <div style="position: relative; height: 210px"><dc-import name="StackCard" theme="noite" widgets="clima,hora,destinos" start="0" peek="-12" touch="{{true}}" hint-size="100%,210px"></dc-import></div>
+          <figcaption style="font-size: 17px; color: #A8ABAE; line-height: 1.4"><b style="color: #E3E3E3; font-weight: 500">4 ·</b> Arrasto curto (menos de 20%, sem gesto rápido)…</figcaption>
+        </figure>
+        <figure style="margin: 0; display: flex; flex-direction: column; gap: 10px">
+          <div style="position: relative; height: 210px"><dc-import name="StackCard" theme="noite" widgets="clima,hora,destinos" start="0" hint-size="100%,210px"></dc-import></div>
+          <figcaption style="font-size: 17px; color: #A8ABAE; line-height: 1.4"><b style="color: #E3E3E3; font-weight: 500">5 ·</b> …volta para o mesmo widget, sem trocar.</figcaption>
+        </figure>
+        <figure style="margin: 0; display: flex; flex-direction: column; gap: 10px">
+          <div style="position: relative; height: 210px"><dc-import name="StackCard" theme="noite" widgets="clima,hora,destinos" start="2" peek="-45" touch="{{true}}" hint-size="100%,210px"></dc-import></div>
+          <figcaption style="font-size: 17px; color: #A8ABAE; line-height: 1.4"><b style="color: #E3E3E3; font-weight: 500">6 ·</b> No último widget, arrastar traz o primeiro de volta.</figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

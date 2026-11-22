@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 <style>body{margin:0}</style>
 </helmet>
-<section aria-roledescription="pilha de widgets" aria-label="{{label}}" tabIndex="0" onKeyDown="{{key}}" onPointerDown="{{down}}" onPointerMove="{{move}}" onPointerUp="{{up}}" onPointerLeave="{{cancel}}" onPointerCancel="{{cancel}}" style="position: relative; width: 100%; height: 100%; min-height: 0; box-sizing: border-box; border-radius: 24px; overflow: hidden; background: {{c.card}}; color: {{c.text}}; font-family: Roboto, system-ui, sans-serif; touch-action: pan-y; user-select: none; outline: none; transform: scale({{scale}}); transition: transform 180ms cubic-bezier(0.2, 0, 0, 1)">
+<section aria-roledescription="pilha de widgets" aria-label="{{label}}" tabIndex="0" onKeyDown="{{key}}" onPointerDown="{{down}}" onPointerMove="{{move}}" onPointerUp="{{up}}" onPointerLeave="{{cancel}}" onPointerCancel="{{cancel}}" style="position: absolute; inset: 0; box-sizing: border-box; border-radius: 24px; overflow: hidden; background: {{c.card}}; color: {{c.text}}; font-family: Roboto, system-ui, sans-serif; touch-action: pan-y; user-select: none; outline: none; transform: scale({{scale}}); transition: transform 180ms cubic-bezier(0.2, 0, 0, 1)">
   <sc-for list="{{items}}" as="w" hint-placeholder-count="1">
     <div aria-hidden="{{w.hidden}}" style="position: absolute; inset: 0; display: flex; flex-direction: column; transform: {{w.tf}}; transition: {{w.tr}}; visibility: {{w.vis}}">
 
@@ -128,12 +128,16 @@
     </div>
   </sc-if>
 
+  <sc-if value="{{touchOn}}" hint-placeholder-val="{{false}}">
+    <span aria-hidden="true" style="position: absolute; left: {{touchLeft}}%; top: 58%; z-index: 4; width: 64px; height: 64px; margin: -32px 0 0 -32px; box-sizing: border-box; border-radius: 32px; background: rgba(255,255,255,0.28); border: 2px solid rgba(255,255,255,0.85); box-shadow: 0 2px 10px rgba(0,0,0,0.35); pointer-events: none"></span>
+  </sc-if>
+
   <sc-if value="{{focus}}" hint-placeholder-val="{{false}}">
     <div aria-hidden="true" style="position: absolute; inset: 0; z-index: 3; box-sizing: border-box; border: 4px solid #A8C7FA; border-radius: 24px; pointer-events: none"></div>
   </sc-if>
 </section>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["noite","dia"],"default":"noite"},"widgets":{"editor":"text","default":"midia,clima,veiculo","tsType":"ids separados por vírgula: midia, clima, hora, veiculo, destinos, relogio, notificacoes"},"start":{"editor":"int","default":0,"min":0,"max":6},"peek":{"editor":"range","default":0,"min":-60,"max":60,"step":1,"unit":"%","tsType":"arrasto congelado, para mostrar o estado no meio do gesto"},"hint":{"editor":"text","default":"","tsType":"selo da sugestão inteligente (vazio = sem selo)"},"focus":{"editor":"boolean","default":false,"tsType":"anel de foco das teclas do volante"},"onLongPress":{"editor":null},"onChange":{"editor":null},"$preview":{"width":408,"height":448}}'>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["noite","dia"],"default":"noite"},"widgets":{"editor":"text","default":"midia,clima,veiculo","tsType":"ids separados por vírgula: midia, clima, hora, veiculo, destinos, relogio, notificacoes"},"start":{"editor":"int","default":0,"min":0,"max":6},"peek":{"editor":"range","default":0,"min":-60,"max":60,"step":1,"unit":"%","tsType":"arrasto congelado, para mostrar o estado no meio do gesto"},"hint":{"editor":"text","default":"","tsType":"selo da sugestão inteligente (vazio = sem selo)"},"focus":{"editor":"boolean","default":false,"tsType":"anel de foco das teclas do volante"},"touch":{"editor":"boolean","default":false,"tsType":"mostra o dedo no ponto do arrasto"},"demo":{"editor":"boolean","default":false,"tsType":"repete sozinho: arrastar e trocar, arrasto curto que volta, arrastar para o outro lado"},"onLongPress":{"editor":null},"onChange":{"editor":null},"$preview":{"width":408,"height":448}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -143,7 +147,38 @@ class Component extends DCLogic {
     this.timer = null;
     this.lastRel = [];
   }
-  componentWillUnmount() { clearTimeout(this.timer); }
+  componentDidMount() {
+    if (this.props.demo) this.demoT = setTimeout(() => this.runDemo(0), 900);
+  }
+  componentWillUnmount() {
+    this.stopped = true;
+    clearTimeout(this.timer);
+    clearTimeout(this.demoT);
+    cancelAnimationFrame(this.raf);
+  }
+  runDemo(k) {
+    if (this.stopped) return;
+    const seq = [{ to: -46, commit: true }, { to: -46, commit: true }, { to: -13, commit: false }, { to: 46, commit: true }];
+    const s = seq[k % seq.length];
+    this.touchBase = s.to < 0 ? 72 : 28;
+    const t0 = Date.now();
+    const dur = 560;
+    const anim = () => {
+      if (this.stopped) return;
+      const p = Math.min(1, (Date.now() - t0) / dur);
+      const e = p * (2 - p);
+      this.setState({ dragging: true, drag: s.to * e, touchOn: true });
+      if (p < 1) { this.raf = requestAnimationFrame(anim); return; }
+      this.demoT = setTimeout(() => {
+        if (this.stopped) return;
+        this.setState({ touchOn: false });
+        if (s.commit) this.go(this.state.idx + (s.to < 0 ? 1 : -1));
+        else this.setState({ drag: 0, dragging: false });
+        this.demoT = setTimeout(() => this.runDemo(k + 1), 1500);
+      }, 160);
+    };
+    this.raf = requestAnimationFrame(anim);
+  }
   ids() {
     return String(this.props.widgets ?? 'midia,clima,veiculo').split(',').map((x) => x.trim()).filter(Boolean).slice(0, 7);
   }
@@ -201,6 +236,8 @@ class Component extends DCLogic {
       hasHint: hint.length > 0,
       showDots: ids.length > 1,
       focus: !!this.props.focus,
+      touchOn: !!this.state.touchOn || (!!this.props.touch && peek !== 0),
+      touchLeft: this.state.touchOn ? (this.touchBase ?? 72) + drag : (peek < 0 ? 72 : 28) + peek,
       scale: this.state.held ? 0.96 : 1,
       label: (names[ids[idx]] || 'Widget') + ', ' + (idx + 1) + ' de ' + ids.length + '. Deslize para os lados para trocar.',
       key: (e) => {
