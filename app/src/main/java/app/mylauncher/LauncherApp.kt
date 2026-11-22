@@ -45,6 +45,7 @@ class LauncherApp : Application() {
     private fun initialize(): AppContainer {
         started?.let { return it }
         FileLog.init(this)
+        app.mylauncher.data.root.RootShell.init(this)
         CrashGuard.install(this)
         FileLog.i("LauncherApp iniciado (versão ${BuildConfig.VERSION_NAME})")
         MapLibre.getInstance(this)
