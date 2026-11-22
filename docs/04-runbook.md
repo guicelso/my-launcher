@@ -183,6 +183,8 @@ Ao tirar a chave, a multimídia **não reinicia**: entra em espera. Antes de dor
 - Particularidades medidas (detalhes na spec 008, "Resultados"): o primeiro comando da linha é engolido (usamos `/dev/null; ` na frente); o comando é lido em blocos de 256 bytes (comandos longos vão por script na pasta do app); segurar o socket ~400 ms e não ler a resposta; processos destacados precisam sair do cgroup do serviço (`echo 0 > /acct/cgroup.procs`) e fechar os fds 3–9.
 - Ver se o auxiliar está vivo: `adb shell ps -A | grep NavHelper`. Log dele: `/data/user/0/app.mylauncher/cache/navhelper.log` (dono root) e as linhas `NavHelper>` no `tools/logs.sh`.
 - Botão de teste: Ajustes → Veículo → Testes de pesquisa → "Testar root (app)".
+- **Foco do display (Android 10):** um toque no card põe o display virtual com foco (`dumpsys window | grep mTopFocusedDisplayId`). O auxiliar devolve o foco ao display 0 depois de 1,2 s; com o foco no card, os Recentes da Interface do sistema abriam lá e o Home deles a derrubava.
+- O auxiliar reabre o app de navegação se ele sumir do card, e o Lumia reinicia o auxiliar se ele cair. Linhas `NavHelper> LOG` no `tools/logs.sh`.
 
 ---
 
@@ -192,8 +194,8 @@ Para validar no carro:
 - [ ] Diagnóstico (Ajustes → Veículo): ré, ACC, velocidade e freio de mão chegando da MCU (spec 006).
 - [ ] Clima real com GPS e 4G na multimídia (spec 013).
 - [ ] Spike **S6.1** (TWUtil) no botão de Ajustes → Veículo. O **S8.1** já rodou e o root foi confirmado por outra via (spec 008).
-- [ ] Limpar temporários de teste no carro (o carro desligou antes): `adb shell rm -f /data/local/tmp/{rc.dex,ff.dex,c.txt,ff_a,ff_b}`.
-- [ ] Spec 008: A3 (matar o auxiliar → mapa próprio), A4 (fala do Maps abaixa a música), A6 (fluidez com o Maps no card); toque que às vezes se perde depois de uma pausa.
+- [ ] Spec 008: A8 (ciclo real da chave com o Maps no card: sem card preto nem Recentes), A4 (fala do Maps abaixa a música), A6 (fluidez com o Maps no card); toque que às vezes se perde depois de uma pausa.
+- [ ] GNSS da Unisoc em 100% de um núcleo com o Maps no card (visto em 2026-11-22): investigar.
 - [ ] Gaveta: reordenar e ocultar no carro; pacote de ícones real (instalar um pela Play Store).
 - [ ] Compartilhar um local do Google Maps/Waze **instalados na multimídia** para o Lumia ("Salvar no Lumia").
 - [ ] Deep link de favoritos do Waze (`waze://?favorite=home`); hoje usamos coordenadas ou endereço.

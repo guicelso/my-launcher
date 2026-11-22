@@ -1,6 +1,6 @@
 # 008 — Navegação embutida (Waze/Maps no painel)
 
-**Status:** v1 implementada e funcionando no carro (Google Maps no card, com root) · pendentes: A3, A4, A6, tema do free drive · **Depende de:** 005, 006 · **Design:** artboard "Início · navegação embutida"
+**Status:** v1 implementada e funcionando no carro (Google Maps no card, com root) · pendentes: A4, A6, A8 (ciclo real da chave), tema do free drive · **Depende de:** 005, 006 · **Design:** artboard "Início · navegação embutida"
 
 ## Objetivo
 Rodar o app de navegação (Google Maps ou Waze) **dentro** do card de mapa do painel, como faz o Android Auto, e trocar o `OwnMapPane` pelo `EmbeddedAppPane`.
@@ -89,18 +89,24 @@ Um **auxiliar como uid shell** (`app_process`, mesmo modelo do servidor do scrcp
 | **S8.2 — adb local** (o Lumia conecta em `127.0.0.1:5555` com a própria chave RSA, por exemplo com a biblioteca `dadb`) | Caminho de produção. Exige cadastrar a chave do Lumia em `adb_keys` uma vez (mesmo método do runbook §3.3). Risco: o adbd às vezes não volta depois do boot a frio (runbook §3.2); nesse caso o card cai no mapa próprio (R8.1). |
 
 ## Requisitos
-- **R8.1** O `EmbeddedAppPane` DEVE implementar `NavigationPane` e ser selecionável nos ajustes (Maps ou Waze). SE o auxiliar não estiver disponível, ENTÃO o launcher DEVE cair automaticamente para o `OwnMapPane`.
+- **R8.1** O `EmbeddedAppPane` DEVE implementar `NavigationPane` e ser selecionável nos ajustes (Maps ou Waze). SE o auxiliar cair, ENTÃO o launcher DEVE reiniciá-lo (até 3 tentativas por minuto); só SE não conseguir, DEVE cair para o `OwnMapPane`.
 - **R8.2** O app embutido DEVE receber toques e gestos (arrastar e pinça) com latência ≤ 50 ms.
 - **R8.3** QUANDO o usuário abrir o mapa em tela cheia, o mesmo display DEVE ser redimensionado, sem reiniciar o app de navegação.
 - **R8.4** O áudio das instruções DEVE continuar funcionando, com a mídia abaixando o volume durante as falas.
 - **R8.5** O auxiliar DEVE aceitar comandos **apenas** do uid do launcher (verificação de `Binder.getCallingUid`), nunca pela rede.
 - **R8.6** QUANDO uma tela do app de navegação cair no display principal, o auxiliar DEVE devolvê-la ao display do card em ≤ 1 s.
 - **R8.7** ENQUANTO o app embutido estiver visível, o `OwnMapPane` DEVE ficar pausado.
+- **R8.8** O display do card NÃO DEVE ficar como o display com foco do sistema depois de um toque no mapa (salvo com o teclado aberto): o auxiliar devolve o foco ao display principal. Telas de **outros** apps que caírem no display do card (ex.: Recentes da Interface do sistema) DEVEM ir para o display principal.
+- **R8.9** O app de navegação embutido DEVE sobreviver à espera da chave (lista `sleepKillPackage.cfg`, spec 016). SE, com a tela ligada, ele não estiver rodando no card, ENTÃO o auxiliar DEVE reabri-lo em ≤ 3 s. Ao voltar ao primeiro plano, o launcher DEVE conferir se o auxiliar responde (PING) e reiniciá-lo se não.
+- **R8.10** QUANDO o card crescer (painel → tela cheia), NÃO DEVE aparecer quadro preto: o card mostra o último quadro do mapa até o app se redesenhar no tamanho novo.
 
 ## Critérios de aceite
 - [x] **A1** Spikes S8.1 e S8.2 avaliados (S8.1: **root confirmado** via `cmd_services`/`@cmd_skt`; S8.2 adb local é a alternativa de execução do auxiliar).
 - [x] **A2** O Maps aparece dentro do card e responde a toques (auxiliar iniciado pelo próprio Lumia, como root).
-- [ ] **A3** (R8.1) Ao matar o auxiliar, o card volta ao mapa próprio em ≤ 2 s.
+- [x] **A3** (R8.1) Ao matar o auxiliar, o Lumia o reinicia e o Maps volta ao card em ≤ 5 s.
+- [x] **A7** (R8.8) Arrastar o mapa e depois apertar Recentes/Home da barra do Android: os Recentes abrem na tela principal e a Interface do sistema não para.
+- [ ] **A8** (R8.9) Desligar e ligar a chave com o Maps no card: o mapa volta sozinho, sem card preto.
+- [x] **A9** (R8.10) Card → tela cheia gravado com `screenrecord`: nenhum quadro com faixa preta.
 - [ ] **A4** (R8.4) Navegando com música tocando, a fala do Maps abaixa a música.
 - [x] **A5** (R8.3) Card → tela cheia → card sem o Maps reiniciar (mesmo PID).
 - [ ] **A6** `dumpsys gfxinfo` do Lumia com ≤ 10% de quadros lentos durante 60 s com o Maps navegando no card.
@@ -146,3 +152,18 @@ Um **auxiliar como uid shell** (`app_process`, mesmo modelo do servidor do scrcp
 - **Tema:** o modo noturno do Android vinha travado em "sim" (`mNightModeLocked`); o `shell` não muda, o root muda. O Lumia agora o sincroniza com os faróis, e o tema do app Maps acompanha. **Pendente:** o free drive usa o "Esquema de cores" da navegação do Maps, que no "Automático" desta versão decide pelo horário do sol, não pelo sistema.
 - **Prints:** a tela do carro é paisagem 1280×720; o `screencap` sai girado **e esticado** (ver runbook §3.6).
 - **Pendente:** A3 (matar o auxiliar → mapa próprio em ≤ 2 s), A4 (fala do Maps abaixa a música), A6 (gfxinfo); o primeiro toque depois de uma pausa às vezes se perde (talvez troca de foco de display).
+
+**2026-11-22 (noite), card preto, Interface do sistema parando e piscada na tela cheia:**
+- **Interface do sistema "não está respondendo" (na verdade, crash):** `RecentsActivity$LaunchHomeRunnable` → `Activity could not be started for Intent {HOME}`, com `ActivityStarter: Cannot launch home on display 3` (o display do card). Causa: no Android 10 há **um** display com foco, e ele vai para onde foi o último toque. O toque injetado no card põe o display virtual no topo (`mTopFocusedDisplayId=3`, confirmado com `input tap`). Daí os Recentes abriam **dentro do card** e o Home deles não tinha onde abrir a HOME. Correção (R8.8):
+  - o auxiliar devolve o foco ao display 0 1,2 s depois do último toque, salvo com o teclado aberto (`setFocusedStack` da stack visível do topo: 13 ms, sem `onNewIntent` no Lumia);
+  - o vigia manda para o display 0 qualquer tarefa de outro app que caia no card. Mesmo com o foco no display 0, os Recentes chegaram a abrir no card uma vez; o vigia os tirou de lá em ~260 ms;
+  - teste: arrastar o mapa → Recentes → Home, duas vezes: Recentes na tela principal, Home volta ao Lumia, nenhum crash.
+- **Card preto ao ligar a chave** (dois episódios no log do dia):
+  - 15:56: o auxiliar tinha morrido na espera, e o Lumia só percebeu 35 s depois, num toque (`send falhou: socket closed`);
+  - 16:07 → 18:22: a TopWay deu `force-stop` no Maps ao desligar (`am_kill … stop com.google.android.apps.maps`), porque ele não estava no `sleepKillPackage.cfg`. Ninguém o reabriu, e o usuário teve de abri-lo pelos Recentes.
+  - Correção (R8.9): o Maps entra no `sleepKillPackage.cfg` quando está embutido. O vigia reabre o app se ele sumir do card com a tela ligada: `force-stop` simulado → reaberto em 1,8 s. O auxiliar é reiniciado sem recriar o display (recriar mandaria o Maps para a tela principal): `kill -9` → novo auxiliar em 1,1 s, Maps no mesmo lugar. PING ao voltar ao primeiro plano e ao ligar a chave.
+  - Um erro da reflexão (`moveStackToDisplay` lançando exceção) desligava a reflexão para sempre; agora vale só para aquela chamada.
+- **Piscada card → tela cheia:** gravado com `screenrecord`. Depois do resize, o Maps leva ~530 ms para se redesenhar; até lá, o display mostrava o Maps no tamanho antigo e **34% da área preta**, alternando com quadros vazios. Correção (R8.10): uma capa com o último quadro, no tamanho original e centrada, sobre a cor média do mapa, que sai com fade quando chega um quadro sem preto (amostra de 48×27 px). Medido: capa retirada em 520–740 ms, nenhum quadro preto. A volta para o card não piscava e continua igual.
+- **Recentes ao ligar a chave:** às 16:07:07, 1 s depois de fechar o Maps, a sequência de desligar da TopWay disparou os Recentes (`overview_trigger_nav_btn`, sem toque do usuário). Com o foco no card, eles iam para o display virtual e, ao religar, apareciam na tela. Com R8.8, eles abrem na tela principal e o Lumia volta ao painel no ACC_ON (spec 016). **Revalidar num ciclo real da chave (A8).**
+- Observação: a carga da multimídia estava alta (load 9–12), com o HAL de GNSS da Unisoc (`vendor.sprd.hardware.gnss@2.0-service`) em 100% de um núcleo. Vale acompanhar (Maps e Lumia pedindo GPS ao mesmo tempo?).
+
