@@ -119,14 +119,27 @@ object FrostedArt {
     }
 }
 
-private fun artKey(np: NowPlaying) = "${np.sourcePackage}|${np.title}|${np.artist}"
+/**
+ * Chave do fundo: inclui a identidade da capa, porque ela costuma chegar depois do título e pode
+ * mudar sem que título/artista mudem. Sem capa, não há fundo (null).
+ */
+private fun artKey(np: NowPlaying): String? {
+    val art = np.art ?: return null
+    return "${np.sourcePackage}|${np.title}|${np.artist}|${System.identityHashCode(art)}|${art.generationId}"
+}
 
 @Composable
 private fun rememberFrostedArt(np: NowPlaying?): ImageBitmap? {
     val key = np?.let(::artKey)
+    // produceState mantém o valor da chave anterior ao trocar de chave: o fundo é sempre o da
+    // chave atual (cache ou recém-renderizado), nunca o que sobrou da faixa anterior.
     val bmp by produceState(key?.let(FrostedArt::cached), key) {
-        val art = np?.art ?: run { value = null; return@produceState }
-        if (value == null) value = withContext(Dispatchers.Default) { FrostedArt.render(key!!, art) }
+        val art = np?.art
+        if (key == null || art == null) {
+            value = null
+            return@produceState
+        }
+        value = FrostedArt.cached(key) ?: withContext(Dispatchers.Default) { FrostedArt.render(key, art) }
     }
     return bmp
 }

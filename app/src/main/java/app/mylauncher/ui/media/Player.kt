@@ -93,10 +93,16 @@ private object ArtTintCache {
 @Composable
 fun rememberArtTint(np: NowPlaying?): Color {
     val c = LocalLauncherColors.current
-    val key = np?.let { "${it.sourcePackage}|${it.title}|${it.artist}|${c.isNight}" }
+    // Inclui a identidade da capa (chega depois do título) e, como no fundo fosco, nunca reaproveita
+    // o valor da chave anterior que o produceState mantém ao trocar de faixa.
+    val key = np?.art?.let { art -> "${np.sourcePackage}|${np.title}|${np.artist}|${System.identityHashCode(art)}|${art.generationId}|${c.isNight}" }
     val swatch by produceState(key?.let(ArtTintCache::get), key) {
-        val art = np?.art ?: return@produceState
-        if (value != null) return@produceState
+        val art = np?.art
+        if (key == null || art == null) {
+            value = null
+            return@produceState
+        }
+        ArtTintCache.get(key)?.let { value = it; return@produceState }
         value = withContext(Dispatchers.Default) {
             val p = Palette.from(art).maximumColorCount(16).generate()
             if (c.isNight) p.getDarkMutedColor(p.getDarkVibrantColor(p.getDominantColor(0)))
