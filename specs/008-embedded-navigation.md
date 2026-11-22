@@ -13,7 +13,7 @@ Rodar o app de navegação (Google Maps ou Waze) **dentro** do card de mapa do p
 | `pm list features` | Tem `activities_on_secondary_displays` e `picture_in_picture`. `ro.config.low_ram` vazio (não é aparelho de pouca RAM). |
 | Maps em display secundário (`overlay_display_devices=800x600/160` + `am start --display 1`) | **Funciona.** O Maps 26.46 desenhou completo no display 1 (GPS, tema escuro, conta), com o Lumia ativo no display 0 ao mesmo tempo. O firmware respeita `--display`. |
 | `allowEmbedded` no manifesto | Maps: só na `GhostActivity` do Android Auto, **não** na `MapsActivity`. Waze 5.27: nenhuma. Ambos `resizeableActivity=true`. |
-| **Spike S8.1** (`TWUtil.write(0x9F1A, …)` a partir do Lumia) | **Reprovado.** A chamada não dá erro, mas o comando não roda. O executor root do firmware é o serviço `cmd_services` do init, que fica desligado (`persist.sys.cmdservice.enable=disable`). Um app comum não tem root por esse caminho. |
+| **Spike S8.1** (`TWUtil.write(0x9F1A, …)` a partir do Lumia) | Reprovado **por essa via**: a chamada não dá erro, mas o comando não roda, porque o executor root do firmware (`cmd_services`) fica desligado. **Porém a via existe** — ver "Root: como conseguimos" abaixo. |
 | Apps instalados | Maps, Waze, HERE, **ZLink** (receptor CarPlay/Android Auto da zjinnova) e um *stub* do Android Auto. |
 
 ### O que o código do Android 10 permite (AOSP `android10-release`)
@@ -24,6 +24,25 @@ Rodar o app de navegação (Google Maps ou Waze) **dentro** do card de mapa do p
 - **Teclado:** aparece no display principal (não no card), a não ser com `force_desktop_mode_on_external_displays`.
 - **Desempenho:** a GPU compõe o display virtual com uma passada GLES extra (a HWC não costuma tratar displays virtuais). O caminho estilo `ActivityView` (abaixo) evita essa passada.
 
+### Root: como conseguimos (confirmado no carro, 2026-11-22)
+O firmware tem uma **porta dos fundos de root do próprio fabricante** que é alcançável sem a gente ter privilégio nenhum. Condições que tornam isso possível: **SELinux permissivo** (negações são só registradas, não bloqueiam) e **bootloader destravado**.
+
+**Mecanismo:**
+1. Serviço do init `cmd_services` (`/system/bin/cmd_services`, `user root`, `group system`, `oneshot`, `disabled`). Em `/system/etc/init/cmd_services.rc` há `on property:persist.sys.cmdservice.enable=enable → start cmd_services`.
+2. Ao setar `persist.sys.cmdservice.enable=enable`, o init sobe o `cmd_services` **como root**. A propriedade é `system_prop` (normalmente nem `shell` nem app escrevem), mas com SELinux permissivo o `shell` consegue — testado. (Falta testar a partir de um app; provável que também passe.)
+3. O daemon escuta no socket Unix **abstrato `@cmd_skt`**. Como é abstrato (sem permissão de arquivo) e o SELinux é permissivo, **qualquer processo conecta**.
+4. Protocolo (cliente de referência: `com.sprd.engineermode`, `CmdUtils.run` + `SocketUtils.sendCmd`): conectar no `cmd_skt` (namespace ABSTRACT), escrever `[origem][tid]<comando\n>`, ler a resposta. O daemon roda o comando com `popen` **como root** e devolve a saída.
+5. O daemon é `oneshot` e sai quando fica ocioso. O padrão do EngineerMode é religar a cada uso: `enable` → `sendCmd` → `disable`. Como a propriedade é `persist.`, ela sobrevive ao reboot (o `on property` dispara no boot).
+
+**Prova (2026-11-22):** liguei o `cmd_services`, conectei no `@cmd_skt` com um cliente mínimo (`LocalSocket`) e mandei `id > arquivo`. O arquivo saiu com dono **`root:system`, modo `0600`** (o `shell` nem lê). Confirma execução como root. Depois desliguei o daemon e limpei tudo — o aparelho ficou no estado original.
+
+**O que isso muda na spec 008:** com root podemos iniciar o auxiliar **como root** (ou criar o display virtual pertencente ao uid system), o que **elimina as "fugas"** de telas do Maps para o display principal — a maior limitação do plano sem root. É, na prática, o melhor dos caminhos.
+
+**Pendências de root a resolver antes de usar em produção:**
+- Testar o `SystemProperties.set("persist.sys.cmdservice.enable", …)` **a partir do Lumia** (app, não `shell`). Se não passar (API oculta/greylist no API 29), alternativas: (a) ligar uma vez pelo `deploy.sh` via adb e manter o Lumia com uma conexão aberta no `@cmd_skt` para o daemon não sair; (b) usar o `TWUtil.write(0x9F1A, …)`, que agora deve funcionar com o daemon ligado.
+- Decidir a política de segurança: o `@cmd_skt` é um root irrestrito acessível a **qualquer app** do aparelho enquanto estiver ligado. Manter ligado o mínimo necessário e, idealmente, religar só sob demanda (como o EngineerMode).
+- **S8.3 (Magisk):** com esse root dá para `dd` o `boot` (ler/gravar), patch e flash sem USB. Continua **alto risco** e sob a regra do projeto: só com firmware completo em mãos e aprovação explícita.
+
 ### Alternativas avaliadas
 | Alternativa | Veredito |
 |---|---|
@@ -32,7 +51,8 @@ Rodar o app de navegação (Google Maps ou Waze) **dentro** do card de mapa do p
 | **Janela livre (freeform)** sobre o card | Possível com reflexão (`setLaunchWindowingMode` é oculta), mas tem barra de título e o painel pode cobrir a janela ao ser tocado. Plano B. |
 | **Picture-in-picture** | Sem controle de posição/tamanho por app comum e sem interação real com o mapa. Descartado. |
 | **Receptor Android Auto** (ZLink ou Headunit Revived, AGPL) | É o Android Auto de verdade, mas depende do celular e não fica dentro do nosso painel sem o mesmo truque de display. Fica como opção separada. |
-| **Root (S8.3, Magisk)** | Única forma de ter display do uid system (sem fugas). Continua bloqueado pelas regras do projeto: só com firmware completo e aprovação explícita. |
+| **Root (`cmd_services`)** | **Disponível** (ver "Root: como conseguimos"). Permite auxiliar/display como uid system, acabando com as fugas. Preferir este ao Magisk. |
+| **Root total (S8.3, Magisk)** | Só se quisermos virar priv-app de verdade. Alto risco; bloqueado pelas regras do projeto: só com firmware completo e aprovação explícita. |
 
 ## Técnica revisada
 Um **auxiliar como uid shell** (`app_process`, mesmo modelo do servidor do scrcpy, Apache-2.0) faz só o que o launcher não pode fazer. O resto fica no launcher.
@@ -62,7 +82,7 @@ Um **auxiliar como uid shell** (`app_process`, mesmo modelo do servidor do scrcp
 - **R8.7** ENQUANTO o app embutido estiver visível, o `OwnMapPane` DEVE ficar pausado.
 
 ## Critérios de aceite
-- [x] **A1** Spikes S8.1 e S8.2 avaliados, com resultados registrados acima (S8.1 reprovado; S8.2 é o caminho de produção).
+- [x] **A1** Spikes S8.1 e S8.2 avaliados (S8.1: **root confirmado** via `cmd_services`/`@cmd_skt`; S8.2 adb local é a alternativa de execução do auxiliar).
 - [ ] **A2** Prova de conceito: o Maps aparece dentro do card e responde a toques (auxiliar iniciado pelo adb do notebook).
 - [ ] **A3** (R8.1) Ao matar o auxiliar, o card volta ao mapa próprio em ≤ 2 s.
 - [ ] **A4** (R8.4) Navegando com música tocando, a fala do Maps abaixa a música.
@@ -89,6 +109,7 @@ Um **auxiliar como uid shell** (`app_process`, mesmo modelo do servidor do scrcp
 
 ## Resultados
 **2026-11-22, na multimídia (via adb):**
-- S8.1 reprovado (comando aceito, nada executado).
+- S8.1: **root confirmado** via `cmd_services`/`@cmd_skt` — comando rodou como `root:system`. (A via direta do `TWUtil` 0x9F1A ainda depende do daemon estar ligado.)
 - Maps renderiza normalmente em display secundário, com GPS e conta, ao lado do Lumia.
 - Recursos de multi-display presentes no firmware.
+- **Root confirmado** via `cmd_services`/`@cmd_skt` (comando rodou como `root:system`). Daemon religado e desligado ao fim; aparelho no estado original.

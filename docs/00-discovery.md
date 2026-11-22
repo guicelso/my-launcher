@@ -85,7 +85,7 @@ Detalhes e caminhos de evidência estão nos fontes decompilados (caminhos relat
 | `0x050B` | Velocidade (0,01 km/h) e RPM · `0x050C` tensão da bateria |
 | `0x9F1A` | **Executa um comando de shell como root** (`com.dofun.carsetting/.../f/v.java:141-149`). Testado em 2026-11-22: a partir de um app comum o comando é aceito, mas não roda (o executor `cmd_services` fica desligado). Ver spec 008. |
 
-> ⚠️ `0x9F1A` é, na prática, uma porta dos fundos de root deixada pelo fabricante. Se um app comum conseguir usá-la, ela pode substituir o Magisk na spec 008. Tratar como pesquisa e nunca expor por rede.
+> ⚠️ `0x9F1A` é uma porta dos fundos de root do fabricante. **Confirmado em 2026-11-22** (spec 008): o executor é o serviço `cmd_services` do init (ligado por `persist.sys.cmdservice.enable=enable`), que escuta no socket abstrato `@cmd_skt` e roda comandos com `popen` **como root**; alcançável por qualquer processo (SELinux permissivo). Um comando enviado por aí criou arquivo `root:system`. Tratar como root irrestrito: ligar só sob demanda e nunca expor por rede.
 
 ### 4.3 Portas seriais
 - A MCU/CAN fala por UART. O `carinfoservice` abre `/dev/ttyS3`.
